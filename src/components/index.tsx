@@ -1,4 +1,2 @@
-import Toolbar from "./toolbar/toolbar";
-import Slider from "./slider/Slider";
-
-export { Toolbar, Slider };
+export * from "./slider/Slider";
+export * from "./toolbar/Toolbar";

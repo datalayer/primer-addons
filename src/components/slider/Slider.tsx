@@ -1,4 +1,4 @@
-const Slider = () => {
+export const Slider = () => {
   return <>Slider</>;
 };
 

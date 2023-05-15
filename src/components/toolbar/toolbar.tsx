@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@primer/react";
-interface Props {
+
+export interface Props {
   align?:
     | "center"
     | "flex-start"
@@ -18,7 +19,8 @@ interface Props {
   border?: boolean;
   children: React.ReactNode | React.ReactNode[];
 }
-const Toolbar = ({
+
+export const Toolbar = ({
   align = "flex-start",
   height = "5vh",
   gap = "0.1rem",

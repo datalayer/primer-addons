@@ -8,6 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 *-lock.json
 
+lib
+storybook-static
+
 node_modules
 dist
 dist-ssr

@@ -4,7 +4,8 @@
 
 # ⚛️ Addons for Primer React
 
-This repository contains additional components for the [@primer/react](https://github.com/primer/react) React.js tookit.
+This repository contains additional React.js components for the [@primer/react](https://github.com/primer/react) tookit.
 
-A storybook is available on https://primer-addons.datalayer.tech.
+They are compliant with the Primer theming framework.
 
+A storybook showcasing the compoents and their options is available on https://primer-addons.datalayer.tech.

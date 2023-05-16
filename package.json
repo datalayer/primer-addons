@@ -1,8 +1,7 @@
 {
   "name": "@datalayer/primer-addons",
   "private": false,
-  "version": "0.0.1",
-  "type": "module",
+  "version": "0.0.4",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "vite",
@@ -12,6 +11,11 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "style"
+  ],
   "dependencies": {
     "@primer/react": "35.25.1",
     "@primer/octicons-react": "18.2.0",

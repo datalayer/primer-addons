@@ -9,7 +9,7 @@ import {
 } from "@primer/react";
 import { SearchIcon, ThreeBarsIcon, GearIcon } from "@primer/octicons-react";
 
-import { Toolbar } from '../components/index';
+import { Toolbar } from '../index';
 
 const meta = {
   title: 'Components/Toolbar',

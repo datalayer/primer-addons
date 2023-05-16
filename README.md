@@ -6,6 +6,6 @@
 
 This repository contains additional React.js components for the [@primer/react](https://github.com/primer/react) tookit.
 
-They are compliant with the Primer theming framework.
+The componnents are compliant with the Primer theming framework and aims to respect the Primer design system.
 
-A storybook showcasing the compoents and their options is available on https://primer-addons.datalayer.tech.
+A Storybook showcasing the components and their options is available on https://primer-addons.datalayer.tech.

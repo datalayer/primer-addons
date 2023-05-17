@@ -7,7 +7,7 @@ import {
 
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider>
       <BaseStyles>

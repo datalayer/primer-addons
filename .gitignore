@@ -35,6 +35,7 @@ yarn.lock
 !**/.*rc
 !**/.*rc.js
 !**/.*rc.json
+!**/.*rc.yml
 !**/.*config
 !**/.datalayer
 !**/.github

@@ -1,8 +1,8 @@
 import {
-  ThemeProvider,
   BaseStyles,
   Box,
   Text,
+  ThemeProvider,
 } from "@primer/react";
 
 import "./App.css";

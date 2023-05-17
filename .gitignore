@@ -18,6 +18,8 @@ dist
 dist-ssr
 *.local
 
+*.tsbuildinfo
+
 yarn.lock
 
 # Editor directories and files

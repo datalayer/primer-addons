@@ -52,6 +52,7 @@ install: ## install npm dependencies
 publish-npm: # publish the npm packages
 	yarn build && \
 		npm publish --access public
+	echo https://www.npmjs.com/package/@datalayer/primer-addons?activeTab=versions
 
 publish-storybook: ## publish
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \

@@ -1,6 +1,6 @@
 import { Box } from "@primer/react";
 
-export interface Props {
+export interface ToolbarProps {
   align?:
     | "center"
     | "flex-start"
@@ -30,7 +30,7 @@ export const Toolbar = ({
   borderBottomColor,
   border = false,
   children,
-}: Props) => {
+}: ToolbarProps) => {
   return (
     <Box
       display="flex"

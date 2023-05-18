@@ -19,3 +19,5 @@ A Storybook showcasing the components and their options is available on https://
 - Storybook https://primer.style/react/storybook
 - Icons https://primer.style/design/foundations/icons
 - Design system https://primer.style
+
+This project has been [shared in a discussion](https://github.com/primer/react/discussions/3297) on the Primer React main repository.

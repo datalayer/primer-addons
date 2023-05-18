@@ -56,6 +56,7 @@ publish-npm: # publish the npm packages
 
 publish-storybook: ## publish
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \
+		rm -fr storybook-static/* && \
 	  yarn build-storybook && \
 	  aws s3 cp \
 		./storybook-static \

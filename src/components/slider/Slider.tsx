@@ -29,7 +29,7 @@ export const Slider = ({
   value,
   step,
   markers = false,
-  displayValue = false,
+  displayValue = true,
   orientation = "horizontal",
   width = "200px",
   onChange,

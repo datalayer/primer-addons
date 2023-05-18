@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
-  BaseStyles
+  BaseStyles,
+  Box
 } from "@primer/react";
 
 import { Slider } from '../index';
@@ -28,14 +29,18 @@ const ThemedSlider = (props: any) => {
   return (
     <ThemeProvider colorMode={props.colorMode}>
       <BaseStyles>
-        <Slider {...props} value={value} onChange={setValue}>
-        </Slider>
-        {value}
+        <Box p={3} bg="canvas.default">
+          <Box>
+            <Slider {...props} value={value} onChange={setValue} />
+          </Box>
+          <Box>
+            {value}
+          </Box>
+        </Box>
       </BaseStyles>
     </ThemeProvider>
   )
 }
-  
 
 export const SliderDay: Story = {
   args: {

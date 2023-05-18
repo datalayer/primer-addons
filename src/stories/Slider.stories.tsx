@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
@@ -22,19 +22,30 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const ThemedSlider = (props: any) =>
-  <ThemeProvider colorMode={props.colorMode}>
-    <BaseStyles>
-      <Slider {...props}>
-      </Slider>
-    </BaseStyles>
-  </ThemeProvider>
+const ThemedSlider = (props: any) => {
+  const [value, setValue] = useState(50);
+
+  return (
+    <ThemeProvider colorMode={props.colorMode}>
+      <BaseStyles>
+        <Slider {...props} value={value} onChange={setValue}>
+        </Slider>
+        {value}
+      </BaseStyles>
+    </ThemeProvider>
+  )
+}
+  
 
 export const SliderDay: Story = {
   args: {
     min: 0,
     max: 100,
     step: 10,
+    value: 50,
+    onChange: (value: number) => {
+      console.log('Slider value changed:', value);
+    },
   },
   render: (args) => <ThemedSlider {...args} colorMode="day" />
 };
@@ -43,7 +54,11 @@ export const SliderNight: Story = {
   args: {
     min: 0,
     max: 100,
-    step: 10
+    step: 10,
+    value: 50,
+    onChange: (value: number) => {
+      console.log('Slider value changed:', value);
+    },
   },
   render: (args) => <ThemedSlider {...args} colorMode="night" />
 };

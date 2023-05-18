@@ -1,13 +1,14 @@
 import { Box, CounterLabel } from "@primer/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface CommonProps {
   min: number;
   max: number;
-  value?: number;
+  value: number;
   displayValue?: boolean;
   orientation?: "horizontal" | "vertical";
   width?: string | number;
+  onChange: (value: number) => void;
 }
 
 type ConditionalProps =
@@ -31,12 +32,18 @@ export const Slider = ({
   displayValue = false,
   orientation = "horizontal",
   width = "200px",
+  onChange,
 }: SliderProps) => {
-  const [sliderVal, setSliderVal] = useState(value ?? 0);
+  const [sliderVal, setSliderVal] = useState(value);
+
+  useEffect(() => {
+    setSliderVal(value);
+  }, [value]);
 
   const handleSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setSliderVal(newValue);
+    onChange(newValue);
   };
 
   // Warning: unreliable

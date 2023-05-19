@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
   BaseStyles,
-  Box
+  Box,
+  CounterLabel
 } from "@primer/react";
 
 import { Slider } from '../index';
@@ -34,7 +35,7 @@ const ThemedSlider = (props: any) => {
             <Slider {...props} value={value} onChange={setValue} />
           </Box>
           <Box>
-            {value}
+            <CounterLabel sx={{ml: 2}}>{value}</CounterLabel>
           </Box>
         </Box>
       </BaseStyles>

@@ -1,5 +1,5 @@
-import { Box, CounterLabel } from "@primer/react";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useTheme, Box, CounterLabel } from "@primer/react";
 
 interface CommonProps {
   min: number;
@@ -34,6 +34,7 @@ export const Slider = ({
   width = "200px",
   onChange,
 }: SliderProps) => {
+  const { colorMode } = useTheme();
   const [sliderVal, setSliderVal] = useState(value);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export const Slider = ({
   const sliderStyle = {
     width,
     ...(orientation === "vertical" ? { transform: "rotate(-90deg)" } : {}),
+    colorScheme: colorMode == 'day' ? 'light' : 'dark'
   }
 
   return (

@@ -12,12 +12,24 @@ The components are compliant with the Primer theming framework and aims to respe
 
 A Storybook showcasing the components and their options is available on https://primer-addons.datalayer.tech.
 
+This project has been [shared in a discussion](https://github.com/primer/react/discussions/3297) on the Primer React main repository.
+
+## About Primer Design
+
+- Design system https://primer.style
+
+## About Primer Icons
+
+- Icons https://primer.style/design/foundations/icons
+
 ## About Primer React
 
 - GitHub repository https://github.com/primer/react
 - Documentation https://primer.style/react
 - Storybook https://primer.style/react/storybook
-- Icons https://primer.style/design/foundations/icons
-- Design system https://primer.style
 
-This project has been [shared in a discussion](https://github.com/primer/react/discussions/3297) on the Primer React main repository.
+## About Primer Brand React
+
+- GitHub repository https://github.com/primer/brand
+- Documentation https://primer.style/brand
+- Storybook https://primer.style/brand/storybook

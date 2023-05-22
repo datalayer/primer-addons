@@ -31,11 +31,11 @@ const App = () => {
               <Text>Addons</Text>            
             </Box>
             <Box>
-              <Slider/>
+              <Slider id="slider" name="slider" min={1} max={10} onChange={() => {}} />
             </Box>
           </Box>
         </Box>
-      </BaseStyles>
+       </BaseStyles>
     </ThemeProvider>
   )
 }

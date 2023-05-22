@@ -45,6 +45,8 @@ const ThemedSlider = (props: any) => {
 
 export const SliderDay: Story = {
   args: {
+    name: "slider-day",
+    id: "slider-day",
     min: 0,
     max: 100,
     step: 10,
@@ -58,6 +60,8 @@ export const SliderDay: Story = {
 
 export const SliderNight: Story = {
   args: {
+    name: "slider-night",
+    id: "slider-night",
     min: 0,
     max: 100,
     step: 10,

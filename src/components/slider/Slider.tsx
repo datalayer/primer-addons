@@ -1,14 +1,18 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useTheme, Box, CounterLabel } from "@primer/react";
+import { useTheme, Box, CounterLabel, FormControl } from "@primer/react";
 
 interface CommonProps {
-  min?: number;
-  max?: number;
+  name: string;
+  id: string;
+  min: number;
+  max: number;
+  label?: string;
   value?: number;
   displayValue?: boolean;
+  disabled?: boolean;
   orientation?: "horizontal" | "vertical";
   width?: string | number;
-  onChange?: (value: number) => void;
+  onChange: (value: number) => void;
 }
 
 type ConditionalProps =
@@ -24,29 +28,32 @@ type ConditionalProps =
 export type SliderProps = CommonProps & ConditionalProps
 
 export const Slider = ({
-  min = 0,
-  max = 10,
-  value = 5,
-  step,
+  name = "slider",
+  id = "slider",
+  min,
+  max,
+  value,
+  label,
+  step = 1,
   markers = false,
   displayValue = true,
+  disabled = false,
   orientation = "horizontal",
   width = "200px",
   onChange,
 }: SliderProps) => {
   const { colorMode } = useTheme();
-  const [sliderVal, setSliderVal] = useState(value);
+  const defaultValue = max < min ? min : min + (max - min) / 2;
+  const [sliderVal, setSliderVal] = useState(defaultValue);
 
   useEffect(() => {
-    setSliderVal(value);
-  }, [value]);
+    setSliderVal(value ?? defaultValue);
+  }, [value, defaultValue]);
 
   const handleSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setSliderVal(newValue);
-    if (onChange) {
-      onChange(newValue);
-    }
+    onChange(newValue);
   };
 
   // Warning: unreliable
@@ -63,7 +70,8 @@ export const Slider = ({
     >
       <input
         type="range"
-        name="slider"
+        id={id}
+        name={name}
         min={min}
         max={max}
         value={sliderVal}
@@ -71,6 +79,7 @@ export const Slider = ({
         list="slider-markers"
         style={sliderStyle}
         onChange={handleSliderChange}
+        disabled={disabled}
       />
       {markers && step && (
         <datalist id="slider-markers">
@@ -80,6 +89,7 @@ export const Slider = ({
           ))}
         </datalist>
       )}
+      {label && <FormControl.Label htmlFor={id} sx={{ml: 2}}>{label}</FormControl.Label>}
       {displayValue && orientation === "horizontal" && <CounterLabel sx={{ml: 2}}>{sliderVal}</CounterLabel>}
     </Box>
   )

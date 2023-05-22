@@ -6,13 +6,24 @@
 
 > Additional components for Primer React.
 
-This repository contains additional React.js components for the [@primer/react](https://github.com/primer/react) tookit.
-
-The components are compliant with the Primer theming framework and aims to respect the [Primer design system](https://primer.style).
+This repository contains additional React.js components for the [@primer/react](https://github.com/primer/react) toolkit. The components are compliant with the Primer theming framework and aims to respect the [Primer design system](https://primer.style).
 
 A Storybook showcasing the components and their options is available on https://primer-addons.datalayer.tech.
 
 This project has been [shared in a discussion](https://github.com/primer/react/discussions/3297) on the Primer React main repository.
+
+## Current Addons
+
+- [x] Slider
+- [x] Toolbar
+- [ ] ClosableFlash
+- [ ] Skeleton
+- [ ] Card
+- [ ] MasonryBox
+
+<div align="center" style="text-align: center">
+  <img alt="Primer React Addons" src="https://datalayer-examples.s3.amazonaws.com/primer-addons-example.png" />
+</div>
 
 ## About Primer Design
 

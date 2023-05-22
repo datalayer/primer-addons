@@ -6,6 +6,7 @@ interface CommonProps {
   max?: number;
   value?: number;
   displayValue?: boolean;
+  disabled?: boolean;
   orientation?: "horizontal" | "vertical";
   width?: string | number;
   onChange?: (value: number) => void;
@@ -30,6 +31,7 @@ export const Slider = ({
   step,
   markers = false,
   displayValue = true,
+  disabled = false,
   orientation = "horizontal",
   width = "200px",
   onChange,
@@ -71,6 +73,7 @@ export const Slider = ({
         list="slider-markers"
         style={sliderStyle}
         onChange={handleSliderChange}
+        disabled={disabled}
       />
       {markers && step && (
         <datalist id="slider-markers">

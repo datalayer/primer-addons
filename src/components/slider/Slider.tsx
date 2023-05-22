@@ -2,14 +2,16 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useTheme, Box, CounterLabel } from "@primer/react";
 
 interface CommonProps {
-  min?: number;
-  max?: number;
+  name: string;
+  id: string;
+  min: number;
+  max: number;
   value?: number;
   displayValue?: boolean;
   disabled?: boolean;
   orientation?: "horizontal" | "vertical";
   width?: string | number;
-  onChange?: (value: number) => void;
+  onChange: (value: number) => void;
 }
 
 type ConditionalProps =
@@ -25,10 +27,12 @@ type ConditionalProps =
 export type SliderProps = CommonProps & ConditionalProps
 
 export const Slider = ({
-  min = 0,
-  max = 10,
-  value = 5,
-  step,
+  name = "slider",
+  id = "slider",
+  min,
+  max,
+  value,
+  step = 1,
   markers = false,
   displayValue = true,
   disabled = false,
@@ -37,18 +41,17 @@ export const Slider = ({
   onChange,
 }: SliderProps) => {
   const { colorMode } = useTheme();
-  const [sliderVal, setSliderVal] = useState(value);
+  const defaultValue = max < min ? min : min + (max - min) / 2;
+  const [sliderVal, setSliderVal] = useState(defaultValue);
 
   useEffect(() => {
-    setSliderVal(value);
-  }, [value]);
+    setSliderVal(value ?? defaultValue);
+  }, [value, defaultValue]);
 
   const handleSliderChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setSliderVal(newValue);
-    if (onChange) {
-      onChange(newValue);
-    }
+    onChange(newValue);
   };
 
   // Warning: unreliable
@@ -65,7 +68,8 @@ export const Slider = ({
     >
       <input
         type="range"
-        name="slider"
+        id={id}
+        name={name}
         min={min}
         max={max}
         value={sliderVal}

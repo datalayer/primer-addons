@@ -1,11 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useTheme, Box, CounterLabel } from "@primer/react";
+import { useTheme, Box, CounterLabel, FormControl } from "@primer/react";
 
 interface CommonProps {
   name: string;
   id: string;
   min: number;
   max: number;
+  label?: string;
   value?: number;
   displayValue?: boolean;
   disabled?: boolean;
@@ -32,6 +33,7 @@ export const Slider = ({
   min,
   max,
   value,
+  label,
   step = 1,
   markers = false,
   displayValue = true,
@@ -87,6 +89,7 @@ export const Slider = ({
           ))}
         </datalist>
       )}
+      {label && <FormControl.Label htmlFor={id} sx={{ml: 2}}>{label}</FormControl.Label>}
       {displayValue && orientation === "horizontal" && <CounterLabel sx={{ml: 2}}>{sliderVal}</CounterLabel>}
     </Box>
   )

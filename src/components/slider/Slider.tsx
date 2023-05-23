@@ -2,10 +2,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useTheme, Box, CounterLabel, FormControl } from "@primer/react";
 
 interface CommonProps {
-  name: string;
-  id: string;
-  min: number;
-  max: number;
+  name?: string;
+  id?: string;
+  min?: number;
+  max?: number;
   label?: string;
   value?: number;
   displayValue?: boolean;
@@ -30,10 +30,10 @@ export type SliderProps = CommonProps & ConditionalProps
 export const Slider = ({
   name = "slider",
   id = "slider",
-  min,
-  max,
-  value,
-  label,
+  min = 0,
+  max = 10,
+  value = 5,
+  label = "label",
   step = 1,
   markers = false,
   displayValue = true,

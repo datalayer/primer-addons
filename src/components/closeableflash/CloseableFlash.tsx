@@ -4,6 +4,7 @@ import { XIcon } from "@primer/octicons-react";
 
 type CloseableFlashProps = FlashProps & {
   onClose: () => void;
+}
 
 export const CloseableFlash: React.FC<CloseableFlashProps> = (props) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -27,4 +28,4 @@ export const CloseableFlash: React.FC<CloseableFlashProps> = (props) => {
       </Box>
     </Flash>
   );
-};
+}

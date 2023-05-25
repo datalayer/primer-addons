@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
+  ThemeProviderProps,
   BaseStyles,
   Box,
   CounterLabel
 } from "@primer/react";
 
-import { Slider } from '../index';
+import { Slider, SliderProps } from '../index';
 
 const meta = {
   title: 'Components/Slider',
@@ -24,7 +25,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const ThemedSlider = (props: any) => {
+const ThemedSlider = (props: {colorMode?: ThemeProviderProps["colorMode"]} & SliderProps) => {
   const [value, setValue] = useState(50);
 
   return (

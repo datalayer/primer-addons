@@ -2,11 +2,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
+  ThemeProviderProps,
   BaseStyles,
   Box
 } from "@primer/react";
 
-import { CloseableFlash } from '../index';
+import { CloseableFlash, CloseableFlashProps } from '../index';
 
 const meta = {
   title: 'Components/CloseableFlash',
@@ -23,7 +24,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const ThemedCloseableFlash = (props: any) => {
+const ThemedCloseableFlash = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CloseableFlashProps) => {
   return (
     <ThemeProvider colorMode={props.colorMode}>
       <BaseStyles>

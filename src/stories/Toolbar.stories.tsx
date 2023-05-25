@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
+  ThemeProviderProps,
   BaseStyles,
   Box,
   Text,
@@ -9,7 +10,7 @@ import {
 } from "@primer/react";
 import { SearchIcon, ThreeBarsIcon, GearIcon } from "@primer/octicons-react";
 
-import { Toolbar } from '../index';
+import { Toolbar, ToolbarProps } from '../index';
 
 const meta = {
   title: 'Components/Toolbar',
@@ -26,7 +27,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const ThemedToolbar = (props: any) =>
+const ThemedToolbar = (props: {colorMode?: ThemeProviderProps["colorMode"]} & ToolbarProps) =>
   <ThemeProvider colorMode={props.colorMode}>
     <BaseStyles>
       <Toolbar {...props} heading={

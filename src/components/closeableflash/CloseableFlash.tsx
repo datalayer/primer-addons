@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Box, Flash, FlashProps } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 
-type CloseableFlashProps = FlashProps;
+type CloseableFlashProps = FlashProps & {
+  onClose: () => void;
+};
 
 export const CloseableFlash: React.FC<CloseableFlashProps> = (props) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
+    props.onClose();
     setIsVisible(false);
   };
 

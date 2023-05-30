@@ -14,12 +14,12 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 
 ## Current Addons
 
+- [ ] Card
+- [ ] ClosableFlash
+- [ ] MasonryBox
+- [ ] Skeleton
 - [x] Slider
 - [x] Toolbar
-- [ ] ClosableFlash
-- [ ] Skeleton
-- [ ] Card
-- [ ] MasonryBox
 
 <div align="center" style="text-align: center">
   <img alt="Primer React Addons" src="https://datalayer-examples.s3.amazonaws.com/primer-addons-example.png" />

@@ -63,7 +63,7 @@ publish-storybook: ## publish
 		s3://datalayer-primer-addons/ \
 		--recursive \
 		--profile datalayer && \
-	  aws cloudfront create-invalidation \software
+	  aws cloudfront create-invalidation \
 		--distribution-id E31G4MWCFRSED1 \
 		--paths /index.html \
 		--profile datalayer && \

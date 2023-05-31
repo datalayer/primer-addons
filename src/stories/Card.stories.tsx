@@ -4,10 +4,15 @@ import {
   ThemeProvider,
   ThemeProviderProps,
   BaseStyles,
-  Box
+  Box,
+  Button,
+  IconButton,
+  Text,
+  ButtonGroup,
 } from "@primer/react";
 
 import { Card, CardProps } from '../index';
+import { ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
 
 const meta = {
   title: 'Components/Card',
@@ -40,18 +45,60 @@ const ThemedCard = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CardP
 
 export const CardDay: Story = {
   args: {
-    rounded: "small",
+    rounded: "medium",
+    shadow: "medium",
     border: true,
-    sx: { p:2 }
+    sx: {maxWidth: 360}
   },
-  render: (args) => <ThemedCard {...args} colorMode="day">Success Card</ThemedCard>
+  render: (args) => <ThemedCard {...args} colorMode="day">
+    <Card.Header
+      leadingIcon={ProjectIcon}
+      title="Shrimp and Chorizo Paella"
+      description="September 14, 2016"
+      action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
+    />
+    <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
+    <Card.Content>
+      <Text display="block" fontSize={22}>Paella</Text>
+      <Text color="fg.muted">
+        This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+      </Text>
+    </Card.Content>
+    <Card.Actions>
+      <ButtonGroup>
+        <Button variant='invisible'>Share</Button>
+        <Button variant='invisible'>Learn More</Button>
+      </ButtonGroup>
+    </Card.Actions>
+  </ThemedCard>
 };
 
 export const CardNight: Story = {
   args: {
-    rounded: "small",
+    rounded: "medium",
+    shadow: "medium",
     border: true,
-    sx: { p:2 }
+    sx: {maxWidth: 360}
   },
-  render: (args) => <ThemedCard {...args} colorMode="night">Success Card</ThemedCard>
+  render: (args) => <ThemedCard {...args} colorMode="night">
+  <Card.Header
+    leadingIcon={ProjectIcon}
+    title="Shrimp and Chorizo Paella"
+    description="September 14, 2016"
+    action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
+  />
+  <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
+  <Card.Content>
+    <Text display="block" fontSize={22}>Paella</Text>
+    <Text color="fg.muted">
+      This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
+    </Text>
+  </Card.Content>
+  <Card.Actions>
+    <ButtonGroup>
+      <Button variant='invisible'>Share</Button>
+      <Button variant='invisible'>Learn More</Button>
+    </ButtonGroup>
+  </Card.Actions>
+</ThemedCard>
 };

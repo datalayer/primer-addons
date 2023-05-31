@@ -14,8 +14,8 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 
 ## Current Addons
 
-- [ ] Card
-- [ ] ClosableFlash
+- [x] Card
+- [x] ClosableFlash
 - [ ] MasonryBox
 - [ ] Skeleton
 - [x] Slider

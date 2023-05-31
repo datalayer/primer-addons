@@ -57,7 +57,7 @@ export const CardDay: Story = {
       description="September 14, 2016"
       action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
     />
-    <Card.Image height={200} image="https://mui.com/static/images/cards/paella.jpg"/>
+    <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
     <Card.Content>
       <Text display="block" fontSize={22}>Paella</Text>
       <Text color="fg.muted">
@@ -87,7 +87,7 @@ export const CardNight: Story = {
     description="September 14, 2016"
     action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
   />
-  <Card.Image height={200} image="https://mui.com/static/images/cards/paella.jpg"/>
+  <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
   <Card.Content>
     <Text display="block" fontSize={22}>Paella</Text>
     <Text color="fg.muted">

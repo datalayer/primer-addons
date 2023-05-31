@@ -55,7 +55,7 @@ export const CardDay: Story = {
       leadingIcon={ProjectIcon}
       title="Shrimp and Chorizo Paella"
       description="September 14, 2016"
-      action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
+      action={<IconButton aria-label="Menu" onClick={() => alert("Menu")} icon={ThreeBarsIcon} />}
     />
     <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
     <Card.Content>
@@ -66,8 +66,8 @@ export const CardDay: Story = {
     </Card.Content>
     <Card.Actions>
       <ButtonGroup>
-        <Button variant='invisible'>Share</Button>
-        <Button variant='invisible'>Learn More</Button>
+        <Button variant='invisible' onClick={() => alert("Share it on Socials!")}>Share</Button>
+        <Button variant='invisible' onClick={() => alert("Learn more about Paella")}>Learn More</Button>
       </ButtonGroup>
     </Card.Actions>
   </ThemedCard>
@@ -85,7 +85,7 @@ export const CardNight: Story = {
     leadingIcon={ProjectIcon}
     title="Shrimp and Chorizo Paella"
     description="September 14, 2016"
-    action={<IconButton aria-label="Search" icon={ThreeBarsIcon} />}
+    action={<IconButton aria-label="Menu" onClick={() => alert("Menu")} icon={ThreeBarsIcon} />}
   />
   <Card.Image height={200} image="https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&dl=saahil-khatkhate-kfDsMDyX1K0-unsplash.jpg&w=640"/>
   <Card.Content>
@@ -96,8 +96,8 @@ export const CardNight: Story = {
   </Card.Content>
   <Card.Actions>
     <ButtonGroup>
-      <Button variant='invisible'>Share</Button>
-      <Button variant='invisible'>Learn More</Button>
+      <Button variant='invisible' onClick={() => alert("Share it on Socials!")}>Share</Button>
+      <Button variant='invisible' onClick={() => alert("Learn more about Paella")}>Learn More</Button>
     </ButtonGroup>
   </Card.Actions>
 </ThemedCard>

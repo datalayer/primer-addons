@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import { Box, Flash, FlashProps, StyledOcticon, Text } from "@primer/react";
 import { Icon, XIcon } from "@primer/octicons-react";
 
 type CloseableFlashProps = FlashProps & {
   leadingIcon?: Icon;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
-export const CloseableFlash: React.FC<CloseableFlashProps> = (props) => {
-  const {leadingIcon, variant, ...otherProps} = props;
+export const CloseableFlash: FC<CloseableFlashProps> = (props) => {
+  const {leadingIcon, variant, onClose, ...otherProps} = props;
   const [isVisible, setIsVisible] = useState(true);
-
   const handleClose = () => {
-    props.onClose();
+    if (onClose) {
+      onClose();
+    }
     setIsVisible(false);
   };
-
   if (!isVisible) {
     return null;
   }

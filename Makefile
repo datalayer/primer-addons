@@ -65,6 +65,6 @@ publish-storybook: ## publish
 		--profile datalayer && \
 	  aws cloudfront create-invalidation \
 		--distribution-id E31G4MWCFRSED1 \
-		--paths /* \
+		--paths "/*" \
 		--profile datalayer && \
 	echo open ✨  https://primer-addons.datalayer.tech )

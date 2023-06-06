@@ -16,7 +16,9 @@ export type CardHeaderProps = {
 }
 
 export type CardImageProps = {
-  image: string;
+  url?: string;
+  image?: string;
+  svg?: string;
   height: number;
 }
 
@@ -90,22 +92,37 @@ Card.Header = (props) => {
       {action}
     </Box>}
   </Box>;
-};
+}
 
-Card.Image = ({image, height}) => {
-  return <Box display="block" width="100%" height={`${height}px`} backgroundImage={`url(${image})`} sx={{ backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center", objectFit: "cover"}}>
-  </Box>;
-};
+Card.Image = ({url, image, svg, height}) => {
+  return (
+    <Box
+      display="block"
+      width="100%"
+      height={`${height}px`}
+      backgroundImage={`url(${url})`}
+      sx={{
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        objectFit: "cover"
+      }}>
+    {image && <img src={image} style={{maxHeight: `${height}px`}} />}
+    {svg && <img src={`data:image/svg+xml;utf8,${svg}`} style={{maxHeight: height}} />}
+  </Box>
+  );
+}
 
 Card.Content = ({children}) => {
-  return <Box display="block" sx={{p: 3}}>
-    {children}
-  </Box>;
-};
-
+  return (
+    <Box display="block" sx={{p: 3}}>
+      {children}
+    </Box>
+  );
+}
 
 Card.Actions = ({ children }) => {
   return <Box display="block" sx={{p: 3}}>
     {children}
   </Box>;
-};
+}

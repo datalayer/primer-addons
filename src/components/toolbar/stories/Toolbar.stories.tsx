@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
@@ -10,7 +9,7 @@ import {
 } from "@primer/react";
 import { SearchIcon, ThreeBarsIcon, GearIcon } from "@primer/octicons-react";
 
-import { Toolbar, ToolbarProps } from '../index';
+import { Toolbar, ToolbarProps } from '../../../index';
 
 const meta = {
   title: 'Components/Toolbar',

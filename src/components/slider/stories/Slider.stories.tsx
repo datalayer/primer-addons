@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   ThemeProvider,
@@ -8,7 +8,7 @@ import {
   CounterLabel
 } from "@primer/react";
 
-import { Slider, SliderProps } from '../index';
+import { Slider, SliderProps } from '../../../index';
 
 const meta = {
   title: 'Components/Slider',

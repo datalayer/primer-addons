@@ -14,6 +14,7 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 
 ## Current Addons
 
+- [ ] Backdrop
 - [x] Card
 - [x] ClosableFlash
 - [ ] MasonryBox
@@ -24,6 +25,26 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 <div align="center" style="text-align: center">
   <img alt="Primer React Addons" src="https://datalayer-examples.s3.amazonaws.com/primer-addons-example.png" />
 </div>
+
+## Develop
+
+Install the dependencies.
+
+```bash
+yarn
+```
+
+Start the storybook.
+
+```bash
+yarn storybook
+```
+
+Start the playground.
+
+```bash
+yarn dev
+```
 
 ## About Primer Design
 

@@ -18,8 +18,10 @@
     "style"
   ],
   "dependencies": {
+    "@primer/brand-primitives": "0.20.0",
     "@primer/octicons-react": "18.2.0",
     "@primer/react": "35.26.0",
+    "@primer/react-brand": "0.20.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "5.3.10"

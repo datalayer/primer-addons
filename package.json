@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "0.0.14",
+  "version": "0.0.16",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "vite",
@@ -21,11 +21,11 @@
     "type": "git",
     "url": "https://github.com/datalayer/primer-addons.git"
   },
-  "homepage": "https://primer-addons.datalayer.tech/",
+  "homepage": "https://primer-addons.datalayer.tech",
   "dependencies": {
     "@primer/brand-primitives": "0.20.0",
-    "@primer/octicons-react": "18.2.0",
-    "@primer/react": "36.0.0-rc.8ab77098",
+    "@primer/octicons-react": "19.4.0",
+    "@primer/react": "36.0.0-rc.dcb0f663",
     "@primer/react-brand": "0.20.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

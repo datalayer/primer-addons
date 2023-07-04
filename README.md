@@ -15,6 +15,10 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 ## Current Addons
 
 - [ ] Backdrop
+- [ ] Blankslate
+- [ ] BrandHeader
+- [ ] BrandHeaderLines
+- [ ] BrandFooter
 - [x] Card
 - [x] ClosableFlash
 - [ ] MasonryBox
@@ -60,7 +64,7 @@ yarn dev
 - Documentation https://primer.style/react
 - Storybook https://primer.style/react/storybook
 
-## About Primer Brand React
+## About Primer Brand
 
 - GitHub repository https://github.com/primer/brand
 - Documentation https://primer.style/brand

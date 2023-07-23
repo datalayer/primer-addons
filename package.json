@@ -25,7 +25,7 @@
   "dependencies": {
     "@primer/brand-primitives": "0.20.0",
     "@primer/octicons-react": "19.4.0",
-    "@primer/react": "35.27.0-rc.7108ad52",
+    "@primer/react": "36.0.0-rc.c0b12f80",
     "@primer/react-brand": "0.20.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -15,7 +15,6 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 ## Current Addons
 
 - [ ] Backdrop
-- [ ] Blankslate
 - [ ] BrandHeader
 - [ ] BrandHeaderLines
 - [ ] BrandFooter
@@ -27,7 +26,7 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 - [x] Toolbar
 
 <div align="center" style="text-align: center">
-  <img alt="Primer React Addons" src="https://datalayer-examples.s3.amazonaws.com/primer-addons-example.png" />
+  <img alt="Primer React Addons" src="https://assets.datalayer.tech/primer-addons-example.png" />
 </div>
 
 ## Develop

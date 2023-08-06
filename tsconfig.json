@@ -20,7 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "composite": true,
+    "composite": true
   },
   "include": [
     "src/**/*"
@@ -28,5 +28,5 @@
   "exclude": [
     "src/main.tsx",
     "src/stories"
-  ],
+  ]
 }

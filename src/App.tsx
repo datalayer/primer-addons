@@ -1,10 +1,4 @@
-import {
-  BaseStyles,
-  Box,
-  Text,
-  NavList,
-  ThemeProvider
-} from "@primer/react";
+import { BaseStyles, Box, Text, NavList, ThemeProvider } from "@primer/react";
 import { Slider } from ".";
 
 import "./App.css";

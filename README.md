@@ -68,3 +68,7 @@ yarn dev
 - GitHub repository https://github.com/primer/brand
 - Documentation https://primer.style/brand
 - Storybook https://primer.style/brand/storybook
+
+## Releases
+
+Primer Addons is released in [Npm.js](https://www.npmjs.com/package/@datalayer/primer-addons).

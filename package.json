@@ -24,10 +24,10 @@
   "homepage": "https://primer-addons.datalayer.tech",
   "dependencies": {
     "@datalayer/icons-react": "0.1.2",
-    "@primer/brand-primitives": "0.20.0",
-    "@primer/octicons-react": "19.4.0",
-    "@primer/react": "36.0.0-rc.c0b12f80",
-    "@primer/react-brand": "0.20.0",
+    "@primer/brand-primitives": "0.24.0",
+    "@primer/octicons-react": "19.6.0",
+    "@primer/react": "36.0.0-rc.abc90544",
+    "@primer/react-brand": "0.24.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "5.3.10"

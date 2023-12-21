@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "0.2.1",
+  "version": "0.2.2-dev.0",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "vite",
@@ -53,5 +53,6 @@
     "storybook": "^7.0.9",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
-  }
+  },
+  "packageManager": "yarn@3.5.0+sha256.e4fc5f94867cd0b492fb0a644f14e7b47c4387bc75d46b56e86db6d0f1a6cb97"
 }

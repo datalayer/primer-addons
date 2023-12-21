@@ -70,7 +70,7 @@ jobs:
             git commit -a -m "Bump dev version"
       -
         run: |
-          npm publish --access public --tag next
+          npm publish --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -29,7 +29,8 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
   const closeOverlay = () => setIsOpen!(false);
 
   return (
-    confirmButtonRef && buttonRef && headingRef && <>
+    confirmButtonRef && buttonRef && headingRef ? 
+    <>
       {isOpen ? 
         direction === 'left' ? 
           <PrimerOverlay
@@ -107,8 +108,10 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
               {content}
             </Box>
           </PrimerOverlay> 
-      : null}
+      : <></>}
     </>
+    :
+      <></>
   );
 };
 

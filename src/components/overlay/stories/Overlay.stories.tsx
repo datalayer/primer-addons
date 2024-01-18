@@ -65,7 +65,7 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
 export const OverlayDayLeft: Story = {
   args: {
     direction: "left",
-    content: <Text>Look, right aligned</Text>,
+    content: <Text>👈 Look, left aligned.</Text>,
   },
   render: (args) => <ThemedOverlay {...args} colorMode="day" />
 };
@@ -73,7 +73,7 @@ export const OverlayDayLeft: Story = {
 export const OverlayDayRight: Story = {
   args: {
     direction: "right",
-    content: <Text>Look, right aligned</Text>,
+    content: <Text>Look, right aligned 👉</Text>,
   },
   render: (args) => <ThemedOverlay {...args} colorMode="day" />
 };
@@ -81,7 +81,7 @@ export const OverlayDayRight: Story = {
 export const OverlayNightLeft: Story = {
   args: {
     direction: "left",
-    content: <Text>Look, right aligned</Text>,
+    content: <Text>👈 Look, left aligned.</Text>,
   },
   render: (args) => <ThemedOverlay {...args} colorMode="night" />
 };
@@ -89,7 +89,7 @@ export const OverlayNightLeft: Story = {
 export const OverlayNightRight: Story = {
   args: {
     direction: "right",
-    content: <Text>Look, right aligned</Text>,
+    content: <Text>Look, right aligned 👉</Text>,
   },
   render: (args) => <ThemedOverlay {...args} colorMode="night" />
 };

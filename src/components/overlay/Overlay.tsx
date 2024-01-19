@@ -29,7 +29,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
   const closeOverlay = () => setIsOpen!(false);
 
   return (
-    confirmButtonRef && buttonRef && headingRef ? 
+    confirmButtonRef && buttonRef ? 
     <>
       {isOpen ? 
         direction === 'left' ? 

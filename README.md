@@ -18,10 +18,10 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 - [ ] BrandHeader
 - [ ] BrandHeaderLines
 - [ ] BrandFooter
+- [ ] ContentLoader
 - [x] Card
 - [x] ClosableFlash
 - [ ] MasonryBox
-- [ ] Skeleton
 - [x] Slider
 - [x] Toolbar
 

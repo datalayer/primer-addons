@@ -15,13 +15,13 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 ## Current Addons
 
 - [ ] Backdrop
-- [ ] BrandHeader
-- [ ] BrandHeaderLines
-- [ ] BrandFooter
-- [ ] ContentLoader
+- [ ] Brand Header
+- [ ] Brand Header Lines
+- [ ] Brand Footer
+- [x] Content Loader
 - [x] Card
-- [x] ClosableFlash
-- [ ] MasonryBox
+- [x] Closable Flash
+- [ ] Masonry Box
 - [x] Slider
 - [x] Toolbar
 

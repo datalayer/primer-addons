@@ -6,42 +6,44 @@ import {
   Box
 } from "@primer/react";
 
-import { ContentLoader, ContentLoaderProps } from '../../../index';
+import { CircleIcon, CircleIconProps } from '../../../index';
 
 const meta = {
-  title: 'Components/ContentLoader',
-  component: ContentLoader,
+  title: 'Components/CircleIcon',
+  component: CircleIcon,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof ContentLoader>;
+} satisfies Meta<typeof CircleIcon>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const ThemedContentLoader = (props: {colorMode?: ThemeProviderProps["colorMode"]} & ContentLoaderProps) =>
+const ThemedCircleIcon = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CircleIconProps) =>
   <ThemeProvider colorMode={props.colorMode}>
     <BaseStyles>
       <Box p={3} bg="canvas.default">
-        <ContentLoader {...props}/>
+        <CircleIcon {...props}/>
       </Box>
     </BaseStyles>
   </ThemeProvider>
 
-export const ContentLoaderDay: Story = {
+export const CircleIconDay: Story = {
   args: {
-    count: 3
+    color: 'danger',
+    variant: 'fg',
   },
-  render: (args) => <ThemedContentLoader {...args} colorMode="day" />
+  render: (args) => <ThemedCircleIcon {...args} colorMode="day" />
 };
 
-export const ContentLoaderNight: Story = {
+export const CircleIconNight: Story = {
   args: {
-    count: 3
+    color: 'danger',
+    variant: 'fg',
   },
-  render: (args) => <ThemedContentLoader {...args} colorMode="night" />
+  render: (args) => <ThemedCircleIcon {...args} colorMode="night" />
 };

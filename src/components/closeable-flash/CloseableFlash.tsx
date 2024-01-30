@@ -1,5 +1,5 @@
 import { useState, FC } from "react";
-import { Box, Flash, FlashProps, StyledOcticon, Text } from "@primer/react";
+import { Box, Flash, FlashProps, Octicon, Text } from "@primer/react";
 import { Icon, XIcon } from "@primer/octicons-react";
 
 export type CloseableFlashProps = FlashProps & {
@@ -23,7 +23,7 @@ export const CloseableFlash: FC<CloseableFlashProps> = (props) => {
     <Flash variant={variant} {...otherProps}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
-          {leadingIcon && <StyledOcticon icon={leadingIcon} />}
+          {leadingIcon && <Octicon icon={leadingIcon} />}
           <Text color={`${variant === "default" ? "accent" : (variant === "warning" ? "attention" : variant)}.fg`}>{props.children}</Text>
         </Box>
         <Box onClick={handleClose} sx={{cursor: "pointer"}}>

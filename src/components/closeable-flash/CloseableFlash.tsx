@@ -1,9 +1,9 @@
 import { useState, FC } from "react";
 import { Box, Flash, FlashProps, Octicon, Text } from "@primer/react";
-import { Icon, XIcon } from "@primer/octicons-react";
+import { XIcon } from "@primer/octicons-react";
 
 export type CloseableFlashProps = FlashProps & {
-  leadingIcon?: Icon;
+  leadingIcon?: React.ElementType;
   onClose?: () => void;
 }
 

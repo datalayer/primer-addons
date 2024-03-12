@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, BoxProps, Octicon, Text } from "@primer/react";
-import { Icon } from "@primer/octicons-react";
 
 export type CardProps = Omit<BoxProps, 'border'> & {
   rounded?: 'small' | 'medium' | 'large' | 'full' | number;
@@ -11,7 +10,7 @@ export type CardProps = Omit<BoxProps, 'border'> & {
 export type CardHeaderProps = {
   title?: string;
   description?: string;
-  leadingIcon?: Icon;
+  leadingIcon?: React.ElementType;
   action?: React.ReactNode;
 }
 

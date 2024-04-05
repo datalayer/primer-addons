@@ -2,7 +2,9 @@ name: Publish package to GitHub Packages
 on:
   push:
     branches:
-        - main
+      - main
+    paths-ignore:
+      - package.json
   release:
     types: [published]
   # FIXME workflow_dispatch should not be needed
@@ -37,7 +39,6 @@ jobs:
         run: |
             corepack enable
             yarn set version 3.5.0
-            # corepack use yarn@3.5.0
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -68,10 +69,16 @@ jobs:
 
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git commit -a -m "Bump dev version"
+            git add package.json
+            git commit -m "Bump dev version"
+            npm publish --tag next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       -
+        if: github.event_name != 'push'
         run: |
-          npm publish --tag next
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

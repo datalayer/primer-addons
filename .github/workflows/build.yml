@@ -42,3 +42,5 @@ jobs:
         set -eux
         yarn install
         yarn run build
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

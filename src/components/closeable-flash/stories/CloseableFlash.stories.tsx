@@ -40,7 +40,7 @@ const ThemedCloseableFlash = (props: {colorMode?: ThemeProviderProps["colorMode"
 export const CloseableFlashDay: Story = {
   args: {
     variant: "success",
-    leadingIcon: CheckIcon,
+    leadingVisual: CheckIcon,
     onClose: () => window.alert("closed")
   },
   render: (args) => <ThemedCloseableFlash {...args} colorMode="day">Success Flash</ThemedCloseableFlash>
@@ -49,7 +49,7 @@ export const CloseableFlashDay: Story = {
 export const CloseableFlashNight: Story = {
   args: {
     variant: "success",
-    leadingIcon: CheckIcon,
+    leadingVisual: CheckIcon,
     onClose: () => window.alert("closed")
   },
   render: (args) => <ThemedCloseableFlash {...args} colorMode="night">Success Flash</ThemedCloseableFlash>

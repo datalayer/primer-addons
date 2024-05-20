@@ -10,7 +10,7 @@ export type CardProps = Omit<BoxProps, 'border'> & {
 export type CardHeaderProps = {
   title?: string;
   description?: string;
-  leadingIcon?: React.ElementType;
+  leadingVisual?: React.ElementType;
   action?: React.ReactNode;
 }
 
@@ -78,10 +78,10 @@ export const Card: React.FC<CardProps> & {
 };
 
 Card.Header = (props) => {
-  const { title, description, leadingIcon, action } = props;
+  const { title, description, leadingVisual, action } = props;
   return <Box display="flex" alignItems="center" sx={{p: 3}}>
-    {leadingIcon && <Box sx={{mr: 3}}>
-      <Octicon size="medium" icon={leadingIcon} />
+    {leadingVisual && <Box sx={{mr: 3}}>
+      <Octicon size="medium" icon={leadingVisual} />
     </Box>}
     <Box sx={{flexGrow: 1}}>
       <Text display="block">{title}</Text>

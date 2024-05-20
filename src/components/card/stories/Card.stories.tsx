@@ -50,7 +50,7 @@ export const CardDay: Story = {
   },
   render: (args) => <ThemedCard {...args} colorMode="day">
     <Card.Header
-      leadingIcon={ProjectIcon}
+      leadingVisual={ProjectIcon}
       title="Shrimp and Chorizo Paella"
       description="September 14, 2016"
       action={<IconButton aria-label="Menu" onClick={() => alert("Menu")} icon={ThreeBarsIcon} />}
@@ -87,7 +87,7 @@ export const CardDaySvg: Story = {
   },
   render: (args) => <ThemedCard {...args} colorMode="day">
     <Card.Header
-      leadingIcon={ProjectIcon}
+      leadingVisual={ProjectIcon}
       title="Shrimp and Chorizo Paella"
       description="September 14, 2016"
       action={<IconButton aria-label="Menu" onClick={() => alert("Menu")} icon={ThreeBarsIcon} />}
@@ -117,7 +117,7 @@ export const CardNight: Story = {
   },
   render: (args) => <ThemedCard {...args} colorMode="night">
   <Card.Header
-    leadingIcon={ProjectIcon}
+    leadingVisual={ProjectIcon}
     title="Shrimp and Chorizo Paella"
     description="September 14, 2016"
     action={<IconButton aria-label="Menu" onClick={() => alert("Menu")} icon={ThreeBarsIcon} />}

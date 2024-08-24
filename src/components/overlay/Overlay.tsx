@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Overlay as PrimerOverlay,
-  Box
-} from "@primer/react";
+import { Box, IconButton, Overlay as PrimerOverlay } from "@primer/react";
+import { XIcon } from "@primer/octicons-react";
 
 export interface OverlayProps {
-  direction: 'left' | 'right';
-  isOpen?: boolean;
-  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  closeButtonRef?: React.RefObject<HTMLButtonElement>;
   content: JSX.Element;
-  buttonRef?: React.RefObject<HTMLButtonElement>;
-  confirmButtonRef?: React.RefObject<HTMLButtonElement>;
+  direction: 'left' | 'right';
   headingRef?: React.RefObject<HTMLHeadingElement>;
+  isOpen?: boolean;
+  openButtonRef?: React.RefObject<HTMLButtonElement>;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  width: number | string;
 }
 
 const PrimerAddonOverlay = (props: OverlayProps) => {
 
-  const { content, buttonRef, confirmButtonRef, headingRef, isOpen, setIsOpen } = props;
+  const {
+    closeButtonRef,
+    content,
+    headingRef,
+    isOpen,
+    openButtonRef,
+    setIsOpen,
+    width,
+  } = props;
 
   const [direction, _] = useState(props.direction);
   const [top, setTop] = useState(0);
@@ -29,14 +35,14 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
   const closeOverlay = () => setIsOpen!(false);
 
   return (
-    confirmButtonRef && buttonRef ? 
+    closeButtonRef && openButtonRef ? 
     <>
       {isOpen ? 
         direction === 'left' ? 
           <PrimerOverlay
-            initialFocusRef={confirmButtonRef}
-            returnFocusRef={buttonRef}
-            ignoreClickRefs={[buttonRef]}
+            initialFocusRef={closeButtonRef}
+            returnFocusRef={openButtonRef}
+            ignoreClickRefs={[openButtonRef]}
             onEscape={closeOverlay}
             onClickOutside={closeOverlay}
             width="auto"
@@ -46,7 +52,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
             <Box sx={{
               /* We need to remove the padding */
               height: `calc(100vh - ${top}px - 8px)`,
-              width: '500px',
+              width,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -59,21 +65,22 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
                   width: '100%'
                 }}
               >
-                <Button
-                  ref={confirmButtonRef}
+                <IconButton
+                  variant='invisible'
+                  ref={closeButtonRef}
                   onClick={closeOverlay}
-                >
-                  Close me
-                </Button>
+                  icon={XIcon}
+                  aria-labelledby="close"
+                />
               </Box>
               {content}
             </Box>
           </PrimerOverlay> 
         : 
           <PrimerOverlay
-            initialFocusRef={confirmButtonRef}
-            returnFocusRef={buttonRef}
-            ignoreClickRefs={[buttonRef]}
+            initialFocusRef={closeButtonRef}
+            returnFocusRef={openButtonRef}
+            ignoreClickRefs={[openButtonRef]}
             onEscape={closeOverlay}
             onClickOutside={closeOverlay}
             width="auto"
@@ -85,7 +92,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
             <Box sx={{
               /* We need to remove the padding */
               height: `calc(100vh - ${top}px - 8px)`,
-              width: '500px',
+              width,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -98,12 +105,13 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
                   width: '100%'
                 }}
               >
-                <Button
-                  ref={confirmButtonRef}
+                <IconButton
+                  variant='invisible'
+                  ref={closeButtonRef}
                   onClick={closeOverlay}
-                >
-                  Close me
-                </Button>
+                  icon={XIcon}
+                  aria-labelledby="close"
+                />
               </Box>
               {content}
             </Box>
@@ -120,5 +128,9 @@ export const Overlay = (props: OverlayProps) => {
     <PrimerAddonOverlay {...props}/>
   )
 };
+
+Overlay.defaultProps = {
+  width: '500px',
+} as Partial<OverlayProps>;
 
 export default Overlay;

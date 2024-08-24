@@ -23,9 +23,10 @@
   },
   "homepage": "https://primer-addons.datalayer.tech",
   "dependencies": {
-    "@datalayer/icons-react": "0.3.0",
+    "@datalayer/icons-react": "^0.3.0",
     "@primer/octicons-react": "^19.6.0",
-    "@primer/react": "^36.6.0",
+    "@primer/primitives": "^8.2.3",
+    "@primer/react": "^36.25.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loading-skeleton": "^3.3.1",

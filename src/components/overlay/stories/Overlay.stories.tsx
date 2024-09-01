@@ -30,8 +30,8 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const confirmButtonRef = useRef<HTMLButtonElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   return (
@@ -43,7 +43,7 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
               <Heading ref={headingRef}>Header</Heading>
             </Box>
             <Box>
-              <Button ref={buttonRef} onClick={() => {
+              <Button ref={openButtonRef} onClick={() => {
                 setIsOpen(!isOpen);
               }}>
                 Open overlay
@@ -52,8 +52,8 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
                 {...props}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                buttonRef={buttonRef}
-                confirmButtonRef={confirmButtonRef}
+                openButtonRef={openButtonRef}
+                closeButtonRef={closeButtonRef}
                 headingRef={props.direction === 'left' ? headingRef : undefined}
                 />
             </Box>
@@ -66,32 +66,36 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
 
 export const OverlayDayLeft: Story = {
   args: {
-    direction: "left",
     content: <Text>👈 Look, left aligned, no heading.</Text>,
+    direction: "left",
+    width: '500px',
   },
   render: (args) => <ThemedOverlay {...args} colorMode="day" />
 };
 
 export const OverlayDayRight: Story = {
   args: {
-    direction: "right",
     content: <Text>Look, right aligned, on heading 👉</Text>,
+    direction: "right",
+    width: '500px',
   },
   render: (args) => <ThemedOverlay {...args} colorMode="day" />
 };
 
 export const OverlayNightLeft: Story = {
   args: {
-    direction: "left",
     content: <Text>👈 Look, left aligned, no heading.</Text>,
+    direction: "left",
+    width: '300px',
   },
   render: (args) => <ThemedOverlay {...args} colorMode="night" />
 };
 
 export const OverlayNightRight: Story = {
   args: {
+    content: <Text>Look, right aligned, on heading 👉</Text>,
     direction: "right",
-    content: <Text>Look, right aligned, on heading 👉</Text>
+    width: '300px',
   },
   render: (args) => <ThemedOverlay {...args} colorMode="night" />
 };

@@ -40,13 +40,13 @@ yarn
 Start the storybook.
 
 ```bash
-yarn storybook
+npm storybook
 ```
 
 Start the playground.
 
 ```bash
-yarn dev
+npm dev
 ```
 
 ## About Primer Design

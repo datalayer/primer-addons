@@ -1,9 +1,9 @@
 import { useState, FC } from "react";
-import { Box, Flash, FlashProps, Octicon, Text } from "@primer/react";
+import { Box, Flash, FlashProps, CircleOcticon, Text } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 
 export type CloseableFlashProps = FlashProps & {
-  leadingVisual?: React.ElementType;
+  leadingVisual?: React.ComponentType;
   onClose?: () => void;
 }
 
@@ -23,7 +23,7 @@ export const CloseableFlash: FC<CloseableFlashProps> = (props) => {
     <Flash variant={variant} {...otherProps}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box sx={{ flexGrow: 1 }}>
-          {leadingVisual && <Octicon icon={leadingVisual} />}
+          {leadingVisual && <CircleOcticon icon={leadingVisual} />}
           <Text color={`${variant === "default" ? "accent" : (variant === "warning" ? "attention" : variant)}.fg`}>{props.children}</Text>
         </Box>
         <Box onClick={handleClose} sx={{cursor: "pointer"}}>

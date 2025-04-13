@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "vite",
@@ -25,10 +25,10 @@
   "dependencies": {
     "@datalayer/icons-react": "^1.0.0",
     "@primer/octicons-react": "^19.15.1",
-    "@primer/react": "^36.27.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-loading-skeleton": "^3.3.1",
+    "@primer/react": "^37.19.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-loading-skeleton": "^3.5.0",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
@@ -39,8 +39,9 @@
     "@storybook/react": "^8.0.10",
     "@storybook/react-vite": "^8.0.10",
     "@storybook/testing-library": "^0.2.2",
-    "@types/react": "18.2.12",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "18.3.20",
+    "@types/react-dom": "18.3.6",
+    "@types/styled-components": "5.1.34",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
     "@vitejs/plugin-react": "^4.2.1",
@@ -50,7 +51,7 @@
     "eslint-plugin-storybook": "^0.6.12",
     "prop-types": "^15.8.1",
     "storybook": "^8.0.10",
-    "typescript": "^5.0.2",
-    "vite": "^5.2.7"
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6"
   }
 }

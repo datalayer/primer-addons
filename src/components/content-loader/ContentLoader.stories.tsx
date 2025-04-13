@@ -1,12 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  ThemeProvider,
-  ThemeProviderProps,
-  BaseStyles,
-  Box
-} from "@primer/react";
-
-import { ContentLoader, ContentLoaderProps } from '../../../index';
+import { ThemeProvider, ThemeProviderProps, BaseStyles, Box } from "@primer/react";
+import { ContentLoader, ContentLoaderProps } from '../..';
 
 const meta = {
   title: 'Components/ContentLoader',

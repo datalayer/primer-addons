@@ -4,6 +4,16 @@ import { Slider, Overlay } from ".";
 
 import "./App.css";
 
+import "@primer/primitives/dist/css/base/typography/typography.css";
+import "@primer/primitives/dist/css/functional/themes/light.css";
+import "@primer/primitives/dist/css/functional/size/border.css";
+import "@primer/primitives/dist/css/functional/size/breakpoints.css";
+import "@primer/primitives/dist/css/functional/size/size-coarse.css";
+import "@primer/primitives/dist/css/functional/size/size-fine.css";
+import "@primer/primitives/dist/css/functional/size/size.css";
+import "@primer/primitives/dist/css/functional/size/viewport.css";
+import "@primer/primitives/dist/css/functional/typography/typography.css";
+
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -40,7 +50,7 @@ const App = () => {
                   </Button>
                   <Overlay
                     isOpen={isOpen}
-                    content={<Text>Look, I am an Overlay 👉</Text>}
+                    content={<Text>Look, I am an <Button>Overlay 👉</Button></Text>}
                     setIsOpen={setIsOpen}
                     openButtonRef={openButtonRef}
                     closeButtonRef={closeButtonRef}

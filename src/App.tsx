@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
-import { BaseStyles, Box, Text, NavList, Heading, ThemeProvider, Button, theme } from "@primer/react";
+import { BaseStyles, Box, Text, NavList, Heading, ThemeProvider, Button, theme, ActionMenu, IconButton, ActionList } from "@primer/react";
+import { KebabHorizontalIcon } from "@primer/octicons-react";
+import { DatalayerIcon, LogOutIcon, SettingsIcon } from "@datalayer/icons-react";
 import { Slider, Overlay } from ".";
-
-import "./App.css";
 
 import "@primer/primitives/dist/css/base/typography/typography.css";
 import "@primer/primitives/dist/css/functional/themes/light.css";
@@ -14,6 +14,8 @@ import "@primer/primitives/dist/css/functional/size/size.css";
 import "@primer/primitives/dist/css/functional/size/viewport.css";
 import "@primer/primitives/dist/css/functional/typography/typography.css";
 
+import "./App.css";
+
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -22,6 +24,52 @@ const App = () => {
   return (
     <ThemeProvider colorMode="day" theme={theme}>
       <BaseStyles>
+        <ActionMenu>
+          <ActionMenu.Anchor>
+            <IconButton
+              icon={KebabHorizontalIcon}
+              variant="invisible"
+              aria-label="jupyter-runtimes-more"
+            />
+          </ActionMenu.Anchor>
+          <ActionMenu.Overlay width="medium">
+            <ActionList>
+              <ActionList.Group>
+                <ActionList.GroupHeading>More…</ActionList.GroupHeading>
+                <ActionList.Item onSelect={() => alert('click')}>
+                  <ActionList.LeadingVisual>
+                    <SettingsIcon />
+                  </ActionList.LeadingVisual>
+                  Settings
+                  <ActionList.Description variant="block">
+                    Configure your personal settings.
+                  </ActionList.Description>
+                </ActionList.Item>
+              <ActionList.Item onSelect={() => alert('click')}>
+                  <ActionList.LeadingVisual>
+                    <DatalayerIcon />
+                  </ActionList.LeadingVisual>
+                  About
+                  <ActionList.Description variant="block">
+                    About Runtimes.
+                  </ActionList.Description>
+                </ActionList.Item>
+              </ActionList.Group>
+              <>
+                <ActionList.Divider />
+                <ActionList.Item
+                  variant="danger"
+                  onSelect={e => alert('click')}
+                >
+                  <ActionList.LeadingVisual>
+                    <LogOutIcon />
+                  </ActionList.LeadingVisual>
+                  Logout
+                </ActionList.Item>
+              </>
+            </ActionList>
+          </ActionMenu.Overlay>
+        </ActionMenu>
         <Box bg="canvas.default" sx={{ display: 'flex' }}>
           <Box>
             <NavList>

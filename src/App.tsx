@@ -59,7 +59,7 @@ const App = () => {
                 <ActionList.Divider />
                 <ActionList.Item
                   variant="danger"
-                  onSelect={e => alert('click')}
+                  onSelect={() => alert('click')}
                 >
                   <ActionList.LeadingVisual>
                     <LogOutIcon />

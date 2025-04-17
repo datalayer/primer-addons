@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev": "vite",
@@ -25,8 +25,8 @@
   "dependencies": {
     "@datalayer/icons-react": "^1.0.0",
     "@primer/octicons-react": "^19.15.1",
-    "@primer/react": "^37.19.0",
     "@primer/primitives": "^10.5.0",
+    "@primer/react": "^37.19.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-loading-skeleton": "^3.5.0",

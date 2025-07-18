@@ -5,8 +5,7 @@ import {
   BaseStyles,
   Box
 } from "@primer/react";
-
-import { CircleIcon, CircleIconProps } from '../../../index';
+import { CircleIcon, CircleIconProps } from '../..';
 
 const meta = {
   title: 'Components/CircleIcon',

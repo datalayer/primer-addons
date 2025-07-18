@@ -14,26 +14,22 @@ export interface OverlayProps {
 }
 
 const PrimerAddonOverlay = (props: OverlayProps) => {
-
   const {
     closeButtonRef,
     content,
+    direction: propsDirection,
     headingRef,
     isOpen,
     openButtonRef,
     setIsOpen,
     width,
   } = props;
-
-  const [direction, _] = useState(props.direction);
+  const [direction, _] = useState(propsDirection);
   const [top, setTop] = useState(0);
-
   useEffect(() => {
     setTop(headingRef?.current?.getBoundingClientRect().bottom ?? 0)
   }, [headingRef])
-
   const closeOverlay = () => setIsOpen!(false);
-
   return (
     closeButtonRef && openButtonRef ? 
     <>

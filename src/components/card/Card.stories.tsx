@@ -1,16 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  ThemeProvider,
-  ThemeProviderProps,
-  BaseStyles,
-  Box,
-  Button,
-  IconButton,
-  Text,
-  ButtonGroup,
-} from "@primer/react";
-import { Card, CardProps } from '../../../index';
+import { ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button, IconButton, Text, ButtonGroup } from "@primer/react";
 import { ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
+import { Card, CardProps } from '../..';
 
 const meta = {
   title: 'Components/Card',

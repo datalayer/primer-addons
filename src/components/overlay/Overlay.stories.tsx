@@ -1,15 +1,7 @@
 import { useState, useRef } from "react";
-import {
-  Heading,
-  Text,
-  ThemeProvider,
-  ThemeProviderProps,
-  BaseStyles,
-  Box,
-  Button,
-} from "@primer/react";
+import { Heading, Text, ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button } from "@primer/react";
 import type { Meta, StoryObj } from '@storybook/react';
-import { Overlay, OverlayProps } from './../Overlay';
+import { Overlay, OverlayProps } from '../..';
 
 const meta = {
   title: 'Components/Overlay',
@@ -27,13 +19,10 @@ export default meta;
 type Story = StoryObj<typeof meta>
 
 const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & OverlayProps) => {
-
   const [isOpen, setIsOpen] = useState(false);
-
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-
   return (
     <ThemeProvider colorMode={props.colorMode}>
       <BaseStyles>
@@ -43,9 +32,7 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
               <Heading ref={headingRef}>Header</Heading>
             </Box>
             <Box>
-              <Button ref={openButtonRef} onClick={() => {
-                setIsOpen(!isOpen);
-              }}>
+              <Button ref={openButtonRef} onClick={() => {setIsOpen(!isOpen)}}>
                 Open overlay
               </Button>
               <Overlay

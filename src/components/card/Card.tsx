@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, BoxProps, Octicon, Text } from "@primer/react";
+import { Box, BoxProps, IconButton, Text } from "@primer/react";
 
 export type CardProps = Omit<BoxProps, 'border'> & {
   rounded?: 'small' | 'medium' | 'large' | 'full' | number;
@@ -81,7 +81,7 @@ Card.Header = (props) => {
   const { title, description, leadingVisual, action } = props;
   return <Box display="flex" alignItems="center" sx={{p: 3}}>
     {leadingVisual && <Box sx={{mr: 3}}>
-      <Octicon size="medium" icon={leadingVisual} />
+      <IconButton size="medium" icon={leadingVisual} aria-label=""/>
     </Box>}
     <Box sx={{flexGrow: 1}}>
       <Text display="block">{title}</Text>

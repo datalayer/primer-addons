@@ -1,12 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  ThemeProvider,
-  ThemeProviderProps,
-  BaseStyles,
-  Box
-} from "@primer/react";
+import { ThemeProvider, ThemeProviderProps, BaseStyles, Box } from "@primer/react";
 import { CheckIcon } from "@primer/octicons-react";
-import { CloseableFlash, CloseableFlashProps } from '../../../index';
+import { CloseableFlash, CloseableFlashProps } from '../..';
 
 const meta = {
   title: 'Components/CloseableFlash',

@@ -34,13 +34,13 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 Install the dependencies.
 
 ```bash
-yarn
+npm i
 ```
 
 Start the storybook.
 
 ```bash
-npm storybook
+npm run storybook
 ```
 
 Start the playground.

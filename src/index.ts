@@ -1,3 +1,4 @@
+export * from "./components/box/Box";
 export * from "./components/card/Card";
 export * from "./components/content-loader/ContentLoader";
 export * from "./components/closeable-flash/CloseableFlash";

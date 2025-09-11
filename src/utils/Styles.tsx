@@ -4,12 +4,11 @@
  */
 
 import { ThemeProvider, BaseStyles } from '@primer/react';
-import { jupyterLabTheme } from '@datalayer/jupyter-react';
 
 export const Styles = () => {
   return (
     <>
-      <ThemeProvider theme={jupyterLabTheme}>
+      <ThemeProvider>
         <BaseStyles />
       </ThemeProvider>
     </>

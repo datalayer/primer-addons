@@ -3,12 +3,13 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { Colormode } from '@datalayer/jupyter-react';
 import { registerPortalRoot } from '@primer/react';
 
 import '@primer/react-brand/lib/css/main.css';
 
 const PRIMER_PORTAL_ROOT_ID = '__primerPortalRoot__';
+
+type Colormode = 'light' | 'dark' | 'auto';
 
 /**
  * Ensure we define a root for Primer portal root.

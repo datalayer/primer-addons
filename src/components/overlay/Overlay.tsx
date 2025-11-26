@@ -5,12 +5,12 @@ import { XIcon } from "@primer/octicons-react";
 export interface OverlayProps {
   closeButtonRef?: React.RefObject<HTMLButtonElement>;
   content: JSX.Element;
-  direction: 'left' | 'right';
+  direction?: 'left' | 'right';
   headingRef?: React.RefObject<HTMLHeadingElement>;
   isOpen?: boolean;
   openButtonRef?: React.RefObject<HTMLButtonElement>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  width: number | string;
+  width?: number | string;
 }
 
 const PrimerAddonOverlay = (props: OverlayProps) => {
@@ -119,14 +119,14 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
   );
 };
 
-export const Overlay = (props: OverlayProps) => {
+export const Overlay = ({
+  width = '500px',
+  direction = 'left',
+  ...rest
+}: OverlayProps) => {
   return (
-    <PrimerAddonOverlay {...props}/>
+    <PrimerAddonOverlay width={width} direction={direction} {...rest}/>
   )
 };
-
-Overlay.defaultProps = {
-  width: '500px',
-} as Partial<OverlayProps>;
 
 export default Overlay;

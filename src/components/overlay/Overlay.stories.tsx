@@ -41,7 +41,6 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
                 setIsOpen={setIsOpen}
                 openButtonRef={openButtonRef}
                 closeButtonRef={closeButtonRef}
-                headingRef={props.direction === 'left' ? headingRef : undefined}
                 />
             </Box>
           </Box>

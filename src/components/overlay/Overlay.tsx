@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, IconButton, Overlay as PrimerOverlay } from "@primer/react";
+import { IconButton, Overlay as PrimerOverlay } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
+import { Box } from '../box/Box';
 
 export interface OverlayProps {
   closeButtonRef?: React.RefObject<HTMLButtonElement>;
@@ -11,6 +12,7 @@ export interface OverlayProps {
   openButtonRef?: React.RefObject<HTMLButtonElement>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   width?: number | string;
+  zIndex?: number;
 }
 
 const PrimerAddonOverlay = (props: OverlayProps) => {
@@ -23,6 +25,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
     openButtonRef,
     setIsOpen,
     width,
+    zIndex,
   } = props;
   const [direction, _] = useState(propsDirection);
   const [top, setTop] = useState(0);
@@ -34,84 +37,90 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
     closeButtonRef && openButtonRef ? 
     <>
       {isOpen ? 
-        direction === 'left' ? 
-          <PrimerOverlay
-            initialFocusRef={closeButtonRef}
-            returnFocusRef={openButtonRef}
-            ignoreClickRefs={[openButtonRef]}
-            onEscape={closeOverlay}
-            onClickOutside={closeOverlay}
-            width="auto"
-            anchorSide="inside-right"
-            top={top}
-          >
-            <Box sx={{
-              /* We need to remove the padding */
-              height: `calc(100vh - ${top}px - 8px)`,
-              width,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: '4px'
-            }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'right',
-                  width: '100%'
-                }}
-              >
-                <IconButton
-                  variant='invisible'
-                  ref={closeButtonRef}
-                  onClick={closeOverlay}
-                  icon={XIcon}
-                  aria-labelledby="close"
-                />
+        direction === 'left' ?
+          <Box sx={{ zIndex }}>
+            <PrimerOverlay
+              initialFocusRef={closeButtonRef}
+              returnFocusRef={openButtonRef}
+              ignoreClickRefs={[openButtonRef]}
+              onEscape={closeOverlay}
+              onClickOutside={closeOverlay}
+              width="auto"
+              anchorSide="inside-right"
+              left={0}
+              position="fixed"
+              top={top}
+            >
+              <Box sx={{
+                /* We need to remove the padding */
+                height: `calc(100vh - ${top}px - 8px)`,
+                width,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '4px'
+              }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'right',
+                    width: '100%'
+                  }}
+                >
+                  <IconButton
+                    variant='invisible'
+                    ref={closeButtonRef}
+                    onClick={closeOverlay}
+                    icon={XIcon}
+                    aria-labelledby="close"
+                  />
+                </Box>
+                {content}
               </Box>
-              {content}
-            </Box>
-          </PrimerOverlay> 
+            </PrimerOverlay>
+          </Box>
         : 
-          <PrimerOverlay
-            initialFocusRef={closeButtonRef}
-            returnFocusRef={openButtonRef}
-            ignoreClickRefs={[openButtonRef]}
-            onEscape={closeOverlay}
-            onClickOutside={closeOverlay}
-            width="auto"
-            anchorSide={'inside-left'}
-            right={0}
-            position="fixed"
-            top={top}
-          >
-            <Box sx={{
-              /* We need to remove the padding */
-              height: `calc(100vh - ${top}px - 8px)`,
-              width,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: '4px'
-            }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'right',
-                  width: '100%'
-                }}
-              >
-                <IconButton
-                  variant='invisible'
-                  ref={closeButtonRef}
-                  onClick={closeOverlay}
-                  icon={XIcon}
-                  aria-labelledby="close"
-                />
+          <Box sx={{ zIndex }}>
+            <PrimerOverlay
+              initialFocusRef={closeButtonRef}
+              returnFocusRef={openButtonRef}
+              ignoreClickRefs={[openButtonRef]}
+              onEscape={closeOverlay}
+              onClickOutside={closeOverlay}
+              width="auto"
+              anchorSide={'inside-left'}
+              right={0}
+              position="fixed"
+              top={top}
+            >
+              <Box sx={{
+                /* We need to remove the padding */
+                height: `calc(100vh - ${top}px - 8px)`,
+                width,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '4px'
+              }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'right',
+                    width: '100%'
+                  }}
+                >
+                  <IconButton
+                    variant='invisible'
+                    ref={closeButtonRef}
+                    onClick={closeOverlay}
+                    icon={XIcon}
+                    aria-labelledby="close"
+                  />
+                </Box>
+                {content}
               </Box>
-              {content}
-            </Box>
-          </PrimerOverlay> 
+            </PrimerOverlay>
+          </Box>
       : <></>}
     </>
     :
@@ -122,10 +131,11 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
 export const Overlay = ({
   width = '500px',
   direction = 'left',
+  zIndex = 100,
   ...rest
 }: OverlayProps) => {
   return (
-    <PrimerAddonOverlay width={width} direction={direction} {...rest}/>
+    <PrimerAddonOverlay width={width} direction={direction} zIndex={zIndex} {...rest}/>
   )
 };
 

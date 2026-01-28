@@ -1,47 +1,35 @@
 import type { Preview } from "@storybook/react";
-import type { DocsContainerProps } from "@storybook/blocks";
-import { DocsContainer } from "@storybook/blocks";
-import { ThemeProvider, BaseStyles, themeGet, theme } from "@primer/react";
-import { createGlobalStyle } from "styled-components";
-import type { PropsWithChildren } from "react";
+import {
+  toolbarTypes,
+  withThemeProvider,
+} from "../src/_utils/story-helpers";
 
-const GlobalStyle = createGlobalStyle`
-  body,
-  .docs-story {
-    background-color: ${themeGet("colors.canvas.default")};
-    color: ${themeGet("colors.fg.default")};
-  }
-`;
+// Import Primer CSS variables
+import "@primer/primitives/dist/css/primitives.css";
+import "@primer/primitives/dist/css/functional/themes/light.css";
+import "@primer/primitives/dist/css/functional/themes/dark.css";
+
+export const globalTypes = toolbarTypes;
+export const decorators = [withThemeProvider];
 
 const preview: Preview = {
   parameters: {
     controls: {
+      expanded: true,
+      hideNoControlsWarning: true,
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
+        date: /Date$/i,
       },
     },
-    docs: {
-      container: ({ children, context }: PropsWithChildren<DocsContainerProps>) => (
-        <ThemeProvider theme={theme} colorMode="light">
-          <GlobalStyle />
-          <BaseStyles>
-            <DocsContainer context={context}>{children}</DocsContainer>
-          </BaseStyles>
-        </ThemeProvider>
-      ),
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Welcome', '*'],
+        locales: 'en-US',
+      },
     },
   },
-  decorators: [
-    (Story) => (
-      <ThemeProvider theme={theme} colorMode="light">
-        <GlobalStyle />
-        <BaseStyles>
-          <Story />
-        </BaseStyles>
-      </ThemeProvider>
-    ),
-  ],
 };
 
 export default preview;

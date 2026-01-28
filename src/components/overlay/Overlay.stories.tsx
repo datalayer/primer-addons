@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Heading, Text, ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button, theme } from "@primer/react";
+import { Heading, Text, ThemeProviderProps, Box, Button } from "@primer/react";
 import type { Meta, StoryObj } from '@storybook/react';
 import { Overlay, OverlayProps } from '../..';
 
@@ -24,29 +24,25 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   return (
-    <ThemeProvider theme={theme} colorMode={props.colorMode}>
-      <BaseStyles>
-        <Box p={3} bg="canvas.default">
-          <Box>
-            <Box sx={{width: '100%', bg: 'darkgray'}}>
-              <Heading ref={headingRef}>Header</Heading>
-            </Box>
-            <Box>
-              <Button ref={openButtonRef} onClick={() => {setIsOpen(!isOpen)}}>
-                Open overlay
-              </Button>
-              <Overlay
-                {...props}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                openButtonRef={openButtonRef}
-                closeButtonRef={closeButtonRef}
-                />
-            </Box>
-          </Box>
+    <Box p={3} bg="canvas.default">
+      <Box>
+        <Box sx={{width: '100%', bg: 'darkgray'}}>
+          <Heading ref={headingRef}>Header</Heading>
         </Box>
-      </BaseStyles>
-    </ThemeProvider>
+        <Box>
+          <Button ref={openButtonRef} onClick={() => {setIsOpen(!isOpen)}}>
+            Open overlay
+          </Button>
+          <Overlay
+            {...props}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            openButtonRef={openButtonRef}
+            closeButtonRef={closeButtonRef}
+            />
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

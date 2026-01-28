@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider, ThemeProviderProps, BaseStyles, Box } from "@primer/react";
+import { ThemeProviderProps, Box } from "@primer/react";
 import { CheckIcon } from "@primer/octicons-react";
 import { CloseableFlash, CloseableFlashProps } from '../..';
 
@@ -20,15 +20,11 @@ type Story = StoryObj<typeof meta>;
 
 const ThemedCloseableFlash = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CloseableFlashProps) => {
   return (
-    <ThemeProvider colorMode={props.colorMode}>
-      <BaseStyles>
-        <Box p={3} bg="canvas.default">
-          <Box>
-            <CloseableFlash {...props}/>
-          </Box>
-        </Box>
-      </BaseStyles>
-    </ThemeProvider>
+    <Box p={3} bg="canvas.default">
+      <Box>
+        <CloseableFlash {...props}/>
+      </Box>
+    </Box>
   )
 }
 

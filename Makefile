@@ -54,7 +54,7 @@ publish-npm: # publish the npm packages
 		npm publish --access public
 	echo https://www.npmjs.com/package/@datalayer/primer-addons?activeTab=versions
 
-publish-storybook: ## publish
+deploy-storybook: ## deploy-storybook to s3 and invalidate cloudfront
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \
 		rm -fr storybook-static/* && \
 	  npm run build-storybook && \

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider, ThemeProviderProps, BaseStyles, Box } from "@primer/react";
+import { ThemeProviderProps, Box } from "@primer/react";
 import { ContentLoader, ContentLoaderProps } from '../..';
 
 const meta = {
@@ -18,13 +18,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const ThemedContentLoader = (props: {colorMode?: ThemeProviderProps["colorMode"]} & ContentLoaderProps) =>
-  <ThemeProvider colorMode={props.colorMode}>
-    <BaseStyles>
-      <Box p={3} bg="canvas.default">
-        <ContentLoader {...props}/>
-      </Box>
-    </BaseStyles>
-  </ThemeProvider>
+  <Box p={3} bg="canvas.default">
+    <ContentLoader {...props}/>
+  </Box>
 
 export const ContentLoaderDay: Story = {
   args: {

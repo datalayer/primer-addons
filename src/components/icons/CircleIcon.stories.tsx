@@ -1,10 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  ThemeProvider,
-  ThemeProviderProps,
-  BaseStyles,
-  Box
-} from "@primer/react";
+import { ThemeProviderProps, Box } from "@primer/react";
 import { CircleIcon, CircleIconProps } from '../..';
 
 const meta = {
@@ -23,13 +18,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const ThemedCircleIcon = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CircleIconProps) =>
-  <ThemeProvider colorMode={props.colorMode}>
-    <BaseStyles>
-      <Box p={3} bg="canvas.default">
-        <CircleIcon {...props}/>
-      </Box>
-    </BaseStyles>
-  </ThemeProvider>
+  <Box p={3} bg="canvas.default">
+    <CircleIcon {...props}/>
+  </Box>
 
 export const CircleIconDay: Story = {
   args: {

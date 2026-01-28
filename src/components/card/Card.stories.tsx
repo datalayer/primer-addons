@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button, IconButton, Text, ButtonGroup } from "@primer/react";
+import { ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button, IconButton, Text, ButtonGroup, theme } from "@primer/react";
 import { ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import { Card, CardProps } from '../..';
 
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 const ThemedCard = (props: {colorMode?: ThemeProviderProps["colorMode"]} & CardProps) => {
   return (
-    <ThemeProvider colorMode={props.colorMode}>
+    <ThemeProvider theme={theme} colorMode={props.colorMode}>
       <BaseStyles>
         <Box p={3} bg="canvas.default">
           <Box>

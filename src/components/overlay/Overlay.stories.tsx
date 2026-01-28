@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Heading, Text, ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button } from "@primer/react";
+import { Heading, Text, ThemeProvider, ThemeProviderProps, BaseStyles, Box, Button, theme } from "@primer/react";
 import type { Meta, StoryObj } from '@storybook/react';
 import { Overlay, OverlayProps } from '../..';
 
@@ -24,7 +24,7 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   return (
-    <ThemeProvider colorMode={props.colorMode}>
+    <ThemeProvider theme={theme} colorMode={props.colorMode}>
       <BaseStyles>
         <Box p={3} bg="canvas.default">
           <Box>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IconButton, Overlay as PrimerOverlay } from "@primer/react";
+import { IconButton, Overlay as PrimerOverlay, BaseStyles, ThemeProvider, useTheme } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 import { Box } from '../box/Box';
 
@@ -27,12 +27,47 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
     width,
     zIndex,
   } = props;
+  const { theme, colorMode } = useTheme();
   const [direction, _] = useState(propsDirection);
   const [top, setTop] = useState(0);
   useEffect(() => {
     setTop(headingRef?.current?.getBoundingClientRect().bottom ?? 0)
   }, [headingRef])
   const closeOverlay = () => setIsOpen!(false);
+
+  const overlayContent = (
+    <ThemeProvider theme={theme} colorMode={colorMode}>
+      <BaseStyles>
+        <Box sx={{
+          /* We need to remove the padding */
+          height: `calc(100vh - ${top}px - 8px)`,
+          width,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '4px'
+        }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'right',
+              width: '100%'
+            }}
+          >
+            <IconButton
+              variant='invisible'
+              ref={closeButtonRef}
+              onClick={closeOverlay}
+              icon={XIcon}
+              aria-labelledby="close"
+            />
+          </Box>
+          {content}
+        </Box>
+      </BaseStyles>
+    </ThemeProvider>
+  );
+
   return (
     closeButtonRef && openButtonRef ? 
     <>
@@ -51,32 +86,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
               position="fixed"
               top={top}
             >
-              <Box sx={{
-                /* We need to remove the padding */
-                height: `calc(100vh - ${top}px - 8px)`,
-                width,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '4px'
-              }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'right',
-                    width: '100%'
-                  }}
-                >
-                  <IconButton
-                    variant='invisible'
-                    ref={closeButtonRef}
-                    onClick={closeOverlay}
-                    icon={XIcon}
-                    aria-labelledby="close"
-                  />
-                </Box>
-                {content}
-              </Box>
+              {overlayContent}
             </PrimerOverlay>
           </Box>
         : 
@@ -93,32 +103,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
               position="fixed"
               top={top}
             >
-              <Box sx={{
-                /* We need to remove the padding */
-                height: `calc(100vh - ${top}px - 8px)`,
-                width,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '4px'
-              }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'right',
-                    width: '100%'
-                  }}
-                >
-                  <IconButton
-                    variant='invisible'
-                    ref={closeButtonRef}
-                    onClick={closeOverlay}
-                    icon={XIcon}
-                    aria-labelledby="close"
-                  />
-                </Box>
-                {content}
-              </Box>
+              {overlayContent}
             </PrimerOverlay>
           </Box>
       : <></>}

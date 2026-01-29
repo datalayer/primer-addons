@@ -12,6 +12,27 @@ const config: StorybookConfig = {
     options: {},
   },
   docs: {},
+  viteFinal: async config => {
+    // Configure resolve aliases for Node.js built-in modules
+    config.resolve = {
+      ...config.resolve,
+      alias: [
+        ...(Array.isArray(config.resolve?.alias) ? config.resolve.alias : []),
+        {
+          find: 'crypto',
+          replacement: 'crypto-browserify',
+        },
+      ],
+    };
+
+    // Configure optimization dependencies
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: [...(config.optimizeDeps?.include || []), 'crypto-browserify'],
+    };
+
+    return config;
+  },
 };
 
 export default config;

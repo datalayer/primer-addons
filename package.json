@@ -3,14 +3,17 @@
   "version": "1.0.6",
   "license": "BSD-3-Clause",
   "scripts": {
-    "dev": "vite",
-    "start": "vite",
     "build": "tsc && vite build",
-    "watch": "tsc -w",
+    "build-storybook": "storybook build",
+    "build:lib": "npm run clean:lib&& tsc -b",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "dev": "vite",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "start": "vite",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "watch": "tsc -w",
+    "watch:lib": "tsc -b -w"
   },
   "main": "lib/index.js",
   "files": [

@@ -12,7 +12,7 @@
  */
 
 import { type ReactNode, isValidElement } from 'react';
-import { IconButton, Tooltip } from '@primer/react';
+import { IconButton } from '@primer/react';
 import type { ToolbarButtonItem } from './types';
 
 export interface ToolbarButtonProps {
@@ -35,10 +35,17 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
     }
   }
 
-  const button = (
+  // Use IconButton's built-in `description` prop for the tooltip instead of
+  // wrapping in a separate <Tooltip>.  Primer v37's IconButton already renders
+  // its own Tooltip internally; nesting a second one triggers an invariant
+  // ("expects a single React element that contains interactive content").
+  return (
     <IconButton
       icon={() => <>{iconElement}</>}
       aria-label={ariaLabel}
+      description={title}
+      tooltipDirection="s"
+      unsafeDisableTooltip={!title}
       onClick={onClick}
       disabled={disabled}
       variant="invisible"
@@ -54,16 +61,6 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
       }}
     />
   );
-
-  if (title) {
-    return (
-      <Tooltip text={title} aria-label={title} direction="s">
-        {button}
-      </Tooltip>
-    );
-  }
-
-  return button;
 }
 
 export default ToolbarButton;

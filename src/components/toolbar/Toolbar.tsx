@@ -58,7 +58,7 @@ export function Toolbar({
         borderColor: 'border.default',
         position: 'sticky',
         top: 0,
-        zIndex: 2,
+        zIndex: 1,
       }}
     >
       <ToolbarRenderer items={allItems} disabled={disabled} size="medium" />

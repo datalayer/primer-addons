@@ -83,6 +83,12 @@ export interface ToolbarDropdownItem extends ToolbarItemBase {
   icon?: React.ComponentType<IconProps> | ReactNode;
   /** Text label for the trigger */
   label?: string;
+  /**
+   * Fixed minimum width (in px) for the trigger's label area.
+   * Set this to the width of the longest possible label so the
+   * toolbar doesn't reflow when the selection changes.
+   */
+  minWidth?: number;
   /** Dropdown options */
   options: ToolbarDropdownOption[];
 }

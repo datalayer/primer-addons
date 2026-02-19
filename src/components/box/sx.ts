@@ -38,7 +38,8 @@ export interface SxProp {
   sx?: BetterSystemStyleObject
 }
 
-const sx = (props: SxProp) => css(props.sx)
+const sx = (props: SxProp & { theme?: Record<string, unknown> }) =>
+  css(props.sx)(props.theme ?? {})
 
 export default sx
 

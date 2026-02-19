@@ -53,6 +53,7 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
       type="button"
       aria-label={ariaLabel}
       title={title}
+      onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       disabled={disabled}
       style={{

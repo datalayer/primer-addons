@@ -40,9 +40,7 @@ function setFloatingPosition(
   verticalGap: number = 10,
   horizontalOffset: number = 5,
 ) {
-  const scrollerElem = anchorElem.parentElement;
-
-  if (targetRect === null || !scrollerElem) {
+  if (targetRect === null) {
     floatingElem.style.opacity = '0';
     floatingElem.style.transform = 'translateY(-4px)';
     floatingElem.style.top = '-10000px';
@@ -52,21 +50,25 @@ function setFloatingPosition(
 
   const floatingElemRect = floatingElem.getBoundingClientRect();
   const anchorElementRect = anchorElem.getBoundingClientRect();
-  const editorScrollerRect = scrollerElem.getBoundingClientRect();
 
-  let top = targetRect.top - floatingElemRect.height - verticalGap;
-  let left =
-    targetRect.left -
-    horizontalOffset -
-    (anchorElementRect.left - editorScrollerRect.left);
+  // Convert viewport-relative coordinates to anchor-relative coordinates.
+  // The toolbar is position:absolute inside anchorElem (position:relative),
+  // so top/left must be relative to the anchor's border box.
+  let top =
+    targetRect.top - anchorElementRect.top - floatingElemRect.height - verticalGap;
+  let left = targetRect.left - anchorElementRect.left - horizontalOffset;
 
-  // Keep within anchor bounds
-  if (top < anchorElementRect.top) {
-    top = targetRect.bottom + verticalGap;
+  // If toolbar would go above the anchor, flip it below the selection
+  if (top < 0) {
+    top = targetRect.bottom - anchorElementRect.top + verticalGap;
   }
 
-  if (left + floatingElemRect.width > editorScrollerRect.right) {
-    left = editorScrollerRect.right - floatingElemRect.width - horizontalOffset;
+  // Keep within horizontal bounds
+  if (left + floatingElemRect.width > anchorElementRect.width) {
+    left = anchorElementRect.width - floatingElemRect.width - horizontalOffset;
+  }
+  if (left < horizontalOffset) {
+    left = horizontalOffset;
   }
 
   floatingElem.style.opacity = '1';
@@ -114,6 +116,8 @@ export function FloatingToolbar({
 
     const update = () => updatePosition();
     window.addEventListener('resize', update);
+    // Capture phase catches scroll on any ancestor (page, container, etc.)
+    window.addEventListener('scroll', update, true);
 
     const scrollerElem = anchorElement?.parentElement;
     if (scrollerElem) {
@@ -125,6 +129,7 @@ export function FloatingToolbar({
 
     return () => {
       window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update, true);
       if (scrollerElem) {
         scrollerElem.removeEventListener('scroll', update);
       }

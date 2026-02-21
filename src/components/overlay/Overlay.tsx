@@ -34,6 +34,21 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
     setTop(headingRef?.current?.getBoundingClientRect().bottom ?? 0)
   }, [headingRef])
   const closeOverlay = () => setIsOpen!(false);
+  /**
+   * Don't close the overlay when the click outside lands on a portaled
+   * Dialog (role="dialog").  Primer Dialogs render in a portal at
+   * document.body, so they are "outside" the Overlay DOM tree and would
+   * otherwise trigger an unwanted close.
+   */
+  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    if (
+      e.target instanceof HTMLElement &&
+      e.target.closest('[role="dialog"]')
+    ) {
+      return;
+    }
+    closeOverlay();
+  };
 
   const overlayContent = (
     <ThemeProvider theme={theme} colorMode={colorMode}>
@@ -79,7 +94,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
               returnFocusRef={openButtonRef}
               ignoreClickRefs={[openButtonRef]}
               onEscape={closeOverlay}
-              onClickOutside={closeOverlay}
+              onClickOutside={handleClickOutside}
               width="auto"
               anchorSide="inside-right"
               left={0}
@@ -96,7 +111,7 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
               returnFocusRef={openButtonRef}
               ignoreClickRefs={[openButtonRef]}
               onEscape={closeOverlay}
-              onClickOutside={closeOverlay}
+              onClickOutside={handleClickOutside}
               width="auto"
               anchorSide={'inside-left'}
               right={0}

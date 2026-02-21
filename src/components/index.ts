@@ -5,3 +5,4 @@ export * from "./closeable-flash/CloseableFlash";
 export * from "./icons/CircleIcon";
 export * from "./overlay/Overlay";
 export * from "./slider/Slider";
+export * from "./toolbar";

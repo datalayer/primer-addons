@@ -32,11 +32,13 @@ const matrixLight: ThemeColorDefs = {
     fg: matrixColors.greenText,
     emphasis: matrixColors.greenBrand,
     muted: matrixColors.greenAccent,
+    subtle: matrixColors.greenTint,
   },
   success: {
     fg: matrixColors.greenText,
     emphasis: matrixColors.greenBrand,
     muted: matrixColors.greenAccent,
+    subtle: matrixColors.greenTint,
   },
   btn: {
     text: '#0A2E1A',

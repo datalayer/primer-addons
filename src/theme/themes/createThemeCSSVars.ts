@@ -155,12 +155,6 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
   if (defs.canvas.subtle) {
     optional['--bgColor-muted'] = defs.canvas.subtle;
   }
-  if (defs.accent.subtle) {
-    optional['--bgColor-accent-subtle'] = defs.accent.subtle;
-  }
-  if (defs.success.subtle) {
-    optional['--bgColor-success-subtle'] = defs.success.subtle;
-  }
 
   return {
     /* ── Canvas / Background ─────────────────────────────────────── */
@@ -179,14 +173,14 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     /* ── Accent ──────────────────────────────────────────────────── */
     '--fgColor-accent': defs.accent.fg,
     '--bgColor-accent-emphasis': defs.accent.emphasis,
-    '--bgColor-accent-muted': defs.accent.muted,
+    '--bgColor-accent-muted': defs.accent.subtle ?? defs.accent.muted,
     '--borderColor-accent-emphasis': defs.accent.emphasis,
     '--borderColor-accent-muted': defs.accent.muted,
 
     /* ── Success ─────────────────────────────────────────────────── */
     '--fgColor-success': defs.success.fg,
     '--bgColor-success-emphasis': defs.success.emphasis,
-    '--bgColor-success-muted': defs.success.muted,
+    '--bgColor-success-muted': defs.success.subtle ?? defs.success.muted,
     '--borderColor-success-emphasis': defs.success.emphasis,
     '--borderColor-success-muted': defs.success.muted,
 

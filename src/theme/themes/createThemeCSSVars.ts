@@ -47,6 +47,12 @@ export interface ThemeColorDefs {
     subtle?: string;
   };
 
+  /* Generic border colours (optional — falls back to btn.border) */
+  border?: {
+    default: string;
+    muted: string;
+  };
+
   /* Default button */
   btn: {
     text: string;
@@ -185,8 +191,8 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     '--borderColor-success-muted': defs.success.muted,
 
     /* ── Border (generic) ────────────────────────────────────────── */
-    '--borderColor-default': defs.btn.border,
-    '--borderColor-muted': defs.btn.border,
+    '--borderColor-default': defs.border?.default ?? defs.btn.border,
+    '--borderColor-muted': defs.border?.muted ?? defs.btn.border,
 
     /* ── Default button ──────────────────────────────────────────── */
     '--button-default-fgColor-rest': defs.btn.text,

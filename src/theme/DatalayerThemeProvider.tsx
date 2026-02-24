@@ -3,10 +3,11 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type CSSProperties } from 'react';
+import { type CSSProperties, useEffect } from 'react';
 import { BaseStyles, ThemeProvider, ThemeProviderProps } from '@primer/react';
 import { useSystemColorMode } from './useSystemColorMode';
 import { datalayerTheme, datalayerThemeStyles } from './themes/datalayerTheme';
+import { setupPrimerPortals } from '../utils/Portals';
 
 /**
  * Shared typographic rhythm — clean, spacious feel inspired by
@@ -76,6 +77,12 @@ export function DatalayerThemeProvider(
   const resolvedTheme = theme ?? datalayerTheme;
   const styles = themeStyles ?? datalayerThemeStyles;
   const resolvedStyles = isDark ? styles.dark : styles.light;
+
+  // Keep document.body portal-root attributes in sync so that Primer
+  // portals (modals, dialogs, overlays) inherit the correct color mode.
+  useEffect(() => {
+    setupPrimerPortals(resolvedColorMode === 'night' ? 'dark' : resolvedColorMode === 'day' ? 'light' : resolvedColorMode as 'light' | 'dark');
+  }, [resolvedColorMode]);
 
   return (
     <ThemeProvider

@@ -39,6 +39,10 @@ const datalayerLight: ThemeColorDefs = {
     emphasis: datalayerColors.greenBrand,
     muted: datalayerColors.greenAccent,
   },
+  border: {
+    default: '#d1d9e0',
+    muted: '#e0e6eb',
+  },
   btn: {
     text: datalayerColors.black,
     bg: datalayerColors.white,

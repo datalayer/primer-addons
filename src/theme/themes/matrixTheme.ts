@@ -195,7 +195,21 @@ const matrixDark: ThemeColorDefs = {
  */
 export const matrixTheme = primerTheme;
 
+/**
+ * Monospace font stack for the Matrix terminal aesthetic.
+ * Uses fonts pre-installed across macOS / Windows / Linux so no
+ * web-font loading is required.
+ */
+const matrixFontFamily =
+  '"SF Mono", "Cascadia Code", "Fira Code", Menlo, Consolas, "Liberation Mono", "Courier New", monospace';
+
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
-export const matrixThemeStyles = buildThemeStyles(matrixLight, matrixDark);
+export const matrixThemeStyles = (() => {
+  const base = buildThemeStyles(matrixLight, matrixDark);
+  return {
+    light: { ...base.light, fontFamily: matrixFontFamily } as typeof base.light,
+    dark: { ...base.dark, fontFamily: matrixFontFamily } as typeof base.dark,
+  };
+})();
 
 export default matrixTheme;

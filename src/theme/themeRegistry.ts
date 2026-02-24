@@ -20,6 +20,14 @@ import { matrixColors } from './colors/matrixColors';
 /** Available theme variants. */
 export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix';
 
+/** A pair of colours for a two-stop gradient. */
+export interface GradientPair {
+  /** Start colour (brighter / brand). */
+  from: string;
+  /** End colour (deeper / hover). */
+  to: string;
+}
+
 /**
  * Complete configuration for a theme, including the Primer theme object,
  * display metadata, and CSS custom property overrides per color mode.
@@ -40,6 +48,14 @@ export interface ThemeConfig {
     light: CSSProperties;
     dark: CSSProperties;
   };
+  /**
+   * Per-mode gradient pair for card backgrounds, banners, and other
+   * decorative surfaces that need a themed two-colour gradient.
+   */
+  cardGradient: {
+    light: GradientPair;
+    dark: GradientPair;
+  };
 }
 
 /* ─── Registry ────────────────────────────────────────────────────────── */
@@ -52,6 +68,10 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     defaultColorMode: 'auto',
     primerTheme: datalayerTheme,
     themeStyles: datalayerThemeStyles,
+    cardGradient: {
+      light: { from: datalayerColors.greenBrand,  to: datalayerColors.greenText },    // #16A085 → #117A65
+      dark:  { from: datalayerColors.greenAccent, to: datalayerColors.greenBrand },   // #1ABC9C → #16A085
+    },
   },
   spatial: {
     label: 'Spatial',
@@ -60,6 +80,10 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     defaultColorMode: 'auto',
     primerTheme: spatialTheme,
     themeStyles: spatialThemeStyles,
+    cardGradient: {
+      light: { from: spatialColors.indigoBrand,   to: spatialColors.indigoText },     // #4F46E5 → #3730A3
+      dark:  { from: spatialColors.indigoAccent,  to: spatialColors.indigoBrand },    // #6366F1 → #4F46E5
+    },
   },
   lovely: {
     label: 'Lovely',
@@ -68,6 +92,10 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     defaultColorMode: 'auto',
     primerTheme: lovelyTheme,
     themeStyles: lovelyThemeStyles,
+    cardGradient: {
+      light: { from: lovelyColors.roseBrand,      to: lovelyColors.roseText },        // #DB2777 → #9D174D
+      dark:  { from: lovelyColors.roseAccent,     to: lovelyColors.roseBrand },       // #EC4899 → #DB2777
+    },
   },
   matrix: {
     label: 'Matrix',
@@ -76,6 +104,10 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     defaultColorMode: 'dark',
     primerTheme: matrixTheme,
     themeStyles: matrixThemeStyles,
+    cardGradient: {
+      light: { from: matrixColors.greenBrand,     to: matrixColors.greenText },       // #16A085 → #117A65
+      dark:  { from: matrixColors.greenGlow,      to: matrixColors.greenHover },      // #39FF14 → #0E6655
+    },
   },
 };
 
@@ -85,4 +117,16 @@ export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 
 /** Look up a theme config by variant name. */
 export function getThemeConfig(variant: ThemeVariant): ThemeConfig {
   return themeConfigs[variant];
+}
+
+/**
+ * Resolve the card gradient for a given theme variant and colour mode.
+ * Falls back to `datalayer` / `light` when values are missing.
+ */
+export function getCardGradient(
+  variant: ThemeVariant = 'datalayer',
+  colorMode: 'light' | 'dark' | 'auto' = 'light',
+): GradientPair {
+  const mode = colorMode === 'auto' ? 'light' : colorMode;
+  return themeConfigs[variant]?.cardGradient?.[mode] ?? themeConfigs.datalayer.cardGradient.light;
 }

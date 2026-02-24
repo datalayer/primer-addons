@@ -146,6 +146,10 @@ export interface ThemeColorDefs {
  * | Outline button   | `--button-outline-fgColor-rest`        |
  * | Danger button    | `--button-danger-bgColor-hover`        |
  * | Button counters  | `--buttonCounter-primary-bgColor-rest` |
+ * | Control track    | `--controlTrack-bgColor-rest`          |
+ * | Control checked  | `--control-checked-bgColor-rest`       |
+ * | Control knob     | `--controlKnob-bgColor-rest`           |
+ * | List hover       | `--control-transparent-bgColor-hover`  |
  * | Legacy aliases   | `--color-btn-primary-bg`               |
  * | Brand (custom)   | `--brand-color-canvas-default`         |
  */
@@ -271,6 +275,40 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     '--button-invisible-iconColor-rest': defs.fg.muted,
     '--button-invisible-iconColor-hover': defs.fg.default,
     '--button-invisible-iconColor-disabled': defs.fg.muted,
+
+    /* ── Control track (unchecked toggle / switch) ────────────── */
+    '--controlTrack-bgColor-rest': defs.border?.muted ?? defs.btn.border,
+    '--controlTrack-bgColor-hover': defs.border?.default ?? defs.btn.border,
+    '--controlTrack-bgColor-active': defs.border?.default ?? defs.btn.hoverBorder,
+    '--controlTrack-bgColor-disabled': defs.fg.muted,
+    '--controlTrack-fgColor-rest': defs.fg.muted,
+    '--controlTrack-fgColor-disabled': defs.fg.onEmphasis,
+    '--controlTrack-borderColor-rest': 'transparent',
+
+    /* ── Control checked (checked toggle / switch track) ──────── */
+    '--control-checked-bgColor-rest': defs.accent.emphasis,
+    '--control-checked-bgColor-hover': defs.btn.primary.hoverBg,
+    '--control-checked-bgColor-active': defs.btn.primary.selectedBg,
+    '--control-checked-fgColor-rest': defs.btn.primary.text,
+    '--control-checked-fgColor-disabled': defs.btn.primary.text,
+    '--control-checked-borderColor-rest': 'transparent',
+
+    /* ── Control knob (toggle switch handle) ──────────────────── */
+    '--controlKnob-bgColor-rest': defs.canvas.default,
+    '--controlKnob-bgColor-checked': defs.canvas.default,
+    '--controlKnob-bgColor-disabled': defs.canvas.subtle ?? defs.canvas.default,
+    '--controlKnob-borderColor-rest': defs.border?.default ?? defs.btn.border,
+    '--controlKnob-borderColor-checked': defs.accent.emphasis,
+
+    /* ── Control transparent (action list / nav list hover) ───── */
+    '--control-transparent-bgColor-hover': defs.btn.hoverBg,
+    '--control-transparent-bgColor-active': defs.btn.activeBg,
+    '--control-transparent-bgColor-selected': defs.btn.selectedBg,
+    '--control-transparent-borderColor-hover': 'transparent',
+    '--control-transparent-borderColor-active': 'transparent',
+
+    /* ── Menu ────────────────────────────────────────────────────── */
+    '--menu-bgColor-active': defs.btn.hoverBg,
 
     /* ── Legacy / compat aliases ─────────────────────────────────── */
     '--color-btn-primary-bg': defs.btn.primary.bg,

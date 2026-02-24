@@ -20,4 +20,11 @@ export const spatialColors = {
   indigoTint: '#EEF2FF', // Soft background for callouts
   indigoBright: '#818CF8', // Highlights & glow on dark
   indigoHover: '#312E81', // Primary button hover
+
+  // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
+  brightGlow: '#7C4DFF', // Electric violet — primary glow
+  brightPop: '#448AFF', // Neon blue — contrasting accent
+  brightSpark: '#E040FB', // Vivid magenta — sparkle / tertiary
+  brightBlaze: '#FF5252', // Neon red — warm accent
+  brightSurge: '#00B0FF', // Deep sky blue — cool accent
 };

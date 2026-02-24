@@ -20,4 +20,11 @@ export const lovelyColors = {
   roseTint: '#FDF2F8', // Soft background for callouts
   roseBright: '#F472B6', // Highlights & glow on dark
   roseHover: '#831843', // Primary button hover
+
+  // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
+  brightGlow: '#FF4081', // Hot pink — primary glow
+  brightPop: '#FF6E40', // Vivid coral — contrasting accent
+  brightSpark: '#EA80FC', // Electric fuchsia — sparkle / tertiary
+  brightBlaze: '#FF1744', // Vivid crimson — warm accent
+  brightSurge: '#536DFE', // Indigo blue — cool accent
 };

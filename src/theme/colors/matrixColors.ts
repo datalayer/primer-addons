@@ -25,4 +25,11 @@ export const matrixColors = {
   greenGlow: '#39FF14', // Neon phosphor glow — brightest accent on dark
   greenHover: '#0E6655', // Datalayer hover — primary button hover
   greenTerminal: '#003B00', // Deep terminal — dark mode subtle/canvas
+
+  // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
+  brightGlow: '#39FF14', // Neon green — primary glow (re-stated for palette API)
+  brightPop: '#00FF88', // Phosphor cyan — contrasting accent
+  brightSpark: '#CCFF00', // Acid lime — sparkle / tertiary
+  brightBlaze: '#FF0040', // Matrix red pill — warm accent
+  brightSurge: '#00E5FF', // Electric blue — cool accent
 };

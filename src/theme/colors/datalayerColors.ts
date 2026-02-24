@@ -20,4 +20,11 @@ export const datalayerColors = {
   greenTint: '#E9F7F1', // Soft background for success / callouts
   greenBright: '#2ECC71', // Highlights and glow on dark backgrounds
   greenHover: '#0E6655', // Primary button hover
+
+  // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
+  brightGlow: '#00D68F', // Ultra-vivid emerald — primary glow
+  brightPop: '#00E5FF', // Electric cyan — contrasting accent
+  brightSpark: '#76FF03', // Lime neon — sparkle / tertiary
+  brightBlaze: '#FF1744', // Vivid red — warm accent
+  brightSurge: '#2979FF', // Electric blue — cool accent
 };

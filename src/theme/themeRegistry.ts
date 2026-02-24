@@ -29,6 +29,25 @@ export interface GradientPair {
 }
 
 /**
+ * Vivid colour triplet for SVG illustrations.
+ *
+ * Inspired by OpenAI's blog — ultra-saturated, luminous hues designed
+ * to glow and pop against both light and dark backgrounds.
+ */
+export interface BrightPalette {
+  /** Primary vivid accent — the "star" glow colour. */
+  glow: string;
+  /** Contrasting vivid colour — analogous/complement. */
+  pop: string;
+  /** Third vivid colour — sparkle / small highlights. */
+  spark: string;
+  /** Vivid red / warm accent — energy, urgency, warmth. */
+  blaze: string;
+  /** Vivid blue / cool accent — depth, trust, electricity. */
+  surge: string;
+}
+
+/**
  * Complete configuration for a theme, including the Primer theme object,
  * display metadata, and CSS custom property overrides per color mode.
  */
@@ -56,6 +75,11 @@ export interface ThemeConfig {
     light: GradientPair;
     dark: GradientPair;
   };
+  /**
+   * Vivid colour triplet for SVG illustrations — ultra-saturated,
+   * luminous hues that glow and pop (OpenAI-blog style).
+   */
+  brightPalette: BrightPalette;
 }
 
 /* ─── Registry ────────────────────────────────────────────────────────── */
@@ -72,6 +96,13 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       light: { from: datalayerColors.greenBrand,  to: datalayerColors.greenText },    // #16A085 → #117A65
       dark:  { from: datalayerColors.greenAccent, to: datalayerColors.greenBrand },   // #1ABC9C → #16A085
     },
+    brightPalette: {
+      glow: datalayerColors.brightGlow,     // #00D68F — vivid emerald
+      pop: datalayerColors.brightPop,       // #00E5FF — electric cyan
+      spark: datalayerColors.brightSpark,   // #76FF03 — lime neon
+      blaze: datalayerColors.brightBlaze,   // #FF1744 — vivid red
+      surge: datalayerColors.brightSurge,   // #2979FF — electric blue
+    },
   },
   spatial: {
     label: 'Spatial',
@@ -83,6 +114,13 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     cardGradient: {
       light: { from: spatialColors.indigoBrand,   to: spatialColors.indigoText },     // #4F46E5 → #3730A3
       dark:  { from: spatialColors.indigoAccent,  to: spatialColors.indigoBrand },    // #6366F1 → #4F46E5
+    },
+    brightPalette: {
+      glow: spatialColors.brightGlow,      // #7C4DFF — electric violet
+      pop: spatialColors.brightPop,        // #448AFF — neon blue
+      spark: spatialColors.brightSpark,    // #E040FB — vivid magenta
+      blaze: spatialColors.brightBlaze,    // #FF5252 — neon red
+      surge: spatialColors.brightSurge,    // #00B0FF — deep sky blue
     },
   },
   lovely: {
@@ -96,6 +134,13 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       light: { from: lovelyColors.roseBrand,      to: lovelyColors.roseText },        // #DB2777 → #9D174D
       dark:  { from: lovelyColors.roseAccent,     to: lovelyColors.roseBrand },       // #EC4899 → #DB2777
     },
+    brightPalette: {
+      glow: lovelyColors.brightGlow,       // #FF4081 — hot pink
+      pop: lovelyColors.brightPop,         // #FF6E40 — vivid coral
+      spark: lovelyColors.brightSpark,     // #EA80FC — electric fuchsia
+      blaze: lovelyColors.brightBlaze,     // #FF1744 — vivid crimson
+      surge: lovelyColors.brightSurge,     // #536DFE — indigo blue
+    },
   },
   matrix: {
     label: 'Matrix',
@@ -107,6 +152,13 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     cardGradient: {
       light: { from: matrixColors.greenBrand,     to: matrixColors.greenText },       // #16A085 → #117A65
       dark:  { from: matrixColors.greenGlow,      to: matrixColors.greenHover },      // #39FF14 → #0E6655
+    },
+    brightPalette: {
+      glow: matrixColors.brightGlow,       // #39FF14 — neon green
+      pop: matrixColors.brightPop,         // #00FF88 — phosphor cyan
+      spark: matrixColors.brightSpark,     // #CCFF00 — acid lime
+      blaze: matrixColors.brightBlaze,     // #FF0040 — matrix red pill
+      surge: matrixColors.brightSurge,     // #00E5FF — electric blue
     },
   },
 };
@@ -129,4 +181,11 @@ export function getCardGradient(
 ): GradientPair {
   const mode = colorMode === 'auto' ? 'light' : colorMode;
   return themeConfigs[variant]?.cardGradient?.[mode] ?? themeConfigs.datalayer.cardGradient.light;
+}
+
+/**
+ * Get the bright (vivid / OpenAI-blog-style) palette for a given theme variant.
+ */
+export function getBrightPalette(variant: ThemeVariant = 'datalayer'): BrightPalette {
+  return themeConfigs[variant]?.brightPalette ?? themeConfigs.datalayer.brightPalette;
 }

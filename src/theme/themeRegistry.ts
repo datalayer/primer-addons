@@ -45,6 +45,10 @@ export interface BrightPalette {
   blaze: string;
   /** Vivid blue / cool accent — depth, trust, electricity. */
   surge: string;
+  /** Vivid orange — warm energy, fire, dynamism. */
+  flame: string;
+  /** Vivid yellow / gold — highlights, attention, optimism. */
+  gold: string;
 }
 
 /**
@@ -77,9 +81,15 @@ export interface ThemeConfig {
   };
   /**
    * Vivid colour triplet for SVG illustrations — ultra-saturated,
-   * luminous hues that glow and pop (OpenAI-blog style).
+   * luminous hues that glow and pop on dark backgrounds (OpenAI-blog style).
    */
   brightPalette: BrightPalette;
+  /**
+   * Deeper / richer bright palette for light backgrounds.
+   * Same hue families as `brightPalette` but with higher contrast on
+   * light surfaces so illustrations don't appear faded.
+   */
+  brightPaletteLight: BrightPalette;
 }
 
 /* ─── Registry ────────────────────────────────────────────────────────── */
@@ -102,6 +112,17 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       spark: datalayerColors.brightSpark,   // #76FF03 — lime neon
       blaze: datalayerColors.brightBlaze,   // #FF1744 — vivid red
       surge: datalayerColors.brightSurge,   // #2979FF — electric blue
+      flame: datalayerColors.brightFlame,   // #FF6D00 — vivid orange
+      gold: datalayerColors.brightGold,     // #FFD600 — vivid yellow
+    },
+    brightPaletteLight: {
+      glow: datalayerColors.brightLightGlow,     // #00BFA5 — vivid aqua-green
+      pop: datalayerColors.brightLightPop,       // #00B0FF — vivid sky blue
+      spark: datalayerColors.brightLightSpark,   // #64DD17 — vivid chartreuse
+      blaze: datalayerColors.brightLightBlaze,   // #FF1744 — vivid red
+      surge: datalayerColors.brightLightSurge,   // #2979FF — electric blue
+      flame: datalayerColors.brightLightFlame,   // #FF6D00 — vivid orange
+      gold: datalayerColors.brightLightGold,     // #FFAB00 — vivid amber
     },
   },
   spatial: {
@@ -121,6 +142,17 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       spark: spatialColors.brightSpark,    // #E040FB — vivid magenta
       blaze: spatialColors.brightBlaze,    // #FF5252 — neon red
       surge: spatialColors.brightSurge,    // #00B0FF — deep sky blue
+      flame: spatialColors.brightFlame,    // #FF9100 — amber orange
+      gold: spatialColors.brightGold,      // #FFEA00 — electric yellow
+    },
+    brightPaletteLight: {
+      glow: spatialColors.brightLightGlow,      // #7C4DFF — electric violet
+      pop: spatialColors.brightLightPop,        // #448AFF — neon blue
+      spark: spatialColors.brightLightSpark,    // #D500F9 — vivid purple
+      blaze: spatialColors.brightLightBlaze,    // #FF5252 — neon red
+      surge: spatialColors.brightLightSurge,    // #00B0FF — vivid sky blue
+      flame: spatialColors.brightLightFlame,    // #FF9100 — vivid amber orange
+      gold: spatialColors.brightLightGold,      // #FFC400 — vivid gold
     },
   },
   lovely: {
@@ -140,6 +172,17 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       spark: lovelyColors.brightSpark,     // #EA80FC — electric fuchsia
       blaze: lovelyColors.brightBlaze,     // #FF1744 — vivid crimson
       surge: lovelyColors.brightSurge,     // #536DFE — indigo blue
+      flame: lovelyColors.brightFlame,     // #FF6E40 — coral orange
+      gold: lovelyColors.brightGold,       // #FFD740 — amber gold
+    },
+    brightPaletteLight: {
+      glow: lovelyColors.brightLightGlow,       // #FF4081 — hot pink
+      pop: lovelyColors.brightLightPop,         // #FF6E40 — vivid coral
+      spark: lovelyColors.brightLightSpark,     // #EA80FC — electric fuchsia
+      blaze: lovelyColors.brightLightBlaze,     // #FF1744 — vivid crimson
+      surge: lovelyColors.brightLightSurge,     // #536DFE — vivid indigo
+      flame: lovelyColors.brightLightFlame,     // #FF6E40 — vivid coral orange
+      gold: lovelyColors.brightLightGold,       // #FFD740 — vivid amber gold
     },
   },
   matrix: {
@@ -159,6 +202,17 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       spark: matrixColors.brightSpark,     // #CCFF00 — acid lime
       blaze: matrixColors.brightBlaze,     // #FF0040 — matrix red pill
       surge: matrixColors.brightSurge,     // #00E5FF — electric blue
+      flame: matrixColors.brightFlame,     // #FF6D00 — electric orange
+      gold: matrixColors.brightGold,       // #FFEA00 — glitch yellow
+    },
+    brightPaletteLight: {
+      glow: matrixColors.brightLightGlow,       // #00E676 — vivid green
+      pop: matrixColors.brightLightPop,         // #1DE9B6 — vivid teal-mint
+      spark: matrixColors.brightLightSpark,     // #AEEA00 — vivid lime
+      blaze: matrixColors.brightLightBlaze,     // #FF1744 — vivid red
+      surge: matrixColors.brightLightSurge,     // #00B0FF — vivid sky blue
+      flame: matrixColors.brightLightFlame,     // #FF6D00 — vivid orange
+      gold: matrixColors.brightLightGold,       // #FFAB00 — vivid amber
     },
   },
 };
@@ -185,7 +239,19 @@ export function getCardGradient(
 
 /**
  * Get the bright (vivid / OpenAI-blog-style) palette for a given theme variant.
+ *
+ * When `colorMode` is `'light'` the vivid / saturated light-background palette
+ * is returned — these are punchy, high-saturation colours designed to keep SVG
+ * illustrations vibrant and energetic on near-white surfaces.
+ * Defaults to the dark-optimised neon palette for backward compatibility.
  */
-export function getBrightPalette(variant: ThemeVariant = 'datalayer'): BrightPalette {
-  return themeConfigs[variant]?.brightPalette ?? themeConfigs.datalayer.brightPalette;
+export function getBrightPalette(
+  variant: ThemeVariant = 'datalayer',
+  colorMode?: 'light' | 'dark' | 'auto',
+): BrightPalette {
+  const cfg = themeConfigs[variant] ?? themeConfigs.datalayer;
+  if (colorMode === 'light') {
+    return cfg.brightPaletteLight ?? cfg.brightPalette;
+  }
+  return cfg.brightPalette;
 }

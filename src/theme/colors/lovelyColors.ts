@@ -27,4 +27,17 @@ export const lovelyColors = {
   brightSpark: '#EA80FC', // Electric fuchsia — sparkle / tertiary
   brightBlaze: '#FF1744', // Vivid crimson — warm accent
   brightSurge: '#536DFE', // Indigo blue — cool accent
+
+  // Warm vivid colours — yellow & orange accents for SVG illustrations
+  brightFlame: '#FF6E40',  // Coral orange — warm blush accent
+  brightGold: '#FFD740',   // Amber gold — golden warmth
+
+  // Vivid brights for light backgrounds — punchy, saturated, OpenAI-blog vibrancy
+  brightLightGlow: '#FF4081',  // Hot pink
+  brightLightPop: '#FF6E40',   // Vivid coral
+  brightLightSpark: '#EA80FC', // Electric fuchsia
+  brightLightBlaze: '#FF1744', // Vivid crimson
+  brightLightSurge: '#536DFE', // Vivid indigo
+  brightLightFlame: '#FF6E40', // Vivid coral orange
+  brightLightGold: '#FFD740',  // Vivid amber gold
 };

@@ -32,4 +32,17 @@ export const matrixColors = {
   brightSpark: '#CCFF00', // Acid lime — sparkle / tertiary
   brightBlaze: '#FF0040', // Matrix red pill — warm accent
   brightSurge: '#00E5FF', // Electric blue — cool accent
+
+  // Warm vivid colours — yellow & orange accents for SVG illustrations
+  brightFlame: '#FF6D00',  // Electric orange — glitch warm accent
+  brightGold: '#FFEA00',   // Glitch yellow — phosphor highlight
+
+  // Vivid brights for light backgrounds — punchy, saturated, OpenAI-blog vibrancy
+  brightLightGlow: '#00E676',  // Vivid green
+  brightLightPop: '#1DE9B6',   // Vivid teal-mint
+  brightLightSpark: '#AEEA00', // Vivid lime
+  brightLightBlaze: '#FF1744', // Vivid red
+  brightLightSurge: '#00B0FF', // Vivid sky blue
+  brightLightFlame: '#FF6D00', // Vivid orange
+  brightLightGold: '#FFAB00',  // Vivid amber
 };

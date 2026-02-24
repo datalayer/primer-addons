@@ -27,4 +27,17 @@ export const spatialColors = {
   brightSpark: '#E040FB', // Vivid magenta — sparkle / tertiary
   brightBlaze: '#FF5252', // Neon red — warm accent
   brightSurge: '#00B0FF', // Deep sky blue — cool accent
+
+  // Warm vivid colours — yellow & orange accents for SVG illustrations
+  brightFlame: '#FF9100',  // Amber orange — warm cosmic accent
+  brightGold: '#FFEA00',   // Electric yellow — star highlight
+
+  // Vivid brights for light backgrounds — punchy, saturated, OpenAI-blog vibrancy
+  brightLightGlow: '#7C4DFF',  // Electric violet
+  brightLightPop: '#448AFF',   // Neon blue
+  brightLightSpark: '#D500F9', // Vivid purple
+  brightLightBlaze: '#FF5252', // Neon red
+  brightLightSurge: '#00B0FF', // Vivid sky blue
+  brightLightFlame: '#FF9100', // Vivid amber orange
+  brightLightGold: '#FFC400',  // Vivid gold
 };

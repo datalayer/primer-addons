@@ -3,11 +3,11 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type CSSProperties, useEffect } from 'react';
+import { type CSSProperties, useEffect, useMemo } from 'react';
 import { BaseStyles, ThemeProvider, ThemeProviderProps } from '@primer/react';
 import { useSystemColorMode } from './useSystemColorMode';
 import { datalayerTheme, datalayerThemeStyles } from './themes/datalayerTheme';
-import { setupPrimerPortals } from '../utils/Portals';
+import { setupPrimerPortals, syncPortalThemeStyles } from '../utils/Portals';
 
 /**
  * Shared typographic rhythm — clean, spacious feel inspired by
@@ -78,11 +78,25 @@ export function DatalayerThemeProvider(
   const styles = themeStyles ?? datalayerThemeStyles;
   const resolvedStyles = isDark ? styles.dark : styles.light;
 
-  // Keep document.body portal-root attributes in sync so that Primer
-  // portals (modals, dialogs, overlays) inherit the correct color mode.
+  // The full set of styles that <BaseStyles> receives — we also push
+  // these to document.body so Primer portal content inherits theme
+  // tokens, fonts, and colors.
+  const portalStyles: CSSProperties = useMemo(
+    () => ({
+      ...typographyVars,
+      ...resolvedStyles,
+      ...baseStyles,
+    }),
+    [resolvedStyles, baseStyles],
+  );
+
+  // Keep document.body portal-root attributes AND theme styles in sync
+  // so that Primer portals (modals, dialogs, overlays) inherit the
+  // correct color mode **and** theme tokens (fonts, colors, CSS vars).
   useEffect(() => {
     setupPrimerPortals(resolvedColorMode === 'night' ? 'dark' : resolvedColorMode === 'day' ? 'light' : resolvedColorMode as 'light' | 'dark');
-  }, [resolvedColorMode]);
+    syncPortalThemeStyles(portalStyles);
+  }, [resolvedColorMode, portalStyles]);
 
   return (
     <ThemeProvider

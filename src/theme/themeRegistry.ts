@@ -255,3 +255,96 @@ export function getBrightPalette(
   }
   return cfg.brightPalette;
 }
+
+/**
+ * Avatar colour palettes per theme × colour mode.
+ *
+ * Each palette is a 5-colour array tuned for the `boring-avatars` library.
+ * The colours are picked from each theme's brand + bright palette so the
+ * avatar always feels native to the current theme.
+ *
+ * - **Light mode** uses the deeper / accessible colour variants so the
+ *   avatar is legible on light backgrounds.
+ * - **Dark mode** uses the brighter / glowing variants so the avatar
+ *   pops against dark surfaces.
+ */
+const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[] }> = {
+  datalayer: {
+    light: [
+      datalayerColors.greenText,        // #117A65 — deep green
+      datalayerColors.greenBrand,       // #16A085 — brand green
+      datalayerColors.brightLightPop,   // #00B0FF — sky blue
+      datalayerColors.brightLightGold,  // #FFAB00 — amber
+      datalayerColors.gray,             // #59595C — neutral
+    ],
+    dark: [
+      datalayerColors.greenAccent,      // #1ABC9C — bright teal
+      datalayerColors.greenBright,      // #2ECC71 — bright green
+      datalayerColors.brightPop,        // #00E5FF — electric cyan
+      datalayerColors.brightGold,       // #FFD600 — vivid yellow
+      datalayerColors.brightFlame,      // #FF6D00 — vivid orange
+    ],
+  },
+  spatial: {
+    light: [
+      spatialColors.indigoText,         // #3730A3 — deep indigo
+      spatialColors.indigoBrand,        // #4F46E5 — brand indigo
+      spatialColors.brightLightSpark,   // #D500F9 — vivid purple
+      spatialColors.brightLightGold,    // #FFC400 — vivid gold
+      spatialColors.gray,               // #8892B0 — nebula gray
+    ],
+    dark: [
+      spatialColors.indigoAccent,       // #6366F1 — bright indigo
+      spatialColors.indigoBright,       // #818CF8 — light indigo
+      spatialColors.brightPop,          // #448AFF — neon blue
+      spatialColors.brightSpark,        // #E040FB — vivid magenta
+      spatialColors.brightGold,         // #FFEA00 — electric yellow
+    ],
+  },
+  lovely: {
+    light: [
+      lovelyColors.roseText,            // #9D174D — deep rose
+      lovelyColors.roseBrand,           // #DB2777 — brand pink
+      lovelyColors.brightLightSurge,    // #536DFE — vivid indigo
+      lovelyColors.brightLightGold,     // #FFD740 — amber gold
+      lovelyColors.gray,                // #9D7A8F — mauve gray
+    ],
+    dark: [
+      lovelyColors.roseAccent,          // #EC4899 — bright pink
+      lovelyColors.roseBright,          // #F472B6 — light pink
+      lovelyColors.brightPop,           // #FF6E40 — vivid coral
+      lovelyColors.brightSpark,         // #EA80FC — electric fuchsia
+      lovelyColors.brightGold,          // #FFD740 — amber gold
+    ],
+  },
+  matrix: {
+    light: [
+      matrixColors.greenText,           // #117A65 — deep green
+      matrixColors.greenBrand,          // #16A085 — brand green
+      matrixColors.brightLightPop,      // #1DE9B6 — vivid teal
+      matrixColors.brightLightGold,     // #FFAB00 — vivid amber
+      matrixColors.gray,                // #4A7856 — dim green-gray
+    ],
+    dark: [
+      matrixColors.greenPhosphor,       // #00FF41 — Matrix green
+      matrixColors.greenGlow,           // #39FF14 — neon phosphor
+      matrixColors.brightPop,           // #00FF88 — phosphor cyan
+      matrixColors.brightSpark,         // #CCFF00 — acid lime
+      matrixColors.brightSurge,         // #00E5FF — electric blue
+    ],
+  },
+};
+
+/**
+ * Get a 5-colour avatar palette for the given theme variant and colour mode.
+ *
+ * Designed for use with the `boring-avatars` library's `colors` prop.
+ * Falls back to `datalayer` / `light` when values are missing.
+ */
+export function getAvatarColors(
+  variant: ThemeVariant = 'datalayer',
+  colorMode: 'light' | 'dark' | 'auto' = 'light',
+): string[] {
+  const mode = colorMode === 'auto' ? 'light' : colorMode;
+  return avatarColorPalettes[variant]?.[mode] ?? avatarColorPalettes.datalayer.light;
+}

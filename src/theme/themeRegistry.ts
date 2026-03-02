@@ -243,6 +243,8 @@ export function getCardGradient(
  * When `colorMode` is `'light'` the vivid / saturated light-background palette
  * is returned — these are punchy, high-saturation colours designed to keep SVG
  * illustrations vibrant and energetic on near-white surfaces.
+ * When `colorMode` is `'auto'`, the OS preference is queried via
+ * `prefers-color-scheme` so palettes always match the effective background.
  * Defaults to the dark-optimised neon palette for backward compatibility.
  */
 export function getBrightPalette(
@@ -250,7 +252,19 @@ export function getBrightPalette(
   colorMode?: 'light' | 'dark' | 'auto',
 ): BrightPalette {
   const cfg = themeConfigs[variant] ?? themeConfigs.datalayer;
-  if (colorMode === 'light') {
+  let resolvedMode: 'light' | 'dark';
+  if (colorMode === 'auto') {
+    resolvedMode =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+  } else if (colorMode === 'light') {
+    resolvedMode = 'light';
+  } else {
+    resolvedMode = 'dark';
+  }
+  if (resolvedMode === 'light') {
     return cfg.brightPaletteLight ?? cfg.brightPalette;
   }
   return cfg.brightPalette;
@@ -339,12 +353,23 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
  * Get a 5-colour avatar palette for the given theme variant and colour mode.
  *
  * Designed for use with the `boring-avatars` library's `colors` prop.
+ * When `colorMode` is `'auto'`, the OS preference is queried via
+ * `prefers-color-scheme` so avatars always match the effective background.
  * Falls back to `datalayer` / `light` when values are missing.
  */
 export function getAvatarColors(
   variant: ThemeVariant = 'datalayer',
   colorMode: 'light' | 'dark' | 'auto' = 'light',
 ): string[] {
-  const mode = colorMode === 'auto' ? 'light' : colorMode;
+  let mode: 'light' | 'dark';
+  if (colorMode === 'auto') {
+    mode =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+  } else {
+    mode = colorMode;
+  }
   return avatarColorPalettes[variant]?.[mode] ?? avatarColorPalettes.datalayer.light;
 }

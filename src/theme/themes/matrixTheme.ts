@@ -206,12 +206,10 @@ const matrixFontFamily =
   '"SF Mono", "Cascadia Code", "Fira Code", Menlo, Consolas, "Liberation Mono", "Courier New", monospace';
 
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
-export const matrixThemeStyles = (() => {
-  const base = buildThemeStyles(matrixLight, matrixDark);
-  return {
-    light: { ...base.light, fontFamily: matrixFontFamily } as typeof base.light,
-    dark: { ...base.dark, fontFamily: matrixFontFamily } as typeof base.dark,
-  };
-})();
+export const matrixThemeStyles = buildThemeStyles(
+  matrixLight,
+  matrixDark,
+  { fontFamily: matrixFontFamily },
+);
 
 export default matrixTheme;

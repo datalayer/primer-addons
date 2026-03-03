@@ -10,16 +10,101 @@ import { datalayerTheme, datalayerThemeStyles } from './themes/datalayerTheme';
 import { setupPrimerPortals, syncPortalThemeStyles } from '../utils/Portals';
 
 /**
+ * System sans-serif font stack — shared between `fontFamily` and
+ * the Primer `--fontStack-*` CSS custom properties so that
+ * components using the CSS `font` shorthand (e.g. `Blankslate`)
+ * also pick up the themed typeface.
+ */
+const SYSTEM_FONT =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"';
+
+/**
  * Shared typographic rhythm — clean, spacious feel inspired by
  * modern developer-blog aesthetics (generous line-height, open
  * letter-spacing on headings, crisp body text).
+ *
+ * Primer components like `Blankslate` use the CSS `font` shorthand
+ * through `--text-title-shorthand-*` / `--text-body-shorthand-*`.
+ * Those shorthand variables reference `--fontStack-sansSerif` (and
+ * `--fontStack-sansSerifDisplay`).  If the `@primer/primitives`
+ * typography CSS isn't loaded, the shorthand vars are undefined and
+ * components fall back to a hardcoded system font stack baked into
+ * their CSS.  We define the full set here so **every** theme gets
+ * correct font inheritance — no primitives CSS import required.
  */
 const typographyVars: CSSProperties = {
+  /* ── Font stacks ───────────────────────────────────────────────── */
+  '--fontStack-monospace':
+    'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace',
+  '--fontStack-sansSerif': SYSTEM_FONT,
+  '--fontStack-sansSerifDisplay': SYSTEM_FONT,
+  '--fontStack-system': SYSTEM_FONT,
+
+  /* ── Base text weights (from @primer/primitives) ───────────────── */
+  '--base-text-weight-light': '300',
+  '--base-text-weight-normal': '400',
+  '--base-text-weight-medium': '500',
+  '--base-text-weight-semibold': '600',
+
+  /* ── Body sizing ───────────────────────────────────────────────── */
+  '--text-body-size-large': '1rem',
+  '--text-body-size-medium': '0.875rem',
+  '--text-body-size-small': '0.75rem',
+  '--text-body-lineHeight-large': '1.5',
+  '--text-body-lineHeight-medium': '1.4285',
+  '--text-body-lineHeight-small': '1.6666',
+
+  /* ── Title sizing ──────────────────────────────────────────────── */
+  '--text-title-size-large': '2rem',
+  '--text-title-size-medium': '1.25rem',
+  '--text-title-size-small': '1rem',
+  '--text-title-lineHeight-large': '1.5',
+  '--text-title-lineHeight-medium': '1.6',
+  '--text-title-lineHeight-small': '1.5',
+
+  /* ── Caption / subtitle / display ──────────────────────────────── */
+  '--text-caption-size': '0.75rem',
+  '--text-caption-lineHeight': '1.3333',
+  '--text-subtitle-size': '1.25rem',
+  '--text-subtitle-lineHeight': '1.6',
+  '--text-display-size': '2.5rem',
+  '--text-display-lineHeight': '1.4',
+
+  /* ── Font shorthand tokens ─────────────────────────────────────── *
+   * These are the tokens consumed by Primer components (Blankslate,
+   * etc.) via `font: var(--text-title-shorthand-medium, <fallback>)`.
+   * Defining them here prevents the hard-coded fallback from firing.
+   * Each one references `var(--fontStack-sansSerif)` or
+   * `SYSTEM_FONT` directly (no nested `var()`) so that the CSS
+   * `font` shorthand parses reliably.  Themes that override fonts
+   * (e.g. Matrix monospace) replace these shorthand tokens via
+   * `buildThemeStyles({ fontFamily })` in their `themeStyles`.
+   * ─────────────────────────────────────────────────────────────── */
+  '--text-body-shorthand-large':
+    `400 1rem/1.5 ${SYSTEM_FONT}`,
+  '--text-body-shorthand-medium':
+    `400 0.875rem/1.4285 ${SYSTEM_FONT}`,
+  '--text-body-shorthand-small':
+    `400 0.75rem/1.6666 ${SYSTEM_FONT}`,
+  '--text-title-shorthand-large':
+    `600 2rem/1.5 ${SYSTEM_FONT}`,
+  '--text-title-shorthand-medium':
+    `600 1.25rem/1.6 ${SYSTEM_FONT}`,
+  '--text-title-shorthand-small':
+    `600 1rem/1.5 ${SYSTEM_FONT}`,
+  '--text-caption-shorthand':
+    `400 0.75rem/1.3333 ${SYSTEM_FONT}`,
+  '--text-subtitle-shorthand':
+    `400 1.25rem/1.6 ${SYSTEM_FONT}`,
+  '--text-display-shorthand':
+    `500 2.5rem/1.4 ${SYSTEM_FONT}`,
+
+  /* ── Custom overrides ──────────────────────────────────────────── */
   '--text-body-lineHeight': '1.7',
   '--text-title-lineHeight': '1.2',
   '--text-title-letterSpacing': '-0.02em',
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+
+  fontFamily: SYSTEM_FONT,
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
   textRendering: 'optimizeLegibility',

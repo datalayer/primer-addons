@@ -332,23 +332,58 @@ export interface ThemeStyles {
  * Build a complete `ThemeStyles` object from light / dark
  * `ThemeColorDefs`.  The result is ready to pass straight to
  * `<DatalayerThemeProvider themeStyles={…}>`.
+ *
+ * @param options.fontFamily  When supplied, the Primer font-stack
+ *   CSS custom properties (`--fontStack-sansSerif`,
+ *   `--fontStack-sansSerifDisplay`) are overridden so that every
+ *   Primer component that uses the CSS `font` shorthand (e.g.
+ *   `Blankslate`) picks up the themed font instead of the
+ *   hard-coded system-font fallback.
  */
 export function buildThemeStyles(
   light: ThemeColorDefs,
   dark: ThemeColorDefs,
+  options?: { fontFamily?: string },
 ): ThemeStyles {
+  const fontVars: Record<string, string> = {};
+  if (options?.fontFamily) {
+    const f = options.fontFamily;
+    // Override the font-stack custom properties so that any consumer
+    // referencing `var(--fontStack-sansSerif)` picks up the theme font.
+    fontVars['--fontStack-sansSerif'] = f;
+    fontVars['--fontStack-sansSerifDisplay'] = f;
+    // Also override every font-shorthand token directly.  Primer
+    // components like Blankslate use
+    //   `font: var(--text-title-shorthand-medium, <hardcoded>)`
+    // and relying on nested `var()` resolution inside the CSS `font`
+    // shorthand is unreliable across browsers.  Inlining the font
+    // family here guarantees the themed typeface is applied.
+    fontVars['--text-body-shorthand-large']    = `400 1rem/1.5 ${f}`;
+    fontVars['--text-body-shorthand-medium']   = `400 0.875rem/1.4285 ${f}`;
+    fontVars['--text-body-shorthand-small']    = `400 0.75rem/1.6666 ${f}`;
+    fontVars['--text-title-shorthand-large']   = `600 2rem/1.5 ${f}`;
+    fontVars['--text-title-shorthand-medium']  = `600 1.25rem/1.6 ${f}`;
+    fontVars['--text-title-shorthand-small']   = `600 1rem/1.5 ${f}`;
+    fontVars['--text-caption-shorthand']       = `400 0.75rem/1.3333 ${f}`;
+    fontVars['--text-subtitle-shorthand']      = `400 1.25rem/1.6 ${f}`;
+    fontVars['--text-display-shorthand']       = `500 2.5rem/1.4 ${f}`;
+  }
   return {
     light: {
       backgroundColor: light.canvas.default,
       color: light.fg.default,
       fontSize: 'var(--text-body-size-medium)',
+      ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(light),
+      ...fontVars,
     } as CSSProperties,
     dark: {
       backgroundColor: dark.canvas.default,
       color: dark.fg.default,
       fontSize: 'var(--text-body-size-medium)',
+      ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(dark),
+      ...fontVars,
     } as CSSProperties,
   };
 }

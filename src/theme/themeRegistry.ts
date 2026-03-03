@@ -37,6 +37,8 @@ export interface GradientPair {
 export interface BrightPalette {
   /** Primary vivid accent — the "star" glow colour. */
   glow: string;
+  /** Optimal text colour for content rendered on a `glow` background. */
+  onGlow: string;
   /** Contrasting vivid colour — analogous/complement. */
   pop: string;
   /** Third vivid colour — sparkle / small highlights. */
@@ -108,6 +110,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPalette: {
       glow: datalayerColors.brightGlow,     // #00D68F — vivid emerald
+      onGlow: '#1b1f24',                    // dark text on bright green
       pop: datalayerColors.brightPop,       // #00E5FF — electric cyan
       spark: datalayerColors.brightSpark,   // #76FF03 — lime neon
       blaze: datalayerColors.brightBlaze,   // #FF1744 — vivid red
@@ -117,6 +120,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPaletteLight: {
       glow: datalayerColors.brightLightGlow,     // #00BFA5 — vivid aqua-green
+      onGlow: '#1b1f24',                         // dark text on aqua-green
       pop: datalayerColors.brightLightPop,       // #00B0FF — vivid sky blue
       spark: datalayerColors.brightLightSpark,   // #64DD17 — vivid chartreuse
       blaze: datalayerColors.brightLightBlaze,   // #FF1744 — vivid red
@@ -138,6 +142,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPalette: {
       glow: spatialColors.brightGlow,      // #7C4DFF — electric violet
+      onGlow: '#ffffff',                   // white text on violet
       pop: spatialColors.brightPop,        // #448AFF — neon blue
       spark: spatialColors.brightSpark,    // #E040FB — vivid magenta
       blaze: spatialColors.brightBlaze,    // #FF5252 — neon red
@@ -147,6 +152,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPaletteLight: {
       glow: spatialColors.brightLightGlow,      // #7C4DFF — electric violet
+      onGlow: '#ffffff',                        // white text on violet
       pop: spatialColors.brightLightPop,        // #448AFF — neon blue
       spark: spatialColors.brightLightSpark,    // #D500F9 — vivid purple
       blaze: spatialColors.brightLightBlaze,    // #FF5252 — neon red
@@ -168,6 +174,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPalette: {
       glow: lovelyColors.brightGlow,       // #FF4081 — hot pink
+      onGlow: '#ffffff',                   // white text on hot pink
       pop: lovelyColors.brightPop,         // #FF6E40 — vivid coral
       spark: lovelyColors.brightSpark,     // #EA80FC — electric fuchsia
       blaze: lovelyColors.brightBlaze,     // #FF1744 — vivid crimson
@@ -177,6 +184,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPaletteLight: {
       glow: lovelyColors.brightLightGlow,       // #FF4081 — hot pink
+      onGlow: '#ffffff',                        // white text on hot pink
       pop: lovelyColors.brightLightPop,         // #FF6E40 — vivid coral
       spark: lovelyColors.brightLightSpark,     // #EA80FC — electric fuchsia
       blaze: lovelyColors.brightLightBlaze,     // #FF1744 — vivid crimson
@@ -198,6 +206,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPalette: {
       glow: matrixColors.brightGlow,       // #39FF14 — neon green
+      onGlow: '#1b1f24',                   // dark text on neon green
       pop: matrixColors.brightPop,         // #00FF88 — phosphor cyan
       spark: matrixColors.brightSpark,     // #CCFF00 — acid lime
       blaze: matrixColors.brightBlaze,     // #FF0040 — matrix red pill
@@ -207,6 +216,7 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
     },
     brightPaletteLight: {
       glow: matrixColors.brightLightGlow,       // #00E676 — vivid green
+      onGlow: '#1b1f24',                        // dark text on vivid green
       pop: matrixColors.brightLightPop,         // #1DE9B6 — vivid teal-mint
       spark: matrixColors.brightLightSpark,     // #AEEA00 — vivid lime
       blaze: matrixColors.brightLightBlaze,     // #FF1744 — vivid red

@@ -87,3 +87,14 @@ export function createThemeStore(
     ),
   );
 }
+
+/**
+ * Default theme store for Datalayer applications.
+ *
+ * Persists to `localStorage` under the key `'datalayer-theme'`.
+ * Use `createThemeStore` if you need an app-specific key or defaults.
+ */
+export const useThemeStore = createThemeStore('datalayer-theme', {
+  colorMode: 'dark',
+  theme: 'matrix',
+});

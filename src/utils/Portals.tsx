@@ -29,6 +29,50 @@ const resolveColormode = (colormode: Colormode): 'light' | 'dark' => {
 };
 
 /**
+ * Infer current app color mode from existing DOM theme markers.
+ *
+ * This avoids accidentally forcing light mode when callers invoke
+ * setupPrimerPortals() without passing an explicit mode.
+ */
+const inferCurrentColormode = (): Colormode => {
+  const portalRoot = document.getElementById(PRIMER_PORTAL_ROOT_ID);
+  const portalMode = portalRoot?.getAttribute('data-color-mode');
+  if (portalMode === 'light' || portalMode === 'dark' || portalMode === 'auto') {
+    return portalMode;
+  }
+
+  const htmlMode = document.documentElement.getAttribute('data-color-mode');
+  if (htmlMode === 'light' || htmlMode === 'dark' || htmlMode === 'auto') {
+    return htmlMode;
+  }
+
+  const bodyMode = document.body.getAttribute('data-color-mode');
+  if (bodyMode === 'light' || bodyMode === 'dark' || bodyMode === 'auto') {
+    return bodyMode;
+  }
+
+  return 'auto';
+};
+
+/**
+ * Infer Primer light/dark theme names from existing DOM markers.
+ */
+const inferCurrentThemeNames = (): { lightTheme: string; darkTheme: string } => {
+  const portalRoot = document.getElementById(PRIMER_PORTAL_ROOT_ID);
+  const lightTheme =
+    portalRoot?.getAttribute('data-light-theme') ||
+    document.documentElement.getAttribute('data-light-theme') ||
+    document.body.getAttribute('data-light-theme') ||
+    'light';
+  const darkTheme =
+    portalRoot?.getAttribute('data-dark-theme') ||
+    document.documentElement.getAttribute('data-dark-theme') ||
+    document.body.getAttribute('data-dark-theme') ||
+    'dark';
+  return { lightTheme, darkTheme };
+};
+
+/**
  * Ensure we define a root for Primer portal root.
  *
  * Creates a dedicated `<div>` appended to `<body>` with a high z-index
@@ -38,8 +82,10 @@ const resolveColormode = (colormode: Colormode): 'light' | 'dark' => {
  *  @see https://github.com/primer/react/blob/main/packages/react/src/Portal/Portal.tsx#L23
  *  @see https://github.com/primer/react/blob/030fe020b48b7f12c2994c6614e5d4191fe764ee/src/Portal/Portal.tsx#L33
  */
-export const setupPrimerPortals = (colormode: Colormode = 'light') => {
-  const resolved = resolveColormode(colormode);
+export const setupPrimerPortals = (colormode?: Colormode) => {
+  const effectiveColormode = colormode ?? inferCurrentColormode();
+  const resolved = resolveColormode(effectiveColormode);
+  const { lightTheme, darkTheme } = inferCurrentThemeNames();
 
   // Create or reuse a dedicated portal root div.
   let portalRoot = document.getElementById(PRIMER_PORTAL_ROOT_ID);
@@ -52,8 +98,8 @@ export const setupPrimerPortals = (colormode: Colormode = 'light') => {
   // Primer theme attributes — required for proper theming inside portals.
   portalRoot.dataset['portalRoot'] = 'true';
   portalRoot.dataset['colorMode'] = resolved;
-  portalRoot.dataset['lightTheme'] = 'light';
-  portalRoot.dataset['darkTheme'] = 'dark';
+  portalRoot.dataset['lightTheme'] = lightTheme;
+  portalRoot.dataset['darkTheme'] = darkTheme;
 
   // High z-index so overlays render above positioned UI (e.g. chat z-index 1001).
   portalRoot.style.position = 'relative';

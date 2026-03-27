@@ -7,3 +7,8 @@ export { datalayerColors } from './datalayerColors';
 export { spatialColors } from './spatialColors';
 export { lovelyColors } from './lovelyColors';
 export { matrixColors } from './matrixColors';
+export {
+  indicatorColors,
+  defaultIndicatorColors,
+  type IndicatorColors,
+} from './indicatorColors';

@@ -16,5 +16,4 @@ export * from './themeRegistry';
 export * from './Palette';
 export * from './useSystemColorMode';
 export * from './useThemeStore';
-export * from './ThemeSwitcher';
 export * from './ThemedProvider';

@@ -3,16 +3,6 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-/**
- * ThemeSwitcher – Themed colour circles + light/dark/auto segmented control.
- *
- * The component requires an external Zustand `ThemeState` store (created
- * with `createThemeStore`).  Consumers pass the `useStore` hook as a prop
- * so the switcher is completely decoupled from any specific app's store.
- *
- * @module theme/ThemeSwitcher
- */
-
 import React from 'react';
 import { Box, IconButton, SegmentedControl, Tooltip } from '@primer/react';
 import {
@@ -21,12 +11,11 @@ import {
   DeviceDesktopIcon,
   CircleIcon,
 } from '@primer/octicons-react';
-import { themeConfigs, themeVariants } from './themeRegistry';
-import type { ColorMode, ThemeState } from './useThemeStore';
+import { themeConfigs, themeVariants } from '../../theme/themeRegistry';
+import type { ColorMode, ThemeState } from '../../theme/useThemeStore';
 import type { UseBoundStore, StoreApi } from 'zustand';
 
 export interface ThemeSwitcherProps {
-  /** A Zustand store hook created via `createThemeStore()`. */
   useStore: UseBoundStore<StoreApi<ThemeState>>;
 }
 
@@ -35,7 +24,6 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-      {/* Theme colored circles */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {themeVariants.map(variant => {
           const tcfg = themeConfigs[variant];
@@ -48,9 +36,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
                 icon={() => <CircleIcon size={16} fill={tcfg.brandColor} />}
                 size="small"
                 variant={isSelected ? 'default' : 'invisible'}
-                onClick={() =>
-                  useStore.getState().setTheme(variant, false)
-                }
+                onClick={() => useStore.getState().setTheme(variant, false)}
                 sx={{
                   border: isSelected ? '2px solid' : '1px solid',
                   borderColor: isSelected ? 'accent.fg' : 'border.muted',
@@ -62,7 +48,6 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
         })}
       </Box>
 
-      {/* Color mode segmented control */}
       <SegmentedControl
         aria-label="Color mode"
         size="small"
@@ -90,3 +75,5 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
     </Box>
   );
 };
+
+export default ThemeSwitcher;

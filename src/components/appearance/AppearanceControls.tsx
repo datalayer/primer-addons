@@ -5,12 +5,12 @@
 
 import type { ReactElement } from 'react';
 import { SegmentedControl } from '@primer/react';
-import { Box } from '../box/Box';
 import {
   MoonIcon,
   SunIcon,
   DeviceDesktopIcon,
 } from '@primer/octicons-react';
+import { Box } from '../box/Box';
 import {
   themeVariants,
   themeConfigs,

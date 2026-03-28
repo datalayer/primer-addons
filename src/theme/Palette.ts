@@ -3,12 +3,21 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-// export const RESERVATION_CIRCLE_COLOR_VAR = '--data-yellow-color';
-export const RESERVATION_CIRCLE_COLOR = '#656D76';
+/**
+ * @deprecated Use `indicatorColors` / `defaultIndicatorColors` from
+ * `@datalayer/primer-addons/lib/theme` instead.
+ */
 
-// export const CREDITS_CIRCLE_COLOR_VAR = '--data-blue-color';
-export const CREDITS_CIRCLE_COLOR = '#16A085';
+import { defaultIndicatorColors } from './colors/indicatorColors';
 
-export const JOINED_INVITE_COLOR = '#0366d6';
+/** @deprecated Use `defaultIndicatorColors.reservation` */
+export const RESERVATION_CIRCLE_COLOR = defaultIndicatorColors.reservation;
 
-export const PENDING_INVITE_COLOR = '#cfd3d7';
+/** @deprecated Use `defaultIndicatorColors.credits` */
+export const CREDITS_CIRCLE_COLOR = defaultIndicatorColors.credits;
+
+/** @deprecated Use `defaultIndicatorColors.inviteJoined` */
+export const JOINED_INVITE_COLOR = defaultIndicatorColors.inviteJoined;
+
+/** @deprecated Use `defaultIndicatorColors.invitePending` */
+export const PENDING_INVITE_COLOR = defaultIndicatorColors.invitePending;

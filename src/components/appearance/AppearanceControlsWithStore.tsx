@@ -4,22 +4,23 @@
  */
 
 import React from 'react';
-import { Box, IconButton, SegmentedControl, Tooltip } from '@primer/react';
+import { IconButton, SegmentedControl, Tooltip } from '@primer/react';
+import type { UseBoundStore, StoreApi } from 'zustand';
 import {
   SunIcon,
   MoonIcon,
   DeviceDesktopIcon,
   CircleIcon,
 } from '@primer/octicons-react';
+import { Box } from '../box/Box';
 import { themeConfigs, themeVariants } from '../../theme/themeRegistry';
 import type { ColorMode, ThemeState } from '../../theme/useThemeStore';
-import type { UseBoundStore, StoreApi } from 'zustand';
 
-export interface ThemeSwitcherProps {
+export interface AppearanceControlsWithStoreProps {
   useStore: UseBoundStore<StoreApi<ThemeState>>;
 }
 
-export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
+export const AppearanceControlsWithStore: React.FC<AppearanceControlsWithStoreProps> = ({ useStore }) => {
   const { colorMode, theme: themeVariant } = useStore();
 
   return (
@@ -76,4 +77,4 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ useStore }) => {
   );
 };
 
-export default ThemeSwitcher;
+export default AppearanceControlsWithStore;

@@ -4,4 +4,4 @@
  */
 
 export * from './AppearanceControls';
-export * from './ThemeSwitcher';
+export * from './AppearanceControlsWithStore';

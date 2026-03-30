@@ -2,7 +2,7 @@ import type { Preview } from "@storybook/react";
 import {
   toolbarTypes,
   withThemeProvider,
-} from "../src/_utils/story-helpers";
+} from "../src/story-helpers";
 
 // Import Primer CSS variables
 import "@primer/primitives/dist/css/primitives.css";

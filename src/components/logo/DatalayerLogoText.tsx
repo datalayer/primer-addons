@@ -52,7 +52,7 @@ export const DatalayerLogoText = forwardRef<
   const secondary = secondaryColor ?? themed.secondary;
 
   const baseHeight = size;
-  const baseWidth = (149.672 / 25) * size;
+  const baseWidth = (161.672 / 25) * size;
   const height = baseHeight * scale;
   const width = baseWidth * scale;
 
@@ -89,7 +89,7 @@ export const DatalayerLogoText = forwardRef<
         sizeMultiplier={textSizeMultiplier}
         x={0}
       />
-      <g transform="translate(124.672 0)">
+      <g transform="translate(136.672 0)">
         <rect x="0" y="0" width="10" height="6.25" fill={secondary} />
         <rect x="10" y="0" width="15" height="6.25" fill={primary} />
 
@@ -105,7 +105,7 @@ export const DatalayerLogoText = forwardRef<
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 149.672 25"
+      viewBox="0 0 161.672 25"
       width={width}
       height={height}
       role="img"

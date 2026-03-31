@@ -4,7 +4,7 @@
  */
 
 import { forwardRef, type SVGProps } from 'react';
-import { getLogoColors } from './DatalayerLogo';
+import { DatalayerLogo, getLogoColors } from './DatalayerLogo';
 import { DatalayerText } from './DatalayerText';
 import { type ThemeVariant } from '../../theme';
 
@@ -16,6 +16,12 @@ export interface DatalayerLogoTextProps
   variant?: ThemeVariant;
   primaryColor?: string;
   secondaryColor?: string;
+  /** Explicit gradient [start, end] for primary (left) bars. */
+  primaryGradient?: [start: string, end: string];
+  /** Explicit gradient [start, end] for secondary (right) bars. */
+  secondaryGradient?: [start: string, end: string];
+  /** Enable horizontal gradients matching the original brand logo. Default `true`. */
+  gradient?: boolean;
   /** Colour for the "DATA" part of the wordmark (defaults to theme gray). */
   textColor?: string;
   textSizeMultiplier?: number;
@@ -41,6 +47,9 @@ export const DatalayerLogoText = forwardRef<
     variant = 'datalayer',
     primaryColor,
     secondaryColor,
+    primaryGradient,
+    secondaryGradient,
+    gradient = true,
     textColor,
     // 2.380655 ~= 25 / (0.7 * 15.00187)
     // This makes the wordmark glyph height match the 25-unit icon height.
@@ -61,22 +70,20 @@ export const DatalayerLogoText = forwardRef<
   const height = baseHeight * scale;
   const width = baseWidth * scale;
 
-  const iconGroup = (
-    <g transform="translate(0 0)">
-      <rect x="0" y="0" width="10" height="6.25" fill={primary} />
-      <rect x="10" y="0" width="15" height="6.25" fill={secondary} />
-
-      <rect x="0" y="9.375" width="15" height="6.25" fill={primary} />
-      <rect x="15" y="9.375" width="10" height="6.25" fill={secondary} />
-
-      <rect x="0" y="18.75" width="20" height="6.25" fill={primary} />
-      <rect x="20" y="18.75" width="5" height="6.25" fill={secondary} />
-    </g>
-  );
-
   const logoFirst = (
     <>
-      {iconGroup}
+      <DatalayerLogo
+        size={25}
+        x={0}
+        y={0}
+        variant={variant}
+        colorMode={colorMode}
+        primaryColor={primary}
+        secondaryColor={secondary}
+        primaryGradient={primaryGradient}
+        secondaryGradient={secondaryGradient}
+        gradient={gradient}
+      />
       <DatalayerText
         primaryColor={primary}
         secondaryColor={dataTextColor}
@@ -94,16 +101,18 @@ export const DatalayerLogoText = forwardRef<
         sizeMultiplier={textSizeMultiplier}
         x={0}
       />
-      <g transform="translate(136.672 0)">
-        <rect x="0" y="0" width="10" height="6.25" fill={primary} />
-        <rect x="10" y="0" width="15" height="6.25" fill={secondary} />
-
-        <rect x="0" y="9.375" width="15" height="6.25" fill={primary} />
-        <rect x="15" y="9.375" width="10" height="6.25" fill={secondary} />
-
-        <rect x="0" y="18.75" width="20" height="6.25" fill={primary} />
-        <rect x="20" y="18.75" width="5" height="6.25" fill={secondary} />
-      </g>
+      <DatalayerLogo
+        size={25}
+        x={136.672}
+        y={0}
+        variant={variant}
+        colorMode={colorMode}
+        primaryColor={primary}
+        secondaryColor={secondary}
+        primaryGradient={primaryGradient}
+        secondaryGradient={secondaryGradient}
+        gradient={gradient}
+      />
     </>
   );
 

@@ -25,8 +25,8 @@ export interface LogoColorPair {
 
 /**
  * Gradient pattern derived from the original brand logo SVG:
- *   - Left bars:  bright → brand  (brightest → mid — wide spread)
- *   - Right bars: hover  → accent (darkest  → bright — wide spread)
+ *   - Left bars:  accent → brand (bright → mid)
+ *   - Right bars: hover  → text  (dark  → mid)
  *
  * This mapping is consistent across all four themes.
  */
@@ -39,15 +39,15 @@ export const THEME_LOGO_COLORS: Record<
       primary: datalayerColors.greenAccent,
       secondary: datalayerColors.greenText,
       textColor: datalayerColors.gray,
-      primaryGradient: [datalayerColors.greenBright, datalayerColors.greenBrand],
-      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenAccent],
+      primaryGradient: [datalayerColors.greenAccent, datalayerColors.greenBrand],
+      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenBrand],
     },
     dark: {
       primary: datalayerColors.greenBright,
       secondary: datalayerColors.greenAccent,
       textColor: datalayerColors.gray,
-      primaryGradient: [datalayerColors.greenBright, datalayerColors.greenBrand],
-      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenAccent],
+      primaryGradient: [datalayerColors.greenAccent, datalayerColors.greenBrand],
+      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenText],
     },
   },
   spatial: {
@@ -111,6 +111,8 @@ export function getLogoColors(
 export interface DatalayerLogoProps
   extends Omit<SVGProps<SVGSVGElement>, 'ref'> {
   size?: number;
+  variant?: ThemeVariant;
+  colorMode?: 'light' | 'dark' | 'auto';
   primaryColor?: string;
   secondaryColor?: string;
   /** Explicit gradient [start, end] for primary (left) bars. */
@@ -132,8 +134,10 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
   function DatalayerLogo(
     {
       size = 16,
-      primaryColor = datalayerColors.greenBrand,
-      secondaryColor = datalayerColors.greenText,
+      variant = 'datalayer',
+      colorMode = 'light',
+      primaryColor,
+      secondaryColor,
       primaryGradient,
       secondaryGradient,
       gradient = true,
@@ -141,12 +145,13 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
     },
     ref,
   ) {
+    const themed = getLogoColors(variant, colorMode);
+    const resolvedPrimary = primaryColor ?? themed.primary;
+    const resolvedSecondary = secondaryColor ?? themed.secondary;
     const uid = useId().replace(/:/g, '');
 
-    // When gradients are enabled without explicit stops, fall back to
-    // using the flat colour for both stops (no visible gradient).
-    const [primaryStart, primaryEnd] = primaryGradient ?? [primaryColor, primaryColor];
-    const [secondaryStart, secondaryEnd] = secondaryGradient ?? [secondaryColor, secondaryColor];
+    const [primaryStart, primaryEnd] = primaryGradient ?? themed.primaryGradient;
+    const [secondaryStart, secondaryEnd] = secondaryGradient ?? themed.secondaryGradient;
 
     return (
       <svg
@@ -177,14 +182,14 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
               y={y}
               width={secondaryWidth}
               height={BAR_HEIGHT}
-              fill={gradient ? `url(#${uid}-p)` : primaryColor}
+              fill={gradient ? `url(#${uid}-p)` : resolvedPrimary}
             />
             <rect
               x={secondaryWidth}
               y={y}
               width={primaryWidth}
               height={BAR_HEIGHT}
-              fill={gradient ? `url(#${uid}-s)` : secondaryColor}
+              fill={gradient ? `url(#${uid}-s)` : resolvedSecondary}
             />
           </g>
         ))}

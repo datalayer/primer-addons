@@ -3,7 +3,7 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { forwardRef, type SVGProps } from 'react';
+import { forwardRef, useId, type SVGProps } from 'react';
 import {
   datalayerColors,
   spatialColors,
@@ -15,50 +15,87 @@ import {
 export interface LogoColorPair {
   primary: string;
   secondary: string;
+  /** Colour for the "DATA" part of the wordmark (gray in the original brand logo). */
+  textColor: string;
+  /** Gradient [start, end] for primary (left) bars. */
+  primaryGradient: [start: string, end: string];
+  /** Gradient [start, end] for secondary (right) bars. */
+  secondaryGradient: [start: string, end: string];
 }
 
+/**
+ * Gradient pattern derived from the original brand logo SVG:
+ *   - Left bars:  bright → brand  (brightest → mid — wide spread)
+ *   - Right bars: hover  → accent (darkest  → bright — wide spread)
+ *
+ * This mapping is consistent across all four themes.
+ */
 export const THEME_LOGO_COLORS: Record<
   ThemeVariant,
   { light: LogoColorPair; dark: LogoColorPair }
 > = {
   datalayer: {
     light: {
-      primary: datalayerColors.greenBrand,
+      primary: datalayerColors.greenAccent,
       secondary: datalayerColors.greenText,
+      textColor: datalayerColors.gray,
+      primaryGradient: [datalayerColors.greenBright, datalayerColors.greenBrand],
+      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenAccent],
     },
     dark: {
       primary: datalayerColors.greenBright,
       secondary: datalayerColors.greenAccent,
+      textColor: datalayerColors.gray,
+      primaryGradient: [datalayerColors.greenBright, datalayerColors.greenBrand],
+      secondaryGradient: [datalayerColors.greenHover, datalayerColors.greenAccent],
     },
   },
   spatial: {
     light: {
       primary: spatialColors.indigoBrand,
       secondary: spatialColors.indigoText,
+      textColor: spatialColors.gray,
+      primaryGradient: [spatialColors.indigoBright, spatialColors.indigoBrand],
+      secondaryGradient: [spatialColors.indigoHover, spatialColors.indigoAccent],
     },
     dark: {
       primary: spatialColors.indigoBright,
       secondary: spatialColors.indigoAccent,
+      textColor: spatialColors.gray,
+      primaryGradient: [spatialColors.indigoBright, spatialColors.indigoBrand],
+      secondaryGradient: [spatialColors.indigoHover, spatialColors.indigoAccent],
     },
   },
   lovely: {
     light: {
       primary: lovelyColors.roseBrand,
       secondary: lovelyColors.roseText,
+      textColor: lovelyColors.gray,
+      primaryGradient: [lovelyColors.roseBright, lovelyColors.roseBrand],
+      secondaryGradient: [lovelyColors.roseHover, lovelyColors.roseAccent],
     },
     dark: {
       primary: lovelyColors.roseBright,
       secondary: lovelyColors.roseAccent,
+      textColor: lovelyColors.gray,
+      primaryGradient: [lovelyColors.roseBright, lovelyColors.roseBrand],
+      secondaryGradient: [lovelyColors.roseHover, lovelyColors.roseAccent],
     },
   },
   matrix: {
     light: {
       primary: matrixColors.greenBrand,
       secondary: matrixColors.greenText,
+      textColor: matrixColors.gray,
+      primaryGradient: [matrixColors.greenGlow, matrixColors.greenBrand],
+      secondaryGradient: [matrixColors.greenHover, matrixColors.greenAccent],
     },
     dark: {
       primary: matrixColors.greenGlow,
       secondary: matrixColors.greenPhosphor,
+      textColor: matrixColors.gray,
+      primaryGradient: [matrixColors.greenGlow, matrixColors.greenBrand],
+      secondaryGradient: [matrixColors.greenHover, matrixColors.greenAccent],
     },
   },
 };
@@ -76,6 +113,12 @@ export interface DatalayerLogoProps
   size?: number;
   primaryColor?: string;
   secondaryColor?: string;
+  /** Explicit gradient [start, end] for primary (left) bars. */
+  primaryGradient?: [start: string, end: string];
+  /** Explicit gradient [start, end] for secondary (right) bars. */
+  secondaryGradient?: [start: string, end: string];
+  /** Enable horizontal gradients matching the original brand logo. Default `true`. */
+  gradient?: boolean;
 }
 
 const BAR_HEIGHT = 25;
@@ -89,12 +132,22 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
   function DatalayerLogo(
     {
       size = 16,
-      primaryColor = 'currentColor',
-      secondaryColor = 'currentColor',
+      primaryColor = datalayerColors.greenBrand,
+      secondaryColor = datalayerColors.greenText,
+      primaryGradient,
+      secondaryGradient,
+      gradient = true,
       ...svgProps
     },
     ref,
   ) {
+    const uid = useId().replace(/:/g, '');
+
+    // When gradients are enabled without explicit stops, fall back to
+    // using the flat colour for both stops (no visible gradient).
+    const [primaryStart, primaryEnd] = primaryGradient ?? [primaryColor, primaryColor];
+    const [secondaryStart, secondaryEnd] = secondaryGradient ?? [secondaryColor, secondaryColor];
+
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -105,6 +158,18 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
         ref={ref}
         {...svgProps}
       >
+        {gradient && (
+          <defs>
+            <linearGradient id={`${uid}-p`} x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor={primaryStart} />
+              <stop offset="1" stopColor={primaryEnd} />
+            </linearGradient>
+            <linearGradient id={`${uid}-s`} x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor={secondaryStart} />
+              <stop offset="1" stopColor={secondaryEnd} />
+            </linearGradient>
+          </defs>
+        )}
         {BARS.map(({ y, secondaryWidth, primaryWidth }) => (
           <g key={y}>
             <rect
@@ -112,14 +177,14 @@ export const DatalayerLogo = forwardRef<SVGSVGElement, DatalayerLogoProps>(
               y={y}
               width={secondaryWidth}
               height={BAR_HEIGHT}
-              fill={secondaryColor}
+              fill={gradient ? `url(#${uid}-p)` : primaryColor}
             />
             <rect
               x={secondaryWidth}
               y={y}
               width={primaryWidth}
               height={BAR_HEIGHT}
-              fill={primaryColor}
+              fill={gradient ? `url(#${uid}-s)` : secondaryColor}
             />
           </g>
         ))}

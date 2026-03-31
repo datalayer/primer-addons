@@ -10,7 +10,7 @@
 export const datalayerColors = {
   // Core Neutrals
   black: '#000000', // Primary text - AAA on white
-  gray: '#59595C', // Secondary text - AA on white
+  gray: '#595A5C', // Secondary text - AA on white (matches original brand SVG)
   white: '#FFFFFF', // Background
 
   // Greens (Brand & Accessibility)

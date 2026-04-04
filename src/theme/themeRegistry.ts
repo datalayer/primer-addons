@@ -10,15 +10,17 @@ import { datalayerTheme, datalayerThemeStyles } from './themes/datalayerTheme';
 import { spatialTheme, spatialThemeStyles } from './themes/spatialTheme';
 import { lovelyTheme, lovelyThemeStyles } from './themes/lovelyTheme';
 import { matrixTheme, matrixThemeStyles } from './themes/matrixTheme';
+import { earthTheme, earthThemeStyles } from './themes/earthTheme';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
 import { matrixColors } from './colors/matrixColors';
+import { earthColors } from './colors/earthColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
 
 /** Available theme variants. */
-export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix';
+export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth';
 
 /** A pair of colours for a two-stop gradient. */
 export interface GradientPair {
@@ -225,10 +227,42 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       gold: matrixColors.brightLightGold,       // #FFAB00 — vivid amber
     },
   },
+  earth: {
+    label: 'Earth',
+    description: 'Ocean blues, forest greens & golden sun — the Blue Planet.',
+    brandColor: earthColors.oceanBrand,
+    defaultColorMode: 'auto',
+    primerTheme: earthTheme,
+    themeStyles: earthThemeStyles,
+    cardGradient: {
+      light: { from: earthColors.oceanBrand,    to: earthColors.oceanText },        // #0369A1 → #075985
+      dark:  { from: earthColors.oceanAccent,   to: earthColors.oceanBrand },       // #0EA5E9 → #0369A1
+    },
+    brightPalette: {
+      glow: earthColors.brightGlow,        // #0EA5E9 — vivid ocean blue
+      onGlow: '#ffffff',                   // white text on ocean blue
+      pop: earthColors.brightPop,          // #22C55E — vivid green
+      spark: earthColors.brightSpark,      // #EAB308 — vivid gold
+      blaze: earthColors.brightBlaze,      // #EF4444 — vivid red
+      surge: earthColors.brightSurge,      // #3B82F6 — deep blue
+      flame: earthColors.brightFlame,      // #F59E0B — amber gold
+      gold: earthColors.brightGold,        // #FACC15 — sunflower
+    },
+    brightPaletteLight: {
+      glow: earthColors.brightLightGlow,        // #0284C7 — deep ocean blue
+      onGlow: '#ffffff',                        // white text on deep ocean
+      pop: earthColors.brightLightPop,          // #16A34A — vivid forest green
+      spark: earthColors.brightLightSpark,      // #CA8A04 — deep golden sun
+      blaze: earthColors.brightLightBlaze,      // #DC2626 — deep red
+      surge: earthColors.brightLightSurge,      // #2563EB — deep ocean blue
+      flame: earthColors.brightLightFlame,      // #D97706 — deep amber
+      gold: earthColors.brightLightGold,        // #A16207 — deep gold
+    },
+  },
 };
 
 /** All available theme variants in display order. */
-export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix'];
+export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth'];
 
 /** Look up a theme config by variant name. */
 export function getThemeConfig(variant: ThemeVariant): ThemeConfig {
@@ -355,6 +389,22 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       matrixColors.brightPop,           // #00FF88 — phosphor cyan
       matrixColors.brightSpark,         // #CCFF00 — acid lime
       matrixColors.brightSurge,         // #00E5FF — electric blue
+    ],
+  },
+  earth: {
+    light: [
+      earthColors.oceanText,             // #075985 — deep ocean blue
+      earthColors.oceanBrand,            // #0369A1 — brand ocean
+      earthColors.brightLightPop,        // #16A34A — vivid forest green
+      earthColors.brightLightSpark,      // #CA8A04 — deep golden sun
+      earthColors.gray,                  // #5B6B7A — slate
+    ],
+    dark: [
+      earthColors.oceanAccent,           // #0EA5E9 — bright sky blue
+      earthColors.oceanBright,           // #38BDF8 — vivid sky blue
+      earthColors.brightPop,             // #22C55E — vivid green
+      earthColors.brightSpark,           // #EAB308 — vivid gold
+      earthColors.brightFlame,           // #F59E0B — amber gold
     ],
   },
 };

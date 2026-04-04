@@ -14,9 +14,6 @@ import { theme as primerTheme } from '@primer/react';
 import { lovelyColors } from '../colors';
 import { type ThemeColorDefs, buildThemeStyles } from './createThemeCSSVars';
 
-// Re-export so existing consumers keep working.
-export { lovelyColors };
-
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
 const lovelyLight: ThemeColorDefs = {

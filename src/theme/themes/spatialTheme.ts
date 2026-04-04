@@ -14,9 +14,6 @@ import { theme as primerTheme } from '@primer/react';
 import { spatialColors } from '../colors';
 import { type ThemeColorDefs, buildThemeStyles } from './createThemeCSSVars';
 
-// Re-export so existing consumers keep working.
-export { spatialColors };
-
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
 const spatialLight: ThemeColorDefs = {

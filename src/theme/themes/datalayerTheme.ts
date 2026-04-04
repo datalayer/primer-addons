@@ -15,9 +15,6 @@ import { theme as primerTheme } from '@primer/react';
 import { datalayerColors } from '../colors';
 import { type ThemeColorDefs, buildThemeStyles } from './createThemeCSSVars';
 
-// Re-export so existing consumers keep working.
-export { datalayerColors };
-
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
 const datalayerLight: ThemeColorDefs = {

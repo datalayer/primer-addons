@@ -4,7 +4,7 @@
  */
 
 import type { ReactElement } from 'react';
-import { SegmentedControl } from '@primer/react';
+import { SegmentedControl, Tooltip } from '@primer/react';
 import {
   MoonIcon,
   SunIcon,
@@ -73,35 +73,36 @@ export function AppearanceControls({
           const cfg = themeConfigs[variant];
           const isSelected = themeVariant === variant;
           return (
-            <Box
-              as="button"
-              key={variant}
-              aria-label={cfg.label}
-              aria-pressed={isSelected}
-              onClick={() => onThemeChange(variant)}
-              sx={{
-                width: 24,
-                height: 24,
-                borderRadius: '50%',
-                backgroundColor: cfg.brandColor,
-                border: '2px solid',
-                borderColor: isSelected ? 'accent.fg' : 'border.default',
-                cursor: 'pointer',
-                padding: 0,
-                outline: 'none',
-                transition: 'border-color 0.15s ease',
-                boxShadow: isSelected
-                  ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
-                  : 'none',
-                '&:hover': {
-                  borderColor: 'accent.fg',
-                },
-                '&:focus-visible': {
-                  boxShadow:
-                    '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
-                },
-              }}
-            />
+            <Tooltip key={variant} text={cfg.label} direction="s">
+              <Box
+                as="button"
+                aria-label={cfg.label}
+                aria-pressed={isSelected}
+                onClick={() => onThemeChange(variant)}
+                sx={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: '50%',
+                  backgroundColor: cfg.brandColor,
+                  border: '2px solid',
+                  borderColor: isSelected ? 'accent.fg' : 'border.default',
+                  cursor: 'pointer',
+                  padding: 0,
+                  outline: 'none',
+                  transition: 'border-color 0.15s ease',
+                  boxShadow: isSelected
+                    ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
+                    : 'none',
+                  '&:hover': {
+                    borderColor: 'accent.fg',
+                  },
+                  '&:focus-visible': {
+                    boxShadow:
+                      '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
+                  },
+                }}
+              />
+            </Tooltip>
           );
         })}
       </Box>

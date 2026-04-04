@@ -9,6 +9,7 @@ import {
   spatialColors,
   lovelyColors,
   matrixColors,
+  earthColors,
   type ThemeVariant,
 } from '../../theme';
 
@@ -96,6 +97,22 @@ export const THEME_LOGO_COLORS: Record<
       textColor: matrixColors.gray,
       primaryGradient: [matrixColors.greenGlow, matrixColors.greenBrand],
       secondaryGradient: [matrixColors.greenHover, matrixColors.greenAccent],
+    },
+  },
+  earth: {
+    light: {
+      primary: earthColors.oceanBrand,
+      secondary: earthColors.oceanText,
+      textColor: earthColors.gray,
+      primaryGradient: [earthColors.oceanAccent, earthColors.oceanBrand],
+      secondaryGradient: [earthColors.oceanHover, earthColors.oceanText],
+    },
+    dark: {
+      primary: earthColors.oceanBright,
+      secondary: earthColors.oceanAccent,
+      textColor: earthColors.gray,
+      primaryGradient: [earthColors.oceanBright, earthColors.oceanBrand],
+      secondaryGradient: [earthColors.oceanHover, earthColors.oceanAccent],
     },
   },
 };

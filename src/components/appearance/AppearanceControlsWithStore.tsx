@@ -14,7 +14,8 @@ import {
 } from '@primer/octicons-react';
 import { Box } from '../box/Box';
 import { themeConfigs, themeVariants } from '../../theme/themeRegistry';
-import type { ColorMode, ThemeState } from '../../theme/useThemeStore';
+import type { ThemeState } from '../../theme/useThemeStore';
+import type { ColorMode } from '../../theme/DatalayerBrandThemeProvider';
 
 export interface AppearanceControlsWithStoreProps {
   useStore: UseBoundStore<StoreApi<ThemeState>>;

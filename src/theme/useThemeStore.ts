@@ -18,8 +18,6 @@ import type { ThemeVariant } from './themeRegistry';
 import { themeConfigs } from './themeRegistry';
 import type { ColorMode } from './DatalayerBrandThemeProvider';
 
-export type { ThemeVariant, ColorMode };
-
 export interface ThemeState {
   /** Current color mode (light, dark, or auto = follow OS). */
   colorMode: ColorMode;

@@ -4,9 +4,12 @@
  */
 
 import type { SVGProps } from 'react';
+import { datalayerColors } from '../../theme';
 
 export interface DatalayerTextProps extends Omit<SVGProps<SVGGElement>, 'ref'> {
+  /** Colour for the "LAYER" part of the wordmark. */
   primaryColor?: string;
+  /** Colour for the "DATA" part of the wordmark (gray in the original brand logo). */
   secondaryColor?: string;
   /** Multiplies the base wordmark size. 1.0 keeps current dimensions. */
   sizeMultiplier?: number;
@@ -18,10 +21,14 @@ export interface DatalayerTextProps extends Omit<SVGProps<SVGGElement>, 'ref'> {
 
 /**
  * Official Datalayer wordmark outlines (BebasNeue converted to paths).
+ *
+ * Colour mapping matches the original brand logo SVG:
+ *   - "DATA"  = secondaryColor (gray in the original)
+ *   - "LAYER" = primaryColor   (green accent in the original)
  */
 export const DatalayerText = ({
-  primaryColor = 'currentColor',
-  secondaryColor = 'currentColor',
+  primaryColor = datalayerColors.greenAccent,
+  secondaryColor = datalayerColors.gray,
   sizeMultiplier = 1,
   x = 20,
   y = -190.15,

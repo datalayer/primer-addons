@@ -5,6 +5,7 @@ import { DatalayerIcon, LogOutIcon, SettingsIcon } from "@datalayer/icons-react"
 import { Slider, Overlay } from ".";
 
 import "@primer/primitives/dist/css/base/typography/typography.css";
+import "@primer/primitives/dist/css/base/motion/motion.css";
 import "@primer/primitives/dist/css/functional/themes/light.css";
 import "@primer/primitives/dist/css/functional/size/border.css";
 import "@primer/primitives/dist/css/functional/size/breakpoints.css";

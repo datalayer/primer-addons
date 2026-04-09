@@ -65,8 +65,13 @@ export const DatalayerLogoText = forwardRef<
   // "DATA" part of the wordmark defaults to the themed gray.
   const dataTextColor = textColor ?? themed.textColor;
 
+  // The text-first arrangement has an intrinsic leading gutter from the
+  // original outline coordinates. Trim it at the source geometry level.
+  const textFirstLeftTrim = 12;
+  const viewBoxWidth = inverse ? 161.672 : 161.672 - textFirstLeftTrim;
+
   const baseHeight = size;
-  const baseWidth = (161.672 / 25) * size;
+  const baseWidth = (viewBoxWidth / 25) * size;
   const height = baseHeight * scale;
   const width = baseWidth * scale;
 
@@ -99,11 +104,11 @@ export const DatalayerLogoText = forwardRef<
         primaryColor={primary}
         secondaryColor={dataTextColor}
         sizeMultiplier={textSizeMultiplier}
-        x={0}
+        x={-textFirstLeftTrim}
       />
       <DatalayerLogo
         size={25}
-        x={136.672}
+        x={136.672 - textFirstLeftTrim}
         y={0}
         variant={variant}
         colorMode={colorMode}
@@ -119,7 +124,7 @@ export const DatalayerLogoText = forwardRef<
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 161.672 25"
+      viewBox={`0 0 ${viewBoxWidth} 25`}
       width={width}
       height={height}
       role="img"

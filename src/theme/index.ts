@@ -14,6 +14,7 @@ export * from './themes/matrixTheme';
 export * from './themes/earthTheme';
 export * from './themes-brand/spatialBrandTheme';
 export * from './themeRegistry';
+export * from './palettes';
 export * from './useSystemColorMode';
 export * from './useThemeStore';
 export * from './ThemedProvider';

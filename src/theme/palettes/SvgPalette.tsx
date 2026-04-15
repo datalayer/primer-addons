@@ -245,9 +245,11 @@ const palettes: Record<ThemeVariant, { light: SvgPalette; dark: SvgPalette }> = 
   },
 };
 
-export function useSvgPalette(): SvgPalette {
-  const { colorMode, theme } = useThemeStore();
-  const mode =
+export function getSvgPalette(
+  theme: ThemeVariant = 'datalayer',
+  colorMode: 'light' | 'dark' | 'auto' = 'auto',
+): SvgPalette {
+  const mode: 'light' | 'dark' =
     colorMode === 'auto'
       ? typeof window !== 'undefined' &&
         window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -255,6 +257,11 @@ export function useSvgPalette(): SvgPalette {
         : 'light'
       : colorMode;
   return palettes[theme]?.[mode] ?? palettes.datalayer.dark;
+}
+
+export function useSvgPalette(): SvgPalette {
+  const { colorMode, theme } = useThemeStore();
+  return getSvgPalette(theme, colorMode);
 }
 
 /** @deprecated Use `useSvgPalette` instead. */

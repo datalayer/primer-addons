@@ -170,13 +170,6 @@ export function createThemeStore(
           set(state => {
             const v = state.variants[variant];
             if (!v) {
-              if (variant === 'agent-anonymous') {
-                return {
-                  activeVariant: variant,
-                  theme: 'earth',
-                  colorMode: state.colorMode || 'auto',
-                };
-              }
               return { activeVariant: variant };
             }
             return {

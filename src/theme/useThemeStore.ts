@@ -169,7 +169,16 @@ export function createThemeStore(
         setVariant: (variant: string) =>
           set(state => {
             const v = state.variants[variant];
-            if (!v) return { activeVariant: variant };
+            if (!v) {
+              if (variant === 'agent-anonymous') {
+                return {
+                  activeVariant: variant,
+                  theme: 'earth',
+                  colorMode: state.colorMode || 'auto',
+                };
+              }
+              return { activeVariant: variant };
+            }
             return {
               activeVariant: variant,
               theme: v.theme,
@@ -179,7 +188,7 @@ export function createThemeStore(
       }),
       {
         name: storageKey,
-        version: 1,
+        version: 2,
         storage: createJSONStorage(() => localStorage),
         partialize: state => ({
           colorMode: state.colorMode,
@@ -198,18 +207,24 @@ export function createThemeStore(
          *  - Code-defined variants (from defaults or registerVariants) are
          *    always present even when localStorage has an older snapshot.
          *  - Per-variant prefs that the user customised (persisted) win over
-         *    code defaults.
+         *    code defaults for each variant key.
          */
         merge: (persisted, current) => {
           const p = (persisted ?? {}) as Partial<ThemeState>;
+          // Build merged variants: start from code-defined, then overlay
+          // any persisted variant whose prefs differ (user customisations).
+          const mergedVariants = { ...current.variants };
+          if (p.variants) {
+            for (const [key, val] of Object.entries(p.variants)) {
+              if (val && typeof val === 'object' && 'theme' in val) {
+                mergedVariants[key] = val;
+              }
+            }
+          }
           return {
             ...current,
             ...p,
-            // Union of code-defined + persisted variants; persisted wins per key.
-            variants: {
-              ...current.variants,
-              ...(p.variants ?? {}),
-            },
+            variants: mergedVariants,
           };
         },
       },

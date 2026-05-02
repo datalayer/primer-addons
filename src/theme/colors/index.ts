@@ -8,11 +8,6 @@ export { spatialColors } from './spatialColors';
 export { lovelyColors } from './lovelyColors';
 export { matrixColors } from './matrixColors';
 export { earthColors } from './earthColors';
-export {
-  indicatorColors,
-  defaultIndicatorColors,
-  type IndicatorColors,
-} from './indicatorColors';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';

@@ -12,7 +12,7 @@
 
 import { theme as primerTheme } from '@primer/react';
 import { lovelyColors } from '../colors';
-import { type ThemeColorDefs, buildThemeStyles } from './createThemeCSSVars';
+import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 

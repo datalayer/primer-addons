@@ -4,4 +4,4 @@
  * Datalayer License
  */
 
-export * from './SvgPalette';
+export * from './ColorPalette';

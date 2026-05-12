@@ -317,6 +317,7 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     /* ── Datalayer brand tokens (consumed by custom components) ─── */
     '--brand-color-canvas-default': defs.canvas.default,
     '--brand-color-text-default': defs.fg.default,
+    '--datalayer-icon-fg': defs.accent.fg,
   } as CSSProperties;
 }
 

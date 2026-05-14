@@ -4,7 +4,8 @@
  */
 
 export * from './colors';
-export * from './themes/createThemeCSSVars';
+export * from './indicators';
+export * from './css/createThemeCSSVars';
 export * from './themes/datalayerTheme';
 export * from './DatalayerThemeProvider';
 export * from './DatalayerBrandThemeProvider';

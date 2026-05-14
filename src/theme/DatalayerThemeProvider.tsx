@@ -138,7 +138,7 @@ export interface IDatalayerThemeProviderProps extends Omit<
    * When provided, these replace the built-in datalayer styles entirely.
    * The `baseStyles` prop is still merged on top.
    *
-   * Use the `buildThemeStyles` helper from `./themes/createThemeCSSVars`
+   * Use the `buildThemeStyles` helper from `./css/createThemeCSSVars`
    * to generate comprehensive overrides from a `ThemeColorDefs` pair.
    */
   themeStyles?: {

@@ -5,8 +5,8 @@
  */
 
 /**
- * Shared SVG palette types, theme-aware colour resolution, and reusable
- * gradient / grid definitions consumed by SVG illustrations.
+ * Shared palette types, theme-aware colour resolution, and reusable
+ * gradient / grid definitions.
  */
 
 import {
@@ -22,7 +22,7 @@ import {
 } from '../themeRegistry';
 import { useThemeStore } from '../useThemeStore';
 
-export interface SvgPalette {
+export interface ColorPalette {
   bg: string;
   bgPanel: string;
   bgAlt: string;
@@ -52,7 +52,7 @@ const mxBrightLight = getBrightPalette('matrix', 'light');
 const eaBrightDark = getBrightPalette('earth');
 const eaBrightLight = getBrightPalette('earth', 'light');
 
-const palettes: Record<ThemeVariant, { light: SvgPalette; dark: SvgPalette }> = {
+const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
   datalayer: {
     light: {
       bg: '#f6f8fa',
@@ -245,10 +245,10 @@ const palettes: Record<ThemeVariant, { light: SvgPalette; dark: SvgPalette }> = 
   },
 };
 
-export function getSvgPalette(
+export function getColorPalette(
   theme: ThemeVariant = 'datalayer',
   colorMode: 'light' | 'dark' | 'auto' = 'auto',
-): SvgPalette {
+): ColorPalette {
   const mode: 'light' | 'dark' =
     colorMode === 'auto'
       ? typeof window !== 'undefined' &&
@@ -259,13 +259,13 @@ export function getSvgPalette(
   return palettes[theme]?.[mode] ?? palettes.datalayer.dark;
 }
 
-export function useSvgPalette(): SvgPalette {
+export function useColorPalette(): ColorPalette {
   const { colorMode, theme } = useThemeStore();
-  return getSvgPalette(theme, colorMode);
+  return getColorPalette(theme, colorMode);
 }
 
-/** @deprecated Use `useSvgPalette` instead. */
-export const useBlogSvgPalette = useSvgPalette;
+/** @deprecated Use `useColorPalette` instead. */
+export const useBlogColorPalette = useColorPalette;
 
 export const LightBoostFilter = () => (
   <filter id="svgLightBoost" colorInterpolationFilters="sRGB">
@@ -275,7 +275,7 @@ export const LightBoostFilter = () => (
   </filter>
 );
 
-export const SharedDefs = ({ p }: { p: SvgPalette }) => (
+export const SharedDefs = ({ p }: { p: ColorPalette }) => (
   <defs>
     <LightBoostFilter />
     <linearGradient id="fadeGreen" x1="0" y1="0" x2="1" y2="1">
@@ -354,7 +354,7 @@ export const SharedDefs = ({ p }: { p: SvgPalette }) => (
   </defs>
 );
 
-export const svgLightFilter = (p: SvgPalette) =>
+export const svgLightFilter = (p: ColorPalette) =>
   p.isLight ? 'url(#svgLightBoost)' : undefined;
 
 export const BgGrid = ({ w = 800, h = 400 }: { w?: number; h?: number }) => (

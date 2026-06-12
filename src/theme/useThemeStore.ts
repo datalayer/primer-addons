@@ -31,8 +31,45 @@ import type { ThemeVariant } from './themeRegistry';
 import { themeConfigs } from './themeRegistry';
 import type { ColorMode } from './DatalayerBrandThemeProvider';
 
+const VARIANT_SCHEMA_VERSION = 1;
+
+export type VariantPreference = {
+  theme: ThemeVariant;
+  colorMode: ColorMode;
+  version?: number;
+};
+
 /** Per-variant theme + colorMode preferences. */
-export type VariantDefaults = Record<string, { theme: ThemeVariant; colorMode: ColorMode }>;
+export type VariantDefaults = Record<string, VariantPreference>;
+
+function normalizeVariantPreference(pref: VariantPreference): Required<VariantPreference> {
+  return {
+    theme: pref.theme,
+    colorMode: pref.colorMode,
+    version: typeof pref.version === 'number' ? pref.version : VARIANT_SCHEMA_VERSION,
+  };
+}
+
+function normalizeVariants(variants?: VariantDefaults): VariantDefaults {
+  if (!variants) {
+    return {};
+  }
+  const normalized: VariantDefaults = {};
+  for (const [key, pref] of Object.entries(variants)) {
+    if (!pref || typeof pref !== 'object' || !('theme' in pref) || !('colorMode' in pref)) {
+      continue;
+    }
+    normalized[key] = normalizeVariantPreference(pref);
+  }
+  return normalized;
+}
+
+function hasMissingVariantVersion(variants?: VariantDefaults): boolean {
+  if (!variants || Object.keys(variants).length === 0) {
+    return false;
+  }
+  return Object.values(variants).some(pref => typeof pref?.version !== 'number');
+}
 
 export interface ThemeState {
   /** Current color mode (light, dark, or auto = follow OS). */
@@ -104,7 +141,7 @@ export function createThemeStore(
 
         /* ── variant state ──────────────────────────────────── */
         activeVariant: null,
-        variants: defaults?.variants ?? {},
+        variants: normalizeVariants(defaults?.variants),
 
         /* ── actions ────────────────────────────────────────── */
 
@@ -116,7 +153,11 @@ export function createThemeStore(
                 colorMode: next,
                 variants: {
                   ...state.variants,
-                  [state.activeVariant]: { ...state.variants[state.activeVariant], colorMode: next },
+                  [state.activeVariant]: {
+                    ...state.variants[state.activeVariant],
+                    colorMode: next,
+                    version: VARIANT_SCHEMA_VERSION,
+                  },
                 },
               };
             }
@@ -130,7 +171,11 @@ export function createThemeStore(
                 colorMode: mode,
                 variants: {
                   ...state.variants,
-                  [state.activeVariant]: { ...state.variants[state.activeVariant], colorMode: mode },
+                  [state.activeVariant]: {
+                    ...state.variants[state.activeVariant],
+                    colorMode: mode,
+                    version: VARIANT_SCHEMA_VERSION,
+                  },
                 },
               };
             }
@@ -148,7 +193,11 @@ export function createThemeStore(
                 colorMode: nextColorMode,
                 variants: {
                   ...state.variants,
-                  [state.activeVariant]: { theme, colorMode: nextColorMode },
+                  [state.activeVariant]: {
+                    theme,
+                    colorMode: nextColorMode,
+                    version: VARIANT_SCHEMA_VERSION,
+                  },
                 },
               };
             }
@@ -160,7 +209,12 @@ export function createThemeStore(
             const merged = { ...state.variants };
             for (const [key, val] of Object.entries(defs)) {
               if (!merged[key]) {
-                merged[key] = val;
+                merged[key] = normalizeVariantPreference(val);
+              } else {
+                merged[key] = normalizeVariantPreference({
+                  ...merged[key],
+                  version: merged[key].version ?? VARIANT_SCHEMA_VERSION,
+                });
               }
             }
             return { variants: merged };
@@ -181,7 +235,7 @@ export function createThemeStore(
       }),
       {
         name: storageKey,
-        version: 2,
+        version: 3,
         storage: createJSONStorage(() => localStorage),
         partialize: state => ({
           colorMode: state.colorMode,
@@ -194,7 +248,33 @@ export function createThemeStore(
          * value the persisted state is discarded and the store starts fresh
          * from code-defined defaults.
          */
-        migrate: () => ({}),
+        migrate: persisted => {
+          const p = (persisted ?? {}) as Partial<ThemeState>;
+          const legacyVariants = p.variants as VariantDefaults | undefined;
+          const missingVariantVersion = hasMissingVariantVersion(legacyVariants);
+          const variants = normalizeVariants(legacyVariants);
+
+          // Legacy snapshots without per-variant versions are upgraded to v1.
+          // Anonymous defaults are forced to matrix/dark during this upgrade.
+          if (missingVariantVersion) {
+            variants['agent-anonymous'] = {
+              theme: 'matrix',
+              colorMode: 'dark',
+              version: VARIANT_SCHEMA_VERSION,
+            };
+          }
+
+          return {
+            ...p,
+            variants,
+            ...(missingVariantVersion
+              ? {
+                  theme: p.activeVariant === 'agent-anonymous' ? 'matrix' : p.theme,
+                  colorMode: p.activeVariant === 'agent-anonymous' ? 'dark' : p.colorMode,
+                }
+              : {}),
+          };
+        },
         /**
          * Deep-merge variants during hydration so that:
          *  - Code-defined variants (from defaults or registerVariants) are
@@ -206,11 +286,11 @@ export function createThemeStore(
           const p = (persisted ?? {}) as Partial<ThemeState>;
           // Build merged variants: start from code-defined, then overlay
           // any persisted variant whose prefs differ (user customisations).
-          const mergedVariants = { ...current.variants };
+          const mergedVariants = normalizeVariants(current.variants);
           if (p.variants) {
             for (const [key, val] of Object.entries(p.variants)) {
               if (val && typeof val === 'object' && 'theme' in val) {
-                mergedVariants[key] = val;
+                mergedVariants[key] = normalizeVariantPreference(val);
               }
             }
           }

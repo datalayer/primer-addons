@@ -23,6 +23,11 @@ build: ## build all modules
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \
 		npm run build )
 
+gallery: ## run the Vite primer-addons gallery example
+	($(CONDA_ACTIVATE) ${ENV_NAME}; \
+		npm --prefix examples/gallery install && \
+		npm run gallery )
+
 start: ## start
 	($(CONDA_ACTIVATE) ${ENV_NAME}; \
 		npm dev )

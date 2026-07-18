@@ -166,6 +166,14 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     '--bgColor-inset': defs.canvas.default,
     ...optional,
 
+    /* ── Overlay (portaled surfaces: menus, dialogs, popovers) ────
+     * Primer's <Overlay> paints its surface with `var(--overlay-bgColor)`,
+     * which normally ships in @primer/primitives. Apps using this theme do
+     * NOT load primitives CSS, so define the overlay tokens here to avoid
+     * transparent overlay panels. */
+    '--overlay-bgColor': defs.canvas.default,
+    '--overlay-backdrop-bgColor': 'rgba(0, 0, 0, 0.5)',
+
     /* ── Foreground / Text ───────────────────────────────────────── */
     '--fgColor-default': defs.fg.default,
     '--fgColor-muted': defs.fg.muted,

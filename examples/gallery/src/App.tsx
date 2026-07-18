@@ -350,15 +350,16 @@ function CardDemo() {
 }
 
 function LogoDemo() {
+  const { theme, colorMode } = useThemeStore();
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 4 }}>
-      <DatalayerLogo />
-      <DatalayerText />
-      <DatalayerLogoText />
-      <DatalayerTextAI />
-      <AI />
-      <AI2 />
-      <DI />
+      <DatalayerLogo variant={theme} colorMode={colorMode} />
+      <DatalayerText variant={theme} colorMode={colorMode} />
+      <DatalayerLogoText variant={theme} colorMode={colorMode} />
+      <DatalayerTextAI variant={theme} colorMode={colorMode} />
+      <AI variant={theme} colorMode={colorMode} />
+      <AI2 variant={theme} colorMode={colorMode} />
+      <DI variant={theme} colorMode={colorMode} />
     </Box>
   );
 }
@@ -377,13 +378,13 @@ export default function App() {
     () => [
       {
         id: 'AppearanceControlsWithStore',
-        title: 'AppearanceControlsWithStore',
+        title: 'Appearance Controls With Store',
         description: 'Theme + color-mode chooser bound to the shared store.',
         render: () => <AppearanceControlsWithStore useStore={useThemeStore} />,
       },
       {
         id: 'AppearanceControls',
-        title: 'AppearanceControls',
+        title: 'Appearance Controls',
         description: 'Controlled appearance chooser component.',
         render: () => <AppearanceControlsDemo />,
       },
@@ -413,7 +414,7 @@ export default function App() {
       },
       {
         id: 'CloseableFlash',
-        title: 'CloseableFlash',
+        title: 'Closeable Flash',
         description: 'Dismissible flash message wrapper.',
         render: () => (
           <CloseableFlash variant="warning">This flash can be dismissed.</CloseableFlash>
@@ -421,13 +422,13 @@ export default function App() {
       },
       {
         id: 'ContentLoader',
-        title: 'ContentLoader',
+        title: 'Content Loader',
         description: 'Skeleton loader utility.',
         render: () => <ContentLoader count={4} />,
       },
       {
         id: 'CircleIcon',
-        title: 'CircleIcon',
+        title: 'Circle Icon',
         description: 'Theme-aware circular icon utility.',
         render: () => (
           <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
@@ -467,7 +468,7 @@ export default function App() {
       },
       {
         id: 'Logos',
-        title: 'Logo Components',
+        title: 'Logos',
         description: 'All logo and wordmark components.',
         render: () => <LogoDemo />,
       },
@@ -479,7 +480,7 @@ export default function App() {
       },
       {
         id: 'FloatingToolbar',
-        title: 'FloatingToolbar',
+        title: 'Floating Toolbar',
         description: 'Selection-aware floating toolbar.',
         render: () => <FloatingToolbarDemo />,
       },

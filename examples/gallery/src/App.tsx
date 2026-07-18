@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  BaseStyles,
   Box as PrimerBox,
   Button,
   Heading,
@@ -365,8 +364,7 @@ export default function App() {
 
   return (
     <ThemedProvider useStore={useThemeStore}>
-      <BaseStyles>
-        <div className="example-shell">
+      <div className="example-shell">
           <PrimerBox
             sx={{
               display: 'flex',
@@ -425,7 +423,6 @@ export default function App() {
             </div>
           </div>
         </div>
-      </BaseStyles>
     </ThemedProvider>
   );
 }

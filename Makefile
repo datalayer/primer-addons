@@ -24,9 +24,6 @@ gallery: ## run the Vite primer-addons gallery example
 start: ## start
 	npm dev
 
-start: ## start
-	npm dev
-
 clean: ## deletes node_modules, lib, build... folders and other generated info, lock, log... files
 	find . -name node_modules | xargs rm -fr {} || true
 	find . -name dist | xargs rm -fr {} || true
@@ -36,15 +33,8 @@ clean: ## deletes node_modules, lib, build... folders and other generated info, 
 	find . -name yarn-error.log | xargs rm {} || true
 	find . -name tsconfig.tsbuildinfo | xargs rm {} || true
 
-env-rm: ## create a conda environment
-	conda deactivate && \
-		conda remove -y --all -n ${ENV_NAME}
-
-env: ## create a conda environment 
-	conda env create -f environment.yml
-
 install: ## install npm dependencies
-	npm
+	npm install
 
 publish-npm: # publish the npm packages
 	npm run build && \
@@ -63,4 +53,4 @@ deploy-storybook: ## deploy-storybook to s3 and invalidate cloudfront
 		--distribution-id E31G4MWCFRSED1 \
 		--paths "/*" \
 		--profile datalayer && \
-echo open ✨  https://primer-addons.datalayer.tech
+	echo open ✨  https://primer-addons.datalayer.tech

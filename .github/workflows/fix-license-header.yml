@@ -9,6 +9,8 @@ concurrency:
     
 jobs:
   header-license-fix:
+    # Never run privileged write-token steps on fork PRs.
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
     permissions:
@@ -16,19 +18,16 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Checkout
+      - name: Checkout trusted PR branch
         uses: actions/checkout@v4
         with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout the branch from the PR that triggered the job
-        run: gh pr checkout ${{ github.event.pull_request.number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Fix License Header
-        # pin to include https://github.com/apache/skywalking-eyes/pull/168
-        uses: apache/skywalking-eyes/header@e19b828cea6a6027cceae78f05d81317347d21be
+        uses: apache/skywalking-eyes/header@main
         with:
           mode: fix
 

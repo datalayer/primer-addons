@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { BaseStyles, Box, Text, NavList, Heading, ThemeProvider, Button, theme, ActionMenu, IconButton, ActionList } from "@primer/react";
 import { KebabHorizontalIcon } from "@primer/octicons-react";
 import { DatalayerIcon, LogOutIcon, SettingsIcon } from "@datalayer/icons-react";
-import { Slider, Overlay } from ".";
+import { Slider, SideOverlay } from ".";
 
 import "@primer/primitives/dist/css/base/typography/typography.css";
 import "@primer/primitives/dist/css/base/motion/motion.css";
@@ -97,7 +97,7 @@ const App = () => {
                   <Button ref={openButtonRef} onClick={() => {setIsOpen(!isOpen)}}>
                     Open overlay
                   </Button>
-                  <Overlay
+                  <SideOverlay
                     isOpen={isOpen}
                     content={<Text>Look, I am an <Button>Overlay 👉</Button></Text>}
                     setIsOpen={setIsOpen}

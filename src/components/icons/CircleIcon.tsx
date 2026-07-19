@@ -12,14 +12,17 @@ export const CircleIcon = ({
 }: CircleIconProps) => {
   const { theme } = useTheme();
   const colorGroup = (theme?.colors as Record<string, unknown> | undefined)?.[color];
-  const themedFill =
+  const resolvedColor =
     colorGroup && typeof colorGroup === 'object'
       ? (colorGroup as Record<string, string | undefined>)[variant] ??
         (colorGroup as Record<string, string | undefined>).fg
       : undefined;
 
   return (
-    <CircleCurrentColorIcon fill={themedFill ?? color ?? 'white'} />
+    <CircleCurrentColorIcon
+      fill={resolvedColor ?? color ?? 'currentColor'}
+      color={resolvedColor ?? color ?? 'currentColor'}
+    />
   )
 }
 

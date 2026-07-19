@@ -1,24 +1,24 @@
 import { useState, useRef } from "react";
 import { Heading, Text, ThemeProviderProps, Box, Button } from "@primer/react";
 import type { Meta, StoryObj } from '@storybook/react';
-import { Overlay, OverlayProps } from '../..';
+import { SideOverlay, SideOverlayProps } from '../..';
 
 const meta = {
-  title: 'Components/Overlay',
-  component: Overlay,
+  title: 'Components/SideOverlay',
+  component: SideOverlay,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Overlay>;
+} satisfies Meta<typeof SideOverlay>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>
 
-const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & OverlayProps) => {
+const ThemedSideOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & SideOverlayProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -33,7 +33,7 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
           <Button ref={openButtonRef} onClick={() => {setIsOpen(!isOpen)}}>
             Open overlay
           </Button>
-          <Overlay
+          <SideOverlay
             {...props}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -46,38 +46,38 @@ const ThemedOverlay = (props: {colorMode?: ThemeProviderProps["colorMode"]} & Ov
   )
 }
 
-export const OverlayDayLeft: Story = {
+export const SideOverlayDayLeft: Story = {
   args: {
     content: <Text>👈 Look, left aligned, no heading.</Text>,
     direction: "left",
     width: '500px',
   },
-  render: (args) => <ThemedOverlay {...args} colorMode="day" />
+  render: (args) => <ThemedSideOverlay {...args} colorMode="day" />
 };
 
-export const OverlayDayRight: Story = {
+export const SideOverlayDayRight: Story = {
   args: {
     content: <Text>Look, right aligned, on heading 👉</Text>,
     direction: "right",
     width: '500px',
   },
-  render: (args) => <ThemedOverlay {...args} colorMode="day" />
+  render: (args) => <ThemedSideOverlay {...args} colorMode="day" />
 };
 
-export const OverlayNightLeft: Story = {
+export const SideOverlayNightLeft: Story = {
   args: {
     content: <Text>👈 Look, left aligned, no heading.</Text>,
     direction: "left",
     width: '300px',
   },
-  render: (args) => <ThemedOverlay {...args} colorMode="night" />
+  render: (args) => <ThemedSideOverlay {...args} colorMode="night" />
 };
 
-export const OverlayNightRight: Story = {
+export const SideOverlayNightRight: Story = {
   args: {
     content: <Text>Look, right aligned, on heading 👉</Text>,
     direction: "right",
     width: '300px',
   },
-  render: (args) => <ThemedOverlay {...args} colorMode="night" />
+  render: (args) => <ThemedSideOverlay {...args} colorMode="night" />
 };

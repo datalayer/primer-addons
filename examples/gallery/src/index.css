@@ -33,6 +33,22 @@ body {
   padding: 24px;
 }
 
+.gallery-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.gallery-card {
+  height: 100%;
+}
+
 .floating-anchor {
   position: relative;
   border: 1px dashed var(--borderColor-default, #d0d7de);
@@ -55,5 +71,9 @@ body {
   .example-sidebar {
     border-right: none;
     border-bottom: 1px solid var(--borderColor-default, #d0d7de);
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
   }
 }

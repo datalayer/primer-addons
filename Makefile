@@ -3,11 +3,6 @@
 
 SHELL=/bin/bash
 
-CONDA=source $$(conda info --base)/etc/profile.d/conda.sh
-CONDA_ACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate
-CONDA_DEACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda deactivate
-CONDA_REMOVE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda remove -y --all -n
-
 ENV_NAME=datalayer
 
 .PHONY: help
@@ -20,17 +15,17 @@ default: help ## default target is help
 all: clean install build publish
 
 build: ## build all modules
-	($(CONDA_ACTIVATE) ${ENV_NAME}; \
-		npm run build )
+	npm run build
 
 gallery: ## run the Vite primer-addons gallery example
-	($(CONDA_ACTIVATE) ${ENV_NAME}; \
-		npm --prefix examples/gallery install && \
-		npm run gallery )
+	npm --prefix examples/gallery install && \
+	npm run gallery
 
 start: ## start
-	($(CONDA_ACTIVATE) ${ENV_NAME}; \
-		npm dev )
+	npm dev
+
+start: ## start
+	npm dev
 
 clean: ## deletes node_modules, lib, build... folders and other generated info, lock, log... files
 	find . -name node_modules | xargs rm -fr {} || true
@@ -42,17 +37,14 @@ clean: ## deletes node_modules, lib, build... folders and other generated info, 
 	find . -name tsconfig.tsbuildinfo | xargs rm {} || true
 
 env-rm: ## create a conda environment
-	($(CONDA); \
-		conda deactivate && \
-			conda remove -y --all -n ${ENV_NAME} )
+	conda deactivate && \
+		conda remove -y --all -n ${ENV_NAME}
 
 env: ## create a conda environment 
-	($(CONDA); \
-		conda env create -f environment.yml )
+	conda env create -f environment.yml
 
 install: ## install npm dependencies
-	($(CONDA_ACTIVATE) ${ENV_NAME}; \
-		npm )
+	npm
 
 publish-npm: # publish the npm packages
 	npm run build && \
@@ -60,16 +52,15 @@ publish-npm: # publish the npm packages
 	echo https://www.npmjs.com/package/@datalayer/primer-addons?activeTab=versions
 
 deploy-storybook: ## deploy-storybook to s3 and invalidate cloudfront
-	($(CONDA_ACTIVATE) ${ENV_NAME}; \
-		rm -fr storybook-static/* && \
-	  npm run build-storybook && \
-	  aws s3 cp \
+	rm -fr storybook-static/* && \
+	npm run build-storybook && \
+	aws s3 cp \
 		./storybook-static \
 		s3://datalayer-primer-addons/ \
 		--recursive \
 		--profile datalayer && \
-	  aws cloudfront create-invalidation \
+		aws cloudfront create-invalidation \
 		--distribution-id E31G4MWCFRSED1 \
 		--paths "/*" \
 		--profile datalayer && \
-	echo open ✨  https://primer-addons.datalayer.tech )
+echo open ✨  https://primer-addons.datalayer.tech

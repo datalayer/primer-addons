@@ -1,0 +1,61 @@
+name: Fix License Headers
+
+on:
+  pull_request_target:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+    
+jobs:
+  header-license-fix:
+    # Never run privileged write-token steps on fork PRs.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout trusted PR branch
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fix License Header
+        uses: apache/skywalking-eyes/header@main
+        with:
+          mode: fix
+
+      - name: List files changed
+        id: files-changed
+        shell: bash -l {0}
+        run: |
+          set -ex
+          export CHANGES=$(git status --porcelain | tee /tmp/modified.log | wc -l)
+          cat /tmp/modified.log
+
+          echo "N_CHANGES=${CHANGES}" >> $GITHUB_OUTPUT
+
+          git diff
+
+      - name: Commit any changes
+        if: steps.files-changed.outputs.N_CHANGES != '0'
+        shell: bash -l {0}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git pull --no-tags
+
+          git add *
+          git commit -m "Automatic application of license header"
+
+          git config push.default upstream
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

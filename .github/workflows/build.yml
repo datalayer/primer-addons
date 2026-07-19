@@ -23,24 +23,24 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
         # Defaults to the user or organization that owns the workflow file
         scope: '@datalayer'
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
+    - name: Get npm run cache directory path
+      id: npm run-cache-dir-path
       run: |
         corepack enable
-        yarn set version 3.5.0
-        echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        npm run set version 3.5.0
+        echo "dir=$(npm run config get cacheFolder)" >> $GITHUB_OUTPUT
     - uses: actions/cache@v4
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      id: npm run-cache # use this to check for `cache-hit` (`steps.npm run-cache.outputs.cache-hit != 'true'`)
       with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        path: ${{ steps.npm run-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-npm run-${{ hashFiles('**/npm run.lock') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-
+          ${{ runner.os }}-npm run-
 
     - name: Build the package
       run: |
         set -eux
-        yarn install
-        yarn run build
+        npm run install
+        npm run run build
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

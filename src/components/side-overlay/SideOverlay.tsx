@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { IconButton, Overlay as PrimerOverlay, BaseStyles, ThemeProvider, useTheme } from "@primer/react";
+import { IconButton, Overlay as PrimerOverlay, ThemeProvider, useTheme } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 import { Box } from '../box/Box';
 
-export interface OverlayProps {
+export interface SideOverlayProps {
   closeButtonRef?: React.RefObject<HTMLButtonElement>;
   content: JSX.Element;
   direction?: 'left' | 'right';
@@ -15,7 +15,7 @@ export interface OverlayProps {
   zIndex?: number;
 }
 
-const PrimerAddonOverlay = (props: OverlayProps) => {
+const PrimerAddonOverlay = (props: SideOverlayProps) => {
   const {
     closeButtonRef,
     content,
@@ -52,34 +52,32 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
 
   const overlayContent = (
     <ThemeProvider theme={theme} colorMode={colorMode}>
-      <BaseStyles>
-        <Box sx={{
-          /* We need to remove the padding */
-          height: `calc(100vh - ${top}px - 8px)`,
-          width,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '4px'
-        }}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'right',
-              width: '100%'
-            }}
-          >
-            <IconButton
-              variant='invisible'
-              ref={closeButtonRef}
-              onClick={closeOverlay}
-              icon={XIcon}
-              aria-labelledby="close"
-            />
-          </Box>
-          {content}
+      <Box sx={{
+        /* We need to remove the padding */
+        height: `calc(100vh - ${top}px - 8px)`,
+        width,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '4px'
+      }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'right',
+            width: '100%'
+          }}
+        >
+          <IconButton
+            variant='invisible'
+            ref={closeButtonRef}
+            onClick={closeOverlay}
+            icon={XIcon}
+            aria-labelledby="close"
+          />
         </Box>
-      </BaseStyles>
+        {content}
+      </Box>
     </ThemeProvider>
   );
 
@@ -128,15 +126,15 @@ const PrimerAddonOverlay = (props: OverlayProps) => {
   );
 };
 
-export const Overlay = ({
+export const SideOverlay = ({
   width = '500px',
   direction = 'left',
   zIndex = 100,
   ...rest
-}: OverlayProps) => {
+}: SideOverlayProps) => {
   return (
     <PrimerAddonOverlay width={width} direction={direction} zIndex={zIndex} {...rest}/>
   )
 };
 
-export default Overlay;
+export default SideOverlay;

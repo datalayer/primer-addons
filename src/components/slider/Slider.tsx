@@ -60,7 +60,8 @@ export const Slider = ({
   const sliderStyle = {
     width,
     ...(orientation === "vertical" ? { transform: "rotate(-90deg)" } : {}),
-    colorScheme: colorMode == 'day' ? 'light' : 'dark'
+    colorScheme: colorMode == 'day' ? 'light' : 'dark',
+    accentColor: 'var(--fgColor-accent)',
   }
 
   return (

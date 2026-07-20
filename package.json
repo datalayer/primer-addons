@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "tsc && vite build",

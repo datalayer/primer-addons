@@ -18,6 +18,10 @@
     "watch:lib": "tsc -b -w"
   },
   "main": "lib/index.js",
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
   "files": [
     "lib",
     "style"

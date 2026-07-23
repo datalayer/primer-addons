@@ -6,8 +6,6 @@
 import { type CSSProperties } from 'react';
 import { registerPortalRoot } from '@primer/react';
 
-import '@primer/react-brand/lib/css/main.css';
-
 const PRIMER_PORTAL_ROOT_ID = '__primerPortalRoot__';
 
 /**

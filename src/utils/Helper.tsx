@@ -4,7 +4,7 @@
  */
 
 import React, { Ref, PropsWithChildren } from 'react';
-import { AnimateProps } from '@primer/react-brand';
+import type { AnimateProps } from '@primer/react-brand';
 
 /**
  * Layout

@@ -6,6 +6,7 @@
 import type { ReactElement } from 'react';
 import { CheckCircleFillIcon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
+import { matrixColors } from '../../theme/colors';
 import { DatalayerThemeProvider, type ColorMode, themeConfigs, type ThemeVariant, useSystemColorMode } from '../../theme';
 
 export interface ThemePreviewCardProps {
@@ -113,33 +114,37 @@ export function ThemePreviewCard({
             <Box sx={{ display: 'block', fontSize: 0, color: 'fg.muted', mb: 2 }}>
               jumps over the lazy dog.
             </Box>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <Box
-                sx={{
-                  px: 2,
-                  py: '2px',
-                  borderRadius: '12px',
-                  bg: 'accent.emphasis',
-                  color: 'fg.onEmphasis',
-                  fontSize: 0,
-                  lineHeight: '18px',
-                }}
-              >
-                accent
-              </Box>
-              <Box
-                sx={{
-                  px: 2,
-                  py: '2px',
-                  borderRadius: '12px',
-                  bg: 'success.emphasis',
-                  color: 'fg.onEmphasis',
-                  fontSize: 0,
-                  lineHeight: '18px',
-                }}
-              >
-                success
-              </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              {(
+                [
+                  { label: 'accent', bg: 'accent.emphasis' as const },
+                  { label: 'success', bg: 'success.emphasis' as const },
+                  { label: 'attention', bg: 'attention.emphasis' as const },
+                  { label: 'danger', bg: 'danger.emphasis' as const },
+                  { label: 'done', bg: 'done.emphasis' as const },
+                  { label: 'severe', bg: 'severe.emphasis' as const },
+                ]
+              ).map(({ label, bg }) => (
+                <Box
+                  key={label}
+                  sx={{
+                    px: 2,
+                    py: '2px',
+                    borderRadius: '12px',
+                    bg,
+                    color:
+                      variant === 'matrix' &&
+                      ((resolvedMode === 'dark' && label === 'accent') ||
+                        (resolvedMode === 'light' && label === 'attention'))
+                        ? matrixColors.black
+                        : 'fg.onEmphasis',
+                    fontSize: 0,
+                    lineHeight: '18px',
+                  }}
+                >
+                  {label}
+                </Box>
+              ))}
             </Box>
           </Box>
         </Box>

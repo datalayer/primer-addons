@@ -36,6 +36,30 @@ const earthLight: ThemeColorDefs = {
     emphasis: earthColors.forestBrand,
     muted: earthColors.forestAccent,
   },
+  attention: {
+    fg: earthColors.attentionBrand,
+    emphasis: earthColors.attentionAccent,
+    muted: earthColors.attentionBrand,
+    subtle: earthColors.attentionTint,
+  },
+  danger: {
+    fg: earthColors.dangerBrand,
+    emphasis: earthColors.dangerBrand,
+    muted: earthColors.dangerAccent,
+    subtle: earthColors.dangerTint,
+  },
+  severe: {
+    fg: earthColors.severeBrand,
+    emphasis: earthColors.severeBrand,
+    muted: earthColors.severeAccent,
+    subtle: earthColors.severeTint,
+  },
+  done: {
+    fg: earthColors.doneBrand,
+    emphasis: earthColors.doneBrand,
+    muted: earthColors.doneAccent,
+    subtle: earthColors.doneTint,
+  },
   border: {
     default: '#C1D0DD',
     muted: '#DAE4ED',
@@ -124,6 +148,30 @@ const earthDark: ThemeColorDefs = {
     emphasis: earthColors.forestAccent,
     muted: earthColors.forestBrand,
     subtle: '#0C2D18',
+  },
+  attention: {
+    fg: '#facc15',
+    emphasis: '#ca8a04',
+    muted: earthColors.attentionAccent,
+    subtle: '#352700',
+  },
+  danger: {
+    fg: '#f97066',
+    emphasis: '#b42318',
+    muted: earthColors.dangerAccent,
+    subtle: '#3a1514',
+  },
+  severe: {
+    fg: '#fbbf24',
+    emphasis: '#b45309',
+    muted: earthColors.severeAccent,
+    subtle: '#342100',
+  },
+  done: {
+    fg: '#60a5fa',
+    emphasis: '#1d4ed8',
+    muted: earthColors.doneAccent,
+    subtle: '#112545',
   },
   btn: {
     text: '#D4E4DC',

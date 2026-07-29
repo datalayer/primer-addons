@@ -21,6 +21,20 @@ export const datalayerColors = {
   greenBright: '#2ECC71', // Highlights and glow on dark backgrounds
   greenHover: '#0E6655', // Primary button hover
 
+  // Semantic roles
+  attentionBrand: '#B08800',
+  attentionAccent: '#D4A72C',
+  attentionTint: '#FFF8C5',
+  dangerBrand: '#D1242F',
+  dangerAccent: '#FF6A69',
+  dangerTint: '#FFE5E5',
+  severeBrand: '#BC4C00',
+  severeAccent: '#F0883E',
+  severeTint: '#FFF1E5',
+  doneBrand: '#0969DA',
+  doneAccent: '#54AEFF',
+  doneTint: '#DDF4FF',
+
   // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
   brightGlow: '#00D68F', // Ultra-vivid emerald — primary glow
   brightPop: '#00E5FF', // Electric cyan — contrasting accent

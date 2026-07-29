@@ -39,8 +39,40 @@ export interface ThemeColorDefs {
     subtle?: string;
   };
 
-  /* Success (reused for the brand in most themes) */
+  /* Success (semantic green) */
   success: {
+    fg: string;
+    emphasis: string;
+    muted: string;
+    subtle?: string;
+  };
+
+  /* Attention (semantic amber/yellow) — optional, mode-aware fallback */
+  attention?: {
+    fg: string;
+    emphasis: string;
+    muted: string;
+    subtle?: string;
+  };
+
+  /* Danger (semantic red) — optional, mode-aware fallback */
+  danger?: {
+    fg: string;
+    emphasis: string;
+    muted: string;
+    subtle?: string;
+  };
+
+  /* Severe (semantic orange) — optional, mode-aware fallback */
+  severe?: {
+    fg: string;
+    emphasis: string;
+    muted: string;
+    subtle?: string;
+  };
+
+  /* Done (semantic purple) — optional, mode-aware fallback */
+  done?: {
     fg: string;
     emphasis: string;
     muted: string;
@@ -153,12 +185,40 @@ export interface ThemeColorDefs {
  * | Legacy aliases   | `--color-btn-primary-bg`               |
  * | Brand (custom)   | `--brand-color-canvas-default`         |
  */
-export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
+export function colorDefsToCSS(
+  defs: ThemeColorDefs,
+  mode: 'light' | 'dark' = 'light',
+): CSSProperties {
   const optional: Record<string, string> = {};
 
   if (defs.canvas.subtle) {
     optional['--bgColor-muted'] = defs.canvas.subtle;
   }
+
+  /* ── Semantic role fallbacks ─────────────────────────────────────
+   * Themes may override `attention` / `danger` / `severe` / `done`,
+   * but when they don't we supply sensible, mode-aware defaults so the
+   * full Primer semantic palette is always defined (apps do not load
+   * @primer/primitives CSS). */
+  const roleFallbacks =
+    mode === 'dark'
+      ? {
+          attention: { fg: '#d29922', emphasis: '#9e6a03', muted: '#bb8009', subtle: '#341a00' },
+          danger: { fg: '#f85149', emphasis: '#da3633', muted: '#b62324', subtle: '#25171c' },
+          severe: { fg: '#db6d28', emphasis: '#bd561d', muted: '#9e5122', subtle: '#2a1801' },
+          done: { fg: '#a371f7', emphasis: '#8957e5', muted: '#6e40c9', subtle: '#221530' },
+        }
+      : {
+          attention: { fg: '#9a6700', emphasis: '#bf8700', muted: '#d4a72c', subtle: '#fff8c5' },
+          danger: { fg: '#cf222e', emphasis: '#cf222e', muted: '#ff8182', subtle: '#ffebe9' },
+          severe: { fg: '#bc4c00', emphasis: '#bc4c00', muted: '#fdaa7f', subtle: '#fff1e5' },
+          done: { fg: '#8250df', emphasis: '#8250df', muted: '#d8b9ff', subtle: '#fbefff' },
+        };
+
+  const attention = defs.attention ?? roleFallbacks.attention;
+  const danger = defs.danger ?? roleFallbacks.danger;
+  const severe = defs.severe ?? roleFallbacks.severe;
+  const done = defs.done ?? roleFallbacks.done;
 
   return {
     /* ── Canvas / Background ─────────────────────────────────────── */
@@ -195,6 +255,34 @@ export function colorDefsToCSS(defs: ThemeColorDefs): CSSProperties {
     '--bgColor-success-muted': defs.success.subtle ?? defs.success.muted,
     '--borderColor-success-emphasis': defs.success.emphasis,
     '--borderColor-success-muted': defs.success.muted,
+
+    /* ── Attention (amber) ───────────────────────────────────────── */
+    '--fgColor-attention': attention.fg,
+    '--bgColor-attention-emphasis': attention.emphasis,
+    '--bgColor-attention-muted': attention.subtle ?? attention.muted,
+    '--borderColor-attention-emphasis': attention.emphasis,
+    '--borderColor-attention-muted': attention.muted,
+
+    /* ── Danger (red) ────────────────────────────────────────────── */
+    '--fgColor-danger': danger.fg,
+    '--bgColor-danger-emphasis': danger.emphasis,
+    '--bgColor-danger-muted': danger.subtle ?? danger.muted,
+    '--borderColor-danger-emphasis': danger.emphasis,
+    '--borderColor-danger-muted': danger.muted,
+
+    /* ── Severe (orange) ─────────────────────────────────────────── */
+    '--fgColor-severe': severe.fg,
+    '--bgColor-severe-emphasis': severe.emphasis,
+    '--bgColor-severe-muted': severe.subtle ?? severe.muted,
+    '--borderColor-severe-emphasis': severe.emphasis,
+    '--borderColor-severe-muted': severe.muted,
+
+    /* ── Done (purple) ───────────────────────────────────────────── */
+    '--fgColor-done': done.fg,
+    '--bgColor-done-emphasis': done.emphasis,
+    '--bgColor-done-muted': done.subtle ?? done.muted,
+    '--borderColor-done-emphasis': done.emphasis,
+    '--borderColor-done-muted': done.muted,
 
     /* ── Border (generic) ────────────────────────────────────────── */
     '--borderColor-default': defs.border?.default ?? defs.btn.border,
@@ -383,7 +471,7 @@ export function buildThemeStyles(
       color: light.fg.default,
       fontSize: 'var(--text-body-size-medium)',
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
-      ...colorDefsToCSS(light),
+      ...colorDefsToCSS(light, 'light'),
       ...fontVars,
     } as CSSProperties,
     dark: {
@@ -391,7 +479,7 @@ export function buildThemeStyles(
       color: dark.fg.default,
       fontSize: 'var(--text-body-size-medium)',
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
-      ...colorDefsToCSS(dark),
+      ...colorDefsToCSS(dark, 'dark'),
       ...fontVars,
     } as CSSProperties,
   };

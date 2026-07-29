@@ -37,6 +37,20 @@ export const earthColors = {
   earthSand: '#D97706',    // Sandstone / amber
   earthClay: '#B45309',    // Terracotta
 
+  // Semantic roles
+  attentionBrand: '#CA8A04',
+  attentionAccent: '#EAB308',
+  attentionTint: '#FEF9C3',
+  dangerBrand: '#B42318',
+  dangerAccent: '#EF4444',
+  dangerTint: '#FEE4E2',
+  severeBrand: '#B45309',
+  severeAccent: '#F59E0B',
+  severeTint: '#FFF1DA',
+  doneBrand: '#1D4ED8',
+  doneAccent: '#3B82F6',
+  doneTint: '#DBEAFE',
+
   // Bright / vivid colours for SVG illustrations
   brightGlow: '#0EA5E9',   // Vivid ocean blue — primary glow (sea)
   brightPop: '#22C55E',    // Vivid green — contrasting accent (vegetation)

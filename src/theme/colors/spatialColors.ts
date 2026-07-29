@@ -21,6 +21,20 @@ export const spatialColors = {
   indigoBright: '#818CF8', // Highlights & glow on dark
   indigoHover: '#312E81', // Primary button hover
 
+  // Semantic roles
+  attentionBrand: '#C58A00',
+  attentionAccent: '#F2C94C',
+  attentionTint: '#FFF4CC',
+  dangerBrand: '#E5484D',
+  dangerAccent: '#FF7A7F',
+  dangerTint: '#FFE3E6',
+  severeBrand: '#C96A1B',
+  severeAccent: '#F4A259',
+  severeTint: '#FFF1E6',
+  doneBrand: '#7C4DFF',
+  doneAccent: '#A78BFA',
+  doneTint: '#EEE8FF',
+
   // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
   brightGlow: '#7C4DFF', // Electric violet — primary glow
   brightPop: '#448AFF', // Neon blue — contrasting accent

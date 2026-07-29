@@ -21,6 +21,20 @@ export const lovelyColors = {
   roseBright: '#F472B6', // Highlights & glow on dark
   roseHover: '#831843', // Primary button hover
 
+  // Semantic roles
+  attentionBrand: '#B7791F',
+  attentionAccent: '#F6AD55',
+  attentionTint: '#FFF5E6',
+  dangerBrand: '#D61F69',
+  dangerAccent: '#FF5C8A',
+  dangerTint: '#FFE6EF',
+  severeBrand: '#C05621',
+  severeAccent: '#ED8936',
+  severeTint: '#FFF1E8',
+  doneBrand: '#805AD5',
+  doneAccent: '#B794F4',
+  doneTint: '#F3E8FF',
+
   // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
   brightGlow: '#FF4081', // Hot pink — primary glow
   brightPop: '#FF6E40', // Vivid coral — contrasting accent

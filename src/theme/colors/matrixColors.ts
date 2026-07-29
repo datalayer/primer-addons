@@ -26,6 +26,20 @@ export const matrixColors = {
   greenHover: '#0E6655', // Datalayer hover — primary button hover
   greenTerminal: '#003B00', // Deep terminal — dark mode subtle/canvas
 
+  // Semantic roles
+  attentionBrand: '#A78E00',
+  attentionAccent: '#FFEA00',
+  attentionTint: '#3A3400',
+  dangerBrand: '#C62828',
+  dangerAccent: '#FF1744',
+  dangerTint: '#3A0F16',
+  severeBrand: '#C75B12',
+  severeAccent: '#FF8A00',
+  severeTint: '#332000',
+  doneBrand: '#008B8B',
+  doneAccent: '#00E5FF',
+  doneTint: '#042A2E',
+
   // Bright / vivid colours for SVG illustrations (OpenAI-blog style)
   brightGlow: '#39FF14', // Neon green — primary glow (re-stated for palette API)
   brightPop: '#00FF88', // Phosphor cyan — contrasting accent

@@ -4,7 +4,7 @@
  */
 
 import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
-import { Tooltip } from '@primer/react';
+import { IconButton, Tooltip } from '@primer/react';
 import { MoonIcon, SunIcon, DeviceDesktopIcon, type Icon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
 import { themeConfigs, type ColorMode, type ThemeVariant } from '../../theme';
@@ -23,7 +23,15 @@ const COLOR_MODE_META: Record<ColorMode, { label: string; Icon: Icon }> = {
   auto: { label: 'System', Icon: DeviceDesktopIcon },
 };
 
+/** Small optical offsets so glyphs look visually centered in the circle. */
+const COLOR_MODE_ICON_Y_OFFSET: Record<ColorMode, number> = {
+  light: -0.75,
+  dark: 0,
+  auto: -0.5,
+};
+
 type HoverOverlayPlacement = 'bottom-start' | 'bottom-end';
+type ColorModeCircleShape = 'square' | 'circle';
 
 export interface ColorModeCircleProps {
   /** Current color mode. */
@@ -40,6 +48,8 @@ export interface ColorModeCircleProps {
   hoverOverlayPlacement?: HoverOverlayPlacement;
   /** Optional theme used to tint the circle border. */
   themeVariant?: ThemeVariant;
+  /** Visual shape of the control. */
+  shape?: ColorModeCircleShape;
 }
 
 /**
@@ -54,18 +64,29 @@ export function ColorModeCircle({
   cycleOnClick = true,
   hoverOverlayPlacement = 'bottom-end',
   themeVariant,
+  shape = 'square',
 }: ColorModeCircleProps): ReactElement {
   const meta = COLOR_MODE_META[colorMode] ?? COLOR_MODE_META.light;
   const next = COLOR_MODE_CYCLE[colorMode] ?? 'light';
   const nextMeta = COLOR_MODE_META[next];
   const { Icon } = meta;
+  const iconYOffset = COLOR_MODE_ICON_Y_OFFSET[colorMode] ?? 0;
   const [isHoverOpen, setIsHoverOpen] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isBottomStart = hoverOverlayPlacement === 'bottom-start';
   const themeConfig = themeVariant ? themeConfigs[themeVariant] : undefined;
   const themeBorderColor = themeConfig?.brandColor;
   const hasThemeColor = Boolean(themeBorderColor);
-  const themedIconColor = themeConfig?.brightPalette?.onGlow || 'fg.default';
+  const resolvedMode: 'light' | 'dark' =
+    colorMode === 'auto'
+      ? (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light')
+      : colorMode;
+  const modeThemeStyles = themeConfig?.themeStyles?.[resolvedMode] as Record<string, string | undefined> | undefined;
+  const themePrimaryButtonBg = modeThemeStyles?.['--button-primary-bgColor-rest'];
+  const themePrimaryButtonFg = modeThemeStyles?.['--button-primary-fgColor-rest'];
+  const themedIconColor = themePrimaryButtonFg || themeConfig?.brightPalette?.onGlow || 'fg.default';
 
   const cancelScheduledClose = () => {
     if (closeTimerRef.current) {
@@ -98,19 +119,34 @@ export function ColorModeCircle({
   };
 
   const circle = (
-    <Box
-      as="button"
-      type="button"
+    <IconButton
       aria-label={`Color mode: ${meta.label}. Switch to ${nextMeta.label}.`}
       onClick={handleClick}
+      icon={() => (
+        <Box
+          as="span"
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: `translateY(${iconYOffset}px)`,
+            lineHeight: 0,
+          }}
+        >
+          <Icon size={Math.round(size * 0.5)} />
+        </Box>
+      )}
+      size="small"
+      variant="invisible"
       sx={{
+        minWidth: size,
         width: size,
         height: size,
-        borderRadius: '50%',
+        borderRadius: shape === 'circle' ? '50%' : 2,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bg: hasThemeColor ? themeBorderColor : 'canvas.default',
+        bg: hasThemeColor ? (themePrimaryButtonBg || themeBorderColor) : 'canvas.default',
         color: hasThemeColor ? themedIconColor : 'fg.default',
         border: '1px solid',
         borderColor: themeBorderColor || 'border.default',
@@ -128,9 +164,7 @@ export function ColorModeCircle({
           outlineOffset: 1,
         },
       }}
-    >
-      <Icon size={Math.round(size * 0.5)} />
-    </Box>
+    />
   );
 
   if (!hoverOverlay) {

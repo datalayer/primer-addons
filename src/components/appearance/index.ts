@@ -5,3 +5,5 @@
 
 export * from './AppearanceControls';
 export * from './AppearanceControlsWithStore';
+export * from './ColorModeCircle';
+export * from './ThemeCircle';

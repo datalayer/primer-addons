@@ -7,7 +7,7 @@ import { type ReactElement, type ReactNode, useEffect, useRef, useState } from '
 import { Tooltip } from '@primer/react';
 import { MoonIcon, SunIcon, DeviceDesktopIcon, type Icon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
-import type { ColorMode } from '../../theme';
+import { themeConfigs, type ColorMode, type ThemeVariant } from '../../theme';
 
 /** Order in which a click cycles through the color modes. */
 const COLOR_MODE_CYCLE: Record<ColorMode, ColorMode> = {
@@ -38,6 +38,8 @@ export interface ColorModeCircleProps {
   cycleOnClick?: boolean;
   /** Overlay placement relative to the circle. */
   hoverOverlayPlacement?: HoverOverlayPlacement;
+  /** Optional theme used to tint the circle border. */
+  themeVariant?: ThemeVariant;
 }
 
 /**
@@ -51,6 +53,7 @@ export function ColorModeCircle({
   hoverOverlay,
   cycleOnClick = true,
   hoverOverlayPlacement = 'bottom-end',
+  themeVariant,
 }: ColorModeCircleProps): ReactElement {
   const meta = COLOR_MODE_META[colorMode] ?? COLOR_MODE_META.light;
   const next = COLOR_MODE_CYCLE[colorMode] ?? 'light';
@@ -59,6 +62,10 @@ export function ColorModeCircle({
   const [isHoverOpen, setIsHoverOpen] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isBottomStart = hoverOverlayPlacement === 'bottom-start';
+  const themeConfig = themeVariant ? themeConfigs[themeVariant] : undefined;
+  const themeBorderColor = themeConfig?.brandColor;
+  const hasThemeColor = Boolean(themeBorderColor);
+  const themedIconColor = themeConfig?.brightPalette?.onGlow || 'fg.default';
 
   const cancelScheduledClose = () => {
     if (closeTimerRef.current) {
@@ -103,14 +110,18 @@ export function ColorModeCircle({
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bg: 'canvas.default',
-        color: 'fg.default',
+        bg: hasThemeColor ? themeBorderColor : 'canvas.default',
+        color: hasThemeColor ? themedIconColor : 'fg.default',
         border: '1px solid',
-        borderColor: 'border.default',
+        borderColor: themeBorderColor || 'border.default',
         cursor: 'pointer',
         padding: 0,
         transition: 'border-color 0.15s ease, color 0.15s ease',
-        '&:hover': { borderColor: 'accent.fg', color: 'accent.fg' },
+        '&:hover': {
+          borderColor: hasThemeColor ? themeBorderColor : 'accent.fg',
+          color: hasThemeColor ? themedIconColor : 'accent.fg',
+          opacity: hasThemeColor ? 0.92 : 1,
+        },
         '&:focus-visible': {
           outline: '2px solid',
           outlineColor: 'accent.fg',

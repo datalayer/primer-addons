@@ -17,12 +17,14 @@ import {
   type ColorMode,
   type ThemeVariant,
 } from '../../theme';
+import { ThemePreviewCard } from './ThemePreviewCard';
 
 export interface AppearanceControlsProps {
   colorMode: ColorMode;
   themeVariant: ThemeVariant;
   onColorModeChange: (mode: ColorMode) => void;
   onThemeChange: (theme: ThemeVariant) => void;
+  showThemePreviews?: boolean;
 }
 
 export function AppearanceControls({
@@ -30,6 +32,7 @@ export function AppearanceControls({
   themeVariant,
   onColorModeChange,
   onThemeChange,
+  showThemePreviews = false,
 }: AppearanceControlsProps): ReactElement {
   return (
     <>
@@ -60,52 +63,117 @@ export function AppearanceControls({
         </SegmentedControl>
       </Box>
 
-      <Box
-        sx={{
-          px: 2,
-          pb: 2,
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 2,
-        }}
-      >
-        {themeVariants.map((variant) => {
-          const cfg = themeConfigs[variant];
-          const isSelected = themeVariant === variant;
-          return (
-            <Tooltip key={variant} text={cfg.label} direction="s">
-              <Box
-                as="button"
-                aria-label={cfg.label}
-                aria-pressed={isSelected}
-                onClick={() => onThemeChange(variant)}
-                sx={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  backgroundColor: cfg.brandColor,
-                  border: '2px solid',
-                  borderColor: isSelected ? 'accent.fg' : 'border.default',
-                  cursor: 'pointer',
-                  padding: 0,
-                  outline: 'none',
-                  transition: 'border-color 0.15s ease',
-                  boxShadow: isSelected
-                    ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
-                    : 'none',
-                  '&:hover': {
-                    borderColor: 'accent.fg',
-                  },
-                  '&:focus-visible': {
-                    boxShadow:
-                      '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
-                  },
-                }}
-              />
-            </Tooltip>
-          );
-        })}
-      </Box>
+      {showThemePreviews ? (
+        <Box
+          sx={{
+            px: 2,
+            pb: 2,
+            display: 'grid',
+            gap: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 2,
+              flexWrap: 'wrap',
+            }}
+          >
+            {themeVariants.map((variant) => {
+              const cfg = themeConfigs[variant];
+              const isSelected = themeVariant === variant;
+              return (
+                <Tooltip key={variant} text={`${cfg.label} — ${cfg.description}`} direction="s">
+                  <Box
+                    as="button"
+                    aria-label={cfg.label}
+                    aria-pressed={isSelected}
+                    onClick={() => onThemeChange(variant)}
+                    sx={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: '50%',
+                      backgroundColor: cfg.brandColor,
+                      border: '2px solid',
+                      borderColor: isSelected ? 'accent.fg' : 'border.default',
+                      cursor: 'pointer',
+                      padding: 0,
+                      outline: 'none',
+                      transition: 'border-color 0.15s ease',
+                      boxShadow: isSelected
+                        ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
+                        : 'none',
+                      '&:hover': {
+                        borderColor: 'accent.fg',
+                      },
+                      '&:focus-visible': {
+                        boxShadow:
+                          '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
+                      },
+                    }}
+                  />
+                </Tooltip>
+              );
+            })}
+          </Box>
+
+          <ThemePreviewCard
+            variant={themeVariant}
+            colorMode={colorMode}
+            selected
+            compact
+            showDescription
+          />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            px: 2,
+            pb: 2,
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 2,
+          }}
+        >
+          {themeVariants.map((variant) => {
+            const cfg = themeConfigs[variant];
+            const isSelected = themeVariant === variant;
+            return (
+              <Tooltip key={variant} text={cfg.label} direction="s">
+                <Box
+                  as="button"
+                  aria-label={cfg.label}
+                  aria-pressed={isSelected}
+                  onClick={() => onThemeChange(variant)}
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    backgroundColor: cfg.brandColor,
+                    border: '2px solid',
+                    borderColor: isSelected ? 'accent.fg' : 'border.default',
+                    cursor: 'pointer',
+                    padding: 0,
+                    outline: 'none',
+                    transition: 'border-color 0.15s ease',
+                    boxShadow: isSelected
+                      ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
+                      : 'none',
+                    '&:hover': {
+                      borderColor: 'accent.fg',
+                    },
+                    '&:focus-visible': {
+                      boxShadow:
+                        '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
+                    },
+                  }}
+                />
+              </Tooltip>
+            );
+          })}
+        </Box>
+      )}
     </>
   );
 }

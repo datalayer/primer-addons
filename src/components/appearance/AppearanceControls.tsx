@@ -3,7 +3,7 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { SegmentedControl, Tooltip } from '@primer/react';
 import {
   MoonIcon,
@@ -34,6 +34,9 @@ export function AppearanceControls({
   onThemeChange,
   showThemePreviews = false,
 }: AppearanceControlsProps): ReactElement {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const selectedTheme = themeConfigs[themeVariant];
+
   return (
     <>
       <Box sx={{ px: 2, py: 2, display: 'flex', justifyContent: 'center' }}>
@@ -118,13 +121,61 @@ export function AppearanceControls({
             })}
           </Box>
 
-          <ThemePreviewCard
-            variant={themeVariant}
-            colorMode={colorMode}
-            selected
-            compact
-            showDescription
-          />
+          <Box
+            sx={{
+              px: 1,
+              display: 'grid',
+              gap: 1,
+            }}
+          >
+            <Box sx={{ fontSize: 1, fontWeight: 'semibold', color: 'fg.default' }}>
+              {selectedTheme.label}
+            </Box>
+            <Box sx={{ fontSize: 0, color: 'fg.muted', lineHeight: 1.5 }}>
+              {selectedTheme.description}
+            </Box>
+            <Box
+              as="button"
+              type="button"
+              onClick={() => setIsPreviewOpen((open) => !open)}
+              aria-expanded={isPreviewOpen}
+              sx={{
+                mt: 1,
+                width: 'fit-content',
+                px: 2,
+                py: '4px',
+                borderRadius: 2,
+                border: '1px solid',
+                borderColor: 'border.default',
+                bg: 'canvas.default',
+                color: 'fg.default',
+                fontSize: 0,
+                fontWeight: 'semibold',
+                cursor: 'pointer',
+                '&:hover': {
+                  borderColor: 'accent.fg',
+                  color: 'accent.fg',
+                },
+                '&:focus-visible': {
+                  outline: '2px solid',
+                  outlineColor: 'accent.fg',
+                  outlineOffset: 1,
+                },
+              }}
+            >
+              {isPreviewOpen ? 'Hide preview' : 'Show preview'}
+            </Box>
+          </Box>
+
+          {isPreviewOpen ? (
+            <ThemePreviewCard
+              variant={themeVariant}
+              colorMode={colorMode}
+              selected
+              compact
+              showDescription
+            />
+          ) : null}
         </Box>
       ) : (
         <Box

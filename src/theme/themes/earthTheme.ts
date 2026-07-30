@@ -30,6 +30,7 @@ const earthLight: ThemeColorDefs = {
     fg: earthColors.oceanText,
     emphasis: earthColors.oceanBrand,
     muted: earthColors.oceanAccent,
+    subtle: earthColors.oceanTint,
   },
   success: {
     fg: earthColors.forestBrand,

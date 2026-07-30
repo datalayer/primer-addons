@@ -30,6 +30,7 @@ const datalayerLight: ThemeColorDefs = {
     fg: datalayerColors.greenText,
     emphasis: datalayerColors.greenBrand,
     muted: datalayerColors.greenAccent,
+    subtle: datalayerColors.greenTint,
   },
   success: {
     fg: '#1a7f37',

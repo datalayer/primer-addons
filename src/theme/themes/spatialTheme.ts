@@ -29,6 +29,7 @@ const spatialLight: ThemeColorDefs = {
     fg: spatialColors.indigoText,
     emphasis: spatialColors.indigoBrand,
     muted: spatialColors.indigoAccent,
+    subtle: spatialColors.indigoTint,
   },
   success: {
     fg: '#1a7f37',

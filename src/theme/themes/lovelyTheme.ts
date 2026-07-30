@@ -29,6 +29,7 @@ const lovelyLight: ThemeColorDefs = {
     fg: lovelyColors.roseText,
     emphasis: lovelyColors.roseBrand,
     muted: lovelyColors.roseAccent,
+    subtle: lovelyColors.roseTint,
   },
   success: {
     fg: '#1a7f37',

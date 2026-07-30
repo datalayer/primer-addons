@@ -1,5 +1,6 @@
 export * from "./appearance/AppearanceControls";
 export * from "./appearance/AppearanceControlsWithStore";
+export * from "./appearance/AppearanceMenu";
 export * from "./appearance/ColorModeCircle";
 export * from "./appearance/ThemePreviewCard";
 export * from "./appearance/ThemeCircle";

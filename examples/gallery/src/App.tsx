@@ -33,6 +33,7 @@ import {
   Card,
   CircleIcon,
   CloseableFlash,
+  ColorModeCircle,
   ContentLoader,
   DI,
   DatalayerLogo,
@@ -42,6 +43,7 @@ import {
   FloatingToolbar,
   SideOverlay,
   Slider,
+  ThemeCircle,
   ThemedProvider,
   Toolbar,
   useThemeStore,
@@ -71,6 +73,74 @@ function AppearanceControlsDemo() {
       colorMode={colorMode}
       themeVariant={theme}
       onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+      onThemeChange={(variant: ThemeVariant) => setTheme(variant, false)}
+    />
+  );
+}
+
+function ColorModeCircleDemo() {
+  const { colorMode, theme, setColorMode, setTheme } = useThemeStore();
+  const overlay = (
+    <AppearanceControls
+      colorMode={colorMode}
+      themeVariant={theme}
+      onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+      onThemeChange={(variant: ThemeVariant) => setTheme(variant, false)}
+    />
+  );
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Box>
+        <Text sx={{ display: 'block', mb: 2, fontSize: 0, color: 'fg.muted' }}>
+          Click to cycle light → dark → system.
+        </Text>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <ColorModeCircle
+            colorMode={colorMode}
+            themeVariant={theme}
+            onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+          />
+          <ColorModeCircle
+            colorMode={colorMode}
+            themeVariant={theme}
+            onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+            shape="circle"
+          />
+        </Box>
+      </Box>
+      <Box>
+        <Text sx={{ display: 'block', mb: 2, fontSize: 0, color: 'fg.muted' }}>
+          Hover to reveal the appearance overlay (click-to-cycle disabled).
+        </Text>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <ColorModeCircle
+            colorMode={colorMode}
+            themeVariant={theme}
+            onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+            hoverOverlay={overlay}
+            cycleOnClick={false}
+            hoverOverlayPlacement="bottom-start"
+          />
+          <ColorModeCircle
+            colorMode={colorMode}
+            themeVariant={theme}
+            onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
+            shape="circle"
+            hoverOverlay={overlay}
+            cycleOnClick={false}
+            hoverOverlayPlacement="bottom-start"
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function ThemeCircleDemo() {
+  const { theme, setTheme } = useThemeStore();
+  return (
+    <ThemeCircle
+      themeVariant={theme}
       onThemeChange={(variant: ThemeVariant) => setTheme(variant, false)}
     />
   );
@@ -490,6 +560,18 @@ export default function App() {
         title: 'Appearance Controls',
         description: 'Controlled appearance chooser component.',
         render: () => <AppearanceControlsDemo />,
+      },
+      {
+        slug: 'color-mode-circle',
+        title: 'Color Mode Circle',
+        description: 'Single circle that cycles light / dark / system color modes.',
+        render: () => <ColorModeCircleDemo />,
+      },
+      {
+        slug: 'theme-circle',
+        title: 'Theme Circle',
+        description: 'Single circle that cycles through the registered theme variants.',
+        render: () => <ThemeCircleDemo />,
       },
       {
         slug: 'box',

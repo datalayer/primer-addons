@@ -11,16 +11,18 @@ import { spatialTheme, spatialThemeStyles } from './themes/spatialTheme';
 import { lovelyTheme, lovelyThemeStyles } from './themes/lovelyTheme';
 import { matrixTheme, matrixThemeStyles } from './themes/matrixTheme';
 import { earthTheme, earthThemeStyles } from './themes/earthTheme';
+import { sandTheme, sandThemeStyles } from './themes/sandTheme';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
 import { matrixColors } from './colors/matrixColors';
 import { earthColors } from './colors/earthColors';
+import { sandColors } from './colors/sandColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
 
 /** Available theme variants. */
-export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth';
+export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth' | 'sand';
 
 /** A pair of colours for a two-stop gradient. */
 export interface GradientPair {
@@ -259,10 +261,42 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       gold: earthColors.brightLightGold,        // #A16207 — deep gold
     },
   },
+  sand: {
+    label: 'Sand',
+    description: 'Warm, pale desert neutrals with a golden accent — calm & editorial.',
+    brandColor: sandColors.sandBrand,
+    defaultColorMode: 'light',
+    primerTheme: sandTheme,
+    themeStyles: sandThemeStyles,
+    cardGradient: {
+      light: { from: sandColors.sandBrand,   to: sandColors.sandText },    // #B07A4E → #8A5A34
+      dark:  { from: sandColors.sandAccent,  to: sandColors.sandBrand },   // #C99A6B → #B07A4E
+    },
+    brightPalette: {
+      glow: sandColors.brightGlow,         // #E0A15C — warm sand glow
+      onGlow: '#211A12',                   // dark text on warm sand
+      pop: sandColors.brightPop,           // #D98A5A — clay
+      spark: sandColors.brightSpark,       // #E7C24E — wheat gold
+      blaze: sandColors.brightBlaze,       // #E06A45 — terracotta
+      surge: sandColors.brightSurge,       // #8FA98A — sage
+      flame: sandColors.brightFlame,       // #E68A34 — amber
+      gold: sandColors.brightGold,         // #EBCB5E — golden wheat
+    },
+    brightPaletteLight: {
+      glow: sandColors.brightLightGlow,        // #8A5A34 — deep clay
+      onGlow: '#ffffff',                       // white text on deep clay
+      pop: sandColors.brightLightPop,          // #A9633B — deep terracotta-clay
+      spark: sandColors.brightLightSpark,      // #B08A16 — deep wheat gold
+      blaze: sandColors.brightLightBlaze,      // #B0432A — deep terracotta
+      surge: sandColors.brightLightSurge,      // #5E7A5A — deep sage
+      flame: sandColors.brightLightFlame,      // #B0661E — deep amber
+      gold: sandColors.brightLightGold,        // #997B1A — deep gold
+    },
+  },
 };
 
 /** All available theme variants in display order. */
-export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth'];
+export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth', 'sand'];
 
 /** Look up a theme config by variant name. */
 export function getThemeConfig(variant: ThemeVariant): ThemeConfig {
@@ -405,6 +439,22 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       earthColors.brightPop,             // #22C55E — vivid green
       earthColors.brightSpark,           // #EAB308 — vivid gold
       earthColors.brightFlame,           // #F59E0B — amber gold
+    ],
+  },
+  sand: {
+    light: [
+      sandColors.sandText,               // #8A5A34 — deep clay
+      sandColors.sandBrand,              // #B07A4E — camel dune
+      sandColors.brightLightPop,         // #A9633B — deep terracotta-clay
+      sandColors.brightLightGold,        // #997B1A — deep gold
+      sandColors.gray,                   // #6B5D4F — taupe
+    ],
+    dark: [
+      sandColors.sandAccent,             // #C99A6B — light tan
+      sandColors.sandBright,             // #D9B589 — bright sand
+      sandColors.brightPop,              // #D98A5A — clay
+      sandColors.brightSpark,            // #E7C24E — wheat gold
+      sandColors.brightFlame,            // #E68A34 — amber
     ],
   },
 };

@@ -15,6 +15,7 @@ import {
   lovelyColors,
   matrixColors,
   earthColors,
+  sandColors,
 } from '../colors';
 import {
   getBrightPalette,
@@ -51,6 +52,8 @@ const mxBrightDark = getBrightPalette('matrix');
 const mxBrightLight = getBrightPalette('matrix', 'light');
 const eaBrightDark = getBrightPalette('earth');
 const eaBrightLight = getBrightPalette('earth', 'light');
+const saBrightDark = getBrightPalette('sand');
+const saBrightLight = getBrightPalette('sand', 'light');
 
 const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
   datalayer: {
@@ -240,6 +243,44 @@ const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }
       gold: eaBrightDark.gold,
       textLight: '#D4E4DC',
       textMuted: '#8A9BA8',
+      isLight: false,
+    },
+  },
+  sand: {
+    light: {
+      bg: '#FBF7EF',
+      bgPanel: '#ffffff',
+      bgAlt: sandColors.sandTint,
+      primary: sandColors.sandBrand,
+      secondary: sandColors.sandText,
+      accent: sandColors.sandAccent,
+      glow: saBrightLight.glow,
+      pop: saBrightLight.pop,
+      spark: saBrightLight.spark,
+      blaze: saBrightLight.blaze,
+      surge: saBrightLight.surge,
+      flame: saBrightLight.flame,
+      gold: saBrightLight.gold,
+      textLight: '#2B2118',
+      textMuted: sandColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: sandColors.black,
+      bgPanel: '#2A2118',
+      bgAlt: '#33281A',
+      primary: sandColors.sandAccent,
+      secondary: sandColors.sandBrand,
+      accent: sandColors.sandBright,
+      glow: saBrightDark.glow,
+      pop: saBrightDark.pop,
+      spark: saBrightDark.spark,
+      blaze: saBrightDark.blaze,
+      surge: saBrightDark.surge,
+      flame: saBrightDark.flame,
+      gold: saBrightDark.gold,
+      textLight: '#EDE3D3',
+      textMuted: '#B7A793',
       isLight: false,
     },
   },

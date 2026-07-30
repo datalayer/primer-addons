@@ -27,6 +27,15 @@ body {
   border-right: 1px solid var(--borderColor-default, #d0d7de);
 }
 
+/* Native form controls don't inherit font-family — force the sidebar nav
+   buttons to pick up the active theme's typeface (e.g. Matrix monospace). */
+.example-sidebar button,
+.example-sidebar input,
+.example-sidebar select,
+.example-sidebar textarea {
+  font-family: inherit;
+}
+
 .example-content {
   min-height: 0;
   overflow: auto;

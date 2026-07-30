@@ -10,6 +10,7 @@ import {
   lovelyColors,
   matrixColors,
   earthColors,
+  sandColors,
   type ThemeVariant,
 } from '../../theme';
 
@@ -113,6 +114,22 @@ export const THEME_LOGO_COLORS: Record<
       textColor: earthColors.gray,
       primaryGradient: [earthColors.oceanBright, earthColors.oceanBrand],
       secondaryGradient: [earthColors.oceanHover, earthColors.oceanAccent],
+    },
+  },
+  sand: {
+    light: {
+      primary: sandColors.sandBrand,
+      secondary: sandColors.sandText,
+      textColor: sandColors.gray,
+      primaryGradient: [sandColors.sandAccent, sandColors.sandBrand],
+      secondaryGradient: [sandColors.sandHover, sandColors.sandText],
+    },
+    dark: {
+      primary: sandColors.sandBright,
+      secondary: sandColors.sandAccent,
+      textColor: sandColors.gray,
+      primaryGradient: [sandColors.sandBright, sandColors.sandBrand],
+      secondaryGradient: [sandColors.sandHover, sandColors.sandAccent],
     },
   },
 };

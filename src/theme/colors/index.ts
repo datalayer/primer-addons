@@ -8,6 +8,7 @@ export { spatialColors } from './spatialColors';
 export { lovelyColors } from './lovelyColors';
 export { matrixColors } from './matrixColors';
 export { earthColors } from './earthColors';
+export { sandColors } from './sandColors';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';
@@ -15,6 +16,7 @@ import { spatialColors } from './spatialColors';
 import { lovelyColors } from './lovelyColors';
 import { matrixColors } from './matrixColors';
 import { earthColors } from './earthColors';
+import { sandColors } from './sandColors';
 
 /**
  * Themed color palettes — maps each `ThemeVariant` to its corresponding
@@ -32,4 +34,5 @@ export const themedColors: Record<ThemeVariant, Record<string, string>> = {
   lovely: lovelyColors,
   matrix: matrixColors,
   earth: earthColors,
+  sand: sandColors,
 };

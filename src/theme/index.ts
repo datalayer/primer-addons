@@ -13,6 +13,7 @@ export * from './themes/spatialTheme';
 export * from './themes/lovelyTheme';
 export * from './themes/matrixTheme';
 export * from './themes/earthTheme';
+export * from './themes/sandTheme';
 export * from './themes-brand/spatialBrandTheme';
 export * from './themeRegistry';
 export * from './palettes';

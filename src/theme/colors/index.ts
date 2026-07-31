@@ -9,6 +9,8 @@ export { lovelyColors } from './lovelyColors';
 export { matrixColors } from './matrixColors';
 export { earthColors } from './earthColors';
 export { sandColors } from './sandColors';
+export { ivoryColors } from './ivoryColors';
+export { sunColors } from './sunColors';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';
@@ -17,6 +19,8 @@ import { lovelyColors } from './lovelyColors';
 import { matrixColors } from './matrixColors';
 import { earthColors } from './earthColors';
 import { sandColors } from './sandColors';
+import { ivoryColors } from './ivoryColors';
+import { sunColors } from './sunColors';
 
 /**
  * Themed color palettes — maps each `ThemeVariant` to its corresponding
@@ -35,4 +39,6 @@ export const themedColors: Record<ThemeVariant, Record<string, string>> = {
   matrix: matrixColors,
   earth: earthColors,
   sand: sandColors,
+  ivory: ivoryColors,
+  sun: sunColors,
 };

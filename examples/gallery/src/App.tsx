@@ -42,6 +42,7 @@ import {
   DatalayerTextAI,
   FloatingToolbar,
   SideOverlay,
+  SlidingPanel,
   Slider,
   ThemeCircle,
   ThemedProvider,
@@ -209,6 +210,85 @@ function SideOverlayDemo() {
           </Box>
         }
       />
+    </Box>
+  );
+}
+
+function SlidingPanelDemo() {
+  const [northOpen, setNorthOpen] = useState(false);
+  const [southOpen, setSouthOpen] = useState(false);
+  const [eastOpen, setEastOpen] = useState(false);
+  const [westOpen, setWestOpen] = useState(false);
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Text as="p" sx={{ color: 'fg.muted', m: 0 }}>
+        Generic sliding overlay panel with directional placement, variants and optional auto-dismiss.
+      </Text>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+        <Button onClick={() => setNorthOpen(true)}>Open North Info (auto-hide)</Button>
+        <Button onClick={() => setSouthOpen(true)}>Open South Warning</Button>
+        <Button onClick={() => setEastOpen(true)}>Open East Success</Button>
+        <Button onClick={() => setWestOpen(true)}>Open West Error</Button>
+      </Box>
+
+      <SlidingPanel
+        isOpen={northOpen}
+        onDismiss={() => setNorthOpen(false)}
+        position="north"
+        variant="info"
+        durationMs={3200}
+        fullWidth={true}
+      >
+        <Box sx={{ px: 3, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text>North panel: automatically hides after 3.2 seconds.</Text>
+          <Button size="small" onClick={() => setNorthOpen(false)}>Dismiss</Button>
+        </Box>
+      </SlidingPanel>
+
+      <SlidingPanel
+        isOpen={southOpen}
+        onDismiss={() => setSouthOpen(false)}
+        position="south"
+        variant="warning"
+        durationMs={0}
+        fullWidth={true}
+      >
+        <Box sx={{ px: 3, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text>South panel: stays visible until dismissed.</Text>
+          <Button size="small" onClick={() => setSouthOpen(false)}>Dismiss</Button>
+        </Box>
+      </SlidingPanel>
+
+      <SlidingPanel
+        isOpen={eastOpen}
+        onDismiss={() => setEastOpen(false)}
+        position="east"
+        variant="success"
+        panelSize={360}
+        durationMs={0}
+      >
+        <Box sx={{ p: 3, display: 'grid', gap: 2 }}>
+          <Heading as="h4" sx={{ fontSize: 2, m: 0 }}>East Panel</Heading>
+          <Text sx={{ color: 'fg.muted' }}>Ideal for side inspectors and details panes.</Text>
+          <Button size="small" onClick={() => setEastOpen(false)}>Close</Button>
+        </Box>
+      </SlidingPanel>
+
+      <SlidingPanel
+        isOpen={westOpen}
+        onDismiss={() => setWestOpen(false)}
+        position="west"
+        variant="error"
+        panelSize={360}
+        durationMs={0}
+      >
+        <Box sx={{ p: 3, display: 'grid', gap: 2 }}>
+          <Heading as="h4" sx={{ fontSize: 2, m: 0 }}>West Panel</Heading>
+          <Text sx={{ color: 'fg.muted' }}>Use error/danger variants for blocking notices.</Text>
+          <Button size="small" onClick={() => setWestOpen(false)}>Close</Button>
+        </Box>
+      </SlidingPanel>
     </Box>
   );
 }
@@ -626,6 +706,12 @@ export default function App() {
             <CircleIcon color="#dd2222" />
           </Box>
         ),
+      },
+      {
+        slug: 'sliding-panel',
+        title: 'Sliding Panel',
+        description: 'Directional sliding overlay (north/south/west/east) with variants and timing.',
+        render: () => <SlidingPanelDemo />,
       },
       {
         slug: 'side-overlay',

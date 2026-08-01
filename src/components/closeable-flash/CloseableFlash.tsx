@@ -1,5 +1,5 @@
 import { useState, FC } from "react";
-import { Box, Flash, FlashProps, CircleOcticon, IconButton, Text } from "@primer/react";
+import { Box, Flash, FlashProps, CircleOcticon, Text } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 
 export type CloseableFlashProps = FlashProps & {
@@ -62,27 +62,47 @@ export const CloseableFlash: FC<CloseableFlashProps> = (props) => {
           {leadingVisual && <CircleOcticon icon={leadingVisual} />}
           <Text color={textColorForVariant(resolvedVariant)}>{props.children}</Text>
         </Box>
-        <IconButton
-          variant="invisible"
-          icon={XIcon}
+        <Box
+          as="button"
+          type="button"
           aria-label="Close"
           onClick={handleClose}
           sx={{
+            flex: '0 0 auto',
             p: 0,
+            m: 0,
             width: 28,
-            minWidth: 28,
             height: 28,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            minWidth: 28,
+            minHeight: 28,
+            boxSizing: 'border-box',
+            display: 'grid',
+            placeItems: 'center',
             lineHeight: 0,
+            border: 0,
+            background: 'transparent',
+            appearance: 'none',
+            cursor: 'pointer',
             color: closeTone.fg,
             borderRadius: 2,
             '&:hover': {
               backgroundColor: closeTone.hoverBg,
             },
+            '& > span': {
+              width: 16,
+              height: 16,
+              display: 'grid',
+              placeItems: 'center',
+            },
+            '& svg': {
+              display: 'block',
+            },
           }}
-        />
+        >
+          <Box as="span" aria-hidden>
+            <XIcon size={16} />
+          </Box>
+        </Box>
       </Box>
     </Flash>
   );

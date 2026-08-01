@@ -73,7 +73,7 @@ const PrimerAddonOverlay = (props: SideOverlayProps) => {
             ref={closeButtonRef}
             onClick={closeOverlay}
             icon={XIcon}
-            aria-labelledby="close"
+            aria-label="Close"
           />
         </Box>
         {content}

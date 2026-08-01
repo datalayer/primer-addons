@@ -1,4 +1,6 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { IconButton } from '@primer/react';
+import { XIcon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
 
 export type SlidingPanelPosition = 'north' | 'south' | 'west' | 'east';
@@ -13,7 +15,8 @@ export type SlidingPanelVariant =
 
 export interface SlidingPanelProps {
   isOpen: boolean;
-  children: ReactNode;
+  message: ReactNode;
+  details?: ReactNode;
   onDismiss?: () => void;
   position?: SlidingPanelPosition;
   variant?: SlidingPanelVariant;
@@ -55,6 +58,33 @@ const variantStyles: Record<SlidingPanelVariant, { bg: string; border: string; f
     bg: 'var(--bgColor-danger-muted, #ffebe9)',
     border: 'var(--borderColor-danger-emphasis, #cf222e)',
     fg: 'var(--fgColor-danger, #cf222e)',
+  },
+};
+
+const closeButtonStyles: Record<SlidingPanelVariant, { fg: string; hoverBg: string }> = {
+  default: {
+    fg: 'var(--fgColor-default, #1f2328)',
+    hoverBg: 'rgba(31, 35, 40, 0.10)',
+  },
+  info: {
+    fg: 'var(--fgColor-accent, #0969da)',
+    hoverBg: 'rgba(9, 105, 218, 0.14)',
+  },
+  success: {
+    fg: 'var(--fgColor-success, #1a7f37)',
+    hoverBg: 'rgba(26, 127, 55, 0.14)',
+  },
+  warning: {
+    fg: 'var(--fgColor-attention, #9a6700)',
+    hoverBg: 'rgba(154, 103, 0, 0.16)',
+  },
+  error: {
+    fg: 'var(--fgColor-danger, #cf222e)',
+    hoverBg: 'rgba(207, 34, 46, 0.14)',
+  },
+  danger: {
+    fg: 'var(--fgColor-danger, #cf222e)',
+    hoverBg: 'rgba(207, 34, 46, 0.14)',
   },
 };
 
@@ -102,7 +132,8 @@ const edgeBorderStyles: Record<
 
 export const SlidingPanel = ({
   isOpen,
-  children,
+  message,
+  details,
   onDismiss,
   position = 'north',
   variant = 'default',
@@ -185,6 +216,7 @@ export const SlidingPanel = ({
   }
 
   const style = variantStyles[variant];
+  const closeStyle = closeButtonStyles[variant];
   const horizontal = position === 'north' || position === 'south';
   const edgeBorder = edgeBorderStyles[position];
 
@@ -201,8 +233,14 @@ export const SlidingPanel = ({
       <Box
         role={variant === 'error' || variant === 'danger' ? 'alert' : 'status'}
         aria-live={variant === 'error' || variant === 'danger' ? 'assertive' : 'polite'}
+        onClick={onDismiss}
         sx={{
           pointerEvents: 'auto',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          cursor: onDismiss ? 'pointer' : 'default',
           width: horizontal
             ? fullWidth
               ? '100vw'
@@ -218,6 +256,9 @@ export const SlidingPanel = ({
           borderLeft: edgeBorder.borderLeft,
           backgroundColor: style.bg,
           color: style.fg,
+          textAlign: 'left',
+          px: 4,
+          py: horizontal ? 3 : 4,
           boxShadow: 'shadow.large',
           transform: isVisible ? 'translate(0, 0)' : closedTransforms[position],
           opacity: isVisible ? 1 : 0,
@@ -225,7 +266,40 @@ export const SlidingPanel = ({
           overflow: 'auto',
         }}
       >
-        {children}
+        {onDismiss ? (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 2,
+              right: 3,
+            }}
+          >
+            <IconButton
+              variant="invisible"
+              icon={XIcon}
+              aria-label="Close panel"
+              onClick={event => {
+                event.stopPropagation();
+                onDismiss();
+              }}
+              sx={{
+                color: closeStyle.fg,
+                borderRadius: 2,
+                '&:hover': {
+                  backgroundColor: closeStyle.hoverBg,
+                },
+              }}
+            />
+          </Box>
+        ) : null}
+        <Box sx={{ width: 'min(980px, 100%)', display: 'grid', gap: 1, pr: onDismiss ? 6 : 0 }}>
+          <Box sx={{ fontSize: 3, fontWeight: 500, lineHeight: 1.4 }}>{message}</Box>
+          {details ? (
+            <Box sx={{ fontSize: 1, fontWeight: 400, lineHeight: 1.4, color: 'fg.muted' }}>
+              {details}
+            </Box>
+          ) : null}
+        </Box>
       </Box>
     </Box>
   );

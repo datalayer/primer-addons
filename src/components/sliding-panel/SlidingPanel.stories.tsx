@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Button, Heading, Text } from '@primer/react';
+import { Box, Button, Heading } from '@primer/react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SlidingPanel, type SlidingPanelProps } from './SlidingPanel';
 
@@ -16,7 +16,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-type DemoProps = Omit<SlidingPanelProps, 'isOpen' | 'children' | 'onDismiss'>;
+type DemoProps = Omit<SlidingPanelProps, 'isOpen' | 'onDismiss'>;
 
 const Demo = (props: DemoProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,22 +30,14 @@ const Demo = (props: DemoProps) => {
       <Button ref={openButtonRef} onClick={() => setIsOpen(true)}>
         Open panel
       </Button>
-      <SlidingPanel {...props} isOpen={isOpen} onDismiss={() => setIsOpen(false)}>
-        <Box
-          sx={{
-            p: 3,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          <Text>Sliding panel content</Text>
+      <SlidingPanel {...props} isOpen={isOpen} onDismiss={() => setIsOpen(false)} />
+      {isOpen ? (
+        <Box sx={{ mt: 3 }}>
           <Button size="small" onClick={() => setIsOpen(false)}>
             Close
           </Button>
         </Box>
-      </SlidingPanel>
+      ) : null}
     </Box>
   );
 };
@@ -53,7 +45,8 @@ const Demo = (props: DemoProps) => {
 export const NorthInfo: Story = {
   args: {
     isOpen: false,
-    children: null,
+    message: 'Sliding panel message',
+    details: 'Additional details appear below the message in normal font.',
     position: 'north',
     variant: 'info',
     durationMs: 4500,
@@ -65,7 +58,8 @@ export const NorthInfo: Story = {
 export const SouthWarning: Story = {
   args: {
     isOpen: false,
-    children: null,
+    message: 'Sliding panel message',
+    details: 'Additional details appear below the message in normal font.',
     position: 'south',
     variant: 'warning',
     durationMs: 0,
@@ -77,7 +71,8 @@ export const SouthWarning: Story = {
 export const EastSuccess: Story = {
   args: {
     isOpen: false,
-    children: null,
+    message: 'Sliding panel message',
+    details: 'Additional details appear below the message in normal font.',
     position: 'east',
     variant: 'success',
     durationMs: 0,
@@ -90,7 +85,8 @@ export const EastSuccess: Story = {
 export const WestError: Story = {
   args: {
     isOpen: false,
-    children: null,
+    message: 'Sliding panel message',
+    details: 'Additional details appear below the message in normal font.',
     position: 'west',
     variant: 'error',
     durationMs: 0,

@@ -239,12 +239,9 @@ function SlidingPanelDemo() {
         variant="info"
         durationMs={3200}
         fullWidth={true}
-      >
-        <Box sx={{ px: 3, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text>North panel: automatically hides after 3.2 seconds.</Text>
-          <Button size="small" onClick={() => setNorthOpen(false)}>Dismiss</Button>
-        </Box>
-      </SlidingPanel>
+        message="North panel: automatically hides after 3.2 seconds."
+        details="This variant is useful for non-blocking notifications near the top edge."
+      />
 
       <SlidingPanel
         isOpen={southOpen}
@@ -253,12 +250,9 @@ function SlidingPanelDemo() {
         variant="warning"
         durationMs={0}
         fullWidth={true}
-      >
-        <Box sx={{ px: 3, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text>South panel: stays visible until dismissed.</Text>
-          <Button size="small" onClick={() => setSouthOpen(false)}>Dismiss</Button>
-        </Box>
-      </SlidingPanel>
+        message="South panel: stays visible until dismissed."
+        details="Use this when users need more time to read the guidance text."
+      />
 
       <SlidingPanel
         isOpen={eastOpen}
@@ -267,13 +261,9 @@ function SlidingPanelDemo() {
         variant="success"
         panelSize={360}
         durationMs={0}
-      >
-        <Box sx={{ p: 3, display: 'grid', gap: 2 }}>
-          <Heading as="h4" sx={{ fontSize: 2, m: 0 }}>East Panel</Heading>
-          <Text sx={{ color: 'fg.muted' }}>Ideal for side inspectors and details panes.</Text>
-          <Button size="small" onClick={() => setEastOpen(false)}>Close</Button>
-        </Box>
-      </SlidingPanel>
+        message="East panel: side inspectors and details panes."
+        details="Pick east or west placement when you need persistent contextual notices."
+      />
 
       <SlidingPanel
         isOpen={westOpen}
@@ -282,13 +272,24 @@ function SlidingPanelDemo() {
         variant="error"
         panelSize={360}
         durationMs={0}
-      >
-        <Box sx={{ p: 3, display: 'grid', gap: 2 }}>
-          <Heading as="h4" sx={{ fontSize: 2, m: 0 }}>West Panel</Heading>
-          <Text sx={{ color: 'fg.muted' }}>Use error/danger variants for blocking notices.</Text>
-          <Button size="small" onClick={() => setWestOpen(false)}>Close</Button>
+        message="West panel: error or danger notices."
+        details="Use this variant for high-priority messages that require user attention."
+      />
+
+      {(southOpen || eastOpen || westOpen) ? (
+        <Box>
+          <Button
+            size="small"
+            onClick={() => {
+              setSouthOpen(false);
+              setEastOpen(false);
+              setWestOpen(false);
+            }}
+          >
+            Dismiss open panels
+          </Button>
         </Box>
-      </SlidingPanel>
+      ) : null}
     </Box>
   );
 }

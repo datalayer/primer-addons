@@ -17,12 +17,13 @@ all: clean install build publish
 build: ## build all modules
 	npm run build
 
-gallery: ## run the Vite primer-addons gallery example
+start: ## run the Vite primer-addons gallery example
 	npm --prefix examples/gallery install && \
 	npm run gallery
 
-start: ## start
-	npm dev
+gallery: ## run the Vite primer-addons gallery example
+	npm --prefix examples/gallery install && \
+	npm run gallery
 
 clean: ## deletes node_modules, lib, build... folders and other generated info, lock, log... files
 	find . -name node_modules | xargs rm -fr {} || true

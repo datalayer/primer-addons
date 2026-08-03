@@ -6,6 +6,7 @@ export * from "./appearance/ThemePreviewCard";
 export * from "./appearance/ThemeCircle";
 export * from "./box/Box";
 export * from "./card/Card";
+export * from "./color";
 export * from "./content-loader/ContentLoader";
 export * from "./closeable-flash/CloseableFlash";
 export * from "./icons/CircleIcon";

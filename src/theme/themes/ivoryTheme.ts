@@ -21,6 +21,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const ivoryLight: ThemeColorDefs = {
   canvas: {
     default: ivoryColors.white,
+    subtle: '#F4EDDE',
   },
   fg: {
     default: '#2C2318',

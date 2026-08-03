@@ -19,6 +19,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const matrixLight: ThemeColorDefs = {
   canvas: {
     default: matrixColors.white,
+    subtle: '#E4F5E4',
   },
   fg: {
     default: '#0A2E1A',

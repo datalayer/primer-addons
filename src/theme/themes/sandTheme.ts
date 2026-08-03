@@ -21,6 +21,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const sandLight: ThemeColorDefs = {
   canvas: {
     default: sandColors.white,
+    subtle: '#F1EAD2',
   },
   fg: {
     default: '#2B2118',

@@ -20,6 +20,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const earthLight: ThemeColorDefs = {
   canvas: {
     default: earthColors.white,
+    subtle: '#EBF0F4',
   },
   fg: {
     default: '#1A2332',

@@ -19,6 +19,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const spatialLight: ThemeColorDefs = {
   canvas: {
     default: spatialColors.white,
+    subtle: '#EEF1FA',
   },
   fg: {
     default: '#1E1E3F',

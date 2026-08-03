@@ -20,6 +20,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const datalayerLight: ThemeColorDefs = {
   canvas: {
     default: datalayerColors.white,
+    subtle: '#f4f5f6',
   },
   fg: {
     default: datalayerColors.black,

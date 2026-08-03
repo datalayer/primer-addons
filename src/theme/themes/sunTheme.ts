@@ -21,6 +21,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const sunLight: ThemeColorDefs = {
   canvas: {
     default: sunColors.white,
+    subtle: '#FFF3D6',
   },
   fg: {
     default: '#2A2210',

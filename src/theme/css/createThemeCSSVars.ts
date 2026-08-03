@@ -403,6 +403,14 @@ export function colorDefsToCSS(
     '--control-transparent-borderColor-hover': 'transparent',
     '--control-transparent-borderColor-active': 'transparent',
 
+    /* ── Disabled controls / fields ─────────────────────────────── */
+    '--control-bgColor-disabled': defs.canvas.subtle ?? defs.btn.bg,
+    '--control-borderColor-disabled': defs.border?.default ?? defs.btn.border,
+    '--control-fgColor-disabled': defs.fg.muted,
+    '--fgColor-disabled': defs.fg.muted,
+    '--color-input-disabled-bg': defs.canvas.subtle ?? defs.btn.bg,
+    '--color-primer-fg-disabled': defs.fg.muted,
+
     /* ── Menu ────────────────────────────────────────────────────── */
     '--menu-bgColor-active': defs.btn.hoverBg,
 

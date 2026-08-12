@@ -12,6 +12,7 @@
  */
 
 import { Fragment } from 'react';
+import { Box } from '../box/Box';
 import type { ToolbarItem } from './types';
 import { ToolbarButton } from './ToolbarButton';
 import { ToolbarDropdown } from './ToolbarDropdown';
@@ -62,6 +63,11 @@ export function ToolbarRenderer({ items, disabled, size = 'medium' }: ToolbarRen
               <Fragment key={item.key}>
                 <ToolbarDivider />
               </Fragment>
+            );
+
+          case 'spacer':
+            return (
+              <Box key={item.key} sx={{ flex: '1 1 auto', minWidth: 8 }} />
             );
 
           case 'custom':

@@ -9,7 +9,12 @@ import type { IconProps } from '@primer/octicons-react';
 /**
  * Toolbar item types that can be registered in a toolbar.
  */
-export type ToolbarItemType = 'button' | 'dropdown' | 'divider' | 'custom';
+export type ToolbarItemType =
+  | 'button'
+  | 'dropdown'
+  | 'divider'
+  | 'spacer'
+  | 'custom';
 
 /**
  * Base toolbar item definition.
@@ -101,6 +106,16 @@ export interface ToolbarDividerItem extends ToolbarItemBase {
 }
 
 /**
+ * Toolbar spacer item definition.
+ *
+ * Takes the free space of the toolbar, so the items ordered after it sit on
+ * the trailing edge — e.g. a status indicator kept away from the actions.
+ */
+export interface ToolbarSpacerItem extends ToolbarItemBase {
+  type: 'spacer';
+}
+
+/**
  * Toolbar custom item definition.
  */
 export interface ToolbarCustomItem extends ToolbarItemBase {
@@ -116,6 +131,7 @@ export type ToolbarItem =
   | ToolbarButtonItem
   | ToolbarDropdownItem
   | ToolbarDividerItem
+  | ToolbarSpacerItem
   | ToolbarCustomItem;
 
 /**

@@ -3,17 +3,18 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { forwardRef, type SVGProps } from 'react';
-import { type ThemeVariant } from '../../theme';
-import { AI } from './AI';
-import { DatalayerText } from './DatalayerText';
-import { getLogoColors } from './DatalayerLogo';
+import { forwardRef, type SVGProps } from "react";
+import { type ThemeVariant } from "../../theme";
+import { DatalayerText } from "./DatalayerText";
+import { getLogoColors } from "./DatalayerLogo";
 
-export interface DatalayerTextAIProps
-  extends Omit<SVGProps<SVGSVGElement>, 'ref'> {
+export interface DatalayerTextAIProps extends Omit<
+  SVGProps<SVGSVGElement>,
+  "ref"
+> {
   size?: number;
   scale?: number;
-  colorMode?: 'light' | 'dark' | 'auto';
+  colorMode?: "light" | "dark" | "auto";
   variant?: ThemeVariant;
   /** Colour for the "LAYER" part of the wordmark. */
   primaryColor?: string;
@@ -36,6 +37,7 @@ const AI_VISIBLE_LEFT = 0.25;
 const AI_VISIBLE_HEIGHT = 16.136075;
 const AI_SCALE_TO_TEXT_HEIGHT = 25 / AI_VISIBLE_HEIGHT;
 const AI_RENDER_SIZE = AI_SIZE * AI_SCALE_TO_TEXT_HEIGHT;
+const AI_RENDER_SCALE = AI_RENDER_SIZE / AI_SIZE;
 const AI_X_TRIM = AI_VISIBLE_LEFT * AI_SCALE_TO_TEXT_HEIGHT;
 const AI_Y_TRIM = AI_VISIBLE_TOP * AI_SCALE_TO_TEXT_HEIGHT;
 
@@ -48,8 +50,8 @@ export const DatalayerTextAI = forwardRef<SVGSVGElement, DatalayerTextAIProps>(
     {
       size = 25,
       scale = 1,
-      colorMode = 'light',
-      variant = 'datalayer',
+      colorMode = "light",
+      variant = "datalayer",
       primaryColor,
       secondaryColor,
       textColor,
@@ -92,15 +94,22 @@ export const DatalayerTextAI = forwardRef<SVGSVGElement, DatalayerTextAIProps>(
           sizeMultiplier={textSizeMultiplier}
           x={-TEXT_LEFT_TRIM}
         />
-        <AI
-          size={AI_RENDER_SIZE}
-          x={TEXT_END_X + aiGap - AI_X_TRIM}
-          y={-AI_Y_TRIM}
-          variant={variant}
-          colorMode={colorMode}
-          primaryColor={resolvedAiPrimary}
-          secondaryColor={resolvedAiSecondary}
-        />
+        <g
+          transform={`translate(${TEXT_END_X + aiGap - AI_X_TRIM} ${-AI_Y_TRIM}) scale(${AI_RENDER_SCALE})`}
+        >
+          <path
+            d="m13.788825 3.932 6.43325 16.136075h3.5279L17.316725 3.932H13.788825Z"
+            fill={resolvedAiPrimary}
+            strokeWidth={0.25}
+          />
+          <path
+            d="m6.325375 13.682775 2.20125 -5.67065 2.201275 5.67065H6.325375ZM6.68225 3.932 0.25 20.068075h3.596525l1.3155 -3.3886h6.729425l1.315275 3.3886h3.59655L10.371 3.932H6.68225Z"
+            fill={resolvedAiSecondary}
+            fillRule="evenodd"
+            clipRule="evenodd"
+            strokeWidth={0.25}
+          />
+        </g>
       </svg>
     );
   },

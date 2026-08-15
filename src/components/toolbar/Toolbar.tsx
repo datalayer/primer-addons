@@ -38,7 +38,24 @@ export function Toolbar({
 }: ToolbarProps) {
   const allItems: ToolbarItem[] = useMemo(() => {
     if (!extraItems?.length) return items;
-    return [...items, ...extraItems];
+    /*
+     * An extra item takes the place of the item it shares its key with.
+     *
+     * A host that knows better what one of the items should do — how this
+     * document is saved, where it is run — says so with the key of that item
+     * rather than adding a second button next to it. What it leaves out, its
+     * order and its icon among them, stays as the toolbar had it.
+     */
+    const overrides = new Map(extraItems.map(item => [item.key, item]));
+    const merged = items.map(item => {
+      const override = overrides.get(item.key);
+      if (!override) {
+        return item;
+      }
+      overrides.delete(item.key);
+      return { ...item, ...override } as ToolbarItem;
+    });
+    return [...merged, ...extraItems.filter(item => overrides.has(item.key))];
   }, [items, extraItems]);
 
   return (

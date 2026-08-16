@@ -6,17 +6,20 @@
 /**
  * ToolbarButton - A single button in a Toolbar.
  *
- * Renders a native <button> with a direct Octicon icon.
- * Avoids Primer's IconButton and Tooltip components to prevent invariant
- * violations in Primer v37 (Tooltip requires a native interactive child,
- * and IconButton's internal Tooltip conflicts with external wrappers).
- *
- * Uses the native HTML `title` attribute for tooltip behaviour.
+ * Renders a native <button> with a direct Octicon icon, wrapped in Primer's
+ * Tooltip when the item carries a title. The v37 Tooltip demands a native
+ * interactive child — the reason IconButton is avoided — and a plain
+ * <button> is exactly that. A disabled item therefore wears `aria-disabled`
+ * rather than the `disabled` attribute: a truly disabled button is not
+ * interactive, which both silences its tooltip and breaks the invariant —
+ * and the tooltip of a disabled action is precisely where the why-disabled
+ * explanation lives.
  *
  * @module components/toolbar/ToolbarButton
  */
 
 import { type ReactNode, isValidElement } from 'react';
+import { Tooltip } from '@primer/react';
 import type { ToolbarButtonItem } from './types';
 
 export interface ToolbarButtonProps {
@@ -48,14 +51,13 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
 
   const btnSize = size === 'small' ? 28 : 32;
 
-  return (
+  const button = (
     <button
       type="button"
       aria-label={ariaLabel}
-      title={title}
+      aria-disabled={disabled || undefined}
       onMouseDown={(e) => e.preventDefault()}
-      onClick={onClick}
-      disabled={disabled}
+      onClick={disabled ? undefined : onClick}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -89,6 +91,15 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
     >
       {iconElement}
     </button>
+  );
+
+  // No title: nothing to say, no wrapper to say it with.
+  return title ? (
+    <Tooltip text={title} direction="s">
+      {button}
+    </Tooltip>
+  ) : (
+    button
   );
 }
 

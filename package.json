@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "npm run build:lib",

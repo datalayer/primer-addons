@@ -125,37 +125,58 @@ const camelToKebab = (s: string): string =>
  * portals stay in sync whenever theme or color-mode changes.
  */
 export function syncPortalThemeStyles(styles: CSSProperties): void {
-  const body = document.body;
+  /*
+   * On the portal root as well as on the body, and that is the point.
+   *
+   * The body was enough for what portals INHERIT — a font, a line height —
+   * and never enough for the colours. The portal root carries Primer's own
+   * theme markers (`data-color-mode`, `data-light-theme`), and Primer's
+   * stylesheet declares `--bgColor-*`, `--fgColor-*` and the rest ON any
+   * element carrying them. A declaration on the element always beats a value
+   * inherited from an ancestor, so Primer's default palette won on the portal
+   * root and everything drawn inside it — the buttons of a dialog, the
+   * background of a menu — came out in the default theme while the same
+   * components in the page wore the chosen one.
+   *
+   * Written inline on that element, the theme wins in turn: an inline style
+   * outranks any selector in a stylesheet.
+   */
+  const targets = [
+    document.body,
+    document.getElementById(PRIMER_PORTAL_ROOT_ID)
+  ].filter(Boolean) as HTMLElement[];
 
-  // 1. Remove properties set by the previous invocation.
-  const prev = (body as any)[PORTAL_THEME_KEYS] as string[] | undefined;
-  if (prev) {
-    for (const key of prev) {
-      body.style.removeProperty(key);
+  for (const target of targets) {
+    // 1. Remove properties set by the previous invocation.
+    const prev = (target as any)[PORTAL_THEME_KEYS] as string[] | undefined;
+    if (prev) {
+      for (const key of prev) {
+        target.style.removeProperty(key);
+      }
     }
-  }
 
-  // 2. Apply the new properties.
-  const tracked: string[] = [];
+    // 2. Apply the new properties.
+    const tracked: string[] = [];
 
-  for (const [key, value] of Object.entries(styles)) {
-    if (value == null) continue;
-    const strVal = String(value);
+    for (const [key, value] of Object.entries(styles)) {
+      if (value == null) continue;
+      const strVal = String(value);
 
-    if (key.startsWith('--')) {
-      // CSS custom property — must use setProperty
-      body.style.setProperty(key, strVal);
-      tracked.push(key);
-    } else {
-      // Standard CSS property (camelCase → kebab-case)
-      const kebab = camelToKebab(key);
-      body.style.setProperty(kebab, strVal);
-      tracked.push(kebab);
+      if (key.startsWith('--')) {
+        // CSS custom property — must use setProperty
+        target.style.setProperty(key, strVal);
+        tracked.push(key);
+      } else {
+        // Standard CSS property (camelCase → kebab-case)
+        const kebab = camelToKebab(key);
+        target.style.setProperty(kebab, strVal);
+        tracked.push(kebab);
+      }
     }
-  }
 
-  // 3. Stash the list for the next cleanup.
-  (body as any)[PORTAL_THEME_KEYS] = tracked;
+    // 3. Stash the list for the next cleanup.
+    (target as any)[PORTAL_THEME_KEYS] = tracked;
+  }
 }
 
 export default setupPrimerPortals;

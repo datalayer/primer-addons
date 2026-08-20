@@ -148,6 +148,13 @@ export interface ToolbarProps {
   extraItems?: ToolbarItem[];
   /** Aria label for the toolbar */
   ariaLabel?: string;
+  /**
+   * Keep the toolbar to one line, moving what does not fit into a menu.
+   *
+   * On by default. Turned off, the items are all laid on the line and it is
+   * up to the host to leave room for them.
+   */
+  overflow?: boolean;
 }
 
 /**

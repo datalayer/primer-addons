@@ -8,7 +8,12 @@ export type CardProps = Omit<BoxProps, 'border'> & {
 };
 
 export type CardHeaderProps = {
-  title?: string;
+  /**
+   * The card's title. A node rather than a string, so a header can carry an
+   * avatar, a label or a link beside its text — a card title is a place
+   * callers reasonably want to compose.
+   */
+  title?: React.ReactNode;
   description?: string;
   leadingVisual?: React.ElementType;
   action?: React.ReactNode;
@@ -84,7 +89,7 @@ Card.Header = (props) => {
       <IconButton size="medium" icon={leadingVisual} aria-label=""/>
     </Box>}
     <Box sx={{flexGrow: 1}}>
-      <Text display="block">{title}</Text>
+      <Text as="div" display="block">{title}</Text>
       <Text display="block" color="fg.muted">{description}</Text>
     </Box>
     {action && <Box>

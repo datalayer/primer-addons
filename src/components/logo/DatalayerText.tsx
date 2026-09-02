@@ -33,7 +33,7 @@ export const DatalayerText = ({
   x = 20,
   y = -190.15,
   ...groupProps
-}: DatalayerTextProps): JSX.Element => {
+}: DatalayerTextProps): React.JSX.Element => {
   const baseScale = 0.7;
   const scale = baseScale * sizeMultiplier;
 

@@ -149,7 +149,7 @@ export interface IDatalayerThemeProviderProps extends Omit<
 
 export function DatalayerThemeProvider(
   props: React.PropsWithChildren<IDatalayerThemeProviderProps>,
-): JSX.Element {
+): React.JSX.Element {
   const { children, colorMode, baseStyles, theme, themeStyles, ...rest } =
     props;
 

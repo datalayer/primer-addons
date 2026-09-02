@@ -51,7 +51,7 @@ export const withThemeProvider = (
       )}
       <BaseStyles>
         <div id="html-addon-root">
-          {Story(context)}
+          {Story(context) as React.ReactNode}
         </div>
       </BaseStyles>
     </ThemeProvider>

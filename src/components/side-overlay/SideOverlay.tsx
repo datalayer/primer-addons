@@ -4,12 +4,12 @@ import { XIcon } from "@primer/octicons-react";
 import { Box } from '../box/Box';
 
 export interface SideOverlayProps {
-  closeButtonRef?: React.RefObject<HTMLButtonElement>;
-  content: JSX.Element;
+  closeButtonRef?: React.RefObject<HTMLButtonElement | null>;
+  content: React.JSX.Element;
   direction?: 'left' | 'right';
-  headingRef?: React.RefObject<HTMLHeadingElement>;
+  headingRef?: React.RefObject<HTMLElement | null>;
   isOpen?: boolean;
-  openButtonRef?: React.RefObject<HTMLButtonElement>;
+  openButtonRef?: React.RefObject<HTMLButtonElement | null>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   width?: number | string;
   zIndex?: number;
@@ -88,9 +88,9 @@ const PrimerAddonOverlay = (props: SideOverlayProps) => {
         direction === 'left' ?
           <Box sx={{ zIndex }}>
             <PrimerOverlay
-              initialFocusRef={closeButtonRef}
-              returnFocusRef={openButtonRef}
-              ignoreClickRefs={[openButtonRef]}
+              initialFocusRef={closeButtonRef as React.RefObject<HTMLButtonElement>}
+              returnFocusRef={openButtonRef as React.RefObject<HTMLButtonElement>}
+              ignoreClickRefs={[openButtonRef as React.RefObject<HTMLButtonElement>]}
               onEscape={closeOverlay}
               onClickOutside={handleClickOutside}
               width="auto"
@@ -105,9 +105,9 @@ const PrimerAddonOverlay = (props: SideOverlayProps) => {
         : 
           <Box sx={{ zIndex }}>
             <PrimerOverlay
-              initialFocusRef={closeButtonRef}
-              returnFocusRef={openButtonRef}
-              ignoreClickRefs={[openButtonRef]}
+              initialFocusRef={closeButtonRef as React.RefObject<HTMLButtonElement>}
+              returnFocusRef={openButtonRef as React.RefObject<HTMLButtonElement>}
+              ignoreClickRefs={[openButtonRef as React.RefObject<HTMLButtonElement>]}
               onEscape={closeOverlay}
               onClickOutside={handleClickOutside}
               width="auto"

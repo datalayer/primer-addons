@@ -33,6 +33,7 @@
   "homepage": "https://primer-addons.datalayer.tech",
   "dependencies": {
     "@datalayer/icons-react": "^1.0.0",
+    "@datalayer/reactor": "^1.0.0",
     "@primer/octicons-react": "^19.29.1",
     "@primer/primitives": "^10.7.0",
     "@primer/react": "^37.31.0",

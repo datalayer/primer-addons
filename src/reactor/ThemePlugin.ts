@@ -50,7 +50,9 @@ export const ThemePlugin = definePlugin({
       description: "Switch between light and dark",
       emoji: "\u{1F317}",
       category: "Appearance",
-      keybinding: "Mod+Alt+T",
+      // Not Mod+Alt+T: on GNOME that is "launch a terminal", grabbed by the
+      // desktop before the browser sees the key, so the command never ran.
+      keybinding: "Mod+Alt+C",
       execute: () => {
         // A visible change on every press. The store's own `toggleColorMode`
         // cycles light → dark → auto, and the step onto `auto` (or off it)

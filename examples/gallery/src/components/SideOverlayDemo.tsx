@@ -36,7 +36,7 @@ export function SideOverlayDemo() {
         width="440px"
         content={
           <Box sx={{ width: '100%', p: 2, overflow: 'auto' }}>
-            <Heading as="h4" sx={{ fontSize: 2, mb: 2 }}>
+            <Heading sx={{ fontSize: 2, mb: 2 }}>
               Left Side Overlay
             </Heading>
             <Text as="p" sx={{ color: 'fg.muted' }}>
@@ -55,7 +55,7 @@ export function SideOverlayDemo() {
         width="440px"
         content={
           <Box sx={{ width: '100%', p: 2, overflow: 'auto' }}>
-            <Heading as="h4" sx={{ fontSize: 2, mb: 2 }}>
+            <Heading sx={{ fontSize: 2, mb: 2 }}>
               Right Side Overlay
             </Heading>
             <Text as="p" sx={{ color: 'fg.muted' }}>

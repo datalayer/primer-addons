@@ -1,4 +1,5 @@
 import type { Demo } from './Demo';
+import { AppearanceMenuDemo } from './AppearanceMenuDemo';
 import { AppearanceControlsWithStoreDemo } from './AppearanceControlsWithStoreDemo';
 import { AppearanceControlsDemo } from './AppearanceControlsDemo';
 import { ColorModeCircleDemo } from './ColorModeCircleDemo';
@@ -18,6 +19,12 @@ import { ToolbarDemo } from './ToolbarDemo';
 import { FloatingToolbarDemo } from './FloatingToolbarDemo';
 
 export const demos: Demo[] = [
+  {
+    slug: 'appearance-menu',
+    title: 'Appearance Menu',
+    description: 'One square that opens the whole appearance menu, bound to the shared store.',
+    render: () => <AppearanceMenuDemo />,
+  },
   {
     slug: 'appearance-controls-with-store',
     title: 'Appearance Controls With Store',

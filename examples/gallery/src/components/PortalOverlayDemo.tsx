@@ -8,12 +8,16 @@ import {
   Text,
 } from '@primer/react';
 import { Box } from '@datalayer/primer-addons';
-import { useRef, useState } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 
 export function PortalOverlayDemo() {
   const [open, setOpen] = useState(false);
   const [primerOpen, setPrimerOpen] = useState(false);
-  const primerButtonRef = useRef<HTMLButtonElement>(null);
+  // Primer's overlay wants a ref that is never null; React 19 types a ref
+  // created with `null` as nullable, so the demo says what it means.
+  const primerButtonRef = useRef<HTMLButtonElement>(
+    null,
+  ) as RefObject<HTMLButtonElement>;
   const [primerCoords, setPrimerCoords] = useState({ top: 0, left: 0 });
 
   const openPrimerOverlay = () => {

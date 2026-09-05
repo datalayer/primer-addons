@@ -9,43 +9,20 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* The shell: a header, and the page layout filling the rest. */
 .example-shell {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
 }
 
-.example-main {
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-}
-
-.example-sidebar {
-  min-height: 0;
-  overflow: auto;
-  border-right: 1px solid var(--borderColor-default, #d0d7de);
-}
-
-/* Native form controls don't inherit font-family — force the sidebar nav
-   buttons to pick up the active theme's typeface (e.g. Matrix monospace). */
-.example-sidebar button,
-.example-sidebar input,
-.example-sidebar select,
-.example-sidebar textarea {
+/* Native form controls don't inherit font-family — force the nav buttons
+   and inputs to pick up the active theme's typeface (e.g. Matrix monospace). */
+.example-shell button,
+.example-shell input,
+.example-shell select,
+.example-shell textarea {
   font-family: inherit;
-}
-
-.example-content {
-  min-height: 0;
-  overflow: auto;
-  padding: 24px;
-}
-
-.gallery-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .gallery-grid {
@@ -72,16 +49,6 @@ body {
 }
 
 @media (max-width: 900px) {
-  .example-main {
-    grid-template-columns: 1fr;
-    grid-template-rows: 240px 1fr;
-  }
-
-  .example-sidebar {
-    border-right: none;
-    border-bottom: 1px solid var(--borderColor-default, #d0d7de);
-  }
-
   .gallery-grid {
     grid-template-columns: 1fr;
   }

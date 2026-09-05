@@ -47,12 +47,26 @@ export const ThemePlugin = definePlugin({
     {
       id: TOGGLE_COLOR_MODE_COMMAND,
       name: "Toggle the color mode",
-      description: "Cycle light → dark → auto",
+      description: "Switch between light and dark",
       emoji: "\u{1F317}",
       category: "Appearance",
       keybinding: "Mod+Alt+T",
       execute: () => {
-        useThemeStore.getState().toggleColorMode();
+        // A visible change on every press. The store's own `toggleColorMode`
+        // cycles light → dark → auto, and the step onto `auto` (or off it)
+        // shows nothing when `auto` resolves to the mode already on screen —
+        // so every third press looked like a dud, and from `auto` it took
+        // two. Resolve what is showing and go to the opposite explicit mode;
+        // `auto` remains a choice for the picker.
+        const store = useThemeStore.getState();
+        const showing =
+          store.colorMode === "auto"
+            ? typeof window !== "undefined" &&
+              window.matchMedia?.("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : store.colorMode;
+        store.setColorMode(showing === "dark" ? "light" : "dark");
       },
     },
   ],

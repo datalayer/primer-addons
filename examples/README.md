@@ -16,3 +16,8 @@ quick links as chips.
 npm run gallery   # from the package root, on http://localhost:5173
 ```
 
+Its dependencies come from the workspace root — `npm i` in `datalayer-osp/src`,
+where it is a member — not from an install of its own: the example aliases the
+package's source, and a nested `node_modules` would put a second React and a
+second set of React types beside it.
+

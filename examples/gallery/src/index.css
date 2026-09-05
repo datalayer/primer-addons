@@ -9,11 +9,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* The shell: a header, and the page layout filling the rest. */
+/* The shell: a header, and the page layout filling the rest. The viewport's
+   height rather than the parent's: the theme provider's own wrapper has no
+   height to inherit, and the page layout scrolls its canvas only inside a
+   definite one. */
 .example-shell {
   display: grid;
   grid-template-rows: auto 1fr;
-  height: 100%;
+  height: 100vh;
 }
 
 /* Native form controls don't inherit font-family — force the nav buttons

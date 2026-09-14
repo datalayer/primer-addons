@@ -17,15 +17,27 @@
  * @module components/toolbar/ToolbarDropdown
  */
 
-import { type ReactNode, isValidElement, useMemo, useState } from 'react';
-import { ActionMenu, ActionList, Text } from '@primer/react';
-import { Box } from '../box/Box';
-import type { ToolbarDropdownItem, ToolbarDropdownOption } from './types';
+import { type ReactNode, isValidElement, useMemo, useState } from "react";
+import { ActionMenu, ActionList, Text } from "@primer/react";
+import { Box } from "../box/Box";
+import type { ToolbarDropdownItem, ToolbarDropdownOption } from "./types";
 
 export interface ToolbarDropdownProps {
   item: ToolbarDropdownItem;
   /** Size variant */
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
+  /**
+   * Icon only: drop the trigger's text label even when the item carries one.
+   *
+   * A labelled trigger reads fine on the toolbar's own line, where it has a
+   * row's worth of width to itself. Stacked one per row inside the "..."
+   * overflow menu — a column barely wider than the icons — the same label
+   * wraps or clips against the menu's edge instead. The overflow menu is the
+   * one caller that needs this; a trigger with no icon at all keeps its
+   * label regardless, since an icon-only button with nothing to show would
+   * be worse than a label in a narrow column.
+   */
+  iconOnly?: boolean;
 }
 
 /**
@@ -35,7 +47,7 @@ export interface ToolbarDropdownProps {
  * (typeof === 'object'), NOT a function.  We check isValidElement first
  * (already-instantiated JSX), then treat anything else as a component type.
  */
-function renderIcon(icon: ToolbarDropdownOption['icon']): ReactNode {
+function renderIcon(icon: ToolbarDropdownOption["icon"]): ReactNode {
   if (!icon) return null;
   if (isValidElement(icon)) {
     return icon;
@@ -47,11 +59,16 @@ function renderIcon(icon: ToolbarDropdownOption['icon']): ReactNode {
 
 /** Whether any dropdown option in the list has an icon. */
 function hasAnyIcon(options: ToolbarDropdownOption[]): boolean {
-  return options.some(o => !!o.icon);
+  return options.some((o) => !!o.icon);
 }
 
-export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps) {
+export function ToolbarDropdown({
+  item,
+  size = "medium",
+  iconOnly = false,
+}: ToolbarDropdownProps) {
   const { ariaLabel, icon, label, minWidth, options, disabled } = item;
+  const showLabel = !!label && !(iconOnly && icon);
 
   const [open, setOpen] = useState(false);
 
@@ -70,14 +87,14 @@ export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps)
    * dropdown is worth marking while its menu is open.
    */
   const anyActive = useMemo(
-    () => !label && options.some(o => o.isActive),
+    () => !label && options.some((o) => o.isActive),
     [label, options],
   );
 
   // If any option has an icon we reserve a leading-visual column for all rows.
   const showLeadingVisual = useMemo(() => hasAnyIcon(options), [options]);
 
-  const btnSize = size === 'small' ? 28 : 32;
+  const btnSize = size === "small" ? 28 : 32;
 
   return (
     <ActionMenu open={open} onOpenChange={setOpen}>
@@ -91,17 +108,17 @@ export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps)
           title={ariaLabel}
           disabled={disabled}
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
             gap: 4,
             minWidth: btnSize,
             height: btnSize,
-            padding: label ? '0 8px' : 0,
+            padding: showLabel ? "0 8px" : 0,
             margin: 0,
-            border: 'none',
+            border: "none",
             borderRadius: 6,
-            cursor: disabled ? 'not-allowed' : 'pointer',
+            cursor: disabled ? "not-allowed" : "pointer",
             /*
               Neutral while the menu is open, not accented.
               
@@ -113,43 +130,43 @@ export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps)
             */
             background:
               anyActive || open
-                ? 'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))'
-                : 'transparent',
+                ? "var(--bgColor-neutral-muted, rgba(175,184,193,0.2))"
+                : "transparent",
             color:
               anyActive || open
-                ? 'var(--fgColor-default, #1f2328)'
-                : 'var(--fgColor-muted, #656d76)',
+                ? "var(--fgColor-default, #1f2328)"
+                : "var(--fgColor-muted, #656d76)",
             opacity: disabled ? 0.5 : 1,
-            fontSize: size === 'small' ? 12 : 14,
-            fontWeight: 'normal',
-            fontFamily: 'inherit',
+            fontSize: size === "small" ? 12 : 14,
+            fontWeight: "normal",
+            fontFamily: "inherit",
             lineHeight: 1,
           }}
           onMouseEnter={(e) => {
             if (!disabled) {
               e.currentTarget.style.background =
-                'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))';
-              e.currentTarget.style.color = 'var(--fgColor-default, #1f2328)';
+                "var(--bgColor-neutral-muted, rgba(175,184,193,0.2))";
+              e.currentTarget.style.color = "var(--fgColor-default, #1f2328)";
             }
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background =
               anyActive || open
-                ? 'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))'
-                : 'transparent';
+                ? "var(--bgColor-neutral-muted, rgba(175,184,193,0.2))"
+                : "transparent";
             e.currentTarget.style.color =
               anyActive || open
-                ? 'var(--fgColor-default, #1f2328)'
-                : 'var(--fgColor-muted, #656d76)';
+                ? "var(--fgColor-default, #1f2328)"
+                : "var(--fgColor-muted, #656d76)";
           }}
         >
           {renderIcon(icon)}
-          {label && (
+          {showLabel && (
             <span
               style={{
-                display: 'inline-block',
+                display: "inline-block",
                 minWidth: minWidth ? minWidth : undefined,
-                textAlign: 'left',
+                textAlign: "left",
               }}
             >
               {label}
@@ -159,7 +176,7 @@ export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps)
       </ActionMenu.Anchor>
       <ActionMenu.Overlay width="auto">
         <ActionList>
-          {options.map(option => (
+          {options.map((option) => (
             <ActionList.Item
               key={option.key}
               onSelect={option.onClick}
@@ -168,13 +185,27 @@ export function ToolbarDropdown({ item, size = 'medium' }: ToolbarDropdownProps)
             >
               {showLeadingVisual && (
                 <ActionList.LeadingVisual>
-                  {option.icon ? renderIcon(option.icon) : <Box sx={{ width: 16 }} />}
+                  {option.icon ? (
+                    renderIcon(option.icon)
+                  ) : (
+                    <Box sx={{ width: 16 }} />
+                  )}
                 </ActionList.LeadingVisual>
               )}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: 3 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  gap: 3,
+                }}
+              >
                 <Text>{option.label}</Text>
                 {option.shortcut && (
-                  <Text sx={{ color: 'fg.subtle', fontSize: 0, fontFamily: 'mono' }}>
+                  <Text
+                    sx={{ color: "fg.subtle", fontSize: 0, fontFamily: "mono" }}
+                  >
                     {option.shortcut}
                   </Text>
                 )}

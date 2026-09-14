@@ -3,18 +3,14 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import type { ReactNode } from 'react';
-import type { IconProps } from '@primer/octicons-react';
+import type { ReactNode } from "react";
+import type { IconProps } from "@primer/octicons-react";
 
 /**
  * Toolbar item types that can be registered in a toolbar.
  */
 export type ToolbarItemType =
-  | 'button'
-  | 'dropdown'
-  | 'divider'
-  | 'spacer'
-  | 'custom';
+  "button" | "dropdown" | "divider" | "spacer" | "custom";
 
 /**
  * Base toolbar item definition.
@@ -38,7 +34,7 @@ export interface ToolbarItemBase {
  * Toolbar button item definition.
  */
 export interface ToolbarButtonItem extends ToolbarItemBase {
-  type: 'button';
+  type: "button";
   /** Accessible label */
   ariaLabel: string;
   /** Tooltip text */
@@ -79,7 +75,7 @@ export interface ToolbarDropdownOption {
  * Toolbar dropdown item definition.
  */
 export interface ToolbarDropdownItem extends ToolbarItemBase {
-  type: 'dropdown';
+  type: "dropdown";
   /** Accessible label */
   ariaLabel: string;
   /** Tooltip text */
@@ -102,7 +98,7 @@ export interface ToolbarDropdownItem extends ToolbarItemBase {
  * Toolbar divider item definition.
  */
 export interface ToolbarDividerItem extends ToolbarItemBase {
-  type: 'divider';
+  type: "divider";
 }
 
 /**
@@ -112,16 +108,30 @@ export interface ToolbarDividerItem extends ToolbarItemBase {
  * the trailing edge — e.g. a status indicator kept away from the actions.
  */
 export interface ToolbarSpacerItem extends ToolbarItemBase {
-  type: 'spacer';
+  type: "spacer";
+}
+
+/**
+ * What a custom item's `render` is told about the space it has.
+ */
+export interface ToolbarCustomItemContext {
+  /**
+   * Set inside the "..." overflow menu — see `ToolbarDropdownProps.iconOnly`.
+   * A custom item is a host's own component, not a `ToolbarButton` or
+   * `ToolbarDropdown` the renderer can adapt on its behalf, so this is the
+   * one thing it's told rather than handled for it: draw compactly, the
+   * same reason every other item in the menu does.
+   */
+  iconOnly?: boolean;
 }
 
 /**
  * Toolbar custom item definition.
  */
 export interface ToolbarCustomItem extends ToolbarItemBase {
-  type: 'custom';
+  type: "custom";
   /** Custom render function */
-  render: () => ReactNode;
+  render: (context: ToolbarCustomItemContext) => ReactNode;
 }
 
 /**

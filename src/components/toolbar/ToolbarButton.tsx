@@ -15,6 +15,16 @@
  * and the tooltip of a disabled action is precisely where the why-disabled
  * explanation lives.
  *
+ * `showLabel` prints that same name beside the icon instead of leaving it in
+ * the tooltip alone. On the toolbar's own line an icon earns its keep — Bold,
+ * Italic, Underline read at a glance, and a name beside each would crowd a
+ * strip already short on room. Inside the "..." overflow menu there is a
+ * whole row to spend and nothing to read at a glance until the pointer
+ * happens to rest on one: a tooltip nobody is hovering says nothing, the way
+ * `ariaLabel` says it whether or not anyone points at the row at all. The
+ * `Toolbar` sets it on that menu alone; a host wiring `ToolbarButton` up on
+ * its own line does not need to know the flag exists.
+ *
  * @module components/toolbar/ToolbarButton
  */
 
@@ -26,9 +36,15 @@ export interface ToolbarButtonProps {
   item: ToolbarButtonItem;
   /** Size variant: 'small' for floating toolbar, 'medium' for fixed toolbar */
   size?: 'small' | 'medium';
+  /** Print `ariaLabel` beside the icon — see the module doc. Off by default. */
+  showLabel?: boolean;
 }
 
-export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
+export function ToolbarButton({
+  item,
+  size = 'medium',
+  showLabel = false,
+}: ToolbarButtonProps) {
   const { ariaLabel, title, icon, label, isActive, onClick, disabled } = item;
 
   // Resolve icon → React element.
@@ -50,6 +66,11 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
   }
 
   const btnSize = size === 'small' ? 28 : 32;
+  // Only when there is a name to show, and only where it was asked for:
+  // showLabel with no ariaLabel (should never happen — it is required on
+  // the item — but this keeps a bare icon rather than an empty gap) falls
+  // back to the icon-only layout below.
+  const printLabel = showLabel && Boolean(ariaLabel);
 
   const button = (
     <button
@@ -61,10 +82,17 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: btnSize,
+        justifyContent: printLabel ? 'flex-start' : 'center',
+        gap: printLabel ? 6 : 0,
+        // No explicit `width` when labelled: sized to its own icon-plus-name
+        // content, the same as `ToolbarDropdown`'s trigger — the two sit in
+        // the same overflow menu, and a button stretched to fill it beside a
+        // dropdown sized to its own text would read as two different kinds
+        // of row rather than one consistent list.
+        width: printLabel ? undefined : btnSize,
+        minWidth: btnSize,
         height: btnSize,
-        padding: 0,
+        padding: printLabel ? '0 8px' : 0,
         margin: 0,
         border: 'none',
         borderRadius: 6,
@@ -73,6 +101,9 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
         color: isActive ? 'var(--fgColor-accent, #0969da)' : 'var(--fgColor-muted, #656d76)',
         opacity: disabled ? 0.5 : 1,
         lineHeight: 1,
+        fontSize: size === 'small' ? 12 : 14,
+        fontFamily: 'inherit',
+        whiteSpace: 'nowrap',
       }}
       onMouseEnter={(e) => {
         if (!disabled) {
@@ -90,6 +121,7 @@ export function ToolbarButton({ item, size = 'medium' }: ToolbarButtonProps) {
       }}
     >
       {iconElement}
+      {printLabel && <span>{ariaLabel}</span>}
     </button>
   );
 

@@ -22,6 +22,23 @@ export interface ToolbarRendererProps {
   items: ToolbarItem[];
   disabled?: boolean;
   size?: "small" | "medium";
+  /**
+   * Print a button's name beside its icon instead of leaving it in the
+   * tooltip alone — see `ToolbarButton`. Meaningless for a dropdown, which
+   * already shows its own label wherever it is drawn.
+   */
+  showLabel?: boolean;
+  /**
+   * How the caller lays the items out: along a row (a toolbar line, the
+   * default) or down a column (the "..." overflow menu).
+   *
+   * Only dividers read it. A divider is drawn across the direction of travel
+   * — a vertical bar between items on a row, a horizontal rule between groups
+   * in a column. Left vertical in a column it became a 20px-tall empty row
+   * with a 1px line down its left edge, which is exactly what showed under
+   * the last item of every group in the overflow menu.
+   */
+  direction?: "row" | "column";
 }
 
 /**
@@ -31,6 +48,8 @@ export function ToolbarRenderer({
   items,
   disabled,
   size = "medium",
+  showLabel = false,
+  direction = "row",
 }: ToolbarRendererProps) {
   const sorted = [...items]
     .filter((item) => !item.hidden)
@@ -48,6 +67,7 @@ export function ToolbarRenderer({
                 <ToolbarButton
                   item={{ ...item, disabled: itemDisabled }}
                   size={size}
+                  showLabel={showLabel}
                 />
               </Fragment>
             );
@@ -65,7 +85,11 @@ export function ToolbarRenderer({
           case "divider":
             return (
               <Fragment key={item.key}>
-                <ToolbarDivider />
+                <ToolbarDivider
+                  orientation={
+                    direction === "column" ? "horizontal" : "vertical"
+                  }
+                />
               </Fragment>
             );
 

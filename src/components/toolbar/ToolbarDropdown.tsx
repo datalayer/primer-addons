@@ -26,18 +26,6 @@ export interface ToolbarDropdownProps {
   item: ToolbarDropdownItem;
   /** Size variant */
   size?: "small" | "medium";
-  /**
-   * Icon only: drop the trigger's text label even when the item carries one.
-   *
-   * A labelled trigger reads fine on the toolbar's own line, where it has a
-   * row's worth of width to itself. Stacked one per row inside the "..."
-   * overflow menu — a column barely wider than the icons — the same label
-   * wraps or clips against the menu's edge instead. The overflow menu is the
-   * one caller that needs this; a trigger with no icon at all keeps its
-   * label regardless, since an icon-only button with nothing to show would
-   * be worse than a label in a narrow column.
-   */
-  iconOnly?: boolean;
 }
 
 /**
@@ -65,10 +53,8 @@ function hasAnyIcon(options: ToolbarDropdownOption[]): boolean {
 export function ToolbarDropdown({
   item,
   size = "medium",
-  iconOnly = false,
 }: ToolbarDropdownProps) {
   const { ariaLabel, icon, label, minWidth, options, disabled } = item;
-  const showLabel = !!label && !(iconOnly && icon);
 
   const [open, setOpen] = useState(false);
 
@@ -114,7 +100,7 @@ export function ToolbarDropdown({
             gap: 4,
             minWidth: btnSize,
             height: btnSize,
-            padding: showLabel ? "0 8px" : 0,
+            padding: label ? "0 8px" : 0,
             margin: 0,
             border: "none",
             borderRadius: 6,
@@ -161,7 +147,7 @@ export function ToolbarDropdown({
           }}
         >
           {renderIcon(icon)}
-          {showLabel && (
+          {label && (
             <span
               style={{
                 display: "inline-block",

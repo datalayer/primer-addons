@@ -22,14 +22,6 @@ export interface ToolbarRendererProps {
   items: ToolbarItem[];
   disabled?: boolean;
   size?: "small" | "medium";
-  /**
-   * Passed straight through to every dropdown item — see
-   * `ToolbarDropdownProps.iconOnly` — and to every custom item's own
-   * `render`, since that one is a host's component the renderer cannot
-   * adapt on its behalf. `Toolbar` sets this for the items it renders
-   * inside its "..." overflow menu; the inline row leaves it off.
-   */
-  iconOnly?: boolean;
 }
 
 /**
@@ -39,7 +31,6 @@ export function ToolbarRenderer({
   items,
   disabled,
   size = "medium",
-  iconOnly,
 }: ToolbarRendererProps) {
   const sorted = [...items]
     .filter((item) => !item.hidden)
@@ -67,7 +58,6 @@ export function ToolbarRenderer({
                 <ToolbarDropdown
                   item={{ ...item, disabled: itemDisabled }}
                   size={size}
-                  iconOnly={iconOnly}
                 />
               </Fragment>
             );
@@ -85,9 +75,7 @@ export function ToolbarRenderer({
             );
 
           case "custom":
-            return (
-              <Fragment key={item.key}>{item.render({ iconOnly })}</Fragment>
-            );
+            return <Fragment key={item.key}>{item.render()}</Fragment>;
 
           default:
             return null;

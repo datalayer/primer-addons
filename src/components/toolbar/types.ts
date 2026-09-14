@@ -112,26 +112,12 @@ export interface ToolbarSpacerItem extends ToolbarItemBase {
 }
 
 /**
- * What a custom item's `render` is told about the space it has.
- */
-export interface ToolbarCustomItemContext {
-  /**
-   * Set inside the "..." overflow menu — see `ToolbarDropdownProps.iconOnly`.
-   * A custom item is a host's own component, not a `ToolbarButton` or
-   * `ToolbarDropdown` the renderer can adapt on its behalf, so this is the
-   * one thing it's told rather than handled for it: draw compactly, the
-   * same reason every other item in the menu does.
-   */
-  iconOnly?: boolean;
-}
-
-/**
  * Toolbar custom item definition.
  */
 export interface ToolbarCustomItem extends ToolbarItemBase {
   type: "custom";
   /** Custom render function */
-  render: (context: ToolbarCustomItemContext) => ReactNode;
+  render: () => ReactNode;
 }
 
 /**

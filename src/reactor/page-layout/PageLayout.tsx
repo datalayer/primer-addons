@@ -301,7 +301,17 @@ export function PageLayout({
               sx={{
                 width: "100%",
                 maxWidth: sheetWidth,
-                flex: hasPage ? "0 0 auto" : "1 1 auto",
+                /*
+                  A page's sheet is at least as tall as the canvas, and grows
+                  past it with its content (`1 0 auto`: grow, never shrink).
+                  It used to be `0 0 auto`, its content's height only — so
+                  when the layout was given more room (full screen, a taller
+                  frame, a resized window) the canvas grew and the page did
+                  not, leaving an empty band of canvas under a short sheet.
+                  Flex does the following: nothing is measured, so any
+                  change in the layout's height reaches the page at once.
+                */
+                flex: hasPage ? "1 0 auto" : "1 1 auto",
                 bg: "canvas.default",
                 border: "1px solid",
                 borderColor: "border.default",

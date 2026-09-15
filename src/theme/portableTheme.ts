@@ -4,6 +4,7 @@
  */
 
 import { type ColorMode } from './DatalayerBrandThemeProvider';
+import { systemFontStack } from './fontStacks';
 import { themeConfigs, type ThemeVariant } from './themeRegistry';
 
 /** A valid CSS custom-property name. */
@@ -31,7 +32,7 @@ export interface PortableTheme {
 }
 
 function cssVariables(styles: object): CssVariableMap {
-  return Object.fromEntries(
+  const variables = Object.fromEntries(
     Object.entries(styles)
       .filter(
         ([name, value]) =>
@@ -39,6 +40,16 @@ function cssVariables(styles: object): CssVariableMap {
       )
       .map(([name, value]) => [name, String(value)]),
   ) as CssVariableMap;
+  const fontFamily =
+    variables['--fontStack-sansSerif'] ??
+    (styles as { fontFamily?: string }).fontFamily ??
+    systemFontStack;
+  return {
+    '--fontStack-sansSerif': fontFamily,
+    '--fontStack-sansSerifDisplay': fontFamily,
+    '--fontStack-system': fontFamily,
+    ...variables,
+  };
 }
 
 /**

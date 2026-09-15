@@ -14,6 +14,7 @@ import {
 import { BaseStyles, ThemeProvider, ThemeProviderProps } from "@primer/react";
 import { useSystemColorMode } from "./useSystemColorMode";
 import { datalayerTheme, datalayerThemeStyles } from "./themes/datalayerTheme";
+import { systemFontStack } from "./fontStacks";
 import { setupPrimerPortals, syncPortalThemeStyles } from "../utils/Portals";
 
 /**
@@ -22,9 +23,6 @@ import { setupPrimerPortals, syncPortalThemeStyles } from "../utils/Portals";
  * components using the CSS `font` shorthand (e.g. `Blankslate`)
  * also pick up the themed typeface.
  */
-const SYSTEM_FONT =
-  '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"';
-
 /**
  * Shared typographic rhythm — clean, spacious feel inspired by
  * modern developer-blog aesthetics (generous line-height, open
@@ -43,9 +41,9 @@ const typographyVars: CSSProperties = {
   /* ── Font stacks ───────────────────────────────────────────────── */
   "--fontStack-monospace":
     "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace",
-  "--fontStack-sansSerif": SYSTEM_FONT,
-  "--fontStack-sansSerifDisplay": SYSTEM_FONT,
-  "--fontStack-system": SYSTEM_FONT,
+  "--fontStack-sansSerif": systemFontStack,
+  "--fontStack-sansSerifDisplay": systemFontStack,
+  "--fontStack-system": systemFontStack,
 
   /* ── Base text weights (from @primer/primitives) ───────────────── */
   "--base-text-weight-light": "300",
@@ -82,27 +80,27 @@ const typographyVars: CSSProperties = {
    * etc.) via `font: var(--text-title-shorthand-medium, <fallback>)`.
    * Defining them here prevents the hard-coded fallback from firing.
    * Each one references `var(--fontStack-sansSerif)` or
-   * `SYSTEM_FONT` directly (no nested `var()`) so that the CSS
+   * the system font stack directly (no nested `var()`) so that the CSS
    * `font` shorthand parses reliably.  Themes that override fonts
    * (e.g. Matrix monospace) replace these shorthand tokens via
    * `buildThemeStyles({ fontFamily })` in their `themeStyles`.
    * ─────────────────────────────────────────────────────────────── */
-  "--text-body-shorthand-large": `400 1rem/1.5 ${SYSTEM_FONT}`,
-  "--text-body-shorthand-medium": `400 0.875rem/1.4285 ${SYSTEM_FONT}`,
-  "--text-body-shorthand-small": `400 0.75rem/1.6666 ${SYSTEM_FONT}`,
-  "--text-title-shorthand-large": `600 2rem/1.5 ${SYSTEM_FONT}`,
-  "--text-title-shorthand-medium": `600 1.25rem/1.6 ${SYSTEM_FONT}`,
-  "--text-title-shorthand-small": `600 1rem/1.5 ${SYSTEM_FONT}`,
-  "--text-caption-shorthand": `400 0.75rem/1.3333 ${SYSTEM_FONT}`,
-  "--text-subtitle-shorthand": `400 1.25rem/1.6 ${SYSTEM_FONT}`,
-  "--text-display-shorthand": `500 2.5rem/1.4 ${SYSTEM_FONT}`,
+  "--text-body-shorthand-large": `400 1rem/1.5 ${systemFontStack}`,
+  "--text-body-shorthand-medium": `400 0.875rem/1.4285 ${systemFontStack}`,
+  "--text-body-shorthand-small": `400 0.75rem/1.6666 ${systemFontStack}`,
+  "--text-title-shorthand-large": `600 2rem/1.5 ${systemFontStack}`,
+  "--text-title-shorthand-medium": `600 1.25rem/1.6 ${systemFontStack}`,
+  "--text-title-shorthand-small": `600 1rem/1.5 ${systemFontStack}`,
+  "--text-caption-shorthand": `400 0.75rem/1.3333 ${systemFontStack}`,
+  "--text-subtitle-shorthand": `400 1.25rem/1.6 ${systemFontStack}`,
+  "--text-display-shorthand": `500 2.5rem/1.4 ${systemFontStack}`,
 
   /* ── Custom overrides ──────────────────────────────────────────── */
   "--text-body-lineHeight": "1.7",
   "--text-title-lineHeight": "1.2",
   "--text-title-letterSpacing": "-0.02em",
 
-  fontFamily: SYSTEM_FONT,
+  fontFamily: systemFontStack,
   WebkitFontSmoothing: "antialiased",
   MozOsxFontSmoothing: "grayscale",
   textRendering: "optimizeLegibility",

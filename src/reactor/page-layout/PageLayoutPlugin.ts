@@ -26,6 +26,7 @@ import { createElement } from "react";
 import { definePlugin } from "@datalayer/reactor";
 import type { ReactorReactOutput } from "@datalayer/reactor/react";
 import type { Icon } from "@primer/octicons-react";
+import type { PageSize } from "./PageLayout";
 import { SlotPageLayout, SlotPanelToggle } from "./SlotPageLayout";
 
 export const PAGE_LAYOUT_PLUGIN_NAME = "@datalayer/primer-page-layout";
@@ -62,10 +63,21 @@ export type PageLayoutPluginConfig = {
   panelSlot: string;
   /** The slot for the chips under the band. */
   chipsSlot: string;
-  /** Whether the band is docked at the sheet's width or floats over the canvas. */
-  band: "docked" | "floating";
+  /**
+   * Whether the band is docked at the sheet's width, floats over the canvas,
+   * or stands in the side panel under its content.
+   */
+  band: "docked" | "floating" | "panel";
+  /** Where the panel stands: beside the page, over its edge, or in its corner. */
+  panel: "docked" | "overlay" | "popup";
   /** The sheet's width, in pixels. */
   sheetWidth?: number;
+  /**
+   * The sheet's size: free (the default) at `sheetWidth`, or a paper —
+   * `{ format: "letter" }`, `{ format: "a4" }` — with a free `width` or
+   * `height` over it.
+   */
+  pageSize?: PageSize;
   /** The open panel's width, in pixels. */
   panelWidth?: number;
 };
@@ -93,7 +105,9 @@ export const PageLayoutPlugin = definePlugin<
     panelSlot: PageLayoutSlots.panel,
     chipsSlot: PageLayoutSlots.chips,
     band: "docked",
+    panel: "docked",
     sheetWidth: undefined,
+    pageSize: undefined,
     panelWidth: undefined,
   },
   build: ({ config }) => ({
@@ -109,7 +123,9 @@ export const PageLayoutPlugin = definePlugin<
             panelSlot: config.panelSlot,
             chipsSlot: config.chipsSlot,
             bandMode: config.band,
+            panelMode: config.panel,
             sheetWidth: config.sheetWidth,
+            pageSize: config.pageSize,
             panelWidth: config.panelWidth,
             context,
           }),

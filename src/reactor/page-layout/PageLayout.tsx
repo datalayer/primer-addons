@@ -10,12 +10,18 @@
  * width, with the margins and the shadow a page has — and a band docked
  * directly above the canvas — or, when the host asks for it, floating over
  * the canvas as a draggable card — like the toolbar of a document
- * application, with chips directly under it. With no page to show, the side
- * panel's content is the page: the same sheet, holding it, and no side
- * panel. While something works in the page, a small line at the top of the
- * sheet says what it is doing — "Analyst is adding a cell…" — so the change
- * is seen where it happens. The panel is a column on the right that opens
- * when it is wanted; closed, the page is all there is.
+ * application, with chips directly under it — or standing in the side panel
+ * under its content, the page bare. With no page to show, the side panel's
+ * content is the page: the same sheet, holding it, and no side panel. While
+ * something works in the page, a small line at the top of the sheet says
+ * what it is doing — "Analyst is adding a cell…" — so the change is seen
+ * where it happens. The panel is a column on the right that opens when it
+ * is wanted — or, by `panelMode`, an overlay over the page's edge or a
+ * small window in its corner; closed, the page is all there is.
+ *
+ * The sheet is a reading column by default, as tall as what is on it; asked
+ * for a paper (`pageSize`: letter, A4, or a free width and height), it takes
+ * the paper's width and is at least the paper's height.
  *
  * The band holds one **mount point**, and that is what gives its content its
  * width: the same `sheetWidth` column the sheet gets, centred the same way,
@@ -23,7 +29,11 @@
  * column with one pair of edges, and they stay one when the panel opens and
  * narrows the canvas — because the band lives inside the page column, not
  * across the whole view. A floating card sizes itself, which is why it never
- * lines up with anything and is given a strip of empty canvas to hover over.
+ * lines up with anything. It hangs at the top of the canvas, over the chips
+ * and the sheet, which start where they would with no band at all: the flow
+ * keeps no room for the card. What it covers is a drag away, and a strip of
+ * canvas held clear for it was a blank band before the page — worse than a
+ * card over the first lines.
  *
  * Nothing here decides what the parts do. A host wires them; this arranges
  * them. It grew up as the Loop's page layout, where the page is a notebook or
@@ -46,6 +56,58 @@ import {
 export const PAGE_SHEET_WIDTH = 920;
 /** The side panel, when open. */
 export const PAGE_PANEL_WIDTH = 400;
+
+/**
+ * How the sheet is sized: `free`, or as a sheet of paper.
+ *
+ * `free` is the reading column — `PAGE_SHEET_WIDTH` wide, or the width the
+ * host gives, as tall as its content. `letter` and `a4` are the papers, at
+ * CSS's 96 dots to the inch: the sheet takes their width and is at least
+ * their height, so a short document still reads as a page rather than as a
+ * box shrunk around three lines.
+ */
+export type PageSizeFormat = "free" | "letter" | "a4";
+
+/** The sheet's size: a format, and free width and height over it. */
+export type PageSize = {
+  /** `free` unless said otherwise. */
+  format?: PageSizeFormat;
+  /** The sheet's width in px. Over a paper format, replaces the paper's. */
+  width?: number;
+  /**
+   * The sheet's least height in px; content past it grows the sheet. Over a
+   * paper format, replaces the paper's. Omitted under `free`: the content's.
+   */
+  height?: number;
+};
+
+/** The papers, in CSS px (96 to the inch): US Letter 8.5 × 11 in, A4 210 × 297 mm. */
+export const PAGE_SIZE_FORMATS: Record<
+  Exclude<PageSizeFormat, "free">,
+  { width: number; height: number }
+> = {
+  letter: { width: 816, height: 1056 },
+  a4: { width: 794, height: 1123 },
+};
+
+/**
+ * The width and least height a `PageSize` asks for: the format's, with any
+ * free width or height over it; `sheetWidth` and the content's height when
+ * neither says.
+ */
+export function resolvePageSize(
+  size: PageSize | undefined,
+  sheetWidth: number = PAGE_SHEET_WIDTH,
+): { width: number; height?: number } {
+  const paper =
+    size?.format && size.format !== "free"
+      ? PAGE_SIZE_FORMATS[size.format]
+      : undefined;
+  return {
+    width: size?.width ?? paper?.width ?? sheetWidth,
+    height: size?.height ?? paper?.height,
+  };
+}
 /**
  * The canvas' own gutters, shared by the sheet and the band.
  *
@@ -54,15 +116,6 @@ export const PAGE_PANEL_WIDTH = 400;
  * the first time one of them is edited.
  */
 const CANVAS_PX = [2, 3, 4];
-
-/**
- * The strip of canvas kept clear under a floating band.
- *
- * The card is absolutely positioned, so the flow has to leave room for it or
- * the sheet slides underneath: measured, a composer with its footer stands
- * about 170px tall, anchored 16px from the top.
- */
-const BAND_STRIP = 188;
 
 /** What is happening in the page, pinned to the sheet's top edge. */
 function ActivityLine({ label }: { label: string }): JSX.Element {
@@ -143,12 +196,30 @@ export type PageLayoutProps = {
   activity?: string;
   /**
    * `docked` (the default): the band above the canvas, at the sheet's width.
-   * `floating`: the band's content is a draggable card over the top of the
-   * canvas, positioned by itself against this layout's root.
+   * `floating`: the band's content is a draggable card at the top of the
+   * canvas, positioned by itself against this layout's root, over the chips
+   * and the sheet — which start at the top of the canvas as if there were
+   * no band; the card covers what it covers. `panel`: the band stands in the
+   * side panel, under the panel's content, with the chips above it; the
+   * page has no band over it at all, and the panel is on screen for as
+   * long as the band is in it, whatever the toggle says.
    */
-  bandMode?: "docked" | "floating";
+  bandMode?: "docked" | "floating" | "panel";
+  /**
+   * Where the panel stands, when open. `docked` (the default): a column
+   * beside the page, narrowing it. `overlay`: over the page's right edge at
+   * full height, the page untouched under it. `popup`: a small window in
+   * the page's bottom-right corner.
+   */
+  panelMode?: "docked" | "overlay" | "popup";
   /** The sheet's width; {@link PAGE_SHEET_WIDTH} by default. */
   sheetWidth?: number;
+  /**
+   * The sheet's size: `free` (the default) at `sheetWidth`, or a paper —
+   * `letter`, `a4` — whose width the sheet takes and whose height it is at
+   * least; a `width` or `height` given here comes before either.
+   */
+  pageSize?: PageSize;
   /** The panel's width when open; {@link PAGE_PANEL_WIDTH} by default. */
   panelWidth?: number;
 };
@@ -163,11 +234,23 @@ export function PageLayout({
   transient,
   activity,
   bandMode = "docked",
+  panelMode = "docked",
   sheetWidth = PAGE_SHEET_WIDTH,
+  pageSize,
   panelWidth = PAGE_PANEL_WIDTH,
 }: PageLayoutProps): JSX.Element {
   const floating = bandMode === "floating";
+  const bandInPanel = bandMode === "panel";
+  const hasBand = band !== undefined && band !== null;
+  // One width for the sheet, the band's mount and the chips: the column.
+  const { width: pageWidth, height: pageHeight } = resolvePageSize(
+    pageSize,
+    sheetWidth,
+  );
   const panelOpen = useSignalValue(pageLayoutPanelOpen);
+  // A panel holding the band is on screen whatever the toggle says: closing
+  // it would take the composer with it.
+  const panelShown = panelOpen || (bandInPanel && hasBand);
   const announced = useSignalValue(pageLayoutActivity);
   const activityLabel = activity ?? announced;
 
@@ -220,7 +303,7 @@ export function PageLayout({
           {/* The band, docked above the page: it spans the canvas, the mount
               point inside it is the page's own column, so the two share one
               pair of edges. */}
-          {band && !floating ? (
+          {band && bandMode === "docked" ? (
             <Box
               data-page-band=""
               data-page-prompt-dock=""
@@ -240,7 +323,7 @@ export function PageLayout({
               {/* The mount point: the same column the sheet gets, so
                   `[data-page-band] > *` and `[data-page-sheet]` measure the
                   same width and the same left edge. */}
-              <Box sx={{ width: "100%", maxWidth: sheetWidth, minWidth: 0 }}>
+              <Box sx={{ width: "100%", maxWidth: pageWidth, minWidth: 0 }}>
                 {band}
               </Box>
             </Box>
@@ -260,19 +343,20 @@ export function PageLayout({
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              // Under a floating card, room for it above the first line of
-              // the sheet — only while there is one.
-              pt: floating && band ? `${BAND_STRIP}px` : 3,
+              // The same under a floating card: the chips and the sheet
+              // start at the top, and the card hangs over them.
+              pt: 3,
               pb: 6,
               px: CANVAS_PX,
             }}
           >
-            {/* The chips, under the band and above the sheet. */}
-            {band && chips ? (
+            {/* The chips, under the band — docked or floating — and above
+                the sheet. With the band in the panel they go there too. */}
+            {band && chips && !bandInPanel ? (
               <Box
                 sx={{
                   width: "100%",
-                  maxWidth: sheetWidth,
+                  maxWidth: pageWidth,
                   mb: 3,
                   display: "flex",
                   justifyContent: "center",
@@ -287,7 +371,7 @@ export function PageLayout({
               <Box
                 sx={{
                   width: "100%",
-                  maxWidth: sheetWidth,
+                  maxWidth: pageWidth,
                   display: "flex",
                   justifyContent: "flex-end",
                   mb: 2,
@@ -300,7 +384,7 @@ export function PageLayout({
               data-page-sheet=""
               sx={{
                 width: "100%",
-                maxWidth: sheetWidth,
+                maxWidth: pageWidth,
                 /*
                   A page's sheet is at least as tall as the canvas, and grows
                   past it with its content (`1 0 auto`: grow, never shrink).
@@ -327,7 +411,9 @@ export function PageLayout({
                 // against this.
                 position: "relative",
                 display: "flex",
-                minHeight: hasPage ? 480 : 0,
+                // A paper's height when the size names one: the sheet is at
+                // least that tall, and grows past it with its content.
+                minHeight: hasPage ? (pageHeight ?? 480) : 0,
                 /*
                 The page fills the sheet, not the viewport: the sheet grows
                 with its content and the canvas scrolls, which is what makes
@@ -362,26 +448,83 @@ export function PageLayout({
 
         {/* The panel, beside the page, when asked for — and only when there
             is a page; its content is the sheet otherwise. */}
-        {!hasPage || !panel ? null : panelOpen ? (
+        {!hasPage || !panel ? null : panelShown ? (
           <Box
             data-page-panel=""
+            data-page-panel-mode={panelMode}
             sx={{
-              flex: `0 0 ${panelWidth}px`,
-              maxWidth: "45%",
               minWidth: 0,
               minHeight: 0,
               display: "flex",
               flexDirection: "column",
               bg: "canvas.default",
-              borderLeft: "1px solid",
               borderColor: "border.default",
-              // Over the canvas, and beside the band rather than under it:
-              // the band belongs to the page column.
-              zIndex: 1,
-              "& > *": { flex: "1 1 auto", minHeight: 0 },
+              ...(panelMode === "docked"
+                ? {
+                    flex: `0 0 ${panelWidth}px`,
+                    maxWidth: "45%",
+                    borderLeft: "1px solid",
+                    // Over the canvas, and beside the band rather than under
+                    // it: the band belongs to the page column.
+                    zIndex: 1,
+                  }
+                : panelMode === "overlay"
+                  ? {
+                      // Over the page's right edge, the page untouched
+                      // under it; against the root, as the float is.
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      width: panelWidth,
+                      maxWidth: "85%",
+                      borderLeft: "1px solid",
+                      boxShadow: "shadow.large",
+                      zIndex: 5,
+                    }
+                  : {
+                      // A window in the page's corner.
+                      position: "absolute",
+                      right: 16,
+                      bottom: 16,
+                      width: panelWidth,
+                      maxWidth: "calc(100% - 32px)",
+                      height: "min(70%, 560px)",
+                      border: "1px solid",
+                      borderRadius: 2,
+                      boxShadow: "shadow.large",
+                      overflow: "hidden",
+                      zIndex: 5,
+                    }),
             }}
           >
-            {panel}
+            <Box
+              sx={{
+                flex: "1 1 auto",
+                minHeight: 0,
+                display: "flex",
+                flexDirection: "column",
+                "& > *": { flex: "1 1 auto", minHeight: 0 },
+              }}
+            >
+              {panel}
+            </Box>
+            {/* The band, when it lives here: the chips, then the composer,
+                under the panel's content. */}
+            {bandInPanel && hasBand ? (
+              <Box
+                data-page-panel-band=""
+                sx={{
+                  flex: "0 0 auto",
+                  borderTop: "1px solid",
+                  borderColor: "border.default",
+                  "& > *": { justifyContent: "center" },
+                }}
+              >
+                {chips}
+                {band}
+              </Box>
+            ) : null}
           </Box>
         ) : (
           // Kept mounted, out of sight: a conversation is where the tools
@@ -405,7 +548,7 @@ export function PageLayout({
       {transient}
       {/* Floating: anchored to the top of the canvas, the command line of
           the page. It positions itself against the relative root above. */}
-      {floating ? band : null}
+      {floating && hasBand ? band : null}
     </Box>
   );
 }

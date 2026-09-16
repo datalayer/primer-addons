@@ -48,7 +48,11 @@ export {
   PageLayout,
   PAGE_SHEET_WIDTH,
   PAGE_PANEL_WIDTH,
+  PAGE_SIZE_FORMATS,
+  resolvePageSize,
   type PageLayoutProps,
+  type PageSize,
+  type PageSizeFormat,
 } from "./page-layout/PageLayout";
 export {
   PagePanelToggle,

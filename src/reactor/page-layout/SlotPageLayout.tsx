@@ -24,7 +24,7 @@ import { PagePanelToggle } from "./PagePanelToggle";
 
 export type SlotPageLayoutProps = Pick<
   PageLayoutProps,
-  "bandMode" | "sheetWidth" | "panelWidth"
+  "bandMode" | "panelMode" | "sheetWidth" | "pageSize" | "panelWidth"
 > & {
   pageSlot: string;
   bandSlot: string;

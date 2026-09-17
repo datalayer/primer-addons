@@ -8,7 +8,7 @@
  * `PageLayoutPlugin` arranges the main area as a page: a sheet on a canvas,
  * a band docked above it, a side panel opened from the header. The gallery
  * plugin fills the layout's slots: the search in the band, the component
- * grid or the open demo on the sheet, quick links as chips, and the list of
+ * grid or the open demo on the sheet, and the list of
  * components in the panel.
  *
  * The shell itself is two boxes: a header that renders the `header` slot
@@ -35,6 +35,11 @@ function createReactor() {
     configurePlugin(PageLayoutPlugin, {
       // The toggle's label: "Show the components".
       panelName: 'components',
+      // The component list is this gallery's navigation, so it stands where
+      // navigation stands — a sidebar on the left, open on arrival — rather
+      // than behind the header's toggle. The toggle still closes it.
+      panelSide: 'left',
+      panelOpen: true,
       // Demo pages hold wide things — palettes, toolbars — so the sheet is
       // wider than a page of prose.
       sheetWidth: 1080,

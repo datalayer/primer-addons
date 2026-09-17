@@ -1,10 +1,12 @@
 /**
- * The side panel: every component, as a list.
+ * The sidebar: every component, as a Primer `NavList`.
  *
- * Closed to start — the grid on the sheet already lists them — and one
- * click away in the header while a demo is open. The items are links to
- * the demos' addresses, so a middle click opens one in a tab; a plain click
- * navigates in place.
+ * On the left and open on arrival, so moving from one component to the next
+ * is one click rather than a trip back to the grid. "Gallery" heads the list
+ * and shows the cards; the rest are the demos, alphabetically. The items are
+ * real links to the demos' addresses, so a middle click opens one in a tab
+ * while a plain click navigates in place. The header's toggle still closes
+ * the whole sidebar.
  */
 
 import { useMemo, type MouseEvent } from 'react';

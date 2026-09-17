@@ -28,6 +28,7 @@ import type { ReactorReactOutput } from "@datalayer/reactor/react";
 import type { Icon } from "@primer/octicons-react";
 import type { PageSize } from "./PageLayout";
 import { SlotPageLayout, SlotPanelToggle } from "./SlotPageLayout";
+import { pageLayoutPanelOpen } from "./panelState";
 
 export const PAGE_LAYOUT_PLUGIN_NAME = "@datalayer/primer-page-layout";
 
@@ -70,6 +71,10 @@ export type PageLayoutPluginConfig = {
   band: "docked" | "floating" | "panel";
   /** Where the panel stands: beside the page, over its edge, or in its corner. */
   panel: "docked" | "overlay" | "popup";
+  /** Which side it stands on. `right` by default; `left` for a nav sidebar. */
+  panelSide: "left" | "right";
+  /** Whether the panel is open when the page first draws. */
+  panelOpen: boolean;
   /** The sheet's width, in pixels. */
   sheetWidth?: number;
   /**
@@ -106,47 +111,58 @@ export const PageLayoutPlugin = definePlugin<
     chipsSlot: PageLayoutSlots.chips,
     band: "docked",
     panel: "docked",
+    panelSide: "right",
+    panelOpen: false,
     sheetWidth: undefined,
     pageSize: undefined,
     panelWidth: undefined,
   },
-  build: ({ config }) => ({
-    components: [
-      {
-        id: "page-layout",
-        slot: config.slot,
-        order: config.order,
-        Component: (context: Record<string, unknown>) =>
-          createElement(SlotPageLayout, {
-            pageSlot: config.pageSlot,
-            bandSlot: config.bandSlot,
-            panelSlot: config.panelSlot,
-            chipsSlot: config.chipsSlot,
-            bandMode: config.band,
-            panelMode: config.panel,
-            sheetWidth: config.sheetWidth,
-            pageSize: config.pageSize,
-            panelWidth: config.panelWidth,
-            context,
-          }),
-      },
-      ...(config.headerSlot
-        ? [
-            {
-              id: "page-layout-panel-toggle",
-              slot: config.headerSlot,
-              order: config.toggleOrder,
-              Component: () =>
-                createElement(SlotPanelToggle, {
-                  panelSlot: config.panelSlot,
-                  panelName: config.panelName,
-                  icon: config.toggleIcon,
-                }),
-            },
-          ]
-        : []),
-    ],
-  }),
+  build: ({ config }) => {
+    // A host whose panel is a navigation sidebar wants it open on arrival,
+    // not behind the header's toggle. Set once, at build: after that the
+    // signal is the reader's.
+    if (config.panelOpen) {
+      pageLayoutPanelOpen.value = true;
+    }
+    return {
+      components: [
+        {
+          id: "page-layout",
+          slot: config.slot,
+          order: config.order,
+          Component: (context: Record<string, unknown>) =>
+            createElement(SlotPageLayout, {
+              pageSlot: config.pageSlot,
+              bandSlot: config.bandSlot,
+              panelSlot: config.panelSlot,
+              chipsSlot: config.chipsSlot,
+              bandMode: config.band,
+              panelMode: config.panel,
+              panelSide: config.panelSide,
+              sheetWidth: config.sheetWidth,
+              pageSize: config.pageSize,
+              panelWidth: config.panelWidth,
+              context,
+            }),
+        },
+        ...(config.headerSlot
+          ? [
+              {
+                id: "page-layout-panel-toggle",
+                slot: config.headerSlot,
+                order: config.toggleOrder,
+                Component: () =>
+                  createElement(SlotPanelToggle, {
+                    panelSlot: config.panelSlot,
+                    panelName: config.panelName,
+                    icon: config.toggleIcon,
+                  }),
+              },
+            ]
+          : []),
+      ],
+    };
+  },
 });
 
 export default PageLayoutPlugin;

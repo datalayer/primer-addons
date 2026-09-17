@@ -17,14 +17,22 @@
  */
 
 import type { JSX } from "react";
-import { ReactorSlot, useOptionalSlotComponents } from "@datalayer/reactor/react";
+import {
+  ReactorSlot,
+  useOptionalSlotComponents,
+} from "@datalayer/reactor/react";
 import type { Icon } from "@primer/octicons-react";
 import { PageLayout, type PageLayoutProps } from "./PageLayout";
 import { PagePanelToggle } from "./PagePanelToggle";
 
 export type SlotPageLayoutProps = Pick<
   PageLayoutProps,
-  "bandMode" | "panelMode" | "sheetWidth" | "pageSize" | "panelWidth"
+  | "bandMode"
+  | "panelMode"
+  | "panelSide"
+  | "sheetWidth"
+  | "pageSize"
+  | "panelWidth"
 > & {
   pageSlot: string;
   bandSlot: string;

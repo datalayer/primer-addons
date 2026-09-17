@@ -10,6 +10,10 @@ import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
 import { ColorPaletteDemo } from './ColorPaletteDemo';
+import { CollaboratorPaletteDemo } from './CollaboratorPaletteDemo';
+import { ColorPickerDemo } from './ColorPickerDemo';
+import { CalendarPickerDemo } from './CalendarPickerDemo';
+import { DatePickerDemo } from './DatePickerDemo';
 import { SlidingPanelDemo } from './SlidingPanelDemo';
 import { SideOverlayDemo } from './SideOverlayDemo';
 import { PortalOverlayDemo } from './PortalOverlayDemo';
@@ -102,6 +106,32 @@ export const demos: Demo[] = [
     title: 'Portal Overlay',
     description: 'ActionMenu + AnchoredOverlay rendered via Primer portals.',
     render: () => <PortalOverlayDemo />,
+  },
+  {
+    slug: 'collaborator-palette',
+    title: 'Collaborator Palette',
+    description:
+      "Who is who, in colour: the theme's bright palette handed out by a stable hash.",
+    render: () => <CollaboratorPaletteDemo />,
+  },
+  {
+    slug: 'color-picker',
+    title: 'Color Picker',
+    description:
+      'Saturation field, hue rail, hex entry and presets, on Primer form controls.',
+    render: () => <ColorPickerDemo />,
+  },
+  {
+    slug: 'date-picker',
+    title: 'Date Picker',
+    description: 'A date field with a month behind it, typed or picked.',
+    render: () => <DatePickerDemo />,
+  },
+  {
+    slug: 'calendar-picker',
+    title: 'Calendar Picker',
+    description: 'The month grid on its own, for a page with room to show one.',
+    render: () => <CalendarPickerDemo />,
   },
   {
     slug: 'slider',

@@ -2,7 +2,7 @@
  * The gallery, as the plugin that fills the page layout.
  *
  * Four slot components, one per slot the page layout opens: the search in
- * the band, the grid or the open demo on the sheet, quick links as chips,
+ * the band, the grid or the open demo on the sheet,
  * and the list of components in the panel. Registering also wires the two
  * things the address bar needs — following the back button, and `/` to
  * focus the search from anywhere — and unwires them when the plugin is
@@ -14,7 +14,6 @@ import { definePlugin } from '@datalayer/reactor';
 import type { ReactorReactOutput } from '@datalayer/reactor/react';
 import { PageLayoutSlots } from '@datalayer/primer-addons/lib/reactor';
 import { GalleryBand, GALLERY_SEARCH_ID } from './GalleryBand';
-import { GalleryChips } from './GalleryChips';
 import { GalleryPage } from './GalleryPage';
 import { GalleryPanel } from './GalleryPanel';
 import { GALLERY_SLUG, useGalleryStore } from './galleryStore';
@@ -71,11 +70,6 @@ export const GalleryPlugin = definePlugin<
         id: 'gallery-page',
         slot: PageLayoutSlots.page,
         Component: () => createElement(GalleryPage),
-      },
-      {
-        id: 'gallery-chips',
-        slot: PageLayoutSlots.chips,
-        Component: () => createElement(GalleryChips),
       },
       {
         id: 'gallery-panel',

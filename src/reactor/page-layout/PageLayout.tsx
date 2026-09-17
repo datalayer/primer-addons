@@ -16,8 +16,9 @@
  * something works in the page, a small line at the top of the sheet says
  * what it is doing — "Analyst is adding a cell…" — so the change is seen
  * where it happens. The panel is a column on the right that opens when it
- * is wanted — or, by `panelMode`, an overlay over the page's edge or a
- * small window in its corner; closed, the page is all there is.
+ * is wanted — on either side by `panelSide`, and by `panelMode` a column, an
+ * overlay over the page's edge or a small window in its corner; closed, the
+ * page is all there is.
  *
  * The sheet is a reading column by default, as tall as what is on it; asked
  * for a paper (`pageSize`: letter, A4, or a free width and height), it takes
@@ -212,6 +213,12 @@ export type PageLayoutProps = {
    * the page's bottom-right corner.
    */
   panelMode?: "docked" | "overlay" | "popup";
+  /**
+   * Which side the panel stands on: `right` (the default), or `left`, where
+   * a navigation sidebar belongs. An overlay and a popup follow the same
+   * side, so a left panel slides in over the page's left edge.
+   */
+  panelSide?: "left" | "right";
   /** The sheet's width; {@link PAGE_SHEET_WIDTH} by default. */
   sheetWidth?: number;
   /**
@@ -235,6 +242,7 @@ export function PageLayout({
   activity,
   bandMode = "docked",
   panelMode = "docked",
+  panelSide = "right",
   sheetWidth = PAGE_SHEET_WIDTH,
   pageSize,
   panelWidth = PAGE_PANEL_WIDTH,
@@ -463,7 +471,9 @@ export function PageLayout({
                 ? {
                     flex: `0 0 ${panelWidth}px`,
                     maxWidth: "45%",
-                    borderLeft: "1px solid",
+                    order: panelSide === "left" ? -1 : undefined,
+                    [panelSide === "left" ? "borderRight" : "borderLeft"]:
+                      "1px solid",
                     // Over the canvas, and beside the band rather than under
                     // it: the band belongs to the page column.
                     zIndex: 1,
@@ -474,18 +484,19 @@ export function PageLayout({
                       // under it; against the root, as the float is.
                       position: "absolute",
                       top: 0,
-                      right: 0,
                       bottom: 0,
+                      [panelSide]: 0,
                       width: panelWidth,
                       maxWidth: "85%",
-                      borderLeft: "1px solid",
+                      [panelSide === "left" ? "borderRight" : "borderLeft"]:
+                        "1px solid",
                       boxShadow: "shadow.large",
                       zIndex: 5,
                     }
                   : {
                       // A window in the page's corner.
                       position: "absolute",
-                      right: 16,
+                      [panelSide]: 16,
                       bottom: 16,
                       width: panelWidth,
                       maxWidth: "calc(100% - 32px)",

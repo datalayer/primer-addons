@@ -171,6 +171,7 @@ export interface ThemeColorDefs {
  * | Background       | `--bgColor-default`                    |
  * | Foreground       | `--fgColor-default`                    |
  * | Border           | `--borderColor-default`                |
+ * | Field (rest)     | `--control-borderColor-rest`           |
  * | Link             | `--fgColor-link`                       |
  * | Accent / Success | `--bgColor-accent-emphasis`            |
  * | Default button   | `--button-default-bgColor-rest`        |
@@ -402,6 +403,15 @@ export function colorDefsToCSS(
     '--control-transparent-bgColor-selected': defs.btn.selectedBg,
     '--control-transparent-borderColor-hover': 'transparent',
     '--control-transparent-borderColor-active': 'transparent',
+
+    /* ── Fields (rest state) ──────────────────────────────────────
+     * `TextInput` / `Textarea` / `Select` paint their inactive border
+     * with `var(--control-borderColor-rest, var(--color-btn-border))`
+     * — both legacy fallbacks apps that skip @primer/primitives CSS
+     * never get — so without this the border shorthand is invalid and
+     * the field shows no border at all until it is focused. */
+    '--control-borderColor-rest': defs.border?.default ?? defs.btn.border,
+    '--control-fgColor-rest': defs.fg.default,
 
     /* ── Disabled controls / fields ─────────────────────────────── */
     '--control-bgColor-disabled': defs.canvas.subtle ?? defs.btn.bg,

@@ -28,7 +28,7 @@
  * @module components/toolbar/ToolbarButton
  */
 
-import { type ReactNode, isValidElement } from 'react';
+import { type ReactNode, isValidElement, useState } from 'react';
 import { Tooltip } from '@primer/react';
 import type { ToolbarButtonItem } from './types';
 
@@ -71,6 +71,17 @@ export function ToolbarButton({
   // the item — but this keeps a bare icon rather than an empty gap) falls
   // back to the icon-only layout below.
   const printLabel = showLabel && Boolean(ariaLabel);
+  /*
+   * Hover, as state rather than as a style written onto the element.
+   *
+   * The `Tooltip` around a titled button replays its `onMouseEnter` from a
+   * timeout, by which time React has cleared the event's `currentTarget`:
+   * writing `e.currentTarget.style` there threw "Cannot read properties of
+   * null (reading 'style')". A ref would not do either — the Tooltip clones
+   * the button with a ref of its own.
+   */
+  const [hovered, setHovered] = useState(false);
+  const lit = hovered && !disabled;
 
   const button = (
     <button
@@ -97,28 +108,24 @@ export function ToolbarButton({
         border: 'none',
         borderRadius: 6,
         cursor: disabled ? 'not-allowed' : 'pointer',
-        background: isActive ? 'var(--bgColor-accent-muted, rgba(9,105,218,0.1))' : 'transparent',
-        color: isActive ? 'var(--fgColor-accent, #0969da)' : 'var(--fgColor-muted, #656d76)',
+        background: lit
+          ? 'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))'
+          : isActive
+            ? 'var(--bgColor-accent-muted, rgba(9,105,218,0.1))'
+            : 'transparent',
+        color: lit
+          ? 'var(--fgColor-default, #1f2328)'
+          : isActive
+            ? 'var(--fgColor-accent, #0969da)'
+            : 'var(--fgColor-muted, #656d76)',
         opacity: disabled ? 0.5 : 1,
         lineHeight: 1,
         fontSize: size === 'small' ? 12 : 14,
         fontFamily: 'inherit',
         whiteSpace: 'nowrap',
       }}
-      onMouseEnter={(e) => {
-        if (!disabled) {
-          e.currentTarget.style.background = 'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))';
-          e.currentTarget.style.color = 'var(--fgColor-default, #1f2328)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = isActive
-          ? 'var(--bgColor-accent-muted, rgba(9,105,218,0.1))'
-          : 'transparent';
-        e.currentTarget.style.color = isActive
-          ? 'var(--fgColor-accent, #0969da)'
-          : 'var(--fgColor-muted, #656d76)';
-      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {iconElement}
       {printLabel && <span>{ariaLabel}</span>}

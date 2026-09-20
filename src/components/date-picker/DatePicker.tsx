@@ -17,7 +17,7 @@
 
 import type { RefObject } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnchoredOverlay, Box, TextInput } from "@primer/react";
+import { AnchoredOverlay, Box, Button, TextInput } from "@primer/react";
 import { CalendarIcon } from "@primer/octicons-react";
 import { CalendarPicker, type CalendarPickerProps } from "../calendar-picker/CalendarPicker";
 
@@ -26,6 +26,20 @@ export function formatISODate(date: Date): string {
   const month = `${date.getMonth() + 1}`.padStart(2, "0");
   const day = `${date.getDate()}`.padStart(2, "0");
   return `${date.getFullYear()}-${month}-${day}`;
+}
+
+/** `YYYY-MM-DD HH:mm`, the same date with the minute it holds. */
+export function formatISODateTime(date: Date): string {
+  const hours = `${date.getHours()}`.padStart(2, "0");
+  const minutes = `${date.getMinutes()}`.padStart(2, "0");
+  return `${formatISODate(date)} ${hours}:${minutes}`;
+}
+
+/** `HH:mm` of a date, which is what a `type="time"` field holds. */
+export function formatTime(date: Date): string {
+  const hours = `${date.getHours()}`.padStart(2, "0");
+  const minutes = `${date.getMinutes()}`.padStart(2, "0");
+  return `${hours}:${minutes}`;
 }
 
 /**
@@ -42,6 +56,34 @@ export function parseISODate(text: string): Date | null {
   }
   const [, year, month, day] = match;
   const date = new Date(Number(year), Number(month) - 1, Number(day));
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+/**
+ * Reads `YYYY-MM-DD HH:mm` — or the same with a `T`, or with seconds, or with
+ * no time at all — as a local date.
+ *
+ * Lenient on the way in and strict on the way out: somebody typing a date into
+ * a field has a shape in their fingers, and rejecting `2026-01-31T09:00`
+ * because the separator is a `T` teaches them nothing. What the field *writes*
+ * is always one shape.
+ */
+export function parseISODateTime(text: string): Date | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/.exec(
+    text.trim(),
+  );
+  if (!match) {
+    return null;
+  }
+  const [, year, month, day, hours, minutes, seconds] = match;
+  const date = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hours ?? 0),
+    Number(minutes ?? 0),
+    Number(seconds ?? 0),
+  );
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
@@ -75,6 +117,25 @@ export interface DatePickerProps
   format?: (date: Date) => string;
   /** An id for the field, for a label that names it from outside. */
   id?: string;
+  /**
+   * Whether the field holds a time as well as a day.
+   *
+   * With it, the field reads and writes `YYYY-MM-DD HH:mm`, and the overlay
+   * carries a time beneath the calendar. Without it — the default — nothing
+   * about the field changes, because most dates are days.
+   */
+  withTime?: boolean;
+  /**
+   * The minute granularity of the time field. Primer passes it to the input,
+   * so the browser's own stepper follows it. Default: one minute.
+   */
+  timeStep?: number;
+  /**
+   * The time a day picked from the calendar takes when the field held nothing
+   * yet. `"00:00"` by default — a window that starts "on the 3rd" starts at
+   * the beginning of the 3rd.
+   */
+  defaultTime?: string;
 }
 
 /**
@@ -86,21 +147,29 @@ export interface DatePickerProps
 export function DatePicker({
   value = null,
   onChange,
-  placeholder = "YYYY-MM-DD",
+  placeholder,
   "aria-label": ariaLabel = "Date",
   disabled = false,
   size = "medium",
   validationStatus,
-  format = formatISODate,
+  format,
   id,
   min,
   max,
   isDisabled,
   weekStartsOn,
   locale,
+  withTime = false,
+  timeStep = 60,
+  defaultTime = "00:00",
 }: DatePickerProps) {
+  // The two shapes, chosen once: a caller that passed a `format` keeps it,
+  // and a caller that asked for a time gets the one that carries a time.
+  const writeDate = format ?? (withTime ? formatISODateTime : formatISODate);
+  const readDate = withTime ? parseISODateTime : parseISODate;
+  const emptyText = placeholder ?? (withTime ? "YYYY-MM-DD HH:mm" : "YYYY-MM-DD");
   const [open, setOpen] = useState(false);
-  const [text, setText] = useState(() => (value ? format(value) : ""));
+  const [text, setText] = useState(() => (value ? writeDate(value) : ""));
   const anchorRef = useRef<HTMLDivElement>(null);
 
   // The field follows the value, except while it is being typed into: a
@@ -108,9 +177,9 @@ export function DatePicker({
   const typing = useRef(false);
   useEffect(() => {
     if (!typing.current) {
-      setText(value ? format(value) : "");
+      setText(value ? writeDate(value) : "");
     }
-  }, [value, format]);
+  }, [value, writeDate]);
 
   const commit = (next: string) => {
     typing.current = false;
@@ -119,15 +188,36 @@ export function DatePicker({
       onChange?.(null);
       return;
     }
-    const parsed = parseISODate(trimmed);
+    const parsed = readDate(trimmed);
     if (parsed) {
       onChange?.(parsed);
-      setText(format(parsed));
+      setText(writeDate(parsed));
     } else {
       // Unreadable: put back what is actually held, rather than keeping a
       // date on screen that the caller never received.
-      setText(value ? format(value) : "");
+      setText(value ? writeDate(value) : "");
     }
+  };
+
+  /** The day picked, wearing the time the field already held. */
+  const withHeldTime = (day: Date): Date => {
+    const [hours, minutes] = (value ? formatTime(value) : defaultTime)
+      .split(":")
+      .map(Number);
+    const next = new Date(day);
+    next.setHours(hours || 0, minutes || 0, 0, 0);
+    return next;
+  };
+
+  /** The time changed, on the day the field already held. */
+  const withNewTime = (time: string): Date | null => {
+    const [hours, minutes] = time.split(":").map(Number);
+    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+      return null;
+    }
+    const next = new Date(value ?? new Date());
+    next.setHours(hours, minutes, 0, 0);
+    return next;
   };
 
   const calendar = useMemo(
@@ -137,9 +227,15 @@ export function DatePicker({
           value={value}
           defaultMonth={value ?? undefined}
           onChange={(date) => {
-            onChange?.(date);
-            setText(format(date));
-            setOpen(false);
+            // A day picked while a time is held keeps that time: somebody
+            // moving a window from the 3rd to the 4th did not mean to move
+            // it to midnight.
+            const next = withTime ? withHeldTime(date) : date;
+            onChange?.(next);
+            setText(writeDate(next));
+            if (!withTime) {
+              setOpen(false);
+            }
           }}
           min={min}
           max={max}
@@ -148,18 +244,58 @@ export function DatePicker({
           locale={locale}
           aria-label={`${ariaLabel}, choose a day`}
         />
+        {withTime && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 2,
+              mt: 3,
+              pt: 3,
+              borderTop: "1px solid",
+              borderColor: "border.default",
+            }}
+          >
+            <TextInput
+              type="time"
+              step={timeStep}
+              aria-label={`${ariaLabel}, time`}
+              value={value ? formatTime(value) : defaultTime}
+              disabled={disabled}
+              size={size}
+              onChange={(event) => {
+                const next = withNewTime(event.target.value);
+                if (next) {
+                  onChange?.(next);
+                  setText(writeDate(next));
+                }
+              }}
+            />
+            <Button size="small" onClick={() => setOpen(false)}>
+              Done
+            </Button>
+          </Box>
+        )}
       </Box>
     ),
+    // `withHeldTime` and `withNewTime` close over `value` and `defaultTime`,
+    // both of which are named here.
     [
       ariaLabel,
-      format,
+      defaultTime,
+      disabled,
       isDisabled,
       locale,
       max,
       min,
       onChange,
+      size,
+      timeStep,
       value,
       weekStartsOn,
+      withTime,
+      writeDate,
     ],
   );
 
@@ -184,7 +320,7 @@ export function DatePicker({
         aria-haspopup="dialog"
         aria-expanded={open}
         value={text}
-        placeholder={placeholder}
+        placeholder={emptyText}
         disabled={disabled}
         size={size}
         validationStatus={validationStatus}

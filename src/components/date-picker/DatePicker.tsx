@@ -20,6 +20,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnchoredOverlay, Box, Button, TextInput } from "@primer/react";
 import { CalendarIcon } from "@primer/octicons-react";
 import { CalendarPicker, type CalendarPickerProps } from "../calendar-picker/CalendarPicker";
+import { TimeColumns } from "./TimeColumns";
 
 /** `YYYY-MM-DD`, the one format that means the same thing everywhere. */
 export function formatISODate(date: Date): string {
@@ -126,8 +127,10 @@ export interface DatePickerProps
    */
   withTime?: boolean;
   /**
-   * The minute granularity of the time field. Primer passes it to the input,
-   * so the browser's own stepper follows it. Default: one minute.
+   * Minutes between the options the minute column offers. Default: five.
+   *
+   * A minute the step does not land on — one read back from a stored value —
+   * is still offered, so choosing an hour never quietly moves it.
    */
   timeStep?: number;
   /**
@@ -160,7 +163,7 @@ export function DatePicker({
   weekStartsOn,
   locale,
   withTime = false,
-  timeStep = 60,
+  timeStep = 5,
   defaultTime = "00:00",
 }: DatePickerProps) {
   // The two shapes, chosen once: a caller that passed a `format` keeps it,
@@ -209,14 +212,18 @@ export function DatePicker({
     return next;
   };
 
-  /** The time changed, on the day the field already held. */
-  const withNewTime = (time: string): Date | null => {
-    const [hours, minutes] = time.split(":").map(Number);
-    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
-      return null;
-    }
+  /** The time the field holds right now, or the one a new pick starts from. */
+  const held = (() => {
+    const [hours, minutes] = (value ? formatTime(value) : defaultTime)
+      .split(":")
+      .map(Number);
+    return { hour: hours || 0, minute: minutes || 0 };
+  })();
+
+  /** The day the field holds, at the time just chosen. */
+  const atTime = (hour: number, minute: number): Date => {
     const next = new Date(value ?? new Date());
-    next.setHours(hours, minutes, 0, 0);
+    next.setHours(hour, minute, 0, 0);
     return next;
   };
 
@@ -247,40 +254,43 @@ export function DatePicker({
         {withTime && (
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 2,
               mt: 3,
               pt: 3,
               borderTop: "1px solid",
               borderColor: "border.default",
             }}
           >
-            <TextInput
-              type="time"
+            <TimeColumns
+              hour={held.hour}
+              minute={held.minute}
               step={timeStep}
-              aria-label={`${ariaLabel}, time`}
-              value={value ? formatTime(value) : defaultTime}
               disabled={disabled}
-              size={size}
-              onChange={(event) => {
-                const next = withNewTime(event.target.value);
-                if (next) {
-                  onChange?.(next);
-                  setText(writeDate(next));
-                }
+              labelPrefix={ariaLabel}
+              onChange={(hour, minute) => {
+                const next = atTime(hour, minute);
+                onChange?.(next);
+                setText(writeDate(next));
               }}
             />
-            <Button size="small" onClick={() => setOpen(false)}>
-              Done
-            </Button>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                gap: 2,
+                mt: 2,
+              }}
+            >
+              <Button size="small" variant="primary" onClick={() => setOpen(false)}>
+                Done
+              </Button>
+            </Box>
           </Box>
         )}
       </Box>
     ),
-    // `withHeldTime` and `withNewTime` close over `value` and `defaultTime`,
-    // both of which are named here.
+    // `withHeldTime`, `held` and `atTime` all close over `value` and
+    // `defaultTime`, both of which are named here.
     [
       ariaLabel,
       defaultTime,

@@ -247,8 +247,6 @@ export function PageLayout({
   pageSize,
   panelWidth = PAGE_PANEL_WIDTH,
 }: PageLayoutProps): JSX.Element {
-  const floating = bandMode === "floating";
-  console.debug('[probe] PageLayout', { bandMode, panelMode, hasPage, panelOpen });
   const bandInPanel = bandMode === "panel";
   const hasBand = band !== undefined && band !== null;
   // One width for the sheet, the band's mount and the chips: the column.
@@ -481,12 +479,15 @@ export function PageLayout({
               ...(!panelShown
                 ? {
                     // Out of sight, and out of the way of the pointer, while
-                    // whatever is in it goes on running.
+                    // whatever is in it goes on running. No `z-index` here:
+                    // it would make a stacking context, and the composer —
+                    // which lives in this column whether the panel is open or
+                    // not — has to be able to float over the page from it.
                     position: "absolute",
                     inset: 0,
                     visibility: "hidden",
                     pointerEvents: "none",
-                    zIndex: -1,
+                    overflow: "visible",
                   }
                 : panelMode === "docked"
                   ? {
@@ -541,19 +542,43 @@ export function PageLayout({
             >
               {panel}
             </Box>
-            {/* The band, when it lives here: the chips, then the composer,
-                under the panel's content. */}
-            {panelShown && bandInPanel && hasBand ? (
+            {/* The composer's one home, whichever way it is shown.
+
+                A card floating over the page and a band standing under the
+                conversation are the same element here, moved by styles. It
+                used to be two: one at the layout's root, one in this column,
+                and switching between them handed the composer to a different
+                parent — React rebuilds a subtree that changes parents, and a
+                request in flight died with it. The page's own docked band is
+                still in the page column; that one never moves at runtime. */}
+            {hasBand && bandMode !== "docked" ? (
               <Box
-                data-page-panel-band=""
-                sx={{
-                  flex: "0 0 auto",
-                  borderTop: "1px solid",
-                  borderColor: "border.default",
-                  "& > *": { justifyContent: "center" },
-                }}
+                data-page-panel-band={bandInPanel ? "" : undefined}
+                sx={
+                  bandInPanel
+                    ? {
+                        flex: "0 0 auto",
+                        borderTop: "1px solid",
+                        borderColor: "border.default",
+                        // Visible even while the column itself is hidden —
+                        // which it is until something opens the panel.
+                        visibility: "visible",
+                        pointerEvents: "auto",
+                        "& > *": { justifyContent: "center" },
+                      }
+                    : {
+                        /* The card positions itself against this layout's
+                           root; this only has to stay out of its way, and
+                           stay visible when the column around it is not. */
+                        position: "absolute",
+                        inset: 0,
+                        visibility: "visible",
+                        pointerEvents: "none",
+                        "& > *": { pointerEvents: "auto" },
+                      }
+                }
               >
-                {chips}
+                {bandInPanel ? chips : null}
                 {band}
               </Box>
             ) : null}
@@ -561,9 +586,6 @@ export function PageLayout({
         )}
       </Box>
       {transient}
-      {/* Floating: anchored to the top of the canvas, the command line of
-          the page. It positions itself against the relative root above. */}
-      {floating && hasBand ? band : null}
     </Box>
   );
 }

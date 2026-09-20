@@ -248,6 +248,7 @@ export function PageLayout({
   panelWidth = PAGE_PANEL_WIDTH,
 }: PageLayoutProps): JSX.Element {
   const floating = bandMode === "floating";
+  console.debug('[probe] PageLayout', { bandMode, panelMode, hasPage, panelOpen });
   const bandInPanel = bandMode === "panel";
   const hasBand = band !== undefined && band !== null;
   // One width for the sheet, the band's mount and the chips: the column.
@@ -455,11 +456,21 @@ export function PageLayout({
         </Box>
 
         {/* The panel, beside the page, when asked for — and only when there
-            is a page; its content is the sheet otherwise. */}
-        {!hasPage || !panel ? null : panelShown ? (
+            is a page; its content is the sheet otherwise.
+
+            One element, open or closed, and the mount point inside it is the
+            same either way. It used to be two branches — a column when open,
+            a hidden box when closed — and although both kept the panel
+            mounted, they held it at different depths, so React tore the
+            subtree down and built it again on every open. The conversation
+            lives in there: opening the panel, which is what happens the
+            moment an agent starts working, killed the request in flight and
+            left the message unanswered. */}
+        {!hasPage || !panel ? null : (
           <Box
-            data-page-panel=""
+            data-page-panel={panelShown ? "" : undefined}
             data-page-panel-mode={panelMode}
+            aria-hidden={panelShown ? undefined : "true"}
             sx={{
               minWidth: 0,
               minHeight: 0,
@@ -467,46 +478,56 @@ export function PageLayout({
               flexDirection: "column",
               bg: "canvas.default",
               borderColor: "border.default",
-              ...(panelMode === "docked"
+              ...(!panelShown
                 ? {
-                    flex: `0 0 ${panelWidth}px`,
-                    maxWidth: "45%",
-                    order: panelSide === "left" ? -1 : undefined,
-                    [panelSide === "left" ? "borderRight" : "borderLeft"]:
-                      "1px solid",
-                    // Over the canvas, and beside the band rather than under
-                    // it: the band belongs to the page column.
-                    zIndex: 1,
+                    // Out of sight, and out of the way of the pointer, while
+                    // whatever is in it goes on running.
+                    position: "absolute",
+                    inset: 0,
+                    visibility: "hidden",
+                    pointerEvents: "none",
+                    zIndex: -1,
                   }
-                : panelMode === "overlay"
+                : panelMode === "docked"
                   ? {
-                      // Over the page's right edge, the page untouched
-                      // under it; against the root, as the float is.
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      [panelSide]: 0,
-                      width: panelWidth,
-                      maxWidth: "85%",
+                      flex: `0 0 ${panelWidth}px`,
+                      maxWidth: "45%",
+                      order: panelSide === "left" ? -1 : undefined,
                       [panelSide === "left" ? "borderRight" : "borderLeft"]:
                         "1px solid",
-                      boxShadow: "shadow.large",
-                      zIndex: 5,
+                      // Over the canvas, and beside the band rather than under
+                      // it: the band belongs to the page column.
+                      zIndex: 1,
                     }
-                  : {
-                      // A window in the page's corner.
-                      position: "absolute",
-                      [panelSide]: 16,
-                      bottom: 16,
-                      width: panelWidth,
-                      maxWidth: "calc(100% - 32px)",
-                      height: "min(70%, 560px)",
-                      border: "1px solid",
-                      borderRadius: 2,
-                      boxShadow: "shadow.large",
-                      overflow: "hidden",
-                      zIndex: 5,
-                    }),
+                  : panelMode === "overlay"
+                    ? {
+                        // Over the page's right edge, the page untouched
+                        // under it; against the root, as the float is.
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        [panelSide]: 0,
+                        width: panelWidth,
+                        maxWidth: "85%",
+                        [panelSide === "left" ? "borderRight" : "borderLeft"]:
+                          "1px solid",
+                        boxShadow: "shadow.large",
+                        zIndex: 5,
+                      }
+                    : {
+                        // A window in the page's corner.
+                        position: "absolute",
+                        [panelSide]: 16,
+                        bottom: 16,
+                        width: panelWidth,
+                        maxWidth: "calc(100% - 32px)",
+                        height: "min(70%, 560px)",
+                        border: "1px solid",
+                        borderRadius: 2,
+                        boxShadow: "shadow.large",
+                        overflow: "hidden",
+                        zIndex: 5,
+                      }),
             }}
           >
             <Box
@@ -522,7 +543,7 @@ export function PageLayout({
             </Box>
             {/* The band, when it lives here: the chips, then the composer,
                 under the panel's content. */}
-            {bandInPanel && hasBand ? (
+            {panelShown && bandInPanel && hasBand ? (
               <Box
                 data-page-panel-band=""
                 sx={{
@@ -536,23 +557,6 @@ export function PageLayout({
                 {band}
               </Box>
             ) : null}
-          </Box>
-        ) : (
-          // Kept mounted, out of sight: a conversation is where the tools
-          // run and the stream lands, and a panel that unmounted it would
-          // stop the agent the moment the reader closed it.
-          <Box
-            aria-hidden="true"
-            sx={{
-              position: "absolute",
-              inset: 0,
-              visibility: "hidden",
-              pointerEvents: "none",
-              zIndex: -1,
-              display: "flex",
-            }}
-          >
-            {panel}
           </Box>
         )}
       </Box>

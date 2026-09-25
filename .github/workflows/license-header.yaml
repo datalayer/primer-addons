@@ -2,7 +2,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 # Checks that every source file carries the license header `.licenserc.yaml`
-# describes. `fix-license-header.yml` adds missing headers on pull requests;
+# describes. `fix-license-header.yaml` adds missing headers on pull requests;
 # this is the check that fails when one is still missing or wrong.
 
 name: License Header

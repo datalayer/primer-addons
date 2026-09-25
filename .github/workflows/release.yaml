@@ -2,7 +2,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 # Publishes the release a tag names to npm, with no stored token: npm trusts
-# this workflow file (OIDC trusted publishing). The build is `build.yml`'s,
+# this workflow file (OIDC trusted publishing). The build is `build.yaml`'s,
 # run here first; the tarball it packs is what is published. See RELEASE.md.
 
 name: Release
@@ -38,7 +38,7 @@ jobs:
 
   build:
     needs: check-tag
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/build.yaml
 
   npm:
     needs: build

@@ -15,7 +15,7 @@ no token is stored in the repository.
    ```
 
 The workflow checks that the tag equals the `package.json` version (it stops otherwise),
-runs [`build.yml`](.github/workflows/build.yml) (install, build, and `npm pack` with a check
+runs [`build.yaml`](.github/workflows/build.yaml) (install, build, and `npm pack` with a check
 that `lib/` is in the tarball), then publishes that tarball with
 `npm publish --access public --provenance`, in the `npm` environment.
 
@@ -38,5 +38,5 @@ protection rules added there gate every publish.
 ## License headers
 
 Every source file carries the header [`.licenserc.yaml`](.licenserc.yaml) describes.
-`license-header.yml` checks it on every pull request and push to `main`, and
-`fix-license-header.yml` adds missing headers to a pull request's branch.
+`license-header.yaml` checks it on every pull request and push to `main`, and
+`fix-license-header.yaml` adds missing headers to a pull request's branch.

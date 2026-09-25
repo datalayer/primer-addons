@@ -1,14 +1,27 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 export * from "./appearance/AppearanceControls";
 export * from "./appearance/AppearanceControlsWithStore";
+export * from "./appearance/AppearanceMenu";
+export * from "./appearance/AppearanceMenuWithStore";
+export * from "./appearance/CollaboratorPalette";
 export * from "./appearance/ColorModeCircle";
 export * from "./appearance/ThemePreviewCard";
 export * from "./appearance/ThemeCircle";
 export * from "./box/Box";
+export * from "./calendar-picker";
 export * from "./card/Card";
+export * from "./color";
+export * from "./color-picker";
 export * from "./content-loader/ContentLoader";
+export * from "./date-picker";
 export * from "./closeable-flash/CloseableFlash";
 export * from "./icons/CircleIcon";
 export * from "./side-overlay/SideOverlay";
+export * from "./sliding-panel/SlidingPanel";
 export * from "./slider/Slider";
 export * from "./logo";
 export * from "./appearance";

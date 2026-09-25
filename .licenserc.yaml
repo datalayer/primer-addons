@@ -1,0 +1,37 @@
+header:
+  license:
+    spdx-id: BSD-3-Clause
+    copyright-owner: Datalayer, Inc.
+    copyright-year: 2021-2026
+    content: |
+      Copyright (c) [year] [owner]
+      Distributed under the terms of the Modified BSD License.
+    # Any year or range: files keep the years they were written in.
+    pattern: |
+      Copyright.*\d{4}(-\d{4})? Datalayer, Inc.*Distributed under the terms of the Modified BSD License
+
+  paths-ignore:
+    - '**/*.ipynb'
+    - '**/*.json'
+    - '**/*.md'
+    - '**/*.mdx'
+    - '**/*.svg'
+    - '**/*.png'
+    - '**/*.jpg'
+    - '**/*.ico'
+    - '**/*.txt'
+    - '**/*.tsbuildinfo'
+    - '**/*.yml'
+    - '**/*.yaml'
+    - '**/*.patch'
+    - '**/*.map.js'
+    - '**/*.bundle.js'
+    - '**/.*'
+    - '**/build'
+    - '**/dist'
+    - '**/lib'
+    - '**/node_modules'
+    - '**/storybook-static'
+    - 'LICENSE'
+
+  comment: on-failure

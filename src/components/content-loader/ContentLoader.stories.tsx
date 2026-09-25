@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProviderProps, Box } from "@primer/react";
 import { ContentLoader, ContentLoaderProps } from '../..';

@@ -1,7 +1,9 @@
-export * from './AI';
-export * from './AI2';
-export * from './DI';
-export * from './DatalayerLogo';
-export * from './DatalayerLogoText';
-export * from './DatalayerText';
-export * from './DatalayerTextAI';
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
+export * from "./DatalayerLogo";
+export * from "./DatalayerLogoText";
+export * from "./DatalayerText";
+export * from "./DatalayerTextAI";

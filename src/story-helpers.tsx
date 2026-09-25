@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021-2023 Datalayer, Inc.
- *
- * MIT License
+ * Distributed under the terms of the Modified BSD License.
  */
 
 import React from 'react';
@@ -51,7 +50,7 @@ export const withThemeProvider = (
       )}
       <BaseStyles>
         <div id="html-addon-root">
-          {Story(context)}
+          {Story(context) as React.ReactNode}
         </div>
       </BaseStyles>
     </ThemeProvider>

@@ -19,6 +19,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const lovelyLight: ThemeColorDefs = {
   canvas: {
     default: lovelyColors.white,
+    subtle: '#F8E9ED',
   },
   fg: {
     default: '#2D1B28',
@@ -29,6 +30,7 @@ const lovelyLight: ThemeColorDefs = {
     fg: lovelyColors.roseText,
     emphasis: lovelyColors.roseBrand,
     muted: lovelyColors.roseAccent,
+    subtle: lovelyColors.roseTint,
   },
   success: {
     fg: '#1a7f37',

@@ -10,6 +10,9 @@ import {
   lovelyColors,
   matrixColors,
   earthColors,
+  sandColors,
+  ivoryColors,
+  sunColors,
   type ThemeVariant,
 } from '../../theme';
 
@@ -113,6 +116,54 @@ export const THEME_LOGO_COLORS: Record<
       textColor: earthColors.gray,
       primaryGradient: [earthColors.oceanBright, earthColors.oceanBrand],
       secondaryGradient: [earthColors.oceanHover, earthColors.oceanAccent],
+    },
+  },
+  sand: {
+    light: {
+      primary: sandColors.sandBrand,
+      secondary: sandColors.sandText,
+      textColor: sandColors.gray,
+      primaryGradient: [sandColors.sandAccent, sandColors.sandBrand],
+      secondaryGradient: [sandColors.sandHover, sandColors.sandText],
+    },
+    dark: {
+      primary: sandColors.sandBright,
+      secondary: sandColors.sandAccent,
+      textColor: sandColors.gray,
+      primaryGradient: [sandColors.sandBright, sandColors.sandBrand],
+      secondaryGradient: [sandColors.sandHover, sandColors.sandAccent],
+    },
+  },
+  ivory: {
+    light: {
+      primary: ivoryColors.ivoryBrand,
+      secondary: ivoryColors.ivoryText,
+      textColor: ivoryColors.gray,
+      primaryGradient: [ivoryColors.ivoryAccent, ivoryColors.ivoryBrand],
+      secondaryGradient: [ivoryColors.ivoryHover, ivoryColors.ivoryText],
+    },
+    dark: {
+      primary: ivoryColors.ivoryBright,
+      secondary: ivoryColors.ivoryAccent,
+      textColor: ivoryColors.gray,
+      primaryGradient: [ivoryColors.ivoryBright, ivoryColors.ivoryBrand],
+      secondaryGradient: [ivoryColors.ivoryHover, ivoryColors.ivoryAccent],
+    },
+  },
+  sun: {
+    light: {
+      primary: sunColors.sunBrand,
+      secondary: sunColors.sunText,
+      textColor: sunColors.gray,
+      primaryGradient: [sunColors.sunAccent, sunColors.sunBrand],
+      secondaryGradient: [sunColors.sunHover, sunColors.sunText],
+    },
+    dark: {
+      primary: sunColors.sunBright,
+      secondary: sunColors.sunAccent,
+      textColor: sunColors.gray,
+      primaryGradient: [sunColors.sunBright, sunColors.sunBrand],
+      secondaryGradient: [sunColors.sunHover, sunColors.sunAccent],
     },
   },
 };

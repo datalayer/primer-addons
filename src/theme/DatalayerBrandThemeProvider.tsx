@@ -53,7 +53,7 @@ export function DatalayerBrandThemeProvider({
   brandTheme,
   style,
   children,
-}: IDatalayerBrandThemeProviderProps): JSX.Element {
+}: IDatalayerBrandThemeProviderProps): React.JSX.Element {
   const systemMode = useSystemColorMode();
   const resolved: 'light' | 'dark' =
     colorMode === 'auto' ? systemMode : colorMode;

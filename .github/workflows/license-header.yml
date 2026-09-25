@@ -1,0 +1,32 @@
+# Copyright (c) 2021-2026 Datalayer, Inc.
+# Distributed under the terms of the Modified BSD License.
+
+# Checks that every source file carries the license header `.licenserc.yaml`
+# describes. `fix-license-header.yml` adds missing headers on pull requests;
+# this is the check that fails when one is still missing or wrong.
+
+name: License Header
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check-license-header:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check License Header
+        # pin to include https://github.com/apache/skywalking-eyes/pull/168
+        uses: apache/skywalking-eyes/header@61275cc80d0798a405cb070f7d3a8aaf7cf2c2c1
+        with:
+          mode: check

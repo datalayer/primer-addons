@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021-2024 Datalayer, Inc.
- *
- * Datalayer License
+ * Distributed under the terms of the Modified BSD License.
  */
 
 export * from './ColorPalette';

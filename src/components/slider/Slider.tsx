@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTheme, Box, CounterLabel, FormControl } from "@primer/react";
 

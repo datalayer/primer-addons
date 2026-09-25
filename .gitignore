@@ -1,4 +1,9 @@
 .*
+# Dotfiles that are the repository's own configuration.
+!.github
+!.gitignore
+!.licenserc.yaml
+!.storybook
 
 # Logs
 logs

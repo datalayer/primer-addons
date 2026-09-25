@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021-2024 Datalayer, Inc.
- *
- * Datalayer License
+ * Distributed under the terms of the Modified BSD License.
  */
 
 /**
@@ -15,6 +14,9 @@ import {
   lovelyColors,
   matrixColors,
   earthColors,
+  sandColors,
+  ivoryColors,
+  sunColors,
 } from '../colors';
 import {
   getBrightPalette,
@@ -51,6 +53,12 @@ const mxBrightDark = getBrightPalette('matrix');
 const mxBrightLight = getBrightPalette('matrix', 'light');
 const eaBrightDark = getBrightPalette('earth');
 const eaBrightLight = getBrightPalette('earth', 'light');
+const saBrightDark = getBrightPalette('sand');
+const saBrightLight = getBrightPalette('sand', 'light');
+const ivBrightDark = getBrightPalette('ivory');
+const ivBrightLight = getBrightPalette('ivory', 'light');
+const suBrightDark = getBrightPalette('sun');
+const suBrightLight = getBrightPalette('sun', 'light');
 
 const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
   datalayer: {
@@ -240,6 +248,120 @@ const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }
       gold: eaBrightDark.gold,
       textLight: '#D4E4DC',
       textMuted: '#8A9BA8',
+      isLight: false,
+    },
+  },
+  sand: {
+    light: {
+      bg: '#FBF7EF',
+      bgPanel: '#ffffff',
+      bgAlt: sandColors.sandTint,
+      primary: sandColors.sandBrand,
+      secondary: sandColors.sandText,
+      accent: sandColors.sandAccent,
+      glow: saBrightLight.glow,
+      pop: saBrightLight.pop,
+      spark: saBrightLight.spark,
+      blaze: saBrightLight.blaze,
+      surge: saBrightLight.surge,
+      flame: saBrightLight.flame,
+      gold: saBrightLight.gold,
+      textLight: '#2B2118',
+      textMuted: sandColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: sandColors.black,
+      bgPanel: '#2A2118',
+      bgAlt: '#33281A',
+      primary: sandColors.sandAccent,
+      secondary: sandColors.sandBrand,
+      accent: sandColors.sandBright,
+      glow: saBrightDark.glow,
+      pop: saBrightDark.pop,
+      spark: saBrightDark.spark,
+      blaze: saBrightDark.blaze,
+      surge: saBrightDark.surge,
+      flame: saBrightDark.flame,
+      gold: saBrightDark.gold,
+      textLight: '#EDE3D3',
+      textMuted: '#B7A793',
+      isLight: false,
+    },
+  },
+  ivory: {
+    light: {
+      bg: '#FBF6EC',
+      bgPanel: '#ffffff',
+      bgAlt: ivoryColors.ivoryTint,
+      primary: ivoryColors.ivoryBrand,
+      secondary: ivoryColors.ivoryText,
+      accent: ivoryColors.ivoryAccent,
+      glow: ivBrightLight.glow,
+      pop: ivBrightLight.pop,
+      spark: ivBrightLight.spark,
+      blaze: ivBrightLight.blaze,
+      surge: ivBrightLight.surge,
+      flame: ivBrightLight.flame,
+      gold: ivBrightLight.gold,
+      textLight: '#2C2318',
+      textMuted: ivoryColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: ivoryColors.black,
+      bgPanel: '#2A2219',
+      bgAlt: '#33291B',
+      primary: ivoryColors.ivoryAccent,
+      secondary: ivoryColors.ivoryBrand,
+      accent: ivoryColors.ivoryBright,
+      glow: ivBrightDark.glow,
+      pop: ivBrightDark.pop,
+      spark: ivBrightDark.spark,
+      blaze: ivBrightDark.blaze,
+      surge: ivBrightDark.surge,
+      flame: ivBrightDark.flame,
+      gold: ivBrightDark.gold,
+      textLight: '#EFE6D6',
+      textMuted: '#BBAC97',
+      isLight: false,
+    },
+  },
+  sun: {
+    light: {
+      bg: '#FFF9EC',
+      bgPanel: '#ffffff',
+      bgAlt: sunColors.sunTint,
+      primary: sunColors.sunBrand,
+      secondary: sunColors.sunText,
+      accent: sunColors.sunAccent,
+      glow: suBrightLight.glow,
+      pop: suBrightLight.pop,
+      spark: suBrightLight.spark,
+      blaze: suBrightLight.blaze,
+      surge: suBrightLight.surge,
+      flame: suBrightLight.flame,
+      gold: suBrightLight.gold,
+      textLight: '#2A2210',
+      textMuted: sunColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: sunColors.black,
+      bgPanel: '#2A2109',
+      bgAlt: '#33290C',
+      primary: sunColors.sunAccent,
+      secondary: sunColors.sunBrand,
+      accent: sunColors.sunBright,
+      glow: suBrightDark.glow,
+      pop: suBrightDark.pop,
+      spark: suBrightDark.spark,
+      blaze: suBrightDark.blaze,
+      surge: suBrightDark.surge,
+      flame: suBrightDark.flame,
+      gold: suBrightDark.gold,
+      textLight: '#F3E9CF',
+      textMuted: '#BEAC82',
       isLight: false,
     },
   },

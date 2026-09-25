@@ -1,11 +1,16 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { setupPrimerPortals } from '@datalayer/primer-addons';
 import App from './App';
 import './index.css';
 
-setupPrimerPortals();
-
+// No `setupPrimerPortals()` here: the theme plugin sets the portal root up
+// when the reactor starts, and keeps it in the color mode the appearance
+// menu chooses.
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />

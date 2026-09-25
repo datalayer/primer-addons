@@ -6,7 +6,14 @@
 import { type CSSProperties } from 'react';
 import { registerPortalRoot } from '@primer/react';
 
-const PRIMER_PORTAL_ROOT_ID = '__primerPortalRoot__';
+/**
+ * Id of the element Primer portals render under.
+ *
+ * Exported because a host may need to mark that element as its own — the
+ * JupyterLab theming of jupyter-react adds `jp-ThemedContainer` to it, so
+ * the rules JupyterLab scopes to that class reach portaled content too.
+ */
+export const PRIMER_PORTAL_ROOT_ID = '__primerPortalRoot__';
 
 /**
  * Key used on `document.body` to track the CSS-property names we
@@ -99,12 +106,43 @@ export const setupPrimerPortals = (colormode?: Colormode) => {
   portalRoot.dataset['lightTheme'] = lightTheme;
   portalRoot.dataset['darkTheme'] = darkTheme;
 
-  // High z-index so overlays render above positioned UI (e.g. chat z-index 1001).
-  portalRoot.style.position = 'relative';
+  /*
+   * Pinned to the origin of the document, never left in the flow of the body.
+   *
+   * Primer positions an anchored overlay — a menu, a dropdown — with
+   * `position: absolute` and coordinates taken from the VIEWPORT rectangle
+   * of its anchor. Those coordinates are only right when the containing
+   * block of the overlay starts at the origin of the document, which is why
+   * Primer's own default portal root is `absolute` at `0, 0`.
+   *
+   * Left `relative`, this root instead sits wherever the flow of the body
+   * ends and becomes the containing block of everything portaled into it:
+   * in an application whose markup is a full-height element — a React page
+   * hosting JupyterLab — that is the bottom of the screen, and every menu
+   * opened at the top of the page was drawn a screen further down, off the
+   * bottom edge. Which reads, to whoever clicked, as a menu that refuses to
+   * open. The high z-index is kept: it needs a positioned element, and
+   * `absolute` is one.
+   */
+  portalRoot.style.position = 'absolute';
+  portalRoot.style.top = '0';
+  portalRoot.style.left = '0';
+  portalRoot.style.width = '100%';
   portalRoot.style.zIndex = '9999';
 
   registerPortalRoot(portalRoot);
 };
+
+/**
+ * The element Primer portals render under, when it has been set up.
+ *
+ * `setupPrimerPortals` creates it; before that call there is none, and this
+ * answers `null` rather than inventing one.
+ */
+export const getPrimerPortalRoot = (): HTMLElement | null =>
+  typeof document === 'undefined'
+    ? null
+    : document.getElementById(PRIMER_PORTAL_ROOT_ID);
 
 /* ─── camelCase → kebab-case ─────────────────────────────────────────── */
 
@@ -125,37 +163,58 @@ const camelToKebab = (s: string): string =>
  * portals stay in sync whenever theme or color-mode changes.
  */
 export function syncPortalThemeStyles(styles: CSSProperties): void {
-  const body = document.body;
+  /*
+   * On the portal root as well as on the body, and that is the point.
+   *
+   * The body was enough for what portals INHERIT — a font, a line height —
+   * and never enough for the colours. The portal root carries Primer's own
+   * theme markers (`data-color-mode`, `data-light-theme`), and Primer's
+   * stylesheet declares `--bgColor-*`, `--fgColor-*` and the rest ON any
+   * element carrying them. A declaration on the element always beats a value
+   * inherited from an ancestor, so Primer's default palette won on the portal
+   * root and everything drawn inside it — the buttons of a dialog, the
+   * background of a menu — came out in the default theme while the same
+   * components in the page wore the chosen one.
+   *
+   * Written inline on that element, the theme wins in turn: an inline style
+   * outranks any selector in a stylesheet.
+   */
+  const targets = [
+    document.body,
+    document.getElementById(PRIMER_PORTAL_ROOT_ID)
+  ].filter(Boolean) as HTMLElement[];
 
-  // 1. Remove properties set by the previous invocation.
-  const prev = (body as any)[PORTAL_THEME_KEYS] as string[] | undefined;
-  if (prev) {
-    for (const key of prev) {
-      body.style.removeProperty(key);
+  for (const target of targets) {
+    // 1. Remove properties set by the previous invocation.
+    const prev = (target as any)[PORTAL_THEME_KEYS] as string[] | undefined;
+    if (prev) {
+      for (const key of prev) {
+        target.style.removeProperty(key);
+      }
     }
-  }
 
-  // 2. Apply the new properties.
-  const tracked: string[] = [];
+    // 2. Apply the new properties.
+    const tracked: string[] = [];
 
-  for (const [key, value] of Object.entries(styles)) {
-    if (value == null) continue;
-    const strVal = String(value);
+    for (const [key, value] of Object.entries(styles)) {
+      if (value == null) continue;
+      const strVal = String(value);
 
-    if (key.startsWith('--')) {
-      // CSS custom property — must use setProperty
-      body.style.setProperty(key, strVal);
-      tracked.push(key);
-    } else {
-      // Standard CSS property (camelCase → kebab-case)
-      const kebab = camelToKebab(key);
-      body.style.setProperty(kebab, strVal);
-      tracked.push(kebab);
+      if (key.startsWith('--')) {
+        // CSS custom property — must use setProperty
+        target.style.setProperty(key, strVal);
+        tracked.push(key);
+      } else {
+        // Standard CSS property (camelCase → kebab-case)
+        const kebab = camelToKebab(key);
+        target.style.setProperty(kebab, strVal);
+        tracked.push(kebab);
+      }
     }
-  }
 
-  // 3. Stash the list for the next cleanup.
-  (body as any)[PORTAL_THEME_KEYS] = tracked;
+    // 3. Stash the list for the next cleanup.
+    (target as any)[PORTAL_THEME_KEYS] = tracked;
+  }
 }
 
 export default setupPrimerPortals;

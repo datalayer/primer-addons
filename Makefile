@@ -1,5 +1,5 @@
-# Copyright (c) Datalayer, Inc. https://datalayer.io
-# Distributed under the terms of the MIT License.
+# Copyright (c) 2021-2026 Datalayer, Inc.
+# Distributed under the terms of the Modified BSD License.
 
 SHELL=/bin/bash
 
@@ -17,12 +17,14 @@ all: clean install build publish
 build: ## build all modules
 	npm run build
 
-gallery: ## run the Vite primer-addons gallery example
-	npm --prefix examples/gallery install && \
+# The gallery is a member of the workspace above (`npm i` in datalayer-osp/src
+# installs it); an install of its own would put a second React and a second
+# set of React types beside the package's source and break both.
+start: ## run the Vite primer-addons gallery example
 	npm run gallery
 
-start: ## start
-	npm dev
+gallery: ## run the Vite primer-addons gallery example
+	npm run gallery
 
 clean: ## deletes node_modules, lib, build... folders and other generated info, lock, log... files
 	find . -name node_modules | xargs rm -fr {} || true

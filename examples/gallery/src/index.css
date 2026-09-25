@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 html,
 body,
 #root {
@@ -9,34 +14,23 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* The shell: a header, and the page layout filling the rest. The viewport's
+   height rather than the parent's: the theme provider's own wrapper has no
+   height to inherit, and the page layout scrolls its canvas only inside a
+   definite one. */
 .example-shell {
   display: grid;
   grid-template-rows: auto 1fr;
-  height: 100%;
+  height: 100vh;
 }
 
-.example-main {
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-}
-
-.example-sidebar {
-  min-height: 0;
-  overflow: auto;
-  border-right: 1px solid var(--borderColor-default, #d0d7de);
-}
-
-.example-content {
-  min-height: 0;
-  overflow: auto;
-  padding: 24px;
-}
-
-.gallery-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* Native form controls don't inherit font-family — force the nav buttons
+   and inputs to pick up the active theme's typeface (e.g. Matrix monospace). */
+.example-shell button,
+.example-shell input,
+.example-shell select,
+.example-shell textarea {
+  font-family: inherit;
 }
 
 .gallery-grid {
@@ -63,16 +57,6 @@ body {
 }
 
 @media (max-width: 900px) {
-  .example-main {
-    grid-template-columns: 1fr;
-    grid-template-rows: 240px 1fr;
-  }
-
-  .example-sidebar {
-    border-right: none;
-    border-bottom: 1px solid var(--borderColor-default, #d0d7de);
-  }
-
   .gallery-grid {
     grid-template-columns: 1fr;
   }

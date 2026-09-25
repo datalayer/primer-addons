@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 import { useTheme } from '@primer/react';
 import { CircleCurrentColorIcon } from '@datalayer/icons-react';
 

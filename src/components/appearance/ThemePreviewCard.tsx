@@ -39,7 +39,7 @@ export function ThemePreviewCard({
         width: '100%',
         textAlign: 'left',
         cursor: onSelect ? 'pointer' : 'default',
-        bg: 'canvas.subtle',
+        bg: 'canvas.default',
         border: '2px solid',
         borderColor: selected ? 'accent.fg' : 'border.default',
         borderRadius: 2,
@@ -51,7 +51,7 @@ export function ThemePreviewCard({
         ':hover': onSelect
           ? {
               borderColor: selected ? 'accent.fg' : 'border.muted',
-              bg: 'canvas.inset',
+              bg: 'canvas.default',
             }
           : undefined,
         ':focus-visible': onSelect
@@ -97,7 +97,7 @@ export function ThemePreviewCard({
               gap: 1,
               px: compact ? 1.5 : 2,
               py: compact ? '4px' : '6px',
-              bg: 'canvas.subtle',
+              bg: 'canvas.default',
               borderBottom: '1px solid',
               borderColor: 'border.muted',
             }}

@@ -20,6 +20,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 const earthLight: ThemeColorDefs = {
   canvas: {
     default: earthColors.white,
+    subtle: '#EBF0F4',
   },
   fg: {
     default: '#1A2332',
@@ -30,6 +31,7 @@ const earthLight: ThemeColorDefs = {
     fg: earthColors.oceanText,
     emphasis: earthColors.oceanBrand,
     muted: earthColors.oceanAccent,
+    subtle: earthColors.oceanTint,
   },
   success: {
     fg: earthColors.forestBrand,

@@ -3,13 +3,14 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import type { ReactNode } from 'react';
-import type { IconProps } from '@primer/octicons-react';
+import type { ReactNode } from "react";
+import type { IconProps } from "@primer/octicons-react";
 
 /**
  * Toolbar item types that can be registered in a toolbar.
  */
-export type ToolbarItemType = 'button' | 'dropdown' | 'divider' | 'custom';
+export type ToolbarItemType =
+  "button" | "dropdown" | "divider" | "spacer" | "custom";
 
 /**
  * Base toolbar item definition.
@@ -33,7 +34,7 @@ export interface ToolbarItemBase {
  * Toolbar button item definition.
  */
 export interface ToolbarButtonItem extends ToolbarItemBase {
-  type: 'button';
+  type: "button";
   /** Accessible label */
   ariaLabel: string;
   /** Tooltip text */
@@ -74,7 +75,7 @@ export interface ToolbarDropdownOption {
  * Toolbar dropdown item definition.
  */
 export interface ToolbarDropdownItem extends ToolbarItemBase {
-  type: 'dropdown';
+  type: "dropdown";
   /** Accessible label */
   ariaLabel: string;
   /** Tooltip text */
@@ -97,14 +98,24 @@ export interface ToolbarDropdownItem extends ToolbarItemBase {
  * Toolbar divider item definition.
  */
 export interface ToolbarDividerItem extends ToolbarItemBase {
-  type: 'divider';
+  type: "divider";
+}
+
+/**
+ * Toolbar spacer item definition.
+ *
+ * Takes the free space of the toolbar, so the items ordered after it sit on
+ * the trailing edge — e.g. a status indicator kept away from the actions.
+ */
+export interface ToolbarSpacerItem extends ToolbarItemBase {
+  type: "spacer";
 }
 
 /**
  * Toolbar custom item definition.
  */
 export interface ToolbarCustomItem extends ToolbarItemBase {
-  type: 'custom';
+  type: "custom";
   /** Custom render function */
   render: () => ReactNode;
 }
@@ -116,6 +127,7 @@ export type ToolbarItem =
   | ToolbarButtonItem
   | ToolbarDropdownItem
   | ToolbarDividerItem
+  | ToolbarSpacerItem
   | ToolbarCustomItem;
 
 /**
@@ -132,6 +144,13 @@ export interface ToolbarProps {
   extraItems?: ToolbarItem[];
   /** Aria label for the toolbar */
   ariaLabel?: string;
+  /**
+   * Keep the toolbar to one line, moving what does not fit into a menu.
+   *
+   * On by default. Turned off, the items are all laid on the line and it is
+   * up to the host to leave room for them.
+   */
+  overflow?: boolean;
 }
 
 /**

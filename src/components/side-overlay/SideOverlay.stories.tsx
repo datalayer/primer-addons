@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
 import { useState, useRef } from "react";
 import { Heading, Text, ThemeProviderProps, Box, Button } from "@primer/react";
 import type { Meta, StoryObj } from '@storybook/react';

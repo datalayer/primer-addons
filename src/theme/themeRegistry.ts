@@ -11,16 +11,22 @@ import { spatialTheme, spatialThemeStyles } from './themes/spatialTheme';
 import { lovelyTheme, lovelyThemeStyles } from './themes/lovelyTheme';
 import { matrixTheme, matrixThemeStyles } from './themes/matrixTheme';
 import { earthTheme, earthThemeStyles } from './themes/earthTheme';
+import { sandTheme, sandThemeStyles } from './themes/sandTheme';
+import { ivoryTheme, ivoryThemeStyles } from './themes/ivoryTheme';
+import { sunTheme, sunThemeStyles } from './themes/sunTheme';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
 import { matrixColors } from './colors/matrixColors';
 import { earthColors } from './colors/earthColors';
+import { sandColors } from './colors/sandColors';
+import { ivoryColors } from './colors/ivoryColors';
+import { sunColors } from './colors/sunColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
 
 /** Available theme variants. */
-export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth';
+export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth' | 'sand' | 'ivory' | 'sun';
 
 /** A pair of colours for a two-stop gradient. */
 export interface GradientPair {
@@ -259,10 +265,106 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       gold: earthColors.brightLightGold,        // #A16207 — deep gold
     },
   },
+  sand: {
+    label: 'Sand',
+    description: 'Warm, pale desert neutrals with a golden accent — calm & editorial.',
+    brandColor: sandColors.sandBrand,
+    defaultColorMode: 'light',
+    primerTheme: sandTheme,
+    themeStyles: sandThemeStyles,
+    cardGradient: {
+      light: { from: sandColors.sandBrand,   to: sandColors.sandText },    // #B07A4E → #8A5A34
+      dark:  { from: sandColors.sandAccent,  to: sandColors.sandBrand },   // #C99A6B → #B07A4E
+    },
+    brightPalette: {
+      glow: sandColors.brightGlow,         // #E0A15C — warm sand glow
+      onGlow: '#211A12',                   // dark text on warm sand
+      pop: sandColors.brightPop,           // #D98A5A — clay
+      spark: sandColors.brightSpark,       // #E7C24E — wheat gold
+      blaze: sandColors.brightBlaze,       // #E06A45 — terracotta
+      surge: sandColors.brightSurge,       // #8FA98A — sage
+      flame: sandColors.brightFlame,       // #E68A34 — amber
+      gold: sandColors.brightGold,         // #EBCB5E — golden wheat
+    },
+    brightPaletteLight: {
+      glow: sandColors.brightLightGlow,        // #8A5A34 — deep clay
+      onGlow: '#ffffff',                       // white text on deep clay
+      pop: sandColors.brightLightPop,          // #A9633B — deep terracotta-clay
+      spark: sandColors.brightLightSpark,      // #B08A16 — deep wheat gold
+      blaze: sandColors.brightLightBlaze,      // #B0432A — deep terracotta
+      surge: sandColors.brightLightSurge,      // #5E7A5A — deep sage
+      flame: sandColors.brightLightFlame,      // #B0661E — deep amber
+      gold: sandColors.brightLightGold,        // #997B1A — deep gold
+    },
+  },
+  ivory: {
+    label: 'Ivory',
+    description: 'Soft, warm off-white that creates a calm, refined, and welcoming feeling.',
+    brandColor: ivoryColors.ivoryBrand,
+    defaultColorMode: 'light',
+    primerTheme: ivoryTheme,
+    themeStyles: ivoryThemeStyles,
+    cardGradient: {
+      light: { from: ivoryColors.ivoryBrand,  to: ivoryColors.ivoryText },  // #E6D2B5 → #6B5A3E
+      dark:  { from: ivoryColors.ivoryAccent, to: ivoryColors.ivoryBrand }, // #D8C09B → #E6D2B5
+    },
+    brightPalette: {
+      glow: ivoryColors.brightGlow,        // #E6D2B5 — ivory glow
+      onGlow: '#211A12',                   // dark text on warm ivory
+      pop: ivoryColors.brightPop,          // #D8B27E — warm tan
+      spark: ivoryColors.brightSpark,      // #EFDFC2 — bright ivory
+      blaze: ivoryColors.brightBlaze,      // #DD7048 — soft terracotta
+      surge: ivoryColors.brightSurge,      // #98A783 — sage
+      flame: ivoryColors.brightFlame,      // #E0912F — amber
+      gold: ivoryColors.brightGold,        // #EACF6A — soft gold
+    },
+    brightPaletteLight: {
+      glow: ivoryColors.brightLightGlow,        // #6B5A3E — deep taupe
+      onGlow: '#ffffff',                        // white text on deep taupe
+      pop: ivoryColors.brightLightPop,          // #9C6626 — deep amber-tan
+      spark: ivoryColors.brightLightSpark,      // #8A7320 — deep gold
+      blaze: ivoryColors.brightLightBlaze,      // #AB4229 — deep terracotta
+      surge: ivoryColors.brightLightSurge,      // #5C6C4C — deep sage
+      flame: ivoryColors.brightLightFlame,      // #9C6221 — deep amber
+      gold: ivoryColors.brightLightGold,        // #836A18 — deep gold
+    },
+  },
+  sun: {
+    label: 'Sun',
+    description: 'Warm, radiant theme inspired by golden light, bringing energy, optimism, and a welcoming atmosphere.',
+    brandColor: sunColors.sunBrand,
+    defaultColorMode: 'light',
+    primerTheme: sunTheme,
+    themeStyles: sunThemeStyles,
+    cardGradient: {
+      light: { from: sunColors.sunBrand,  to: sunColors.sunText },  // #FFC107 → #8A5300
+      dark:  { from: sunColors.sunAccent, to: sunColors.sunBrand }, // #F0A800 → #FFC107
+    },
+    brightPalette: {
+      glow: sunColors.brightGlow,        // #FFC107 — amber glow
+      onGlow: '#211A08',                 // dark text on radiant amber
+      pop: sunColors.brightPop,          // #FF9F1C — vivid orange-amber
+      spark: sunColors.brightSpark,      // #FFD54A — bright sun
+      blaze: sunColors.brightBlaze,      // #FF6B35 — coral-orange
+      surge: sunColors.brightSurge,      // #4FB0C6 — sky blue
+      flame: sunColors.brightFlame,      // #FF8500 — amber flame
+      gold: sunColors.brightGold,        // #FFD700 — gold
+    },
+    brightPaletteLight: {
+      glow: sunColors.brightLightGlow,        // #8A5300 — deep amber-brown
+      onGlow: '#ffffff',                      // white text on deep amber
+      pop: sunColors.brightLightPop,          // #B8560F — deep orange-amber
+      spark: sunColors.brightLightSpark,      // #9A7B00 — deep gold
+      blaze: sunColors.brightLightBlaze,      // #B23A1E — deep coral
+      surge: sunColors.brightLightSurge,      // #2A7C8E — deep sky-teal
+      flame: sunColors.brightLightFlame,      // #A85D0C — deep amber
+      gold: sunColors.brightLightGold,        // #8A6E00 — deep gold
+    },
+  },
 };
 
 /** All available theme variants in display order. */
-export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth'];
+export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth', 'sand', 'ivory', 'sun'];
 
 /** Look up a theme config by variant name. */
 export function getThemeConfig(variant: ThemeVariant): ThemeConfig {
@@ -405,6 +507,54 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       earthColors.brightPop,             // #22C55E — vivid green
       earthColors.brightSpark,           // #EAB308 — vivid gold
       earthColors.brightFlame,           // #F59E0B — amber gold
+    ],
+  },
+  sand: {
+    light: [
+      sandColors.sandText,               // #8A5A34 — deep clay
+      sandColors.sandBrand,              // #B07A4E — camel dune
+      sandColors.brightLightPop,         // #A9633B — deep terracotta-clay
+      sandColors.brightLightGold,        // #997B1A — deep gold
+      sandColors.gray,                   // #6B5D4F — taupe
+    ],
+    dark: [
+      sandColors.sandAccent,             // #C99A6B — light tan
+      sandColors.sandBright,             // #D9B589 — bright sand
+      sandColors.brightPop,              // #D98A5A — clay
+      sandColors.brightSpark,            // #E7C24E — wheat gold
+      sandColors.brightFlame,            // #E68A34 — amber
+    ],
+  },
+  ivory: {
+    light: [
+      ivoryColors.ivoryText,             // #6B5A3E — deep taupe
+      ivoryColors.ivoryBrand,            // #E6D2B5 — light ivory
+      ivoryColors.brightLightPop,        // #9C6626 — deep amber-tan
+      ivoryColors.brightLightGold,       // #836A18 — deep gold
+      ivoryColors.gray,                  // #6F6353 — warm taupe
+    ],
+    dark: [
+      ivoryColors.ivoryAccent,           // #D8C09B — deeper ivory
+      ivoryColors.ivoryBright,           // #EFDFC2 — bright ivory
+      ivoryColors.brightPop,             // #D8B27E — warm tan
+      ivoryColors.brightSpark,           // #EFDFC2 — bright ivory
+      ivoryColors.brightFlame,           // #E0912F — amber
+    ],
+  },
+  sun: {
+    light: [
+      sunColors.sunText,                 // #8A5300 — deep amber-brown
+      sunColors.sunBrand,                // #FFC107 — radiant amber
+      sunColors.brightLightPop,          // #B8560F — deep orange-amber
+      sunColors.brightLightBlaze,        // #B23A1E — deep coral
+      sunColors.gray,                    // #7A6A3A — amber-taupe
+    ],
+    dark: [
+      sunColors.sunAccent,               // #F0A800 — deep amber
+      sunColors.sunBright,               // #FFD54A — bright sun
+      sunColors.brightPop,               // #FF9F1C — vivid orange-amber
+      sunColors.brightBlaze,             // #FF6B35 — coral-orange
+      sunColors.brightSurge,             // #4FB0C6 — sky blue
     ],
   },
 };

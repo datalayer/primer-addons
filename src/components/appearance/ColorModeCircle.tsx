@@ -192,7 +192,7 @@ export function ColorModeCircle({
           left: isBottomStart ? 0 : 'auto',
           right: isBottomStart ? 'auto' : 0,
           zIndex: 220,
-          minWidth: 260,
+          minWidth: 340,
           bg: 'canvas.overlay',
           border: '1px solid',
           borderColor: 'border.default',

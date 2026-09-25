@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "npm run build:lib",
@@ -37,13 +37,18 @@
     "@primer/octicons-react": "^19.35.0",
     "@primer/primitives": "^10.7.0",
     "@primer/react": "^37.31.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "@primer/react-brand": "^0.58.2",
     "react-loading-skeleton": "^3.5.0",
     "styled-components": "^5.3.10",
     "zustand": "^5.0.0"
   },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
+  },
   "devDependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "@storybook/addon-docs": "^9.0.15",
     "@storybook/addon-essentials": "9.0.0-alpha.12",
     "@storybook/addon-interactions": "^9.0.0-alpha.10",

@@ -2,7 +2,7 @@
 
 A pushed `v*` tag publishes that version to
 [npm](https://www.npmjs.com/package/@datalayer/primer-addons) through
-[`.github/workflows/release.yml`](.github/workflows/release.yml), with trusted publishing:
+[`.github/workflows/release.yaml`](.github/workflows/release.yaml), with trusted publishing:
 no token is stored in the repository.
 
 1. Bump `version` in `package.json`, open a pull request and merge it to `main`.
@@ -29,7 +29,7 @@ under _Trusted publishing_, add a GitHub Actions publisher:
 
 - Organization or user: `datalayer`
 - Repository: `primer-addons`
-- Workflow filename: `release.yml`
+- Workflow filename: `release.yaml`
 - Environment name: `npm`
 
 The `npm` environment exists in the repository settings (_Settings → Environments_);

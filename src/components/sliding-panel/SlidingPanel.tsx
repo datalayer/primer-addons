@@ -1,20 +1,6 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Copyright (c) 2021-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
  */
 
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
@@ -252,7 +238,23 @@ export const SlidingPanel = ({
       <Box
         role={variant === 'error' || variant === 'danger' ? 'alert' : 'status'}
         aria-live={variant === 'error' || variant === 'danger' ? 'assertive' : 'polite'}
-        onClick={onDismiss}
+        onClick={
+          onDismiss
+            ? event => {
+                // A tap on the panel dismisses it — but not a click on a
+                // link, button or field in its content, nor the end of a
+                // text selection: those are someone using what it says.
+                const target = event.target as HTMLElement;
+                if (
+                  target.closest('a, button, input, select, textarea, label, [role="button"], [contenteditable="true"]') ||
+                  (window.getSelection()?.toString() ?? '') !== ''
+                ) {
+                  return;
+                }
+                onDismiss();
+              }
+            : undefined
+        }
         sx={{
           pointerEvents: 'auto',
           position: 'relative',

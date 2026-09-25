@@ -1,23 +1,4 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
-/*
  * Copyright (c) 2023-2026 Datalayer, Inc.
  * Distributed under the terms of the Modified BSD License.
  */
@@ -76,7 +57,35 @@ export function parseISODate(text: string): Date | null {
   }
   const [, year, month, day] = match;
   const date = new Date(Number(year), Number(month) - 1, Number(day));
-  return Number.isNaN(date.getTime()) ? null : date;
+  return isExactly(date, Number(year), Number(month), Number(day)) ? date : null;
+}
+
+/**
+ * Whether `date` holds exactly the fields it was built from.
+ *
+ * The `Date` constructor rolls an out-of-range field into the next one —
+ * `2026-02-31` becomes the 3rd of March, `24:00` the next day — instead of
+ * failing, so a typo would be committed as some other moment. A field that
+ * does not come back as written was not a real one.
+ */
+function isExactly(
+  date: Date,
+  year: number,
+  month: number,
+  day: number,
+  hours = 0,
+  minutes = 0,
+  seconds = 0,
+): boolean {
+  return (
+    !Number.isNaN(date.getTime()) &&
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day &&
+    date.getHours() === hours &&
+    date.getMinutes() === minutes &&
+    date.getSeconds() === seconds
+  );
 }
 
 /**
@@ -104,7 +113,17 @@ export function parseISODateTime(text: string): Date | null {
     Number(minutes ?? 0),
     Number(seconds ?? 0),
   );
-  return Number.isNaN(date.getTime()) ? null : date;
+  return isExactly(
+    date,
+    Number(year),
+    Number(month),
+    Number(day),
+    Number(hours ?? 0),
+    Number(minutes ?? 0),
+    Number(seconds ?? 0),
+  )
+    ? date
+    : null;
 }
 
 export interface DatePickerProps

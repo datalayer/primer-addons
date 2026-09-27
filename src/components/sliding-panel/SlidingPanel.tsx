@@ -3,7 +3,7 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@primer/react';
 import { XIcon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
@@ -240,7 +240,7 @@ export const SlidingPanel = ({
         aria-live={variant === 'error' || variant === 'danger' ? 'assertive' : 'polite'}
         onClick={
           onDismiss
-            ? event => {
+            ? (event: MouseEvent<HTMLElement>) => {
                 // A tap on the panel dismisses it — but not a click on a
                 // link, button or field in its content, nor the end of a
                 // text selection: those are someone using what it says.

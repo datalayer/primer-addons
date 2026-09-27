@@ -5,11 +5,12 @@
 
 import { useState } from 'react';
 import { Box, Text } from '@primer/react';
-import { DatePicker } from '@datalayer/primer-addons';
+import { DatePicker, formatISODateTime } from '@datalayer/primer-addons';
 
 export function DatePickerDemo() {
   const [date, setDate] = useState<Date | null>(new Date());
   const [due, setDue] = useState<Date | null>(null);
+  const [meeting, setMeeting] = useState<Date | null>(null);
   return (
     <Box sx={{ display: 'grid', gap: 4, maxWidth: 420 }}>
       <Box sx={{ display: 'grid', gap: 2 }}>
@@ -26,6 +27,22 @@ export function DatePickerDemo() {
         />
         <Text sx={{ fontSize: 0, color: 'var(--fgColor-muted)' }}>
           Nothing before the start date can be picked here.
+        </Text>
+      </Box>
+      <Box sx={{ display: 'grid', gap: 2 }}>
+        <Text sx={{ fontSize: 1, fontWeight: 'semibold' }}>Meeting</Text>
+        <DatePicker
+          value={meeting}
+          onChange={setMeeting}
+          withTime
+          timeStep={15}
+          defaultTime="09:00"
+          aria-label="Meeting date and time"
+        />
+        <Text sx={{ fontSize: 0, color: 'var(--fgColor-muted)' }}>
+          {meeting
+            ? `Chosen: ${formatISODateTime(meeting)}.`
+            : 'With withTime, the hour and minute columns sit beneath the calendar. A day picked first starts at 09:00; minutes step by 15.'}
         </Text>
       </Box>
       <Text sx={{ fontSize: 0, color: 'var(--fgColor-muted)' }}>

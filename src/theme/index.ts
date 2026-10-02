@@ -16,6 +16,7 @@ export * from './themes/earthTheme';
 export * from './themes/sandTheme';
 export * from './themes/ivoryTheme';
 export * from './themes/sunTheme';
+export * from './themes/loopTheme';
 export * from './themes-brand/spatialBrandTheme';
 export * from './themeRegistry';
 export * from './portableTheme';

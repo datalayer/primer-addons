@@ -458,7 +458,14 @@ export interface ThemeStyles {
 export function buildThemeStyles(
   light: ThemeColorDefs,
   dark: ThemeColorDefs,
-  options?: { fontFamily?: string },
+  options?: {
+    fontFamily?: string;
+    /**
+     * More custom properties, per mode, set after everything else: what a
+     * theme sets beside colour and font — its radii, its own tokens.
+     */
+    variables?: { light?: Record<string, string>; dark?: Record<string, string> };
+  },
 ): ThemeStyles {
   const fontVars: Record<string, string> = {};
   if (options?.fontFamily) {
@@ -491,6 +498,7 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(light, 'light'),
       ...fontVars,
+      ...(options?.variables?.light ?? {}),
     } as CSSProperties,
     dark: {
       backgroundColor: dark.canvas.default,
@@ -499,6 +507,7 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(dark, 'dark'),
       ...fontVars,
+      ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
   };
 }

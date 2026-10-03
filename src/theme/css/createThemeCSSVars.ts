@@ -455,11 +455,51 @@ export interface ThemeStyles {
  *   `Blankslate`) picks up the themed font instead of the
  *   hard-coded system-font fallback.
  */
+/**
+ * The shape of a theme (LOOP T-03): the radii of a control, a card, a bubble
+ * and a frame; the hairline; at most one level of shadow. As custom
+ * properties every theme sets — `--theme-radius-control` and the rest — so
+ * that a component reads its shape the way it reads its colour.
+ */
+export interface ThemeShape {
+  radiusControl: string;
+  radiusCard: string;
+  radiusBubble: string;
+  radiusFrame: string;
+  hairline: string;
+  shadow: string;
+}
+
+/** Today's shape, which every theme has unless it says otherwise. */
+export const DEFAULT_THEME_SHAPE: ThemeShape = {
+  radiusControl: 'var(--borderRadius-medium, 6px)',
+  radiusCard: 'var(--borderRadius-medium, 6px)',
+  radiusBubble: 'var(--borderRadius-large, 12px)',
+  radiusFrame: 'var(--borderRadius-large, 12px)',
+  hairline: 'var(--borderWidth-thin, 1px)',
+  shadow: 'var(--shadow-resting-small, none)',
+};
+
+/** A shape as custom properties. */
+export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, string> {
+  const full = { ...DEFAULT_THEME_SHAPE, ...shape };
+  return {
+    '--theme-radius-control': full.radiusControl,
+    '--theme-radius-card': full.radiusCard,
+    '--theme-radius-bubble': full.radiusBubble,
+    '--theme-radius-frame': full.radiusFrame,
+    '--theme-hairline': full.hairline,
+    '--theme-shadow': full.shadow,
+  };
+}
+
 export function buildThemeStyles(
   light: ThemeColorDefs,
   dark: ThemeColorDefs,
   options?: {
     fontFamily?: string;
+    /** Its shape (T-03); today's, for what it does not say. */
+    shape?: Partial<ThemeShape>;
     /**
      * More custom properties, per mode, set after everything else: what a
      * theme sets beside colour and font — its radii, its own tokens.
@@ -498,6 +538,7 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(light, 'light'),
       ...fontVars,
+      ...shapeVars(options?.shape),
       ...(options?.variables?.light ?? {}),
     } as CSSProperties,
     dark: {
@@ -507,6 +548,7 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(dark, 'dark'),
       ...fontVars,
+      ...shapeVars(options?.shape),
       ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
   };

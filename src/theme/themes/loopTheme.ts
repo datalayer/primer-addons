@@ -304,19 +304,48 @@ export const loopTheme = primerTheme;
 export const loopFontFamily =
   'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
+/**
+ * Motion (LOOP T-10): three durations and one easing, for three things — a
+ * status changing, a message arriving, a pane opening. Nothing else moves.
+ */
+export const loopMotionVars: Record<string, string> = {
+  '--loop-motion-status': '120ms',
+  '--loop-motion-message': '200ms',
+  '--loop-motion-pane': '320ms',
+  '--loop-motion-easing': 'cubic-bezier(0.2, 0, 0, 1)',
+};
+
+/**
+ * The focus ring (LOOP T-15): the theme's ink, so that it shows on the
+ * surface and around a pill of any accent, in both modes.
+ */
+export const loopFocusRing = { light: loopColors.ink, dark: loopColors.inkDark } as const;
+
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
 export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   fontFamily: loopFontFamily,
+  // Rounder than the others: a pill for a control, soft cards, round bubbles.
+  shape: {
+    radiusControl: loopShapeVars['--loop-radius-control'],
+    radiusCard: loopShapeVars['--loop-radius-card'],
+    radiusBubble: loopShapeVars['--loop-radius-bubble'],
+    radiusFrame: loopShapeVars['--loop-radius-frame'],
+    shadow: loopShapeVars['--loop-shadow-frame'],
+  },
   variables: {
     light: {
       ...loopShapeVars,
       ...loopAccentVars('green', 'light'),
+      ...loopMotionVars,
       '--loop-hairline': loopHairline.light,
+      '--focus-outlineColor': loopFocusRing.light,
     },
     dark: {
       ...loopShapeVars,
       ...loopAccentVars('green', 'dark'),
+      ...loopMotionVars,
       '--loop-hairline': loopHairline.dark,
+      '--focus-outlineColor': loopFocusRing.dark,
     },
   },
 });

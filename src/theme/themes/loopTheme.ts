@@ -393,9 +393,59 @@ export const loopMotionVars: Record<string, string> = {
  */
 export const loopFocusRing = { light: loopColors.loopRing, dark: '#636363' } as const;
 
+/**
+ * The controls, as one family (LOOP T-09): every single-line control is a
+ * pill — a button, a text input, a select, a segmented control (outside and
+ * each segment), a button group's two ends, a toggle switch, an underline
+ * tab's hover. A multi-line text area keeps `--borderRadius-medium`: a pill
+ * of many lines is a lozenge. Menus and overlays keep the card's radius,
+ * `--borderRadius-large`, which the theme already sets.
+ *
+ * Primer takes every control's corners from `--borderRadius-medium`, which
+ * cards and list items take too, so this cannot be a token: it is a
+ * stylesheet, scoped by the theme provider (`ThemeStyles.css`). Primer's
+ * class names are CSS-module hashes (`prc-Button-ButtonBase-c50BI`), so the
+ * selectors match their stable prefix; the toggle switch is a
+ * styled-component, matched by its display name, which styled-components
+ * puts in its class (`ToggleSwitch__SwitchButton-sc-e6gszy-0`). A test reads each of them
+ * back from the installed `@primer/react`.
+ *
+ * Where a control draws more than one element from the token — a segmented
+ * control's track and segments, a button group's ends — the token itself is
+ * set on the control, and Primer's own rules draw the pill.
+ */
+export const loopControlsSelectors = {
+  button: '[class*="prc-Button-ButtonBase"]',
+  textInput: '[class*="prc-components-TextInputBaseWrapper"]',
+  textArea: '[class*="prc-Textarea-TextArea"]',
+  segmentedControl: '[class*="prc-SegmentedControl-SegmentedControl"]',
+  buttonGroup: '[class*="prc-ButtonGroup-ButtonGroup"]',
+  underlineTab: '[class*="prc-components-UnderlineItem"]',
+  toggleTrack: '[class*="ToggleSwitch__SwitchButton-"]',
+  toggleKnob: '[class*="ToggleSwitch__ToggleKnob-"]',
+} as const;
+
+const sel = loopControlsSelectors;
+
+export const loopControlsCss = `
+:scope ${sel.button},
+:scope ${sel.textInput}:not(:has(${sel.textArea})),
+:scope ${sel.segmentedControl},
+:scope ${sel.underlineTab},
+:scope ${sel.toggleTrack},
+:scope ${sel.toggleKnob} {
+  --borderRadius-medium: var(--loop-radius-control);
+  border-radius: var(--loop-radius-control);
+}
+:scope ${sel.buttonGroup} {
+  --borderRadius-medium: var(--loop-radius-control);
+}
+`;
+
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
 export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   fontFamily: loopFontFamily,
+  css: loopControlsCss,
   // Rounder than the others: a pill for a control, soft cards, round bubbles.
   shape: {
     radiusControl: loopShapeVars['--loop-radius-control'],

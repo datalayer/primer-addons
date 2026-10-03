@@ -6,6 +6,7 @@
 import {
   type CSSProperties,
   useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -15,7 +16,13 @@ import { BaseStyles, ThemeProvider, ThemeProviderProps } from "@primer/react";
 import { useSystemColorMode } from "./useSystemColorMode";
 import { datalayerTheme, datalayerThemeStyles } from "./themes/datalayerTheme";
 import { systemFontStack } from "./fontStacks";
-import { setupPrimerPortals, syncPortalThemeStyles } from "../utils/Portals";
+import { type ThemeStyles } from "./css/createThemeCSSVars";
+import {
+  THEME_SCOPE_ATTRIBUTE,
+  injectThemeStylesheet,
+  setupPrimerPortals,
+  syncPortalThemeStyles,
+} from "../utils/Portals";
 
 /**
  * System sans-serif font stack — shared between `fontFamily` and
@@ -136,11 +143,11 @@ export interface IDatalayerThemeProviderProps extends Omit<
    *
    * Use the `buildThemeStyles` helper from `./css/createThemeCSSVars`
    * to generate comprehensive overrides from a `ThemeColorDefs` pair.
+   *
+   * A theme's own stylesheet comes with them (`css`): injected for this
+   * provider's element, and for the portal root when this provider owns it.
    */
-  themeStyles?: {
-    light: CSSProperties;
-    dark: CSSProperties;
-  };
+  themeStyles?: ThemeStyles;
 }
 
 export function DatalayerThemeProvider(
@@ -197,6 +204,10 @@ export function DatalayerThemeProvider(
   }, []);
   const nested = themedAncestor !== null;
 
+  // This provider's scope: what its theme's stylesheet is scoped to, and
+  // where an outer provider's stylesheet stops.
+  const scope = useId().replace(/[^A-Za-z0-9_-]/g, "");
+
   const resolvedColorMode =
     colorMode === "auto"
       ? systemMode
@@ -246,6 +257,16 @@ export function DatalayerThemeProvider(
     syncPortalThemeStyles(portalStyles);
   }, [nested, resolvedColorMode, portalStyles]);
 
+  // The theme's own stylesheet, if it has one: for this provider's element,
+  // and for the portal root when this provider owns it (see above). Removed
+  // when the theme changes, or the provider goes. A layout effect, so the
+  // first paint is already in the theme's shapes.
+  const themeCss = styles.css;
+  useLayoutEffect(
+    () => injectThemeStylesheet(scope, themeCss, !nested),
+    [scope, themeCss, nested],
+  );
+
   return (
     <ThemeProvider
       colorMode={resolvedColorMode}
@@ -253,6 +274,7 @@ export function DatalayerThemeProvider(
       {...rest}
     >
       <BaseStyles
+        {...{ [THEME_SCOPE_ATTRIBUTE]: scope }}
         style={{
           lineHeight: "1.7",
           transition: "background-color 0.25s ease, color 0.25s ease",

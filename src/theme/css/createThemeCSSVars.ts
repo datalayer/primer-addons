@@ -441,6 +441,20 @@ export function colorDefsToCSS(
 export interface ThemeStyles {
   light: CSSProperties;
   dark: CSSProperties;
+  /**
+   * A stylesheet of the theme's own, for what a custom property cannot say
+   * (LOOP T-09): every Primer control takes its corners from one token,
+   * `--borderRadius-medium`, which cards and list items take too, so a theme
+   * that wants its controls alone in another shape has to say so with
+   * selectors.
+   *
+   * Written relative to `:scope`. The theme provider wraps it in an
+   * `@scope` rule for its own element and, when it owns it, for Primer's
+   * portal root (menus, overlays, dialogs), stopping at any theme provider
+   * nested inside; and removes it when the theme changes. A theme without
+   * one gets no stylesheet at all.
+   */
+  css?: string;
 }
 
 /**
@@ -521,6 +535,8 @@ export function buildThemeStyles(
      * theme sets beside colour and font — its radii, its own tokens.
      */
     variables?: { light?: Record<string, string>; dark?: Record<string, string> };
+    /** A stylesheet of the theme's own, relative to `:scope`; see `ThemeStyles.css`. */
+    css?: string;
   },
 ): ThemeStyles {
   const fontVars: Record<string, string> = {};
@@ -567,5 +583,6 @@ export function buildThemeStyles(
       ...shapeVars(options?.shape),
       ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
+    ...(options?.css ? { css: options.css } : {}),
   };
 }

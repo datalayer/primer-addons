@@ -1,6 +1,6 @@
 {
   "name": "@datalayer/primer-addons",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "npm run build:lib",
@@ -50,6 +50,7 @@
   "devDependencies": {
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "jsdom": "^26.1.0",
     "rimraf": "^6.0.1",
     "vitest": "^3.2.7",
     "@storybook/addon-docs": "^9.0.15",

@@ -72,8 +72,8 @@ describe('the loop theme’s contrast', () => {
   });
 
   it('fills the one button of a screen in the accent, readable in both modes', () => {
-    // Light: white on the deep blue; dark: the pastel, with its dark text.
-    expect(loopColors.loopBrand).toBe(loopAccents.sky.accent);
+    // Light: white on the deep green; dark: the pastel, with its dark text.
+    expect(loopColors.loopBrand).toBe(loopAccents.green.accent);
     expect(contrast('#FFFFFF', loopColors.loopEmphasis)).toBeGreaterThanOrEqual(AA);
     expect(contrast('#FFFFFF', loopColors.loopEmphasisHover)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);

@@ -379,9 +379,9 @@ export const loopMotionVars: Record<string, string> = {
 
 /**
  * The focus ring (LOOP T-15): 3 to 1 against the page and around a pill of
- * any accent, in both modes. In light mode the deep accent blue does it —
+ * any accent, in both modes. In light mode the deep accent green does it —
  * a halo in the theme's colour, as a system's own focus ring is — 6.5 to 1
- * on white and 3.3 or more around every pastel. In dark mode no
+ * on white and 3.28 or more around every pastel. In dark mode no
  * colour clears 3 to 1 against both the near-black page and the six
  * pastels, the light ink least of all (under 1.8 to 1 on the pastels): a
  * mid grey does, at 3.04 to 1 — and 2.77 to 1 on the subtle dark surface,
@@ -407,7 +407,7 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   variables: {
     light: {
       ...loopShapeVars,
-      ...loopAccentVars('sky', 'light'),
+      ...loopAccentVars('green', 'light'),
       ...loopMotionVars,
       ...loopShadows.light,
       ...loopTypeVars(loopFontFamily),
@@ -417,7 +417,7 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
     },
     dark: {
       ...loopShapeVars,
-      ...loopAccentVars('sky', 'dark'),
+      ...loopAccentVars('green', 'dark'),
       ...loopMotionVars,
       ...loopShadows.dark,
       ...loopTypeVars(loopFontFamily),

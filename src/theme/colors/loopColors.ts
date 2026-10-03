@@ -11,11 +11,10 @@
  * and a single soft accent that dark text sits on. Nothing else carries
  * colour, apart from the three colours of a verdict.
  *
- * The accent of the theme itself is sky — a soft blue of LOOP's own,
- * so that an application never looks like the platform that built it
- * (decided 2026-10-03; it was Datalayer's green until then). An
- * application may take one of five others (`loopAccents`), the platform's
- * green among them; each is four values: the accent, the text that sits
+ * The accent of the theme itself is mint — a soft green, lighter than
+ * the platform's (decided 2026-10-03, after a day on sky). An
+ * application may take one of five others (`loopAccents`); each is four
+ * values: the accent, the text that sits
  * on it, the tint of the stage behind an application, and a quiet tint.
  * Dark text on every accent: the lowest contrast of the six is 8.8 to 1.
  */
@@ -33,21 +32,21 @@ export const loopColors = {
   subtleDark: '#1E1E20', // Subtle surface on dark
   grayDark: '#A1A1A6',   // Secondary text on dark
 
-  // Loop palette (Brand) — sky
-  loopBrand: '#8CCBF9',  // The accent — a bubble, a send button, a swatch
-  loopOn: '#06243B',     // Text that sits on the accent (9.1 to 1)
-  loopAccent: '#5DB3F5', // Deeper accent — charts, highlights
-  loopText: '#175FA8',   // Accessible accent text & links on white (6.5 to 1)
-  loopEmphasis: '#1B5FBF',      // The one filled button, and the person's bubble: white text, 6.1 to 1
-  loopEmphasisHover: '#175FA8', // The same, pressed
-  loopTint: '#F0F8FE',   // Quiet tint — a draft, a callout
-  loopStage: '#DFF0FD',  // The stage behind an application
-  loopBright: '#9DD3FA', // Accent text & links on dark
-  loopHover: '#0F4C8A',  // Accent text hover
+  // Loop palette (Brand) — mint
+  loopBrand: '#7ADBB8',  // The accent — a bubble, a send button, a swatch
+  loopOn: '#06281E',     // Text that sits on the accent (9.5 to 1)
+  loopAccent: '#4FC79C', // Deeper accent — charts, highlights
+  loopText: '#0F6B4F',   // Accessible accent text & links on white (6.5 to 1)
+  loopEmphasis: '#0F6B4F',      // The one filled button, and the person's bubble: white text, 6.5 to 1
+  loopEmphasisHover: '#0A5640', // The same, pressed
+  loopTint: '#F0FAF6',   // Quiet tint — a draft, a callout
+  loopStage: '#DDF5EC',  // The stage behind an application
+  loopBright: '#8FE5C6', // Accent text & links on dark
+  loopHover: '#0A5640',  // Accent text hover
 
   // The stage and the quiet tint, on dark
-  loopStageDark: '#0F2333',
-  loopTintDark: '#161E25',
+  loopStageDark: '#10261F',
+  loopTintDark: '#17211D',
 
   // Semantic roles — kept for verdicts and rules only
   successBrand: '#1F8A5B',
@@ -67,7 +66,7 @@ export const loopColors = {
   doneTint: '#F6F3FE',
 
   // Bright colours for SVG illustrations — the six accents themselves
-  brightGlow: '#7ADBB8',  // Green — the accent
+  brightGlow: '#7ADBB8',  // Mint — the accent
   brightPop: '#8CCBF9',   // Sky
   brightSpark: '#BEDC55', // Lime
   brightBlaze: '#F6A5C1', // Rose
@@ -100,7 +99,7 @@ export interface LoopAccent {
   quiet: { light: string; dark: string };
 }
 
-/** The six accents. One per application; everything else is neutral. Sky is the theme's own. */
+/** The six accents. One per application; everything else is neutral. Green — mint — is the theme's own. */
 export const loopAccents: Record<LoopAccentName, LoopAccent> = {
   green: {
     accent: '#7ADBB8',

@@ -71,6 +71,15 @@ describe('the loop theme’s contrast', () => {
     expect(Object.keys(loopMotionVars)).toContain('--loop-motion-easing');
   });
 
+  it('fills the one button of a screen in the accent, readable in both modes', () => {
+    // Light: white on the deep blue; dark: the pastel, with its dark text.
+    expect(loopColors.loopBrand).toBe(loopAccents.sky.accent);
+    expect(contrast('#FFFFFF', loopColors.loopEmphasis)).toBeGreaterThanOrEqual(AA);
+    expect(contrast('#FFFFFF', loopColors.loopEmphasisHover)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopOn, loopColors.loopBright)).toBeGreaterThanOrEqual(AA);
+  });
+
   it('keeps the secondary text readable on the surfaces', () => {
     expect(contrast(loopColors.gray, loopColors.white)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.grayDark, loopColors.black)).toBeGreaterThanOrEqual(AA);

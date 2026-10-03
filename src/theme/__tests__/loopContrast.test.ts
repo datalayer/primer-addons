@@ -11,7 +11,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { loopAccentNames, loopAccents, loopColors } from '../colors/loopColors';
-import { loopFocusRing, loopMotionVars } from '../themes/loopTheme';
+import { loopDark, loopFocusRing, loopLight, loopMotionVars } from '../themes/loopTheme';
 
 /** The relative luminance of an sRGB colour, as WCAG 2.x defines it. */
 export function luminance(hex: string): number {
@@ -77,9 +77,13 @@ describe('the loop theme’s contrast', () => {
     expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopOn, loopColors.loopBrandHover)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopOn, loopColors.loopAccent)).toBeGreaterThanOrEqual(AA);
-    // A filled accent with white text, and the accent's text on white.
-    expect(contrast('#FFFFFF', loopColors.loopEmphasis)).toBeGreaterThanOrEqual(AA);
-    expect(contrast('#FFFFFF', loopColors.loopEmphasisHover)).toBeGreaterThanOrEqual(AA);
+    // The accent's fill is the button's, in both modes, and the button's text
+    // reads on it: the chat draws the person's bubble from that pair.
+    for (const mode of [loopLight, loopDark]) {
+      expect(mode.accent.emphasis).toBe(mode.btn.primary.bg);
+      expect(contrast(mode.btn.primary.text, mode.accent.emphasis)).toBeGreaterThanOrEqual(AA);
+    }
+    // The accent's text on white.
     expect(contrast(loopColors.loopText, loopColors.white)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopHover, loopColors.white)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopOn, loopColors.loopBright)).toBeGreaterThanOrEqual(AA);

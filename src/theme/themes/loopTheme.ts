@@ -25,7 +25,7 @@ import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
-const loopLight: ThemeColorDefs = {
+export const loopLight: ThemeColorDefs = {
   canvas: {
     default: loopColors.white,
     subtle: loopColors.subtle,
@@ -37,7 +37,10 @@ const loopLight: ThemeColorDefs = {
   },
   accent: {
     fg: loopColors.loopText,
-    emphasis: loopColors.loopEmphasis,
+    // The accent itself, as on dark: the soft mint that dark text sits on —
+    // the filled button, the person's bubble, the assistant's avatar. The
+    // chat pairs it with the button's text, so the two stay one colour.
+    emphasis: loopColors.loopBrand,
     muted: loopColors.loopBrand,
     subtle: loopColors.loopTint,
   },
@@ -142,7 +145,7 @@ const loopLight: ThemeColorDefs = {
 
 /* ── Dark-mode colour definitions ────────────────────────────────────── */
 
-const loopDark: ThemeColorDefs = {
+export const loopDark: ThemeColorDefs = {
   canvas: {
     default: loopColors.black,
     subtle: loopColors.subtleDark,

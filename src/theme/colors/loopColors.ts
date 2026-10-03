@@ -38,8 +38,6 @@ export const loopColors = {
   loopAccent: '#4FC79C', // Deeper accent — charts, highlights
   loopBrandHover: '#6CCFAA', // The filled button, hovered: dark text 8.4 to 1
   loopText: '#248462',   // Accent text & links on white: the lightest mint that reads, 4.6 to 1
-  loopEmphasis: '#248462',      // A filled accent with white text (a counter, a badge): 4.6 to 1
-  loopEmphasisHover: '#227C5C', // The same, pressed
   loopRing: '#0F6B4F',   // The focus ring: 3 to 1 or more around every pastel
   loopTint: '#F0FAF6',   // Quiet tint — a draft, a callout
   loopStage: '#DDF5EC',  // The stage behind an application

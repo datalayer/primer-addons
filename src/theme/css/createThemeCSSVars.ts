@@ -460,6 +460,10 @@ export interface ThemeStyles {
  * and a frame; the hairline; at most one level of shadow. As custom
  * properties every theme sets — `--theme-radius-control` and the rest — so
  * that a component reads its shape the way it reads its colour.
+ *
+ * And its motion (LOOP T-10): three durations — a status changing, a message
+ * arriving, a pane opening — and one easing. Today's is no motion at all, so
+ * a component that moves by them moves only in a theme that says so.
  */
 export interface ThemeShape {
   radiusControl: string;
@@ -468,6 +472,10 @@ export interface ThemeShape {
   radiusFrame: string;
   hairline: string;
   shadow: string;
+  motionStatus: string;
+  motionMessage: string;
+  motionPane: string;
+  motionEasing: string;
 }
 
 /** Today's shape, which every theme has unless it says otherwise. */
@@ -478,6 +486,10 @@ export const DEFAULT_THEME_SHAPE: ThemeShape = {
   radiusFrame: 'var(--borderRadius-large, 12px)',
   hairline: 'var(--borderWidth-thin, 1px)',
   shadow: 'var(--shadow-resting-small, none)',
+  motionStatus: '0ms',
+  motionMessage: '0ms',
+  motionPane: '0ms',
+  motionEasing: 'ease',
 };
 
 /** A shape as custom properties. */
@@ -490,6 +502,10 @@ export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, strin
     '--theme-radius-frame': full.radiusFrame,
     '--theme-hairline': full.hairline,
     '--theme-shadow': full.shadow,
+    '--theme-motion-status': full.motionStatus,
+    '--theme-motion-message': full.motionMessage,
+    '--theme-motion-pane': full.motionPane,
+    '--theme-motion-easing': full.motionEasing,
   };
 }
 

@@ -24,6 +24,10 @@ describe('the shape of a theme', () => {
       const light = config.themeStyles.light as Record<string, unknown>;
       expect(Object.keys(light).filter(key => key.startsWith('--theme-')).sort(), name).toEqual([
         '--theme-hairline',
+        '--theme-motion-easing',
+        '--theme-motion-message',
+        '--theme-motion-pane',
+        '--theme-motion-status',
         '--theme-radius-bubble',
         '--theme-radius-card',
         '--theme-radius-control',
@@ -36,6 +40,9 @@ describe('the shape of a theme', () => {
     );
     // The loop theme's own: a pill.
     expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe('999px');
+    // Nothing moves but in a theme that says so (T-10).
+    expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-motion-message']).toBe('0ms');
+    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-motion-message']).toBe('200ms');
   });
 });
 

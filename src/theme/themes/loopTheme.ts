@@ -335,6 +335,10 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
     radiusBubble: loopShapeVars['--loop-radius-bubble'],
     radiusFrame: loopShapeVars['--loop-radius-frame'],
     shadow: loopShapeVars['--loop-shadow-frame'],
+    motionStatus: loopMotionVars['--loop-motion-status'],
+    motionMessage: loopMotionVars['--loop-motion-message'],
+    motionPane: loopMotionVars['--loop-motion-pane'],
+    motionEasing: loopMotionVars['--loop-motion-easing'],
   },
   variables: {
     light: {

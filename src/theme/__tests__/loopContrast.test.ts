@@ -55,7 +55,10 @@ describe('the loop theme’s contrast', () => {
     expect(contrast(loopFocusRing.dark, loopColors.black)).toBeGreaterThanOrEqual(3);
     for (const name of loopAccentNames) {
       expect(contrast(loopFocusRing.light, loopAccents[name].accent)).toBeGreaterThanOrEqual(3);
+      expect(contrast(loopFocusRing.dark, loopAccents[name].accent)).toBeGreaterThanOrEqual(3);
     }
+    // The subtle dark surface is the one place the dark ring falls short.
+    expect(contrast(loopFocusRing.dark, loopColors.subtleDark)).toBeGreaterThanOrEqual(2.7);
   });
 
   it('moves at three durations and one easing (T-10)', () => {

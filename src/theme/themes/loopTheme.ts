@@ -316,10 +316,14 @@ export const loopMotionVars: Record<string, string> = {
 };
 
 /**
- * The focus ring (LOOP T-15): the theme's ink, so that it shows on the
- * surface and around a pill of any accent, in both modes.
+ * The focus ring (LOOP T-15): 3 to 1 against the page and around a pill of
+ * any accent, in both modes. In light mode the ink does it. In dark mode no
+ * colour clears 3 to 1 against both the near-black page and the six pastels,
+ * the light ink least of all (under 1.8 to 1 on the pastels): a mid grey
+ * does, at 3.04 to 1 — and 2.77 to 1 on the subtle dark surface, the one
+ * place it falls short.
  */
-export const loopFocusRing = { light: loopColors.ink, dark: loopColors.inkDark } as const;
+export const loopFocusRing = { light: loopColors.ink, dark: '#636363' } as const;
 
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
 export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {

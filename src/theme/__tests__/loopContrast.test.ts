@@ -72,11 +72,16 @@ describe('the loop theme’s contrast', () => {
   });
 
   it('fills the one button of a screen in the accent, readable in both modes', () => {
-    // Light: white on the deep green; dark: the pastel, with its dark text.
+    // Both modes: the mint pastel, with its dark text — rest, hovered, pressed.
     expect(loopColors.loopBrand).toBe(loopAccents.green.accent);
+    expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopOn, loopColors.loopBrandHover)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopOn, loopColors.loopAccent)).toBeGreaterThanOrEqual(AA);
+    // A filled accent with white text, and the accent's text on white.
     expect(contrast('#FFFFFF', loopColors.loopEmphasis)).toBeGreaterThanOrEqual(AA);
     expect(contrast('#FFFFFF', loopColors.loopEmphasisHover)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopText, loopColors.white)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(loopColors.loopHover, loopColors.white)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.loopOn, loopColors.loopBright)).toBeGreaterThanOrEqual(AA);
   });
 

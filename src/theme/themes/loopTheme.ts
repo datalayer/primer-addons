@@ -87,35 +87,36 @@ const loopLight: ThemeColorDefs = {
     activeBorder: 'transparent',
     selectedBg: '#E3E3E7',
     counterBg: 'rgba(29, 29, 31, 0.08)',
-    // The one filled button of a screen, in the accent: the thing to press.
+    // The one filled button of a screen, in the accent: the soft mint, with
+    // its dark text — the same pastel as on dark, never the platform's deep green.
     primary: {
-      text: '#FFFFFF',
-      bg: loopColors.loopEmphasis,
-      border: loopColors.loopEmphasis,
-      hoverBg: loopColors.loopEmphasisHover,
-      hoverBorder: loopColors.loopEmphasisHover,
-      selectedBg: loopColors.loopText,
-      disabledText: 'rgba(255, 255, 255, 0.85)',
-      disabledBg: '#A9D8C6',
-      disabledBorder: '#A9D8C6',
-      icon: '#FFFFFF',
-      counterBg: 'rgba(255, 255, 255, 0.2)',
+      text: loopColors.loopOn,
+      bg: loopColors.loopBrand,
+      border: loopColors.loopBrand,
+      hoverBg: loopColors.loopBrandHover,
+      hoverBorder: loopColors.loopBrandHover,
+      selectedBg: loopColors.loopAccent,
+      disabledText: 'rgba(6, 40, 30, 0.5)',
+      disabledBg: '#CDEFE2',
+      disabledBorder: '#CDEFE2',
+      icon: loopColors.loopOn,
+      counterBg: 'rgba(6, 40, 30, 0.12)',
     },
     outline: {
       text: loopColors.loopText,
-      hoverText: '#FFFFFF',
-      hoverBg: loopColors.loopText,
-      hoverBorder: loopColors.loopText,
-      hoverCounterBg: 'rgba(255, 255, 255, 0.2)',
-      selectedText: '#FFFFFF',
-      selectedBg: loopColors.loopHover,
-      selectedBorder: loopColors.loopHover,
+      hoverText: loopColors.loopOn,
+      hoverBg: loopColors.loopBrand,
+      hoverBorder: loopColors.loopBrand,
+      hoverCounterBg: 'rgba(6, 40, 30, 0.12)',
+      selectedText: loopColors.loopOn,
+      selectedBg: loopColors.loopAccent,
+      selectedBorder: loopColors.loopAccent,
       disabledText: loopColors.gray,
       disabledBg: loopColors.subtle,
       disabledCounterBg: 'rgba(0, 0, 0, 0.05)',
       counterBg: 'rgba(0, 0, 0, 0.05)',
       counterFg: loopColors.loopText,
-      hoverCounterFg: '#FFFFFF',
+      hoverCounterFg: loopColors.loopOn,
       disabledCounterFg: loopColors.gray,
     },
     danger: {
@@ -379,7 +380,7 @@ export const loopMotionVars: Record<string, string> = {
 
 /**
  * The focus ring (LOOP T-15): 3 to 1 against the page and around a pill of
- * any accent, in both modes. In light mode the deep accent green does it —
+ * any accent, in both modes. In light mode the deep mint does it — darker than the text, the one place it is —
  * a halo in the theme's colour, as a system's own focus ring is — 6.5 to 1
  * on white and 3.28 or more around every pastel. In dark mode no
  * colour clears 3 to 1 against both the near-black page and the six
@@ -387,7 +388,7 @@ export const loopMotionVars: Record<string, string> = {
  * mid grey does, at 3.04 to 1 — and 2.77 to 1 on the subtle dark surface,
  * the one place it falls short.
  */
-export const loopFocusRing = { light: loopColors.loopText, dark: '#636363' } as const;
+export const loopFocusRing = { light: loopColors.loopRing, dark: '#636363' } as const;
 
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
 export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {

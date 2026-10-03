@@ -36,13 +36,15 @@ export const loopColors = {
   loopBrand: '#7ADBB8',  // The accent — a bubble, a send button, a swatch
   loopOn: '#06281E',     // Text that sits on the accent (9.5 to 1)
   loopAccent: '#4FC79C', // Deeper accent — charts, highlights
-  loopText: '#0F6B4F',   // Accessible accent text & links on white (6.5 to 1)
-  loopEmphasis: '#0F6B4F',      // The one filled button, and the person's bubble: white text, 6.5 to 1
-  loopEmphasisHover: '#0A5640', // The same, pressed
+  loopBrandHover: '#6CCFAA', // The filled button, hovered: dark text 8.4 to 1
+  loopText: '#248462',   // Accent text & links on white: the lightest mint that reads, 4.6 to 1
+  loopEmphasis: '#248462',      // A filled accent with white text (a counter, a badge): 4.6 to 1
+  loopEmphasisHover: '#227C5C', // The same, pressed
+  loopRing: '#0F6B4F',   // The focus ring: 3 to 1 or more around every pastel
   loopTint: '#F0FAF6',   // Quiet tint — a draft, a callout
   loopStage: '#DDF5EC',  // The stage behind an application
   loopBright: '#8FE5C6', // Accent text & links on dark
-  loopHover: '#0A5640',  // Accent text hover
+  loopHover: '#227C5C',  // Accent text hover
 
   // The stage and the quiet tint, on dark
   loopStageDark: '#10261F',

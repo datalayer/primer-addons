@@ -14,6 +14,7 @@ import { earthTheme, earthThemeStyles } from './themes/earthTheme';
 import { sandTheme, sandThemeStyles } from './themes/sandTheme';
 import { ivoryTheme, ivoryThemeStyles } from './themes/ivoryTheme';
 import { sunTheme, sunThemeStyles } from './themes/sunTheme';
+import { loopTheme, loopThemeStyles } from './themes/loopTheme';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
@@ -22,11 +23,12 @@ import { earthColors } from './colors/earthColors';
 import { sandColors } from './colors/sandColors';
 import { ivoryColors } from './colors/ivoryColors';
 import { sunColors } from './colors/sunColors';
+import { loopColors } from './colors/loopColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
 
 /** Available theme variants. */
-export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth' | 'sand' | 'ivory' | 'sun';
+export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth' | 'sand' | 'ivory' | 'sun' | 'loop';
 
 /** A pair of colours for a two-stop gradient. */
 export interface GradientPair {
@@ -361,10 +363,43 @@ export const themeConfigs: Record<ThemeVariant, ThemeConfig> = {
       gold: sunColors.brightLightGold,        // #8A6E00 — deep gold
     },
   },
+  loop: {
+    label: 'Loop',
+    description: 'Very clean: one soft accent, neutral everything else. The look of an application built in LOOP.',
+    brandColor: loopColors.loopBrand,
+    defaultColorMode: 'light',
+    primerTheme: loopTheme,
+    themeStyles: loopThemeStyles,
+    // The theme has no gradient on a surface: both stops are the accent.
+    cardGradient: {
+      light: { from: loopColors.loopBrand, to: loopColors.loopBrand }, // #7ADBB8, flat
+      dark:  { from: loopColors.loopBrand, to: loopColors.loopBrand }, // #7ADBB8, flat
+    },
+    brightPalette: {
+      glow: loopColors.brightGlow,        // #7ADBB8 — green, the accent
+      onGlow: loopColors.loopOn,          // dark text on the accent
+      pop: loopColors.brightPop,          // #8CCBF9 — sky
+      spark: loopColors.brightSpark,      // #BEDC55 — lime
+      blaze: loopColors.brightBlaze,      // #F6A5C1 — rose
+      surge: loopColors.brightSurge,      // #C0AEF6 — violet
+      flame: loopColors.brightFlame,      // #F4A261 — soft orange
+      gold: loopColors.brightGold,        // #F8D469 — sun
+    },
+    brightPaletteLight: {
+      glow: loopColors.brightLightGlow,        // #0F6B4F — deep green
+      onGlow: '#ffffff',                       // white text on deep green
+      pop: loopColors.brightLightPop,          // #1F6FB0 — deep sky
+      spark: loopColors.brightLightSpark,      // #5F7A00 — deep lime
+      blaze: loopColors.brightLightBlaze,      // #B83A6B — deep rose
+      surge: loopColors.brightLightSurge,      // #6B53C9 — deep violet
+      flame: loopColors.brightLightFlame,      // #B4571A — deep orange
+      gold: loopColors.brightLightGold,        // #8A6A00 — deep sun
+    },
+  },
 };
 
 /** All available theme variants in display order. */
-export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth', 'sand', 'ivory', 'sun'];
+export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth', 'sand', 'ivory', 'sun', 'loop'];
 
 /** Look up a theme config by variant name. */
 export function getThemeConfig(variant: ThemeVariant): ThemeConfig {
@@ -555,6 +590,22 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       sunColors.brightPop,               // #FF9F1C — vivid orange-amber
       sunColors.brightBlaze,             // #FF6B35 — coral-orange
       sunColors.brightSurge,             // #4FB0C6 — sky blue
+    ],
+  },
+  loop: {
+    light: [
+      loopColors.brightLightGlow,        // #0F6B4F — deep green
+      loopColors.brightLightPop,         // #1F6FB0 — deep sky
+      loopColors.brightLightBlaze,       // #B83A6B — deep rose
+      loopColors.brightLightSurge,       // #6B53C9 — deep violet
+      loopColors.gray,                   // #6A6A66 — neutral gray
+    ],
+    dark: [
+      loopColors.loopBrand,              // #7ADBB8 — green
+      loopColors.brightPop,              // #8CCBF9 — sky
+      loopColors.brightBlaze,            // #F6A5C1 — rose
+      loopColors.brightSurge,            // #C0AEF6 — violet
+      loopColors.brightGold,             // #F8D469 — sun
     ],
   },
 };

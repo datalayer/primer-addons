@@ -11,6 +11,14 @@ export { earthColors } from './earthColors';
 export { sandColors } from './sandColors';
 export { ivoryColors } from './ivoryColors';
 export { sunColors } from './sunColors';
+export {
+  loopColors,
+  loopAccents,
+  loopAccentNames,
+  loopAccentVars,
+  type LoopAccent,
+  type LoopAccentName,
+} from './loopColors';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';
@@ -21,6 +29,7 @@ import { earthColors } from './earthColors';
 import { sandColors } from './sandColors';
 import { ivoryColors } from './ivoryColors';
 import { sunColors } from './sunColors';
+import { loopColors } from './loopColors';
 
 /**
  * Themed color palettes — maps each `ThemeVariant` to its corresponding
@@ -41,4 +50,5 @@ export const themedColors: Record<ThemeVariant, Record<string, string>> = {
   sand: sandColors,
   ivory: ivoryColors,
   sun: sunColors,
+  loop: loopColors,
 };

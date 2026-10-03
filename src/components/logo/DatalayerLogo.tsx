@@ -13,6 +13,7 @@ import {
   sandColors,
   ivoryColors,
   sunColors,
+  loopColors,
   type ThemeVariant,
 } from '../../theme';
 
@@ -164,6 +165,23 @@ export const THEME_LOGO_COLORS: Record<
       textColor: sunColors.gray,
       primaryGradient: [sunColors.sunBright, sunColors.sunBrand],
       secondaryGradient: [sunColors.sunHover, sunColors.sunAccent],
+    },
+  },
+  loop: {
+    // Flat: the theme has no gradient on a surface.
+    light: {
+      primary: loopColors.loopAccent,
+      secondary: loopColors.ink,
+      textColor: loopColors.gray,
+      primaryGradient: [loopColors.loopAccent, loopColors.loopAccent],
+      secondaryGradient: [loopColors.ink, loopColors.ink],
+    },
+    dark: {
+      primary: loopColors.loopBrand,
+      secondary: loopColors.inkDark,
+      textColor: loopColors.grayDark,
+      primaryGradient: [loopColors.loopBrand, loopColors.loopBrand],
+      secondaryGradient: [loopColors.inkDark, loopColors.inkDark],
     },
   },
 };

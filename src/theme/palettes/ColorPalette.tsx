@@ -17,6 +17,7 @@ import {
   sandColors,
   ivoryColors,
   sunColors,
+  loopColors,
 } from '../colors';
 import {
   getBrightPalette,
@@ -59,6 +60,8 @@ const ivBrightDark = getBrightPalette('ivory');
 const ivBrightLight = getBrightPalette('ivory', 'light');
 const suBrightDark = getBrightPalette('sun');
 const suBrightLight = getBrightPalette('sun', 'light');
+const loBrightDark = getBrightPalette('loop');
+const loBrightLight = getBrightPalette('loop', 'light');
 
 const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
   datalayer: {
@@ -362,6 +365,44 @@ const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }
       gold: suBrightDark.gold,
       textLight: '#F3E9CF',
       textMuted: '#BEAC82',
+      isLight: false,
+    },
+  },
+  loop: {
+    light: {
+      bg: loopColors.white,
+      bgPanel: '#ffffff',
+      bgAlt: loopColors.subtle,
+      primary: loopColors.loopBrand,
+      secondary: loopColors.loopText,
+      accent: loopColors.loopAccent,
+      glow: loBrightLight.glow,
+      pop: loBrightLight.pop,
+      spark: loBrightLight.spark,
+      blaze: loBrightLight.blaze,
+      surge: loBrightLight.surge,
+      flame: loBrightLight.flame,
+      gold: loBrightLight.gold,
+      textLight: loopColors.ink,
+      textMuted: loopColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: loopColors.black,
+      bgPanel: '#19191B',
+      bgAlt: loopColors.subtleDark,
+      primary: loopColors.loopBrand,
+      secondary: loopColors.loopBright,
+      accent: loopColors.loopAccent,
+      glow: loBrightDark.glow,
+      pop: loBrightDark.pop,
+      spark: loBrightDark.spark,
+      blaze: loBrightDark.blaze,
+      surge: loBrightDark.surge,
+      flame: loBrightDark.flame,
+      gold: loBrightDark.gold,
+      textLight: loopColors.inkDark,
+      textMuted: loopColors.grayDark,
       isLight: false,
     },
   },

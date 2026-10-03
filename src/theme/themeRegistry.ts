@@ -3,8 +3,8 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type CSSProperties } from 'react';
 import { type ColorMode } from './DatalayerBrandThemeProvider';
+import { type ThemeStyles } from './css/createThemeCSSVars';
 
 import { datalayerTheme, datalayerThemeStyles } from './themes/datalayerTheme';
 import { spatialTheme, spatialThemeStyles } from './themes/spatialTheme';
@@ -78,11 +78,11 @@ export interface ThemeConfig {
   defaultColorMode: ColorMode;
   /** Primer theme object passed to `<ThemeProvider theme={…}>`. */
   primerTheme: Record<string, any>;
-  /** Per-mode CSS-property overrides for `<DatalayerThemeProvider themeStyles={…}>`. */
-  themeStyles: {
-    light: CSSProperties;
-    dark: CSSProperties;
-  };
+  /**
+   * Per-mode CSS-property overrides for `<DatalayerThemeProvider themeStyles={…}>`,
+   * and the theme's own scoped stylesheet when it has one (`ThemeStyles.css`).
+   */
+  themeStyles: ThemeStyles;
   /**
    * Per-mode gradient pair for card backgrounds, banners, and other
    * decorative surfaces that need a themed two-colour gradient.

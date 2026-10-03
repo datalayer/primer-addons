@@ -36,6 +36,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The themes' contrast and shape (LOOP T-03, T-15): a failure fails the build.
+      - name: Test
+        run: npm test
+
       - name: Pack
         run: |
           set -euo pipefail

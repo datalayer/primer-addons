@@ -97,6 +97,11 @@ export interface LoopAccent {
   stage: { light: string; dark: string };
   /** A quiet tint: a draft, something waiting. */
   quiet: { light: string; dark: string };
+  /**
+   * The accent as text: a link, a starter, an accent's word — deep enough on
+   * white (4.5 to 1), and the pastel itself on dark.
+   */
+  text: { light: string; dark: string };
 }
 
 /** The six accents. One per application; everything else is neutral. Green — mint — is the theme's own. */
@@ -106,36 +111,42 @@ export const loopAccents: Record<LoopAccentName, LoopAccent> = {
     on: '#06281E',
     stage: { light: '#DDF5EC', dark: '#10261F' },
     quiet: { light: '#F0FAF6', dark: '#17211D' },
+    text: { light: '#248462', dark: '#8FE5C6' },
   },
   rose: {
     accent: '#F6A5C1',
     on: '#3A0A1C',
     stage: { light: '#FCE3EC', dark: '#2B141C' },
     quiet: { light: '#FDF2F6', dark: '#22181C' },
+    text: { light: '#B83A6B', dark: '#F6A5C1' },
   },
   sky: {
     accent: '#8CCBF9',
     on: '#06243B',
     stage: { light: '#DFF0FD', dark: '#0F2333' },
     quiet: { light: '#F0F8FE', dark: '#161E25' },
+    text: { light: '#1F6FB0', dark: '#8CCBF9' },
   },
   lime: {
     accent: '#BEDC55',
     on: '#1F2A00',
     stage: { light: '#EEF6CC', dark: '#1E2609' },
     quiet: { light: '#F7FBE6', dark: '#1C2014' },
+    text: { light: '#5F7A00', dark: '#BEDC55' },
   },
   sun: {
     accent: '#F8D469',
     on: '#2E2200',
     stage: { light: '#FDF3CD', dark: '#2A2209' },
     quiet: { light: '#FEF9E7', dark: '#221F14' },
+    text: { light: '#8A6A00', dark: '#F8D469' },
   },
   violet: {
     accent: '#C0AEF6',
     on: '#1C0F47',
     stage: { light: '#ECE7FD', dark: '#1B1533' },
     quiet: { light: '#F6F3FE', dark: '#1C1A27' },
+    text: { light: '#6B53C9', dark: '#C0AEF6' },
   },
 };
 
@@ -180,6 +191,12 @@ export function loopAccentStyles(
     ...loopAccentVars(name, mode),
     '--bgColor-accent-emphasis': accent.accent,
     '--borderColor-accent-emphasis': accent.accent,
+    // Its text, its muted border and tint: so that nothing on the page keeps
+    // the theme's default accent beside the application's own (T-18).
+    '--fgColor-accent': accent.text[mode],
+    '--fgColor-link': accent.text[mode],
+    '--borderColor-accent-muted': accent.accent,
+    '--bgColor-accent-muted': accent.quiet[mode],
     '--button-primary-bgColor-rest': accent.accent,
     '--button-primary-borderColor-rest': accent.accent,
     '--button-primary-bgColor-hover': accent.accent,

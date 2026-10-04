@@ -59,16 +59,16 @@ The sources: `src/theme/colors/loopColors.ts` (colours and accents), `src/theme/
 
 ### Accents
 
-Six, and an application takes one. Each is four values — the accent, the text that sits on it, the **stage** (the flat tint behind a hosted application) and a **quiet** tint (the agent's bubble, a draft) — the stage and the quiet tint each with a light and a dark value.
+Six, and an application takes one. Each is five values — the accent, the text that sits on it, the **stage** (the flat tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
 
-| Name | Accent | Text on it | Stage (light / dark) | Quiet (light / dark) |
-|---|---|---|---|---|
-| `green` (mint, the default) | `#7ADBB8` | `#06281E` | `#DDF5EC` / `#10261F` | `#F0FAF6` / `#17211D` |
-| `rose` | `#F6A5C1` | `#3A0A1C` | `#FCE3EC` / `#2B141C` | `#FDF2F6` / `#22181C` |
-| `sky` | `#8CCBF9` | `#06243B` | `#DFF0FD` / `#0F2333` | `#F0F8FE` / `#161E25` |
-| `lime` | `#BEDC55` | `#1F2A00` | `#EEF6CC` / `#1E2609` | `#F7FBE6` / `#1C2014` |
-| `sun` | `#F8D469` | `#2E2200` | `#FDF3CD` / `#2A2209` | `#FEF9E7` / `#221F14` |
-| `violet` | `#C0AEF6` | `#1C0F47` | `#ECE7FD` / `#1B1533` | `#F6F3FE` / `#1C1A27` |
+| Name | Accent | Text on it | Stage (light / dark) | Quiet (light / dark) | As text (light / dark) |
+|---|---|---|---|---|---|
+| `green` (mint, the default) | `#7ADBB8` | `#06281E` | `#DDF5EC` / `#10261F` | `#F0FAF6` / `#17211D` | `#248462` / `#8FE5C6` |
+| `rose` | `#F6A5C1` | `#3A0A1C` | `#FCE3EC` / `#2B141C` | `#FDF2F6` / `#22181C` | `#B83A6B` / `#F6A5C1` |
+| `sky` | `#8CCBF9` | `#06243B` | `#DFF0FD` / `#0F2333` | `#F0F8FE` / `#161E25` | `#1F6FB0` / `#8CCBF9` |
+| `lime` | `#BEDC55` | `#1F2A00` | `#EEF6CC` / `#1E2609` | `#F7FBE6` / `#1C2014` | `#5F7A00` / `#BEDC55` |
+| `sun` | `#F8D469` | `#2E2200` | `#FDF3CD` / `#2A2209` | `#FEF9E7` / `#221F14` | `#8A6A00` / `#F8D469` |
+| `violet` | `#C0AEF6` | `#1C0F47` | `#ECE7FD` / `#1B1533` | `#F6F3FE` / `#1C1A27` | `#6B53C9` / `#C0AEF6` |
 
 `loopAccents` holds them, `loopAccentNames` lists them in the order a picker shows them, and `loopAccentVars(name, mode)` turns one into the four custom properties an application sets on its root: `--loop-accent`, `--loop-accent-on`, `--loop-stage`, `--loop-quiet`. An unknown name falls back to `green`.
 
@@ -81,7 +81,7 @@ import { loopAccentVars } from '@datalayer/primer-addons';
   baseStyles={loopAccentVars(app.interface.accent, mode)}>
 ```
 
-`loopAccentVars` sets the four `--loop-*` properties and nothing else: what reads them (the stage, a bubble drawn with them) takes the application's accent, while Primer's own accent tokens — the filled button, `--bgColor-accent-emphasis` — stay the theme's mint.
+`loopAccentVars` sets the four `--loop-*` properties and nothing else: what reads them (the stage, a bubble drawn with them) takes the application's accent, while Primer's own accent tokens — the filled button, `--bgColor-accent-emphasis` — stay the theme's mint. `loopAccentStyles(name, mode)` sets everything the accent colours instead: those four, the accent fill and the filled button with its text, and Primer's accent text, links, muted border and muted tint (`--fgColor-accent`, `--fgColor-link`, `--borderColor-accent-muted`, `--bgColor-accent-muted`) — so that nothing on an application's page keeps mint beside its own accent.
 
 ### Shape, shadow, type and motion
 
@@ -136,7 +136,8 @@ How `DatalayerThemeProvider` applies it:
 - the ink on the stage or on the quiet tint, light and dark, is under 4.5 to 1;
 - the focus ring is under **3 to 1** against the page or around a pill of any accent — but on the subtle dark surface, the one place the dark ring falls short, where it holds 2.7 to 1;
 - the filled button — rest, hovered, pressed — or the accent's text on white is under 4.5 to 1, or the accent's fill and the filled button stop being one colour;
-- the secondary text is under 4.5 to 1 on white or on near-black.
+- the secondary text is under 4.5 to 1 on white or on near-black;
+- the accent as text is under 4.5 to 1 on white, on near-black or on its dark quiet tint — and, but for mint, whose text the theme had first, on its light quiet tint.
 
 The same test holds the motion to three durations and one easing.
 

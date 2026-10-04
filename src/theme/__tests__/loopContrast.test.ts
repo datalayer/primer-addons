@@ -111,6 +111,32 @@ describe("an application's accent, everything it colours (T-05)", () => {
     }
   });
 
+  it('writes its text in its own hue, readable in both modes (T-18)', () => {
+    for (const name of loopAccentNames) {
+      const light = loopAccentStyles(name, 'light');
+      const dark = loopAccentStyles(name, 'dark');
+      // A link and an accent's word, on the page and on its quiet tint.
+      expect(light['--fgColor-accent']).toBe(loopAccents[name].text.light);
+      expect(light['--fgColor-link']).toBe(loopAccents[name].text.light);
+      expect(dark['--fgColor-accent']).toBe(loopAccents[name].text.dark);
+      expect(contrast(light['--fgColor-accent'], loopColors.white)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(dark['--fgColor-accent'], loopColors.black)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(dark['--fgColor-accent'], loopAccents[name].quiet.dark)).toBeGreaterThanOrEqual(AA);
+      if (name !== 'green') {
+        expect(contrast(light['--fgColor-accent'], loopAccents[name].quiet.light)).toBeGreaterThanOrEqual(AA);
+      }
+      expect(light['--bgColor-accent-muted']).toBe(loopAccents[name].quiet.light);
+      expect(dark['--bgColor-accent-muted']).toBe(loopAccents[name].quiet.dark);
+    }
+  });
+
+  it('leaves mint, the default, as the theme has it', () => {
+    expect(loopAccents.green.text).toEqual({ light: loopColors.loopText, dark: loopColors.loopBright });
+    expect(loopAccents.green.quiet).toEqual({ light: loopColors.loopTint, dark: loopColors.loopTintDark });
+    expect(loopLight.accent.fg).toBe(loopAccents.green.text.light);
+    expect(loopDark.accent.fg).toBe(loopAccents.green.text.dark);
+  });
+
   it('refuses an accent that is not one of the six', () => {
     expect(() => loopAccentStyles('teal' as never)).toThrow(
       'There is no accent "teal"; the accents are green, rose, sky, lime, sun, violet.',

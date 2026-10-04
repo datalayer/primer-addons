@@ -61,7 +61,7 @@ function LoopSheet() {
   return (
     <Box ref={root} sx={{ display: 'grid', gap: 4 }}>
       <Box sx={{ display: 'grid', gap: 2 }}>
-        <Text sx={{ fontWeight: 600 }}>Accents — `interface.accent`</Text>
+        <Text sx={{ fontWeight: 600 }}>Accents, as an application names one in interface.accent</Text>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
           {loopAccentNames.map(name => (
             <Box

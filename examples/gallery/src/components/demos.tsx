@@ -15,6 +15,7 @@ import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
 import { ColorPaletteDemo } from './ColorPaletteDemo';
+import { LoopThemeDemo } from './LoopThemeDemo';
 import { CollaboratorPaletteDemo } from './CollaboratorPaletteDemo';
 import { ColorPickerDemo } from './ColorPickerDemo';
 import { CalendarPickerDemo } from './CalendarPickerDemo';
@@ -93,6 +94,13 @@ export const demos: Demo[] = [
     title: 'Color Palette',
     description: 'Primer primitive scales and semantic color tokens.',
     render: () => <ColorPaletteDemo />,
+  },
+  {
+    slug: 'loop-theme',
+    title: 'Loop Theme',
+    description:
+      'One accent, neutral everything else: the six accents an application names, the stage, the bubbles, the controls as pills, the tokens read back.',
+    render: () => <LoopThemeDemo />,
   },
   {
     slug: 'sliding-panel',

@@ -183,3 +183,5 @@ npm dev
 ## Releases
 
 Primer Addons is released in [Npm.js](https://www.npmjs.com/package/@datalayer/primer-addons).
+
+What each version brought, with the LOOP boxes it carries, is in the [changelog](CHANGELOG.md).

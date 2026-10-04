@@ -107,8 +107,13 @@ import { loopAccentVars } from '@datalayer/primer-addons';
 - **Shadow**: one level, `--loop-shadow-frame`. In light mode a surface floats on a soft, low shadow; in dark mode, where a shadow shows little, on a hairline of light and a deeper shadow. Primer's `--shadow-resting-*` and `--shadow-floating-*` take the same hand, so a menu or a dialog floats as a frame does. `--loop-hairline` is the line between two surfaces (7% of the ink in light, 10% of white in dark).
 - **Motion**: three durations for three things — `--loop-motion-status` (a status changing), `--loop-motion-message` (a message arriving), `--loop-motion-pane` (a pane opening) — and one easing, `--loop-motion-easing`. Nothing else moves; a component honours `prefers-reduced-motion` itself.
 - **Type**: one face, Inter, then the system sans-serif (`loopFontFamily`); two weights, 400 and 600. The titles are set tighter (`--text-display-shorthand` 2.75rem/1.15 down to `--text-title-shorthand-small` 1rem/1.4) and the tracking is a token a component applies: `--loop-tracking-display` (-0.02em), `--loop-tracking-title` (-0.012em), `--loop-tracking-body` (0). The package does not ship the face: a page that has not loaded Inter shows the system face, and nothing but the letterforms changes.
+- **Space**: no scale of its own — Primer's, in steps of 4 and 8 (`sx` 1 to 6 are 4, 8, 16, 24, 32, 40px), and the air of the look comes from where it is spent: a frame 24px from the edge of its stage, 16px inside a conversation (the header, the messages, the composer), 24px around a pane of work, 8px between two pills, and one hairline (`--theme-hairline`) where two surfaces meet instead of a gap and a border.
 - **The stage, lit**: `--loop-stage-gradient`, from the stage tint at the top to the quiet tint at the bottom, both the accent's.
 - **The focus ring**: `--focus-outlineColor`, the deep mint `#0F6B4F` in light mode and a mid grey `#636363` in dark mode.
+
+### The reference screens
+
+The tokens above are drawn together on four reference screens (LOOP T-01) — **a conversation**, **a conversation beside its work**, **the activity of a worker** and **an approval** — each in the nine themes of the registry and in both modes. They are built from the real chat components of `@datalayer/agent-runtimes`, which depends on this package, so they live there: as stories (`src/stories/loop/LoopReference.stories.tsx`, *Loop/Reference screens*) and as pictures that a test compares in Chrome (`npm run test:pictures` in agent-runtimes, T-16; `TESTING.md` there says how to run it and how to accept a change). A change of token here shows there as a picture that differs: accept it, or fix it.
 
 ### The controls, as pills
 

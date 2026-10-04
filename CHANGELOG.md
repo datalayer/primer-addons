@@ -8,6 +8,10 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown in the gallery's *Loop Theme* page.
 
+## Unreleased
+
+- The `loop` theme's face, served from the page's own origin: `style/loop-face.css` declares Inter (`@fontsource-variable/inter`, now a dependency; latin and latin-ext, `font-display: swap`) and a metric-matched local fallback, `Inter Fallback`; `loopFontFamily` names both before the system face. Two weights and five sizes with one line-height each (`loopTypeScale`, `loopFontWeights`), on Primer's shorthands and its size, line-height and weight tokens; `<b>` and `<strong>` in the theme's semibold. LOOP T-04 — [Shape, shadow, type and motion](https://github.com/datalayer/primer-addons/blob/main/README.md#shape-shadow-type-and-motion).
+
 ## 1.0.34
 
 - A provider writes nothing on the page — the body's tokens and mode, the portal root, the portal's stylesheet — before it has read whether it sits inside a themed element, so a nested provider, as an application embedded in another product's page is, never writes its theme on the host's body. LOOP T-13 — [What a host may override](https://github.com/datalayer/primer-addons/blob/main/README.md#what-a-host-may-override).

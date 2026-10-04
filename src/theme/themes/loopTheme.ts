@@ -328,20 +328,78 @@ export const loopShadows: Record<'light' | 'dark', Record<string, string>> = {
 };
 
 /**
- * Type: titles set tight and a little closer, as a good display face is;
- * the body left alone. The tracking is a token for a component to apply,
+ * Type (LOOP T-04): one face, two weights, five sizes, one line-height per
+ * size — each line a multiple of 4px.
+ *
+ * | Size            | Line          | Tokens                               |
+ * |-----------------|---------------|--------------------------------------|
+ * | 2rem (32px)     | 1.25 (40px)   | display, title large                 |
+ * | 1.25rem (20px)  | 1.4 (28px)    | title medium, subtitle               |
+ * | 1rem (16px)     | 1.5 (24px)    | title small, body large              |
+ * | 0.875rem (14px) | 1.4286 (20px) | body medium — the body of the theme |
+ * | 0.75rem (12px)  | 1.3333 (16px) | body small, caption                  |
+ *
+ * The weights are 400 (body, subtitle) and 600 (titles, display, and what
+ * Primer sets in its medium weight — a button's label); Primer's light weight
+ * is 400. The titles are set tight and a little closer, as a good display face
+ * is; the body left alone. The tracking is a token for a component to apply,
  * since a CSS font shorthand carries none.
  */
-export const loopTypeVars = (font: string): Record<string, string> => ({
-  '--text-display-shorthand': `600 2.75rem/1.15 ${font}`,
-  '--text-title-shorthand-large': `600 2rem/1.25 ${font}`,
-  '--text-title-shorthand-medium': `600 1.25rem/1.35 ${font}`,
-  '--text-title-shorthand-small': `600 1rem/1.4 ${font}`,
-  '--text-subtitle-shorthand': `400 1.25rem/1.5 ${font}`,
-  '--loop-tracking-display': '-0.02em',
-  '--loop-tracking-title': '-0.012em',
-  '--loop-tracking-body': '0',
-});
+export const loopTypeScale = {
+  display: { size: '2rem', lineHeight: '1.25' },
+  title: { size: '1.25rem', lineHeight: '1.4' },
+  heading: { size: '1rem', lineHeight: '1.5' },
+  body: { size: '0.875rem', lineHeight: '1.4286' },
+  small: { size: '0.75rem', lineHeight: '1.3333' },
+} as const;
+
+/** The two weights of the `loop` theme. */
+export const loopFontWeights = { regular: 400, semibold: 600 } as const;
+
+export const loopTypeVars = (font: string): Record<string, string> => {
+  const { display, title, heading, body, small } = loopTypeScale;
+  const { regular, semibold } = loopFontWeights;
+  const shorthand = (weight: number, step: { size: string; lineHeight: string }) =>
+    `${weight} ${step.size}/${step.lineHeight} ${font}`;
+  return {
+    '--base-text-weight-light': String(regular),
+    '--base-text-weight-normal': String(regular),
+    '--base-text-weight-medium': String(semibold),
+    '--base-text-weight-semibold': String(semibold),
+    '--text-display-size': display.size,
+    '--text-display-lineHeight': display.lineHeight,
+    '--text-display-lineBoxHeight': display.lineHeight,
+    '--text-display-weight': String(semibold),
+    '--text-title-size-large': display.size,
+    '--text-title-lineHeight-large': display.lineHeight,
+    '--text-title-size-medium': title.size,
+    '--text-title-lineHeight-medium': title.lineHeight,
+    '--text-subtitle-size': title.size,
+    '--text-subtitle-lineHeight': title.lineHeight,
+    '--text-title-size-small': heading.size,
+    '--text-title-lineHeight-small': heading.lineHeight,
+    '--text-body-size-large': heading.size,
+    '--text-body-lineHeight-large': heading.lineHeight,
+    '--text-body-size-medium': body.size,
+    '--text-body-lineHeight-medium': body.lineHeight,
+    '--text-body-size-small': small.size,
+    '--text-body-lineHeight-small': small.lineHeight,
+    '--text-caption-size': small.size,
+    '--text-caption-lineHeight': small.lineHeight,
+    '--text-display-shorthand': shorthand(semibold, display),
+    '--text-title-shorthand-large': shorthand(semibold, display),
+    '--text-title-shorthand-medium': shorthand(semibold, title),
+    '--text-title-shorthand-small': shorthand(semibold, heading),
+    '--text-subtitle-shorthand': shorthand(regular, title),
+    '--text-body-shorthand-large': shorthand(regular, heading),
+    '--text-body-shorthand-medium': shorthand(regular, body),
+    '--text-body-shorthand-small': shorthand(regular, small),
+    '--text-caption-shorthand': shorthand(regular, small),
+    '--loop-tracking-display': '-0.02em',
+    '--loop-tracking-title': '-0.012em',
+    '--loop-tracking-body': '0',
+  };
+};
 
 /**
  * The stage, lit: a soft fall from the stage tint at the top to the quiet
@@ -363,12 +421,17 @@ export const loopStageGradient =
 export const loopTheme = primerTheme;
 
 /**
- * Inter, then the system's own sans-serif. One face, two weights (400
- * and 600). The page is expected to load Inter; without it the system
- * face is used, and nothing shifts but the letterforms.
+ * Inter, then its metric-matched fallback, then the system's own sans-serif
+ * (LOOP T-04). One face, two weights (400 and 600). The face is served by the
+ * page's own build: a page wearing the theme imports
+ * `@datalayer/primer-addons/style/loop-face.css`, which declares
+ * `Inter Variable` from `@fontsource-variable/inter` and `Inter Fallback`, a
+ * local Arial drawn to Inter's measure. The text paints in the fallback first
+ * and does not move when Inter arrives; a page that has not imported the
+ * stylesheet shows the system face.
  */
 export const loopFontFamily =
-  'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  '"Inter Variable", "Inter Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
 /**
  * Motion (LOOP T-10): three durations and one easing, for three things — a
@@ -439,6 +502,10 @@ export const loopControlsCss = `
 }
 :scope ${sel.buttonGroup} {
   --borderRadius-medium: var(--loop-radius-control);
+}
+:scope b,
+:scope strong {
+  font-weight: var(--base-text-weight-semibold);
 }
 `;
 

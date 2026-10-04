@@ -123,6 +123,21 @@ describe('a theme with a stylesheet', () => {
     expect(stylesheets()).toHaveLength(0);
   });
 
+  it('is not written on the page by a provider inside a themed element, not even once', () => {
+    // An application embedded in another product's page (LOOP T-13): the
+    // page's <body> and its portal root are the page's.
+    document.body.removeAttribute('style');
+    document.body.removeAttribute('data-color-mode');
+    document.getElementById(PRIMER_PORTAL_ROOT_ID)?.remove();
+    render(<div data-color-mode="light">{themed('loop')}</div>);
+    expect(document.body.getAttribute('style') ?? '').toBe('');
+    expect(document.body.getAttribute('data-color-mode')).toBeNull();
+    expect(document.getElementById(PRIMER_PORTAL_ROOT_ID)).toBeNull();
+    const sheets = stylesheets();
+    expect(sheets).toHaveLength(1);
+    expect(sheets[0].textContent).not.toContain(PRIMER_PORTAL_ROOT_ID);
+  });
+
   it('is not injected for the portal root by a nested provider', () => {
     render(themed('datalayer', themed('loop')));
     const sheets = stylesheets();

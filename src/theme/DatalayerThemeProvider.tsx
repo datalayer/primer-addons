@@ -175,7 +175,11 @@ export function DatalayerThemeProvider(
    * React trees; what they share with the application is the document.
    */
   const sentinel = useRef<HTMLSpanElement>(null);
-  const [themedAncestor, setThemedAncestor] = useState<Element | null>(null);
+  // `undefined` until the DOM has been read: until then this provider does
+  // not know whether the page is its to theme, and writes nothing on it.
+  const [themedAncestor, setThemedAncestor] = useState<
+    Element | null | undefined
+  >(undefined);
   const [ancestorMode, setAncestorMode] = useState<"light" | "dark" | null>(
     null,
   );
@@ -202,7 +206,8 @@ export function DatalayerThemeProvider(
     });
     return () => observer.disconnect();
   }, []);
-  const nested = themedAncestor !== null;
+  const nested = themedAncestor != null;
+  const placed = themedAncestor !== undefined;
 
   // This provider's scope: what its theme's stylesheet is scoped to, and
   // where an outer provider's stylesheet stops.
@@ -242,8 +247,13 @@ export function DatalayerThemeProvider(
   // next overlay came up in the wrong colour. Nesting is read from the DOM
   // rather than from React context, because those widget roots are separate
   // React trees: what they share with the application is the document.
+  //
+  // Not before the DOM has been read: the first commit's effects run before
+  // the update that says whether this provider is nested, and a nested one
+  // — an application embedded in another product's page, in its own shadow
+  // root (LOOP T-13) — wrote its theme on that page's <body> before it knew.
   useEffect(() => {
-    if (nested) {
+    if (!placed || nested) {
       // Another provider owns the page's portal root; see above.
       return;
     }
@@ -255,7 +265,7 @@ export function DatalayerThemeProvider(
           : (resolvedColorMode as "light" | "dark"),
     );
     syncPortalThemeStyles(portalStyles);
-  }, [nested, resolvedColorMode, portalStyles]);
+  }, [placed, nested, resolvedColorMode, portalStyles]);
 
   // The theme's own stylesheet, if it has one: for this provider's element,
   // and for the portal root when this provider owns it (see above). Removed
@@ -263,8 +273,11 @@ export function DatalayerThemeProvider(
   // first paint is already in the theme's shapes.
   const themeCss = styles.css;
   useLayoutEffect(
-    () => injectThemeStylesheet(scope, themeCss, !nested),
-    [scope, themeCss, nested],
+    () =>
+      placed
+        ? injectThemeStylesheet(scope, themeCss, !nested)
+        : () => undefined,
+    [scope, themeCss, placed, nested],
   );
 
   return (

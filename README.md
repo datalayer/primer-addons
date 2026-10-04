@@ -81,7 +81,7 @@ import { loopAccentVars } from '@datalayer/primer-addons';
   baseStyles={loopAccentVars(app.interface.accent, mode)}>
 ```
 
-`loopAccentVars` sets the four `--loop-*` properties and nothing else: what reads them (the stage, a bubble drawn with them) takes the application's accent, while Primer's own accent tokens — the filled button, `--bgColor-accent-emphasis` — stay the theme's mint. `loopAccentStyles(name, mode)` sets everything the accent colours instead: those four, the accent fill and the filled button with its text, and Primer's accent text, links, muted border and muted tint (`--fgColor-accent`, `--fgColor-link`, `--borderColor-accent-muted`, `--bgColor-accent-muted`) — so that nothing on an application's page keeps mint beside its own accent.
+`loopAccentVars` sets the four `--loop-*` properties and nothing else: what reads them (the stage, a bubble drawn with them) takes the application's accent, while Primer's own accent tokens — the filled button, `--bgColor-accent-emphasis` — stay the theme's mint. `loopAccentStyles(name, mode)` sets everything the accent colours instead: those four, the accent fill and the filled button with its text, and Primer's accent text, links, muted border and muted tint (`--fgColor-accent`, `--fgColor-link`, `--borderColor-accent-muted`, `--bgColor-accent-muted`), and the selected tab's underline (`--underlineNav-borderColor-active`, which the theme itself also sets to its mint in place of Primer's coral) — so that nothing on an application's page keeps mint beside its own accent.
 
 ### Shape, shadow, type and motion
 

@@ -197,6 +197,8 @@ export function loopAccentStyles(
     '--fgColor-link': accent.text[mode],
     '--borderColor-accent-muted': accent.accent,
     '--bgColor-accent-muted': accent.quiet[mode],
+    // The selected tab: underlined in the accent (T-14).
+    '--underlineNav-borderColor-active': accent.accent,
     '--button-primary-bgColor-rest': accent.accent,
     '--button-primary-borderColor-rest': accent.accent,
     '--button-primary-bgColor-hover': accent.accent,

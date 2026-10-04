@@ -107,6 +107,8 @@ describe("an application's accent, everything it colours (T-05)", () => {
           contrast(styles['--button-primary-fgColor-rest'], styles['--button-primary-bgColor-rest']),
         ).toBeGreaterThanOrEqual(AA);
         expect(styles['--loop-stage']).toBe(loopAccents[name].stage[mode]);
+        // The selected tab, underlined in the accent rather than Primer's coral (T-14).
+        expect(styles['--underlineNav-borderColor-active']).toBe(loopAccents[name].accent);
       }
     }
   });

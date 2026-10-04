@@ -20,7 +20,7 @@
  */
 
 import { theme as primerTheme } from '@primer/react';
-import { loopAccentVars, loopColors } from '../colors/loopColors';
+import { loopAccentVars, loopAccents, loopColors } from '../colors/loopColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
@@ -535,6 +535,8 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
       '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.light,
       '--focus-outlineColor': loopFocusRing.light,
+      // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
+      '--underlineNav-borderColor-active': loopAccents.green.accent,
     },
     dark: {
       ...loopShapeVars,
@@ -545,6 +547,8 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
       '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.dark,
       '--focus-outlineColor': loopFocusRing.dark,
+      // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
+      '--underlineNav-borderColor-active': loopAccents.green.accent,
     },
   },
 });

@@ -8,7 +8,11 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown in the gallery's *Loop Theme* page.
 
-## Unreleased
+## 1.0.36
+
+- The selected tab underlined in the accent: the `loop` theme sets `--underlineNav-borderColor-active` to its mint in place of Primer's coral, and `loopAccentStyles` to the application's accent, so that the Studio's tabs carry no colour beside the accent. Tested with the accents. LOOP T-14 — [Accents](https://github.com/datalayer/primer-addons/blob/main/README.md#accents).
+
+## 1.0.35
 
 - An application's accent as its text too: each accent has a light and a dark value as text (`LoopAccent.text`), and `loopAccentStyles` sets Primer's accent text, links, muted border and muted tint from it, so that a page wearing an application's accent keeps no mint beside it; mint's values are the theme's own, so nothing changes for it. Tested for contrast in both modes. LOOP T-18 — [Accents](https://github.com/datalayer/primer-addons/blob/main/README.md#accents).
 - The `loop` theme's face, served from the page's own origin: `style/loop-face.css` declares Inter (`@fontsource-variable/inter`, now a dependency; latin and latin-ext, `font-display: swap`) and a metric-matched local fallback, `Inter Fallback`; `loopFontFamily` names both before the system face. Two weights and five sizes with one line-height each (`loopTypeScale`, `loopFontWeights`), on Primer's shorthands and its size, line-height and weight tokens; `<b>` and `<strong>` in the theme's semibold. LOOP T-04 — [Shape, shadow, type and motion](https://github.com/datalayer/primer-addons/blob/main/README.md#shape-shadow-type-and-motion).

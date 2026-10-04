@@ -158,3 +158,35 @@ export function loopAccentVars(
     '--loop-quiet': accent.quiet[mode],
   };
 }
+
+/**
+ * An application's accent as everything it colours (LOOP T-05): the four
+ * `--loop-*` properties of `loopAccentVars`, and Primer's accent fill and
+ * filled button — the person's bubble, the assistant's avatar, the one
+ * button to press — in the accent with the text that sits on it. Set on an
+ * application's root, it wears its own colour; the page around keeps mint.
+ */
+export function loopAccentStyles(
+  name: LoopAccentName,
+  mode: 'light' | 'dark' = 'light',
+): Record<string, string> {
+  const accent = loopAccents[name];
+  if (!accent) {
+    throw new Error(
+      `There is no accent "${name}"; the accents are ${loopAccentNames.join(', ')}.`,
+    );
+  }
+  return {
+    ...loopAccentVars(name, mode),
+    '--bgColor-accent-emphasis': accent.accent,
+    '--borderColor-accent-emphasis': accent.accent,
+    '--button-primary-bgColor-rest': accent.accent,
+    '--button-primary-borderColor-rest': accent.accent,
+    '--button-primary-bgColor-hover': accent.accent,
+    '--button-primary-borderColor-hover': accent.accent,
+    '--button-primary-bgColor-active': accent.accent,
+    '--button-primary-borderColor-active': accent.accent,
+    '--button-primary-fgColor-rest': accent.on,
+    '--button-primary-iconColor-rest': accent.on,
+  };
+}

@@ -16,6 +16,7 @@ export {
   loopAccents,
   loopAccentNames,
   loopAccentVars,
+  loopAccentStyles,
   type LoopAccent,
   type LoopAccentName,
 } from './loopColors';

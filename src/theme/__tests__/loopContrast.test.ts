@@ -10,7 +10,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { loopAccentNames, loopAccents, loopColors } from '../colors/loopColors';
+import { loopAccentNames, loopAccentStyles, loopAccents, loopColors } from '../colors/loopColors';
 import { loopDark, loopFocusRing, loopLight, loopMotionVars } from '../themes/loopTheme';
 
 /** The relative luminance of an sRGB colour, as WCAG 2.x defines it. */
@@ -92,5 +92,28 @@ describe('the loop theme’s contrast', () => {
   it('keeps the secondary text readable on the surfaces', () => {
     expect(contrast(loopColors.gray, loopColors.white)).toBeGreaterThanOrEqual(AA);
     expect(contrast(loopColors.grayDark, loopColors.black)).toBeGreaterThanOrEqual(AA);
+  });
+});
+
+describe("an application's accent, everything it colours (T-05)", () => {
+  it('fills the bubble and the button with the accent, its own text on it', () => {
+    for (const name of loopAccentNames) {
+      for (const mode of ['light', 'dark'] as const) {
+        const styles = loopAccentStyles(name, mode);
+        expect(styles['--loop-accent']).toBe(loopAccents[name].accent);
+        expect(styles['--bgColor-accent-emphasis']).toBe(loopAccents[name].accent);
+        expect(styles['--button-primary-bgColor-rest']).toBe(loopAccents[name].accent);
+        expect(
+          contrast(styles['--button-primary-fgColor-rest'], styles['--button-primary-bgColor-rest']),
+        ).toBeGreaterThanOrEqual(AA);
+        expect(styles['--loop-stage']).toBe(loopAccents[name].stage[mode]);
+      }
+    }
+  });
+
+  it('refuses an accent that is not one of the six', () => {
+    expect(() => loopAccentStyles('teal' as never)).toThrow(
+      'There is no accent "teal"; the accents are green, rose, sky, lime, sun, violet.',
+    );
   });
 });

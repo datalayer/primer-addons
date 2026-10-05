@@ -226,6 +226,14 @@ export function syncPortalThemeStyles(styles: CSSProperties): void {
  */
 export const THEME_SCOPE_ATTRIBUTE = 'data-datalayer-theme-scope';
 
+/**
+ * The attribute an application puts on its own outer Primer `BaseStyles`
+ * when it wraps everything in Primer's provider above a Datalayer one: that
+ * element is the application's, not a host page's (LOOP T-13), so the
+ * provider inside it still themes the page's portal root.
+ */
+export const APP_ROOT_ATTRIBUTE = 'data-datalayer-app-root';
+
 /** The attribute on the `<style>` element a provider injects, its value the provider's scope. */
 export const THEME_STYLESHEET_ATTRIBUTE = 'data-datalayer-theme-stylesheet';
 

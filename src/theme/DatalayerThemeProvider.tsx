@@ -18,6 +18,7 @@ import { datalayerTheme, datalayerThemeStyles } from "./themes/datalayerTheme";
 import { systemFontStack } from "./fontStacks";
 import { type ThemeStyles } from "./css/createThemeCSSVars";
 import {
+  APP_ROOT_ATTRIBUTE,
   THEME_SCOPE_ATTRIBUTE,
   injectThemeStylesheet,
   setupPrimerPortals,
@@ -187,7 +188,10 @@ export function DatalayerThemeProvider(
     // The sentinel's parent is this provider's own element; anything themed
     // above *that* is another provider's.
     const own = sentinel.current?.parentElement;
-    const ancestor = own?.parentElement?.closest("[data-color-mode]") ?? null;
+    const themed = own?.parentElement?.closest("[data-color-mode]") ?? null;
+    // The application's own Primer wrapper, marked so, is not a host page:
+    // the provider inside it owns the page (see APP_ROOT_ATTRIBUTE).
+    const ancestor = themed?.hasAttribute(APP_ROOT_ATTRIBUTE) ? null : themed;
     setThemedAncestor(ancestor);
     if (!ancestor) {
       setAncestorMode(null);

@@ -138,6 +138,20 @@ describe('a theme with a stylesheet', () => {
     expect(sheets[0].textContent).not.toContain(PRIMER_PORTAL_ROOT_ID);
   });
 
+  it('is written on the page by a provider inside the application\'s own Primer wrapper', () => {
+    // The landing wraps everything in Primer's BaseStyles, marked as its own.
+    document.getElementById(PRIMER_PORTAL_ROOT_ID)?.remove();
+    render(
+      <div data-color-mode="light" data-datalayer-app-root="">
+        {themed('loop')}
+      </div>,
+    );
+    expect(document.getElementById(PRIMER_PORTAL_ROOT_ID)).not.toBeNull();
+    const sheets = stylesheets();
+    expect(sheets).toHaveLength(1);
+    expect(sheets[0].textContent).toContain(PRIMER_PORTAL_ROOT_ID);
+  });
+
   it('is not injected for the portal root by a nested provider', () => {
     render(themed('datalayer', themed('loop')));
     const sheets = stylesheets();

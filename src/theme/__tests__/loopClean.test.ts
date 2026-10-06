@@ -12,7 +12,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { themeConfigs } from '../themeRegistry';
-import { loopControlsCss, loopFontWeights } from '../themes/loopTheme';
+import { loopControlsCss, loopFontWeights, loopTheme } from '../themes/loopTheme';
 
 const modes = ['light', 'dark'] as const;
 const styles = (mode: (typeof modes)[number]) =>
@@ -44,6 +44,9 @@ describe('the loop theme, by the rules of clean', () => {
         .map(([, value]) => Number(String(value).split(' ')[0])),
     );
     expect([...weights].sort()).toEqual([400, 600]);
+    // And what `sx` reads by name: Primer's semibold is 500, its light 300.
+    expect(loopTheme.fontWeights).toEqual({ light: 400, normal: 400, semibold: 600, bold: 600 });
+    expect(themeConfigs.loop.primerTheme.fontWeights).toEqual(loopTheme.fontWeights);
   });
 
   it('writes a link in a message plain: the colour of its words', () => {

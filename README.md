@@ -137,14 +137,14 @@ The look is kept by eight rules, written here once and applied to every screen i
 2. **No gradient on a surface.** A frame, a card, a bubble, a pill, a button and a menu are flat. The one gradient is the stage behind the frame, lit by the accent's own two tints (`--loop-stage-gradient`), and a stage may as well be flat (`--loop-stage`).
 3. **No border where space separates.** Air first; where two surfaces meet, one hairline (`--theme-hairline`, `--loop-hairline`), never a gap and a border both, never a box drawn round a group that space already groups.
 4. **No shadow beyond the one level.** `--loop-shadow-frame` (`--theme-shadow`): a frame, a menu and a dialog float on it; nothing else has a shadow of its own.
-5. **Two weights.** 400 and 600 (`loopFontWeights`), in the five sizes of `loopTypeScale`.
+5. **Two weights.** 400 and 600 (`loopFontWeights`), in the five sizes of `loopTypeScale` — by name in `sx` too, where `loopTheme.fontWeights` makes Primer's `light` and `normal` the 400, `semibold` and `bold` the 600.
 6. **One filled button per screen.** The action that matters is the filled pill in the accent; every other is quiet — outlined, or invisible until hovered.
 7. **A control is a line icon.** Octicons, at one weight, in the ink: no colour on a control, no emoji on a button.
 8. **An identity is an emoji.** An application, an agent and a character are shown by their face (the emoji or the drawing of T-19), never by a line icon.
 
 Motion obeys the same spirit: three things move — a message arriving, a status changing, a pane opening — at `--theme-motion-message`, `-status` and `-pane`, and nothing else does.
 
-What a test can hold, a test holds: no gradient but the stage's, the one shadow a component asks the theme for, two weights and a link plain in a message (`loopClean.test.ts`); the sizes (`loopType.test.ts`); the three durations (`loopContrast.test.ts`); the pills (`themeStylesheet.test.tsx`); in the products that wear the theme, the screens' colours are scanned against these rules too (the landing's `studioVerdictColors.spec.ts`). The rest — space against borders, one filled button — is the reviewer's, against the reference screens (T-16).
+What a test can hold, a test holds: no gradient but the stage's, the one shadow a component asks the theme for, two weights (the tokens and `sx`'s names) and a link plain in a message (`loopClean.test.ts`); the sizes (`loopType.test.ts`); the three durations (`loopContrast.test.ts`); the pills (`themeStylesheet.test.tsx`); in the products that wear the theme, the screens' colours are scanned against these rules too (the landing's `studioVerdictColors.spec.ts`). The rest — space against borders, one filled button — is the reviewer's, against the reference screens (T-16).
 
 ### Contrast, as tested
 

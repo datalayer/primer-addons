@@ -414,11 +414,22 @@ export const loopStageGradient =
 /**
  * The Primer theme object.
  *
- * Since theming is done entirely via CSS custom properties
- * (see `loopThemeStyles`), this is just the unmodified default Primer
- * theme kept for backward compatibility.
+ * Theming is done through CSS custom properties (see `loopThemeStyles`), but
+ * `sx` reads its weights from this object: Primer's `semibold` is 500 and its
+ * `light` 300, so `fontWeight: 'semibold'` drew a third weight beside the
+ * theme's two. Here the four names are the two weights (LOOP T-04, T-17):
+ * `light` and `normal` the regular, `semibold` and `bold` the semibold.
+ * Everything else is Primer's default.
  */
-export const loopTheme = primerTheme;
+export const loopTheme = {
+  ...primerTheme,
+  fontWeights: {
+    light: loopFontWeights.regular,
+    normal: loopFontWeights.regular,
+    semibold: loopFontWeights.semibold,
+    bold: loopFontWeights.semibold,
+  },
+};
 
 /**
  * Inter, then its metric-matched fallback, then the system's own sans-serif

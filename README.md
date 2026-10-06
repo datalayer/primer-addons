@@ -85,7 +85,7 @@ import { loopAccentVars } from '@datalayer/primer-addons';
 
 ### Shape, shadow, type and motion
 
-**Every theme** sets these, so that a component reads its shape the way it reads its colour (`shapeVars`, `DEFAULT_THEME_SHAPE`). The eight other themes take the defaults — today's corners and no motion at all — and keep every other value they had, which `themeShape.test.ts` holds by a snapshot of each.
+**Every theme** sets these, so that a component reads its shape — and how a link reads in a message — the way it reads its colour (`shapeVars`, `DEFAULT_THEME_SHAPE`). The eight other themes take the defaults — today's corners and no motion at all — and keep every other value they had, which `themeShape.test.ts` holds by a snapshot of each.
 
 | Token | Default (every other theme) | `loop` |
 |---|---|---|
@@ -99,6 +99,7 @@ import { loopAccentVars } from '@datalayer/primer-addons';
 | `--theme-motion-message` | `0ms` | `200ms` |
 | `--theme-motion-pane` | `0ms` | `320ms` |
 | `--theme-motion-easing` | `ease` | `cubic-bezier(0.2, 0, 0, 1)` |
+| `--theme-message-link` | `var(--fgColor-accent, #0969da)` | `currentColor`: a link in a message is plain, the colour of its words, and underlined |
 
 **The `loop` theme's own**, beside them (`loopShapeVars`, `loopShadows`, `loopMotionVars`, `loopTypeVars`):
 
@@ -127,6 +128,23 @@ How `DatalayerThemeProvider` applies it:
 - The stylesheet is removed when the theme changes and when the provider unmounts; it is injected in a layout effect, so the first paint is already in the theme's shapes. A theme without one gets nothing injected.
 
 `themeStylesheet.test.tsx` tests each of these.
+
+### The rules of clean
+
+The look is kept by eight rules, written here once and applied to every screen in review (LOOP T-17, Q-09) — a screen that breaks one is changed, or the rule is, never let through as an exception:
+
+1. **One accent per application.** Its own (`interface.accent`), on everything the accent colours (`loopAccentStyles`); never a second hue beside it. Success, attention and danger are a verdict's colours, and only a verdict's.
+2. **No gradient on a surface.** A frame, a card, a bubble, a pill, a button and a menu are flat. The one gradient is the stage behind the frame, lit by the accent's own two tints (`--loop-stage-gradient`), and a stage may as well be flat (`--loop-stage`).
+3. **No border where space separates.** Air first; where two surfaces meet, one hairline (`--theme-hairline`, `--loop-hairline`), never a gap and a border both, never a box drawn round a group that space already groups.
+4. **No shadow beyond the one level.** `--loop-shadow-frame` (`--theme-shadow`): a frame, a menu and a dialog float on it; nothing else has a shadow of its own.
+5. **Two weights.** 400 and 600 (`loopFontWeights`), in the five sizes of `loopTypeScale`.
+6. **One filled button per screen.** The action that matters is the filled pill in the accent; every other is quiet — outlined, or invisible until hovered.
+7. **A control is a line icon.** Octicons, at one weight, in the ink: no colour on a control, no emoji on a button.
+8. **An identity is an emoji.** An application, an agent and a character are shown by their face (the emoji or the drawing of T-19), never by a line icon.
+
+Motion obeys the same spirit: three things move — a message arriving, a status changing, a pane opening — at `--theme-motion-message`, `-status` and `-pane`, and nothing else does.
+
+What a test can hold, a test holds: no gradient but the stage's, the one shadow a component asks the theme for, two weights and a link plain in a message (`loopClean.test.ts`); the sizes (`loopType.test.ts`); the three durations (`loopContrast.test.ts`); the pills (`themeStylesheet.test.tsx`); in the products that wear the theme, the screens' colours are scanned against these rules too (the landing's `studioVerdictColors.spec.ts`). The rest — space against borders, one filled button — is the reviewer's, against the reference screens (T-16).
 
 ### Contrast, as tested
 

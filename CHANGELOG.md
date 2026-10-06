@@ -8,6 +8,13 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown in the gallery's *Loop Theme* page.
 
+## Unreleased
+
+- An application's own Primer wrapper, marked `data-datalayer-app-root`, is not a host page: the Datalayer provider inside it themes the portal root, so menus and dialogs drawn there have the theme's background. LOOP T-13 — [What a host may override](https://github.com/datalayer/primer-addons/blob/main/README.md#what-a-host-may-override).
+- A link in a message as the theme says, `--theme-message-link`, which every theme sets: the accent, as before, or — in `loop` — plain, the colour of its words, underlined. LOOP T-06 — [Shape, shadow, type and motion](https://github.com/datalayer/primer-addons/blob/main/README.md#shape-shadow-type-and-motion).
+- The page layout's panel opens at the theme's pace (`panelOpening`): from its side, by `--theme-motion-pane` and `--theme-motion-easing` — no motion in a theme that sets none, none when motion is reduced. LOOP T-10.
+- The rules of clean, written once in the README and held by `loopClean.test.ts` where a test can hold them. LOOP T-17 — [The rules of clean](https://github.com/datalayer/primer-addons/blob/main/README.md#the-rules-of-clean).
+
 ## 1.0.36
 
 - The selected tab underlined in the accent: the `loop` theme sets `--underlineNav-borderColor-active` to its mint in place of Primer's coral, and `loopAccentStyles` to the application's accent, so that the Studio's tabs carry no colour beside the accent. Tested with the accents. LOOP T-14 — [Accents](https://github.com/datalayer/primer-addons/blob/main/README.md#accents).

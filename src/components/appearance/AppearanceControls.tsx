@@ -96,6 +96,7 @@ export function AppearanceControls({
                     sx={{
                       width: 24,
                       height: 24,
+                      flexShrink: 0,
                       borderRadius: '50%',
                       backgroundColor: cfg.brandColor,
                       border: '2px solid',
@@ -184,6 +185,8 @@ export function AppearanceControls({
             pb: 2,
             display: 'flex',
             justifyContent: 'center',
+            // Narrow, the swatches go on a second line rather than shrink.
+            flexWrap: 'wrap',
             gap: 2,
           }}
         >
@@ -200,6 +203,8 @@ export function AppearanceControls({
                   sx={{
                     width: 24,
                     height: 24,
+                    // A circle at any width: never squeezed into an oval.
+                    flexShrink: 0,
                     borderRadius: '50%',
                     backgroundColor: cfg.brandColor,
                     border: '2px solid',

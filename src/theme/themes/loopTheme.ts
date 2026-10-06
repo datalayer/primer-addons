@@ -524,6 +524,8 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
     motionMessage: loopMotionVars['--loop-motion-message'],
     motionPane: loopMotionVars['--loop-motion-pane'],
     motionEasing: loopMotionVars['--loop-motion-easing'],
+    // Links plain in a message: the words' own colour, underlined (T-06).
+    messageLink: 'currentColor',
   },
   variables: {
     light: {

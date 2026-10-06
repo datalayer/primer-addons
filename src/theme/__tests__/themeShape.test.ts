@@ -24,6 +24,7 @@ describe('the shape of a theme', () => {
       const light = config.themeStyles.light as Record<string, unknown>;
       expect(Object.keys(light).filter(key => key.startsWith('--theme-')).sort(), name).toEqual([
         '--theme-hairline',
+        '--theme-message-link',
         '--theme-motion-easing',
         '--theme-motion-message',
         '--theme-motion-pane',
@@ -43,6 +44,12 @@ describe('the shape of a theme', () => {
     // Nothing moves but in a theme that says so (T-10).
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-motion-message']).toBe('0ms');
     expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-motion-message']).toBe('200ms');
+    // A link in a message: the accent, but plain in loop (T-06).
+    expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-message-link']).toBe(
+      DEFAULT_THEME_SHAPE.messageLink,
+    );
+    expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-message-link']).toBe('currentColor');
+    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-message-link']).toBe('currentColor');
   });
 });
 

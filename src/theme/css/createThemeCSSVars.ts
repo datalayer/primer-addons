@@ -478,6 +478,10 @@ export interface ThemeStyles {
  * And its motion (LOOP T-10): three durations — a status changing, a message
  * arriving, a pane opening — and one easing. Today's is no motion at all, so
  * a component that moves by them moves only in a theme that says so.
+ *
+ * And how a link reads in a message (LOOP T-06): in the accent, as today, or
+ * — `currentColor` — plain, the colour of the words around it, underlined in
+ * every theme.
  */
 export interface ThemeShape {
   radiusControl: string;
@@ -490,6 +494,7 @@ export interface ThemeShape {
   motionMessage: string;
   motionPane: string;
   motionEasing: string;
+  messageLink: string;
 }
 
 /** Today's shape, which every theme has unless it says otherwise. */
@@ -504,6 +509,7 @@ export const DEFAULT_THEME_SHAPE: ThemeShape = {
   motionMessage: '0ms',
   motionPane: '0ms',
   motionEasing: 'ease',
+  messageLink: 'var(--fgColor-accent, #0969da)',
 };
 
 /** A shape as custom properties. */
@@ -520,6 +526,7 @@ export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, strin
     '--theme-motion-message': full.motionMessage,
     '--theme-motion-pane': full.motionPane,
     '--theme-motion-easing': full.motionEasing,
+    '--theme-message-link': full.messageLink,
   };
 }
 

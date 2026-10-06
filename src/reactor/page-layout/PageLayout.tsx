@@ -165,6 +165,26 @@ function ActivityLine({ label }: { label: string }): JSX.Element {
   );
 }
 
+/**
+ * A panel opening from its side at the theme's pace: `--theme-motion-pane`
+ * and `--theme-motion-easing`, which every theme sets — to no motion at all
+ * but in `loop` (LOOP T-10). The animation starts when the panel is shown.
+ */
+export function panelOpening(side: "left" | "right"): Record<string, unknown> {
+  const name = side === "left" ? "pagePanelOpenLeft" : "pagePanelOpenRight";
+  return {
+    animation: `${name} var(--theme-motion-pane, 0ms) var(--theme-motion-easing, ease) both`,
+    [`@keyframes ${name}`]: {
+      from: {
+        opacity: 0,
+        transform: `translateX(${side === "left" ? "-12px" : "12px"})`,
+      },
+      to: { opacity: 1, transform: "none" },
+    },
+    "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+  };
+}
+
 export type PageLayoutProps = {
   /** The page: what lies on the sheet. */
   page?: ReactNode;
@@ -538,6 +558,13 @@ export function PageLayout({
                 display: "flex",
                 flexDirection: "column",
                 "& > *": { flex: "1 1 auto", minHeight: 0 },
+                // A pane opening, at the theme's pace (LOOP T-10): from its
+                // side, by the theme's motion tokens — none in a theme that
+                // sets no motion, none when motion is reduced. On the
+                // content, not the column: a transform on the column would
+                // hold the floating composer, which lives in it, while it
+                // runs.
+                ...(panelShown ? panelOpening(panelSide) : null),
               }}
             >
               {panel}

@@ -100,7 +100,7 @@ export const demos: Demo[] = [
     slug: 'theme-accents',
     title: 'Theme accents',
     description:
-      'The six accents an application can pick, shown on several themes side by side: the button, links, the switch and the chat bubbles all take the colour, whatever the theme. Below, what only the loop theme adds: rounded pill controls and its tokens.',
+      'The six accents an application can pick, in the theme and colour mode the gallery wears (change them with the appearance controls): the button, links, the switch and the chat bubbles all take the colour, beside the theme’s own. Below, the theme’s tokens, read back.',
     render: () => <ThemeAccentsDemo />,
   },
   {

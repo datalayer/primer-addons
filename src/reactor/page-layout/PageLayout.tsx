@@ -46,6 +46,7 @@
 
 import { useEffect, type JSX, type ReactNode } from "react";
 import { Box, Text } from "@primer/react";
+import { Sheet } from "../../components/sheet/Sheet";
 import { useSignalValue } from "@datalayer/reactor/react";
 import {
   pageLayoutActivity,
@@ -407,7 +408,7 @@ export function PageLayout({
                 <ActivityLine label={activityLabel} />
               </Box>
             ) : null}
-            <Box
+            <Sheet
               data-page-sheet=""
               sx={{
                 width: "100%",
@@ -423,12 +424,8 @@ export function PageLayout({
                   change in the layout's height reaches the page at once.
                 */
                 flex: hasPage ? "1 0 auto" : "1 1 auto",
-                bg: "canvas.default",
-                border: "1px solid",
-                borderColor: "border.default",
-                borderRadius: "10px",
-                boxShadow:
-                  "0 1px 2px rgba(0,0,0,0.06), 0 24px 48px -28px rgba(0,0,0,0.35)",
+                // Its look — canvas, hairline, the theme's card corner, the
+                // shadow — is the Sheet's.
                 // The page's own margins. A page fills the sheet and reads
                 // against these, as text on paper does; a panel's content
                 // brings its own gutters, so it sits closer.
@@ -450,7 +447,7 @@ export function PageLayout({
               }}
             >
               {hasPage ? page : panel}
-            </Box>
+            </Sheet>
             {/* With the panel's content on the sheet, the page is parked out
                 of sight, not unmounted: whatever runs in it — an editor's
                 tools, say — would leave with it. Hidden visibility keeps real

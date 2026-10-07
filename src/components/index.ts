@@ -14,6 +14,7 @@ export * from "./appearance/ThemeCircle";
 export * from "./box/Box";
 export * from "./calendar-picker";
 export * from "./card/Card";
+export * from "./sheet/Sheet";
 export * from "./color";
 export * from "./color-picker";
 export * from "./content-loader/ContentLoader";

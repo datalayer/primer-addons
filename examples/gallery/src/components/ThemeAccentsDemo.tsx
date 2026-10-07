@@ -7,7 +7,7 @@
  * The six accents an application may name, in the theme and the colour mode
  * the gallery wears (its appearance controls choose them): each accent laid
  * over the theme with `themeAccentVars`, beside the theme's own; then the
- * theme's tokens read back. The README's "Theme accents" says what each one is.
+ * theme's tokens read back. The gallery page is "Theme Accents"; the README's "Theme accents" says what each one is.
  */
 
 import { type CSSProperties, useEffect, useRef, useState } from 'react';

@@ -68,7 +68,7 @@ The sources: `src/components/box/Box.tsx` (the design), `boxCss.ts` (the props a
 
 ## Theme accents
 
-Six soft accents, and an application takes one — **over any theme**: `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory`, `sun` and `loop` alike (decided 2026-10-07; they coloured `loop` alone before). The [gallery](examples/gallery)'s *Theme accents* page shows the six in whatever theme and colour mode the gallery wears, beside the theme's own, with its tokens read back. Each is five values — the accent, the text that sits on it, the **stage** (the tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
+Six soft accents, and an application takes one — **over any theme**: `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory`, `sun` and `loop` alike (decided 2026-10-07; they coloured `loop` alone before). The [gallery](examples/gallery)'s *Theme Accents* page shows the six in whatever theme and colour mode the gallery wears, beside the theme's own, with its tokens read back. Each is five values — the accent, the text that sits on it, the **stage** (the tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
 
 | Name | Accent | Text on it | Stage (light / dark) | Quiet (light / dark) | As text (light / dark) |
 |---|---|---|---|---|---|
@@ -103,7 +103,7 @@ The source: `src/theme/colors/themeAccents.ts`.
 
 ## The `loop` theme
 
-`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on the *Theme accents* page when the gallery wears it. Its accent is mint, `green` of the [theme accents](#theme-accents).
+`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on the *Theme Accents* page when the gallery wears it. Its accent is mint, `green` of the [theme accents](#theme-accents).
 
 ```tsx
 import { DatalayerThemeProvider, loopTheme, loopThemeStyles } from '@datalayer/primer-addons';

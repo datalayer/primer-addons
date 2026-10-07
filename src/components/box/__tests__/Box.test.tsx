@@ -9,7 +9,7 @@
  * `Box` renders its element with one class for its style props, whose rules
  * are in the document's stylesheet (or the shadow root's); `as`, refs,
  * `className`, `style` and the element's own props pass through; `sx` still
- * works, through Primer's `Box`.
+ * works, in the same class.
  */
 
 import { act, createRef } from 'react';
@@ -94,7 +94,7 @@ describe('Box', () => {
     expect(element.className).toBe('');
   });
 
-  it('still takes sx, through Primer\'s Box, beside its props', () => {
+  it('still takes sx, in the same class as its props, and never puts it on the DOM', () => {
     const container = render(
       <Box data-test="sx" p={2} sx={{ '& svg': { color: 'fg.muted' } }}>
         sx
@@ -102,9 +102,9 @@ describe('Box', () => {
     );
     const element = container.querySelector('[data-test="sx"]') as HTMLElement;
     expect(element.getAttribute('sx')).toBeNull();
-    expect(Array.from(element.classList).some(name => name.startsWith('bx-'))).toBe(true);
-    // Primer's styled-components class beside ours.
-    expect(element.classList.length).toBeGreaterThan(1);
+    const className = Array.from(element.classList).find(name => name.startsWith('bx-'));
+    expect(element.classList.length).toBe(1);
+    expect(boxRules()).toContain(`.${className} svg`);
   });
 
   it('puts its rules in the shadow root it renders into', () => {

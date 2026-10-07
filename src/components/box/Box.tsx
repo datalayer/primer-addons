@@ -80,10 +80,14 @@
  *
  * ## `sx`, while the call sites move to props
  *
- * `sx` still works, typed: a `Box` given one is rendered by Primer's `Box`
- * (Primer's own styled-components, theme and all) with the class of its
- * props added. A codemod moves `sx` keys to props; what it cannot — nested
- * selectors (`'& svg'`), arbitrary media — stays in `sx` for now.
+ * `sx` still works, typed, and through the same class: its keys are read
+ * as Primer's `sx` read them (the same tokens, here with no fallback), and
+ * its nested blocks — `'&:hover'`, `'& svg'`, `label`, `'@media (…)'`,
+ * `'@keyframes …'` — become rules of that class, after the props', so `sx`
+ * wins where both say something, as it did. No styled-components there
+ * either: Primer's `Box` on styled-components 6 passed `sx` on to the DOM
+ * (`sx="[object Object]"`). A codemod moves `sx` keys to props; what it
+ * cannot — nested selectors, keyframes — stays in `sx`.
  */
 
 import {
@@ -102,7 +106,6 @@ import {
   useRef,
   version as reactVersion,
 } from 'react';
-import { Box as PrimerBox } from '@primer/react';
 import type { BetterSystemStyleObject } from './sx';
 import {
   BOX_PSEUDO_PROPS,
@@ -130,9 +133,6 @@ export type BoxProps = BoxStyleProps &
     /** Whatever the element (or the `as` component) takes besides. */
     [prop: string]: unknown;
   };
-
-/** Primer's `Box`, for a `Box` still given `sx`. */
-const SxBox = PrimerBox as ElementType;
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
@@ -175,7 +175,7 @@ const BoxImpl = forwardRef<unknown, BoxProps>(function Box(props, ref) {
       }
     }
   }
-  const box = boxClassOf(style);
+  const box = boxClassOf(style, sx);
 
   const node = useRef<Element | null>(null);
   const setNode = useCallback(
@@ -204,9 +204,6 @@ const BoxImpl = forwardRef<unknown, BoxProps>(function Box(props, ref) {
   // Our ref (for the shadow root) unless React 18 would warn: then the
   // caller's, if any.
   const elementRef = REF_AS_PROP || !isPlainFunction(Component) ? setNode : ref || undefined;
-  if (sx) {
-    return <SxBox as={Component} ref={setNode} className={classes} sx={sx} {...element} />;
-  }
   return <Component ref={elementRef} className={classes} {...element} />;
 });
 

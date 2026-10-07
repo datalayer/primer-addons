@@ -387,11 +387,39 @@ function addDeclarations(block: Block, key: BoxStyleKey, value: unknown): void {
   });
 }
 
-function blockOf(style: Record<string, unknown>): Block {
+/** CSS properties whose numbers have no unit (React's list, in short). */
+const UNITLESS = new Set([
+  'animationIterationCount', 'aspectRatio', 'columnCount', 'columns', 'fillOpacity', 'flex', 'flexGrow',
+  'flexShrink', 'fontWeight', 'gridArea', 'gridColumn', 'gridColumnEnd', 'gridColumnStart', 'gridRow',
+  'gridRowEnd', 'gridRowStart', 'lineClamp', 'lineHeight', 'opacity', 'order', 'orphans', 'scale',
+  'stopOpacity', 'strokeDashoffset', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'tabSize',
+  'widows', 'zIndex', 'zoom', 'WebkitLineClamp',
+]);
+
+/** A camelCased property as CSS: `WebkitLineClamp` is `-webkit-line-clamp`; `--x` stays. */
+const kebab = (key: string): string =>
+  key.startsWith('--') ? key : key.replace(/^(Webkit|Moz|ms)(?=[A-Z])/, m => `-${m.toLowerCase()}`).replace(/[A-Z]/g, m => `-${m.toLowerCase()}`);
+
+/**
+ * A style's declarations. With `raw` (an `sx` object), a key that is no
+ * style prop is CSS as written — its number in pixels unless the property
+ * has no unit — as Primer's `sx` read it.
+ */
+function blockOf(style: Record<string, unknown>, raw = false): Block {
   const block: Block = [];
   for (const key of Object.keys(style)) {
+    const value = style[key];
     if (key in BOX_STYLE_PROPS) {
-      addDeclarations(block, key as BoxStyleKey, style[key]);
+      addDeclarations(block, key as BoxStyleKey, value);
+    } else if (raw && (isSet(value) || Array.isArray(value))) {
+      const values: readonly unknown[] = Array.isArray(value) ? value.slice(0, BOX_BREAKPOINTS.length + 1) : [value];
+      values.forEach((one, index) => {
+        if (!isSet(one)) {
+          return;
+        }
+        const css = typeof one === 'number' && !UNITLESS.has(key) && !key.startsWith('--') ? px(one) : String(one);
+        (block[index] ??= []).push([kebab(key), css]);
+      });
     }
   }
   return block;
@@ -401,7 +429,7 @@ const MEDIA = (index: number) => `@media screen and (min-width: ${BOX_BREAKPOINT
 
 const PLACEHOLDER = '\u0000';
 
-function rulesOf(block: Block, selector: string, wrap?: string): string[] {
+function rulesOf(block: Block, selector: string, wraps: readonly string[] = []): string[] {
   const rules: string[] = [];
   block.forEach((declarations, index) => {
     if (!declarations || declarations.length === 0) {
@@ -412,11 +440,68 @@ function rulesOf(block: Block, selector: string, wrap?: string): string[] {
     if (index > 0) {
       rule = `${MEDIA(index)}{${rule}}`;
     }
-    if (wrap) {
+    for (const wrap of [...wraps].reverse()) {
       rule = `${wrap}{${rule}}`;
     }
     rules.push(rule);
   });
+  return rules;
+}
+
+/** A selector list split at its top-level commas (not those in `:is(a, b)`). */
+function splitSelectors(selector: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < selector.length; i++) {
+    const c = selector[i];
+    if (c === '(' || c === '[') depth++;
+    else if (c === ')' || c === ']') depth--;
+    else if (c === ',' && depth === 0) {
+      parts.push(selector.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(selector.slice(start).trim());
+  return parts.filter(Boolean);
+}
+
+/** A nested key's selectors under its parents': `&` is the parent, a `:state` follows it, anything else is inside it. */
+function nestSelectors(parents: readonly string[], key: string): string[] {
+  return parents.flatMap(parent =>
+    splitSelectors(key).map(part =>
+      part.includes('&') ? part.split('&').join(parent) : part.startsWith(':') ? `${parent}${part}` : `${parent} ${part}`,
+    ),
+  );
+}
+
+/**
+ * An `sx` object as rules: its own declarations, then each nested block —
+ * a selector (`'&:hover'`, `':focus-visible'`, `'& svg'`, `label`), an
+ * at-rule wrapping it (`'@media (max-width: 768px)'`), or a `@keyframes`,
+ * which is global.
+ */
+function sxRules(sx: Record<string, unknown>, selectors: readonly string[], wraps: readonly string[]): string[] {
+  const rules = rulesOf(blockOf(sx, true), selectors.join(','), wraps);
+  for (const [key, value] of Object.entries(sx)) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      continue;
+    }
+    const nested = value as Record<string, unknown>;
+    if (key.startsWith('@keyframes')) {
+      const frames = Object.entries(nested)
+        .map(([stop, frame]) => {
+          const declarations = blockOf((frame ?? {}) as Record<string, unknown>, true)[0] ?? [];
+          return `${stop}{${declarations.map(([property, css]) => `${property}:${css}`).join(';')}}`;
+        })
+        .join('');
+      rules.push(`${key}{${frames}}`);
+    } else if (key.startsWith('@')) {
+      rules.push(...sxRules(nested, selectors, [...wraps, key]));
+    } else {
+      rules.push(...sxRules(nested, nestSelectors(selectors, key), wraps));
+    }
+  }
   return rules;
 }
 
@@ -440,10 +525,11 @@ function hash(text: string): string {
 const registry = new Map<string, BoxClass>();
 
 /**
- * A style — the style props, the pseudo-state props, `reducedMotion` — as
- * one class and its rules. `undefined` when the style sets nothing.
+ * A style — the style props, the pseudo-state props, `reducedMotion`, and
+ * an `sx` object read the way Primer's `sx` read it — as one class and its
+ * rules. `undefined` when the style sets nothing.
  */
-export function boxClassOf(style: Record<string, unknown>): BoxClass | undefined {
+export function boxClassOf(style: Record<string, unknown>, sx?: object | null): BoxClass | undefined {
   const P = `.${PLACEHOLDER}`;
   const template: string[] = rulesOf(blockOf(style), P);
   for (const [key, pseudo] of Object.entries(BOX_PSEUDO_PROPS)) {
@@ -454,7 +540,11 @@ export function boxClassOf(style: Record<string, unknown>): BoxClass | undefined
   }
   const reduced = style.reducedMotion;
   if (reduced && typeof reduced === 'object') {
-    template.push(...rulesOf(blockOf(reduced as Record<string, unknown>), P, BOX_REDUCED_MOTION));
+    template.push(...rulesOf(blockOf(reduced as Record<string, unknown>), P, [BOX_REDUCED_MOTION]));
+  }
+  // `sx` last: it wins over the props, as it did on Primer's Box.
+  if (sx && typeof sx === 'object') {
+    template.push(...sxRules(sx as Record<string, unknown>, [P], []));
   }
   if (template.length === 0) {
     return undefined;

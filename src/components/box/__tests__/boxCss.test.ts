@@ -101,6 +101,46 @@ describe('a style', () => {
   });
 });
 
+describe('an sx', () => {
+  const sx = (value: object) => {
+    const box = boxClassOf({}, value);
+    return box ? box.rules.join('\n').split(box.className).join('X') : '';
+  };
+
+  it('reads its keys as the props do, and CSS as written for the rest', () => {
+    expect(sx({ p: 2, bg: 'canvas.subtle', WebkitLineClamp: 2, marginBlockEnd: 4, '--x': 1 })).toBe(
+      '.X{padding:8px;background-color:var(--bgColor-muted);-webkit-line-clamp:2;margin-block-end:4px;--x:1}',
+    );
+  });
+
+  it('nests its selectors under the class', () => {
+    expect(sx({ '&:hover': { color: 'fg.default' }, ':focus-visible': { outline: 'none' }, '& svg, & img': { opacity: 0.5 }, label: { mt: 2 } })).toBe(
+      [
+        '.X:hover{color:var(--fgColor-default)}',
+        '.X:focus-visible{outline:none}',
+        '.X svg,.X img{opacity:0.5}',
+        '.X label{margin-top:8px}',
+      ].join('\n'),
+    );
+  });
+
+  it('wraps a media block and keeps a keyframes global', () => {
+    expect(sx({ '@media (max-width: 768px)': { p: [1, 2] }, '@keyframes spin': { from: { transform: 'rotate(0)' }, to: { transform: 'rotate(1turn)' } } })).toBe(
+      [
+        '@media (max-width: 768px){.X{padding:4px}}',
+        '@media (max-width: 768px){@media screen and (min-width: 544px){.X{padding:8px}}}',
+        '@keyframes spin{from{transform:rotate(0)}to{transform:rotate(1turn)}}',
+      ].join('\n'),
+    );
+  });
+
+  it('comes after the props, so it wins where both speak', () => {
+    expect(css({ p: 1 }) + '|' + sx({ p: 2 })).toBe('.X{padding:4px}|.X{padding:8px}');
+    const both = boxClassOf({ p: 1 }, { p: 2 });
+    expect(both?.rules.map(rule => rule.split(both.className).join('X'))).toEqual(['.X{padding:4px}', '.X{padding:8px}']);
+  });
+});
+
 describe('the variables Box emits', () => {
   for (const [name, config] of Object.entries(themeConfigs)) {
     for (const mode of ['light', 'dark'] as const) {

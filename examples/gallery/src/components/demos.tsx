@@ -62,7 +62,8 @@ export const demos: Demo[] = [
   {
     slug: 'box',
     title: 'Box',
-    description: 'Styled-system enabled layout primitive.',
+    description:
+      "primer-addons' own Box: Primer's prop names (p, bg, borderColor, borderRadius, gap, gridTemplateColumns…) on the theme's tokens — Primer's CSS variables, with no fallbacks — responsive arrays, and hover and focusVisible as props. No sx.",
     render: () => <BoxDemo />,
   },
   {

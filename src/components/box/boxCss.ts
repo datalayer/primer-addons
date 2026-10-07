@@ -215,6 +215,7 @@ export const BOX_STYLE_PROPS = {
   inset: prop('inset'),
 
   /* Typography */
+  font: prop('font'),
   fontFamily: prop('font-family', 'font'),
   fontSize: prop('font-size', 'fontSize'),
   fontWeight: prop('font-weight', 'fontWeight'),
@@ -253,6 +254,7 @@ export const BOX_STYLE_PROPS = {
   mixBlendMode: prop('mix-blend-mode'),
   willChange: prop('will-change'),
   clipPath: prop('clip-path'),
+  clip: prop('clip'),
   resize: prop('resize'),
 } as const;
 

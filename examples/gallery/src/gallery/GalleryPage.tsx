@@ -8,8 +8,8 @@
  */
 
 import { useMemo } from 'react';
-import { Box, Button, Heading, Text } from '@primer/react';
-import { Card } from '@datalayer/primer-addons';
+import { Button, Heading, Text } from '@primer/react';
+import { Box, Card } from '@datalayer/primer-addons';
 import { demos } from '../components/demos';
 import { GALLERY_SLUG, useGalleryStore } from './galleryStore';
 
@@ -34,7 +34,7 @@ export function GalleryPage() {
 
   if (activeSlug === GALLERY_SLUG || !activeDemo) {
     return (
-      <Box sx={{ display: 'grid', gap: 3, alignContent: 'start' }}>
+      <Box display="grid" gap={3} alignContent="start">
         <Box>
           <Heading as="h2" sx={{ m: 0, mb: 1, fontSize: 3 }}>
             Gallery
@@ -74,7 +74,7 @@ export function GalleryPage() {
   }
 
   return (
-    <Box sx={{ display: 'grid', gap: 3, alignContent: 'start' }}>
+    <Box display="grid" gap={3} alignContent="start">
       <Box>
         <Heading as="h2" sx={{ m: 0, mb: 1, fontSize: 3 }}>
           {activeDemo.title}
@@ -83,14 +83,8 @@ export function GalleryPage() {
           {activeDemo.description}
         </Text>
       </Box>
-      <Box
-        sx={{
-          p: 2,
-          border: '1px solid',
-          borderColor: 'border.default',
-          borderRadius: 2,
-        }}
-      >
+      {/* The theme's card: its hairline and its corner (20px in loop), padded to match. */}
+      <Box p={3} border="1px solid" borderColor="border.default" borderRadius="card">
         {activeDemo.render()}
       </Box>
     </Box>

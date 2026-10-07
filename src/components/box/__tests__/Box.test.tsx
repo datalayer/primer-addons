@@ -79,6 +79,15 @@ describe('Box', () => {
     expect(element.getAttribute('aria-label')).toBe('a section');
   });
 
+  it('keeps width and height as attributes of an image', () => {
+    const container = render(<Box as="img" alt="" width={48} height={48} borderRadius="full" />);
+    const element = container.querySelector('img') as HTMLImageElement;
+    expect(element.getAttribute('width')).toBe('48');
+    expect(element.getAttribute('height')).toBe('48');
+    const div = render(<Box data-test="div" width={48} />).querySelector('[data-test="div"]') as HTMLElement;
+    expect(div.getAttribute('width')).toBeNull();
+  });
+
   it('draws nothing of its own when it has no style props', () => {
     const container = render(<Box data-test="plain">plain</Box>);
     const element = container.querySelector('[data-test="plain"]') as HTMLElement;

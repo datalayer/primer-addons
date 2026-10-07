@@ -149,6 +149,9 @@ const REF_AS_PROP = Number.parseInt(reactVersion, 10) >= 19;
 const isPlainFunction = (component: ElementType): boolean =>
   typeof component === 'function' && !(component as { prototype?: { isReactComponent?: unknown } }).prototype?.isReactComponent;
 
+/** Elements whose `width` and `height` are attributes too: they keep them. */
+const SIZED_ELEMENTS: ReadonlySet<string> = new Set(['img', 'svg', 'video', 'canvas', 'iframe', 'embed', 'object']);
+
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
   if (typeof ref === 'function') {
     ref(value);
@@ -163,6 +166,14 @@ const BoxImpl = forwardRef<unknown, BoxProps>(function Box(props, ref) {
   const element: Record<string, unknown> = {};
   for (const key of Object.keys(rest)) {
     (STYLE_KEYS.has(key) ? style : element)[key] = rest[key];
+  }
+  if (typeof Component === 'string' && SIZED_ELEMENTS.has(Component)) {
+    for (const key of ['width', 'height']) {
+      const value = rest[key];
+      if (typeof value === 'string' || typeof value === 'number') {
+        element[key] = value;
+      }
+    }
   }
   const box = boxClassOf(style);
 

@@ -24,6 +24,11 @@ export interface AppearanceControlsProps {
   themeVariant: ThemeVariant;
   onColorModeChange: (mode: ColorMode) => void;
   onThemeChange: (theme: ThemeVariant) => void;
+  /** Show the light / dark / auto switch. Default: shown. */
+  showColorMode?: boolean;
+  /** Show the theme chooser. Default: shown. */
+  showThemeChooser?: boolean;
+  /** With the chooser, the chosen theme's name, description and preview under its swatches. Default: swatches only. */
   showThemePreviews?: boolean;
 }
 
@@ -32,6 +37,8 @@ export function AppearanceControls({
   themeVariant,
   onColorModeChange,
   onThemeChange,
+  showColorMode = true,
+  showThemeChooser = true,
   showThemePreviews = false,
 }: AppearanceControlsProps): ReactElement {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -39,6 +46,7 @@ export function AppearanceControls({
 
   return (
     <>
+      {showColorMode ? (
       <Box sx={{ px: 2, py: 2, display: 'flex', justifyContent: 'center' }}>
         <SegmentedControl
           aria-label="Color mode"
@@ -65,11 +73,14 @@ export function AppearanceControls({
           />
         </SegmentedControl>
       </Box>
+      ) : null}
 
-      {showThemePreviews ? (
+      {!showThemeChooser ? null : showThemePreviews ? (
         <Box
           sx={{
             px: 2,
+            // First in the controls when the colour mode is hidden.
+            pt: showColorMode ? 0 : 2,
             pb: 2,
             display: 'grid',
             gap: 2,
@@ -182,6 +193,8 @@ export function AppearanceControls({
         <Box
           sx={{
             px: 2,
+            // First in the controls when the colour mode is hidden.
+            pt: showColorMode ? 0 : 2,
             pb: 2,
             display: 'flex',
             justifyContent: 'center',

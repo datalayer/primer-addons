@@ -22,6 +22,25 @@ import { CalendarIcon } from "@primer/octicons-react";
 import { CalendarPicker, type CalendarPickerProps } from "../calendar-picker/CalendarPicker";
 import { TimeColumns } from "./TimeColumns";
 
+/** Where the time stands against the calendar in the overlay. */
+export type DatePickerTimePosition = "north" | "east" | "south" | "west";
+
+/** The overlay's flow for each position: the calendar first, the time where it was asked. */
+const TIME_FLOW: Record<DatePickerTimePosition, "row" | "row-reverse" | "column" | "column-reverse"> = {
+  east: "row",
+  west: "row-reverse",
+  south: "column",
+  north: "column-reverse",
+};
+
+/** The hairline between the time and the calendar, on the side that faces it. */
+const TIME_SEPARATOR: Record<DatePickerTimePosition, Record<string, string | number>> = {
+  east: { pl: 3, borderLeft: "1px solid", borderColor: "border.default", alignSelf: "stretch" },
+  west: { pr: 3, borderRight: "1px solid", borderColor: "border.default", alignSelf: "stretch" },
+  south: { pt: 3, borderTop: "1px solid", borderColor: "border.default", alignSelf: "stretch" },
+  north: { pb: 3, borderBottom: "1px solid", borderColor: "border.default", alignSelf: "stretch" },
+};
+
 /** `YYYY-MM-DD`, the one format that means the same thing everywhere. */
 export function formatISODate(date: Date): string {
   const month = `${date.getMonth() + 1}`.padStart(2, "0");
@@ -160,10 +179,17 @@ export interface DatePickerProps
    * Whether the field holds a time as well as a day.
    *
    * With it, the field reads and writes `YYYY-MM-DD HH:mm`, and the overlay
-   * carries a time beneath the calendar. Without it — the default — nothing
-   * about the field changes, because most dates are days.
+   * carries a time beside the calendar (see `timePosition`). Without it —
+   * the default — nothing about the field changes, because most dates are
+   * days.
    */
   withTime?: boolean;
+  /**
+   * Where the time stands against the calendar, with `withTime`: `east`
+   * (to its right, the default), `west` (to its left), `south` (under it)
+   * or `north` (above it).
+   */
+  timePosition?: DatePickerTimePosition;
   /**
    * Minutes between the options the minute column offers. Default: five.
    *
@@ -201,6 +227,7 @@ export function DatePicker({
   weekStartsOn,
   locale,
   withTime = false,
+  timePosition = "east",
   timeStep = 5,
   defaultTime = "00:00",
 }: DatePickerProps) {
@@ -267,7 +294,15 @@ export function DatePicker({
 
   const calendar = useMemo(
     () => (
-      <Box sx={{ p: 3 }}>
+      <Box
+        sx={{
+          p: 3,
+          display: "flex",
+          flexDirection: TIME_FLOW[timePosition],
+          alignItems: "flex-start",
+          gap: 3,
+        }}
+      >
         <CalendarPicker
           value={value}
           defaultMonth={value ?? undefined}
@@ -290,14 +325,7 @@ export function DatePicker({
           aria-label={`${ariaLabel}, choose a day`}
         />
         {withTime && (
-          <Box
-            sx={{
-              mt: 3,
-              pt: 3,
-              borderTop: "1px solid",
-              borderColor: "border.default",
-            }}
-          >
+          <Box sx={TIME_SEPARATOR[timePosition]}>
             <TimeColumns
               hour={held.hour}
               minute={held.minute}
@@ -341,6 +369,7 @@ export function DatePicker({
       size,
       timeStep,
       value,
+      timePosition,
       weekStartsOn,
       withTime,
       writeDate,

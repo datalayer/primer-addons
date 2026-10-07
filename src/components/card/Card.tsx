@@ -39,12 +39,18 @@ export type CardActionsProps = {
   children: React.ReactNode;
 }
 
+/**
+ * The corners, read from the theme: each theme sets Primer's radii (loop's
+ * are rounder), and a card left unsaid takes the theme's card corner.
+ */
 const roundedVals = {
-  small: "3px",
-  medium: "6px",
-  large: "12px",
-  full: "100vh",
+  small: "var(--borderRadius-small)",
+  medium: "var(--borderRadius-medium)",
+  large: "var(--borderRadius-large)",
+  full: "var(--borderRadius-full)",
 };
+
+const CARD_RADIUS = "var(--theme-radius-card)";
 
 const shadowVals = {
   small: '0 1px 0 rgba(31,35,40,0.04)',
@@ -64,11 +70,11 @@ export const Card: React.FC<CardProps> & {
     <Box
       sx={{
         ...(sx ? sx : undefined),
-        ...(rounded ? typeof rounded === "string" ? {
-          borderRadius: roundedVals[rounded]
-        } : {
-          borderRadius: props.rounded
-        } : undefined),
+        borderRadius: rounded === undefined
+          ? CARD_RADIUS
+          : typeof rounded === "string"
+            ? roundedVals[rounded]
+            : rounded,
         ...(border ? {
           borderWidth: 1,
           borderStyle: 'solid',

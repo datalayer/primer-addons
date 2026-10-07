@@ -100,6 +100,7 @@ import {
   useInsertionEffect,
   useLayoutEffect,
   useRef,
+  version as reactVersion,
 } from 'react';
 import { Box as PrimerBox } from '@primer/react';
 import type { BetterSystemStyleObject } from './sx';
@@ -140,6 +141,13 @@ const STYLE_KEYS: ReadonlySet<string> = new Set([
   ...Object.keys(BOX_PSEUDO_PROPS),
   'reducedMotion',
 ]);
+
+/** React 19 hands a ref to a function component as a prop; React 18 warns. */
+const REF_AS_PROP = Number.parseInt(reactVersion, 10) >= 19;
+
+/** True for a component React 18 cannot give a ref to: a plain function. */
+const isPlainFunction = (component: ElementType): boolean =>
+  typeof component === 'function' && !(component as { prototype?: { isReactComponent?: unknown } }).prototype?.isReactComponent;
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
   if (typeof ref === 'function') {
@@ -182,10 +190,13 @@ const BoxImpl = forwardRef<unknown, BoxProps>(function Box(props, ref) {
   }, [box]);
 
   const classes = [box?.className, className].filter(Boolean).join(' ') || undefined;
+  // Our ref (for the shadow root) unless React 18 would warn: then the
+  // caller's, if any.
+  const elementRef = REF_AS_PROP || !isPlainFunction(Component) ? setNode : ref || undefined;
   if (sx) {
     return <SxBox as={Component} ref={setNode} className={classes} sx={sx} {...element} />;
   }
-  return <Component ref={setNode} className={classes} {...element} />;
+  return <Component ref={elementRef} className={classes} {...element} />;
 });
 
 BoxImpl.displayName = 'Box';

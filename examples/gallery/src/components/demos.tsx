@@ -15,7 +15,7 @@ import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
 import { ColorPaletteDemo } from './ColorPaletteDemo';
-import { LoopThemeDemo } from './LoopThemeDemo';
+import { ThemeAccentsDemo } from './ThemeAccentsDemo';
 import { CollaboratorPaletteDemo } from './CollaboratorPaletteDemo';
 import { ColorPickerDemo } from './ColorPickerDemo';
 import { CalendarPickerDemo } from './CalendarPickerDemo';
@@ -97,11 +97,11 @@ export const demos: Demo[] = [
     render: () => <ColorPaletteDemo />,
   },
   {
-    slug: 'loop-theme',
-    title: 'Loop Theme',
+    slug: 'theme-accents',
+    title: 'Theme accents',
     description:
-      'One accent, neutral everything else: the six accents an application names, the stage, the bubbles, the controls as pills, the tokens read back.',
-    render: () => <LoopThemeDemo />,
+      'The six accents an application can pick, shown on several themes side by side: the button, links, the switch and the chat bubbles all take the colour, whatever the theme. Below, what only the loop theme adds: rounded pill controls and its tokens.',
+    render: () => <ThemeAccentsDemo />,
   },
   {
     slug: 'sliding-panel',

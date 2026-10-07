@@ -66,23 +66,9 @@ import { Box } from '@datalayer/primer-addons';
 
 The sources: `src/components/box/Box.tsx` (the design), `boxCss.ts` (the props and their scales, the stylesheet), `boxTokens.ts` (the tokens, generated from Primer's theme), `src/theme/css/primerBaseVars.ts` (Primer's variables no theme sets).
 
-## The `loop` theme
+## Theme accents
 
-`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on its own page, *Loop Theme*, whatever theme the gallery itself wears.
-
-```tsx
-import { DatalayerThemeProvider, loopTheme, loopThemeStyles } from '@datalayer/primer-addons';
-
-<DatalayerThemeProvider theme={loopTheme} themeStyles={loopThemeStyles} colorMode="auto">
-  {app}
-</DatalayerThemeProvider>
-```
-
-The sources: `src/theme/colors/loopColors.ts` (colours and accents), `src/theme/themes/loopTheme.ts` (the theme), `src/theme/css/createThemeCSSVars.ts` (what every theme sets), `src/theme/DatalayerThemeProvider.tsx` and `src/utils/Portals.tsx` (how a theme's stylesheet is applied).
-
-### Accents
-
-Six, and an application takes one. Each is five values — the accent, the text that sits on it, the **stage** (the flat tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
+Six soft accents, and an application takes one — **over any theme**: `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory`, `sun` and `loop` alike (decided 2026-10-07; they coloured `loop` alone before). The [gallery](examples/gallery)'s *Theme accents* page shows them over several themes side by side. Each is five values — the accent, the text that sits on it, the **stage** (the tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
 
 | Name | Accent | Text on it | Stage (light / dark) | Quiet (light / dark) | As text (light / dark) |
 |---|---|---|---|---|---|
@@ -93,18 +79,41 @@ Six, and an application takes one. Each is five values — the accent, the text 
 | `sun` | `#F8D469` | `#2E2200` | `#FDF3CD` / `#2A2209` | `#FEF9E7` / `#221F14` | `#8A6A00` / `#F8D469` |
 | `violet` | `#C0AEF6` | `#1C0F47` | `#ECE7FD` / `#1B1533` | `#F6F3FE` / `#1C1A27` | `#6B53C9` / `#C0AEF6` |
 
-`loopAccents` holds them, `loopAccentNames` lists them in the order a picker shows them, and `loopAccentVars(name, mode)` turns one into the four custom properties an application sets on its root: `--loop-accent`, `--loop-accent-on`, `--loop-stage`, `--loop-quiet`. An unknown name falls back to `green`.
+`themeAccents` holds them, `themeAccentNames` lists them in the order a picker shows them (type `ThemeAccentName`), and `themeAccentVars(name, mode)` turns one into everything it colours, as custom properties an application sets on its root:
 
-An application names its accent in its Appspec, as `interface.accent` (one of the six names; `green` when it says nothing), and its host applies it:
+- the accent's own, which **every theme sets** (its default from its own colours — its accent fill, the text of its filled button, its subtle accent tint as the stage, its subtle canvas as the quiet tint; `loop`'s are mint's): `--theme-accent`, `--theme-accent-on`, `--theme-stage`, `--theme-quiet`, and `--theme-stage-gradient`, the stage lit from the stage tint at the top to the quiet tint at the bottom;
+- Primer's accent: `--bgColor-accent-emphasis`, `--borderColor-accent-emphasis`, `--fgColor-accent`, `--fgColor-link`, `--borderColor-accent-muted`, `--bgColor-accent-muted`, and `--datalayer-icon-fg`;
+- the filled button: `--button-primary-bgColor-rest`, `-hover`, `-active`, their borders, `--button-primary-fgColor-rest`, `--button-primary-iconColor-rest`, `--buttonCounter-primary-fgColor-rest`, and the legacy `--color-btn-primary-bg`, `--color-btn-primary-hover-bg`;
+- a checked switch: `--control-checked-bgColor-rest`, `-hover`, `-active`, `--control-checked-fgColor-rest`, `--controlKnob-borderColor-checked`;
+- the selected tab's underline, `--underlineNav-borderColor-active`.
+
+So nothing on an application's page keeps the theme's default accent beside its own. The theme's focus ring (`--focus-outlineColor`) is kept: it is drawn to show around every accent. An unknown name is refused.
+
+An application names its accent in its Appspec, as `interface.accent` (one of the six names; `green` when it says nothing), and its host applies it, whatever theme the application wears:
 
 ```tsx
-import { loopAccentVars } from '@datalayer/primer-addons';
+import { getThemeConfig, themeAccentVars } from '@datalayer/primer-addons';
 
-<DatalayerThemeProvider theme={loopTheme} themeStyles={loopThemeStyles}
-  baseStyles={loopAccentVars(app.interface.accent, mode)}>
+const config = getThemeConfig(app.interface.theme.variant);
+<DatalayerThemeProvider theme={config.primerTheme} themeStyles={config.themeStyles}
+  baseStyles={themeAccentVars(app.interface.accent, mode)}>
 ```
 
-`loopAccentVars` sets the four `--loop-*` properties and nothing else: what reads them (the stage, a bubble drawn with them) takes the application's accent, while Primer's own accent tokens — the filled button, `--bgColor-accent-emphasis` — stay the theme's mint. `loopAccentStyles(name, mode)` sets everything the accent colours instead: those four, the accent fill and the filled button with its text, and Primer's accent text, links, muted border and muted tint (`--fgColor-accent`, `--fgColor-link`, `--borderColor-accent-muted`, `--bgColor-accent-muted`), and the selected tab's underline (`--underlineNav-borderColor-active`, which the theme itself also sets to its mint in place of Primer's coral) — so that nothing on an application's page keeps mint beside its own accent.
+The source: `src/theme/colors/themeAccents.ts`.
+
+## The `loop` theme
+
+`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows its own parts — the controls as pills, its tokens — on the *Theme accents* page, whatever theme the gallery itself wears. Its accent is mint, `green` of the [theme accents](#theme-accents).
+
+```tsx
+import { DatalayerThemeProvider, loopTheme, loopThemeStyles } from '@datalayer/primer-addons';
+
+<DatalayerThemeProvider theme={loopTheme} themeStyles={loopThemeStyles} colorMode="auto">
+  {app}
+</DatalayerThemeProvider>
+```
+
+The sources: `src/theme/colors/loopColors.ts` (colours), `src/theme/themes/loopTheme.ts` (the theme), `src/theme/css/createThemeCSSVars.ts` (what every theme sets), `src/theme/DatalayerThemeProvider.tsx` and `src/utils/Portals.tsx` (how a theme's stylesheet is applied).
 
 ### Shape, shadow, type and motion
 
@@ -133,7 +142,7 @@ import { loopAccentVars } from '@datalayer/primer-addons';
 - **Type**: one face, Inter — open licence (SIL OFL 1.1) and variable — then a metric-matched fallback, then the system sans-serif (`loopFontFamily`: `"Inter Variable", "Inter Fallback", ui-sans-serif, system-ui, …`). Two weights, 400 and 600 (`loopFontWeights`; Primer's light weight is 400 and its medium 600), and five sizes, one line-height for each (`loopTypeScale`, every line a multiple of 4px): 2rem/1.25 (display, title large), 1.25rem/1.4 (title medium, subtitle), 1rem/1.5 (title small, body large), 0.875rem/1.4286 (body medium, the theme's body), 0.75rem/1.3333 (body small, caption) — set on Primer's shorthands and on its size and line-height tokens alike, and held by `loopType.test.ts`. The titles are set tighter and the tracking is a token a component applies: `--loop-tracking-display` (-0.02em), `--loop-tracking-title` (-0.012em), `--loop-tracking-body` (0).
 - **The face, from the page's own origin**: a page wearing the theme imports `@datalayer/primer-addons/style/loop-face.css` once. It declares `Inter Variable` from `@fontsource-variable/inter` — the upright variable file, latin and latin-ext only, `font-display: swap` — which the page's bundler emits as its own asset, so the face is fetched from the page's origin and never from a third party; and `Inter Fallback`, a local Arial (or Liberation Sans or Arimo, metric-compatible with it) drawn to Inter's measure — `size-adjust: 107.4%`, `ascent-override: 90.2%`, `descent-override: 22.48%`, `line-gap-override: 0%`, next/font's values for Inter, computed by Capsize — so the text paints in the fallback first and does not move when Inter arrives. A page that does not import it shows the system face.
 - **Space**: no scale of its own — Primer's, in steps of 4 and 8 (`sx` 1 to 6 are 4, 8, 16, 24, 32, 40px), and the air of the look comes from where it is spent: a frame 24px from the edge of its stage, 16px inside a conversation (the header, the messages, the composer), 24px around a pane of work, 8px between two pills, and one hairline (`--theme-hairline`) where two surfaces meet instead of a gap and a border.
-- **The stage, lit**: `--loop-stage-gradient`, from the stage tint at the top to the quiet tint at the bottom, both the accent's.
+- **The stage, lit**: `--theme-stage-gradient`, from the stage tint at the top to the quiet tint at the bottom, both the accent's — mint's in `loop` (every theme sets it, see [Theme accents](#theme-accents)).
 - **The focus ring**: `--focus-outlineColor`, the deep mint `#0F6B4F` in light mode and a mid grey `#636363` in dark mode.
 
 ### The reference screens
@@ -156,8 +165,8 @@ How `DatalayerThemeProvider` applies it:
 
 The look is kept by eight rules, written here once and applied to every screen in review (LOOP T-17, Q-09) — a screen that breaks one is changed, or the rule is, never let through as an exception:
 
-1. **One accent per application.** Its own (`interface.accent`), on everything the accent colours (`loopAccentStyles`); never a second hue beside it. Success, attention and danger are a verdict's colours, and only a verdict's.
-2. **No gradient on a surface.** A frame, a card, a bubble, a pill, a button and a menu are flat. The one gradient is the stage behind the frame, lit by the accent's own two tints (`--loop-stage-gradient`), and a stage may as well be flat (`--loop-stage`).
+1. **One accent per application.** Its own (`interface.accent`), on everything the accent colours (`themeAccentVars`); never a second hue beside it. Success, attention and danger are a verdict's colours, and only a verdict's.
+2. **No gradient on a surface.** A frame, a card, a bubble, a pill, a button and a menu are flat. The one gradient is the stage behind the frame, lit by the accent's own two tints (`--theme-stage-gradient`), and a stage may as well be flat (`--theme-stage`).
 3. **No border where space separates.** Air first; where two surfaces meet, one hairline (`--theme-hairline`, `--loop-hairline`), never a gap and a border both, never a box drawn round a group that space already groups.
 4. **No shadow beyond the one level.** `--loop-shadow-frame` (`--theme-shadow`): a frame, a menu and a dialog float on it; nothing else has a shadow of its own.
 5. **Two weights.** 400 and 600 (`loopFontWeights`), in the five sizes of `loopTypeScale` — by name in `sx` too, where `loopTheme.fontWeights` makes Primer's `light` and `normal` the 400, `semibold` and `bold` the 600.
@@ -184,7 +193,7 @@ The same test holds the motion to three durations and one easing.
 
 ### What a host may override
 
-Today a host overrides through the provider: `baseStyles` is merged on top of the theme's properties, so it may set an accent (`loopAccentVars`), or any `--loop-*` or `--theme-*` property, for the element and — for the outermost provider — the portal root; and it may pass a theme of its own to `themeStyles`, built with `buildThemeStyles`. A person's choice in an appearance menu (`useThemeStore`) is the host's to honour.
+Today a host overrides through the provider: `baseStyles` is merged on top of the theme's properties, so it may set an accent (`themeAccentVars`), or any `--loop-*` or `--theme-*` property, for the element and — for the outermost provider — the portal root; and it may pass a theme of its own to `themeStyles`, built with `buildThemeStyles`. A person's choice in an appearance menu (`useThemeStore`) is the host's to honour.
 
 **Not built yet** (LOOP T-13): the theme travelling inside an embedded application's web component as CSS variables isolated from the host page's styles, with the accent, the face and the mode as the only things the host overrides. Until then an embedded application is themed as any React tree under `DatalayerThemeProvider` is, and the host page's own CSS is not kept out.
 

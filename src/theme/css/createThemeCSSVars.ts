@@ -4,6 +4,7 @@
  */
 
 import { type CSSProperties } from 'react';
+import { themeTintVars } from '../colors/themeAccents';
 
 /* ─── Colour-definition structure ─────────────────────────────────────── */
 
@@ -578,6 +579,7 @@ export function buildThemeStyles(
       ...colorDefsToCSS(light, 'light'),
       ...fontVars,
       ...shapeVars(options?.shape),
+      ...themeTintVars(light),
       ...(options?.variables?.light ?? {}),
     } as CSSProperties,
     dark: {
@@ -588,6 +590,7 @@ export function buildThemeStyles(
       ...colorDefsToCSS(dark, 'dark'),
       ...fontVars,
       ...shapeVars(options?.shape),
+      ...themeTintVars(dark),
       ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
     ...(options?.css ? { css: options.css } : {}),

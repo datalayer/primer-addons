@@ -16,10 +16,12 @@
  *
  * Unlike the other themes it also sets **shape**: rounder corners, and
  * its own `--loop-*` properties for what an application is drawn with —
- * its accent, the stage behind it, a bubble, a frame, a face.
+ * a bubble, a frame, a face. Its accent and stage are the theme system's
+ * (`--theme-accent`, `--theme-stage` and the rest, `themeAccents`): mint.
  */
 
-import { loopAccentVars, loopAccents, loopColors } from '../colors/loopColors';
+import { loopColors } from '../colors/loopColors';
+import { themeAccentTints, themeAccents } from '../colors/themeAccents';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
@@ -401,12 +403,16 @@ export const loopTypeVars = (font: string): Record<string, string> => {
 };
 
 /**
- * The stage, lit: a soft fall from the stage tint at the top to the quiet
- * tint at the bottom, for the page an application sits on. Both tints are
- * the accent's, so an application's own colour lights its stage.
+ * The accent's properties in a mode, mint's (`themeAccents.green`): the
+ * stage and the quiet tint are mint's own, not derived from the colours.
  */
-export const loopStageGradient =
-  'radial-gradient(140% 100% at 50% 0%, var(--loop-stage) 0%, var(--loop-quiet) 100%)';
+const loopTints = (mode: 'light' | 'dark') =>
+  themeAccentTints({
+    accent: themeAccents.green.accent,
+    on: themeAccents.green.on,
+    stage: themeAccents.green.stage[mode],
+    quiet: themeAccents.green.quiet[mode],
+  });
 
 /* ── Exports ─────────────────────────────────────────────────────────── */
 
@@ -520,33 +526,31 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   variables: {
     light: {
       ...loopShapeVars,
-      ...loopAccentVars('green', 'light'),
+      ...loopTints('light'),
       ...loopMotionVars,
       ...loopShadows.light,
       ...loopTypeVars(loopFontFamily),
-      '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.light,
       // The hairline is Primer's default border: a card drawn with
       // `borderColor="border.default"` gets it, no fallback chain at the call site.
       '--borderColor-default': loopHairline.light,
       '--focus-outlineColor': loopFocusRing.light,
       // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
-      '--underlineNav-borderColor-active': loopAccents.green.accent,
+      '--underlineNav-borderColor-active': themeAccents.green.accent,
     },
     dark: {
       ...loopShapeVars,
-      ...loopAccentVars('green', 'dark'),
+      ...loopTints('dark'),
       ...loopMotionVars,
       ...loopShadows.dark,
       ...loopTypeVars(loopFontFamily),
-      '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.dark,
       // The hairline is Primer's default border: a card drawn with
       // `borderColor="border.default"` gets it, no fallback chain at the call site.
       '--borderColor-default': loopHairline.dark,
       '--focus-outlineColor': loopFocusRing.dark,
       // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
-      '--underlineNav-borderColor-active': loopAccents.green.accent,
+      '--underlineNav-borderColor-active': themeAccents.green.accent,
     },
   },
 });

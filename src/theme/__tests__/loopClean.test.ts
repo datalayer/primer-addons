@@ -24,7 +24,7 @@ describe('the loop theme, by the rules of clean', () => {
       const gradients = Object.entries(styles(mode))
         .filter(([, value]) => typeof value === 'string' && /gradient\(/.test(value))
         .map(([key]) => key);
-      expect(gradients, mode).toEqual(['--loop-stage-gradient']);
+      expect(gradients, mode).toEqual(['--theme-stage-gradient']);
     }
     expect(loopControlsCss).not.toMatch(/gradient\(/);
   });

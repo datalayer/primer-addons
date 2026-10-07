@@ -23,17 +23,22 @@ describe('the shape of a theme', () => {
     for (const [name, config] of Object.entries(themeConfigs)) {
       const light = config.themeStyles.light as Record<string, unknown>;
       expect(Object.keys(light).filter(key => key.startsWith('--theme-')).sort(), name).toEqual([
+        '--theme-accent',
+        '--theme-accent-on',
         '--theme-hairline',
         '--theme-message-link',
         '--theme-motion-easing',
         '--theme-motion-message',
         '--theme-motion-pane',
         '--theme-motion-status',
+        '--theme-quiet',
         '--theme-radius-bubble',
         '--theme-radius-card',
         '--theme-radius-control',
         '--theme-radius-frame',
         '--theme-shadow',
+        '--theme-stage',
+        '--theme-stage-gradient',
       ]);
     }
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe(

@@ -11,15 +11,17 @@ export { earthColors } from './earthColors';
 export { sandColors } from './sandColors';
 export { ivoryColors } from './ivoryColors';
 export { sunColors } from './sunColors';
+export { loopColors } from './loopColors';
 export {
-  loopColors,
-  loopAccents,
-  loopAccentNames,
-  loopAccentVars,
-  loopAccentStyles,
-  type LoopAccent,
-  type LoopAccentName,
-} from './loopColors';
+  themeAccents,
+  themeAccentNames,
+  themeAccentVars,
+  themeAccentTints,
+  themeStageGradient,
+  themeTintVars,
+  type ThemeAccent,
+  type ThemeAccentName,
+} from './themeAccents';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';

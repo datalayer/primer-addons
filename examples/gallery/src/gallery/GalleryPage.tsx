@@ -46,7 +46,7 @@ export function GalleryPage() {
         </Box>
         <div className="gallery-grid">
           {filteredDemos.length === 0 ? (
-            <Card border rounded="medium" shadow="small" className="gallery-card">
+            <Card border shadow="small" className="gallery-card">
               <Card.Header
                 title="No components found"
                 description="Try a different search term, for example: overlay, toolbar, or card."
@@ -57,7 +57,6 @@ export function GalleryPage() {
               <Card
                 key={demo.slug}
                 border
-                rounded="medium"
                 shadow="small"
                 className="gallery-card"
               >

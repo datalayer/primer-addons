@@ -242,6 +242,8 @@ export const BOX_STYLE_PROPS = {
   /* Effects and interaction */
   cursor: prop('cursor'),
   pointerEvents: prop('pointer-events'),
+  touchAction: prop('touch-action'),
+  all: prop('all'),
   userSelect: prop('user-select'),
   appearance: prop('appearance'),
   transition: prop('transition'),

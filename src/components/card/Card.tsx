@@ -69,6 +69,10 @@ export const Card: React.FC<CardProps> & {
   return (
     <Box
       sx={{
+        // A column, so the actions stand at the bottom however long the
+        // text above them: cards side by side end on one line.
+        display: "flex",
+        flexDirection: "column",
         ...(sx ? sx : undefined),
         borderRadius: rounded === undefined
           ? CARD_RADIUS
@@ -137,7 +141,7 @@ Card.Content = ({children}) => {
 }
 
 Card.Actions = ({ children }) => {
-  return <Box display="block" sx={{p: 3}}>
+  return <Box display="block" sx={{p: 3, mt: "auto"}}>
     {children}
   </Box>;
 }

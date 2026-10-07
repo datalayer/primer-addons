@@ -21,6 +21,7 @@ export * from './themes-brand/spatialBrandTheme';
 export * from './themeRegistry';
 export * from './portableTheme';
 export * from './fontStacks';
+export * from './loopEyes';
 export * from './palettes';
 export * from './useSystemColorMode';
 export * from './useThemeStore';

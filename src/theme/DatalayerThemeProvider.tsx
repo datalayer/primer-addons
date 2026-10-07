@@ -17,6 +17,7 @@ import { useSystemColorMode } from "./useSystemColorMode";
 import { datalayerTheme, datalayerThemeStyles } from "./themes/datalayerTheme";
 import { systemFontStack } from "./fontStacks";
 import { type ThemeStyles } from "./css/createThemeCSSVars";
+import { primerBaseVars } from "./css/primerBaseVars";
 import {
   APP_ROOT_ATTRIBUTE,
   THEME_SCOPE_ATTRIBUTE,
@@ -45,7 +46,7 @@ import {
  * their CSS.  We define the full set here so **every** theme gets
  * correct font inheritance — no primitives CSS import required.
  */
-const typographyVars: CSSProperties = {
+export const typographyVars: CSSProperties = {
   /* ── Font stacks ───────────────────────────────────────────────── */
   "--fontStack-monospace":
     "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace",
@@ -226,6 +227,9 @@ export function DatalayerThemeProvider(
   const resolvedTheme = theme ?? datalayerTheme;
   const styles = themeStyles ?? datalayerThemeStyles;
   const resolvedStyles = isDark ? styles.dark : styles.light;
+  // Primer's variables no theme sets (radii, neutrals, shadows…), under the
+  // theme's own: `Box` emits them with no fallback (see primerBaseVars).
+  const baseVars = (isDark ? primerBaseVars.dark : primerBaseVars.light) as CSSProperties;
 
   // The full set of styles that <BaseStyles> receives — we also push
   // these to document.body so Primer portal content inherits theme
@@ -233,10 +237,11 @@ export function DatalayerThemeProvider(
   const portalStyles: CSSProperties = useMemo(
     () => ({
       ...typographyVars,
+      ...baseVars,
       ...resolvedStyles,
       ...baseStyles,
     }),
-    [resolvedStyles, baseStyles],
+    [baseVars, resolvedStyles, baseStyles],
   );
 
   // Keep document.body portal-root attributes AND theme styles in sync
@@ -296,6 +301,7 @@ export function DatalayerThemeProvider(
           lineHeight: "1.7",
           transition: "background-color 0.25s ease, color 0.25s ease",
           ...typographyVars,
+          ...baseVars,
           ...resolvedStyles,
           ...baseStyles,
         }}

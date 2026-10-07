@@ -8,6 +8,12 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown in the gallery's *Loop Theme* page.
 
+## Unreleased
+
+- `Box` is this package's own, no longer Primer's deprecated re-export: Primer's prop names, resolved to Primer's CSS variables with no fallback, responsive values on Primer's breakpoints, pseudo-state props (`hover`, `focusVisible`…), one class per style in a stylesheet of the document or the shadow root — no styled-components. `sx` still works, through Primer's `Box`, while call sites move to props — [`Box`](https://github.com/datalayer/primer-addons/blob/main/README.md#box).
+- The theme provider sets Primer's variables no theme sets — radii, neutrals, sponsors, open and closed, the elevation shadows — at Primer's values (`primerBaseVars`), under the theme's own: every variable `Box` emits is set in every theme.
+- The `loop` theme's hairline is Primer's default border (`--borderColor-default`), so a card drawn with `borderColor="border.default"` and `borderRadius="large"` is the loop card, with no `var(--loop-…, …)` fallback at the call site.
+
 ## 1.0.38
 
 - A portable entry, `@datalayer/primer-addons/lib/theme/portable`: the nine themes as data and pure functions (`exportPortableTheme`, the token registry, the colours, the font stacks), with no Primer React, styled-components or browser global, for a native app (Datalayer Mobile) or a build script. Each `themes/*Theme.ts` now re-exports `themes/*ThemeStyles.ts` and adds the Primer theme object; `themeRegistry.ts` adds the Primer objects to `themeTokens.ts`. The public API is unchanged. MOBILE M-012a.

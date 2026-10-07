@@ -526,6 +526,9 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
       ...loopTypeVars(loopFontFamily),
       '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.light,
+      // The hairline is Primer's default border: a card drawn with
+      // `borderColor="border.default"` gets it, no fallback chain at the call site.
+      '--borderColor-default': loopHairline.light,
       '--focus-outlineColor': loopFocusRing.light,
       // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
       '--underlineNav-borderColor-active': loopAccents.green.accent,
@@ -538,6 +541,9 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
       ...loopTypeVars(loopFontFamily),
       '--loop-stage-gradient': loopStageGradient,
       '--loop-hairline': loopHairline.dark,
+      // The hairline is Primer's default border: a card drawn with
+      // `borderColor="border.default"` gets it, no fallback chain at the call site.
+      '--borderColor-default': loopHairline.dark,
       '--focus-outlineColor': loopFocusRing.dark,
       // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
       '--underlineNav-borderColor-active': loopAccents.green.accent,

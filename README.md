@@ -43,6 +43,29 @@ The [gallery example](examples/gallery) is a Reactor app built on the three: `np
   <img alt="Primer React Addons" src="https://assets.datalayer.tech/primer-addons-example.png" />
 </div>
 
+## `Box`
+
+`Box` is this package's own, not Primer's deprecated one: the same prop names — space (`p`, `mx`, `gap`…), colour (`color`, `bg`), border (`border`, `borderColor`, `borderRadius`, `borderTop`…), layout, flex and grid, position, type, `boxShadow`, `opacity`, `cursor`, `transition`, `transform`, `listStyle`, and `as` — without styled-components.
+
+```tsx
+import { Box } from '@datalayer/primer-addons';
+
+<Box as="section" display="flex" flexDirection="column" gap={2} p={3}
+  bg="canvas.default" border="1px solid" borderColor="border.default" borderRadius="large"
+  gridTemplateColumns={['1fr', null, 'repeat(3, 1fr)']}
+  hover={{ bg: 'canvas.subtle' }} focusVisible={{ outline: '2px solid' }}>
+  …
+</Box>
+```
+
+- **Tokens are Primer's CSS variables, with no fallback.** A colour path is the variable Primer's own theme reads first for it (`bg="canvas.subtle"` is `var(--bgColor-muted)`, `borderColor="border.default"` is `var(--borderColor-default)`, `boxShadow="shadow.medium"` is `var(--shadow-resting-medium)`); a radius by name is Primer's (`small`, `medium`, `large`, `full`) or the theme's shape (`control`, `card`, `bubble`, `frame`); a weight by name is the theme's weight variable. Space, font sizes, radii by index and sizes are Primer's theme scales in pixels (`p={3}` is 16px). The theme provider sets every variable `Box` emits, in every theme — a test holds it — so a theme that wants another hairline or corner sets it on Primer's variable (the `loop` theme's hairline is its `--borderColor-default`, its card corner its `--borderRadius-large`), never a call site with `var(--loop-…, var(--…))`.
+- **Responsive values** are one per breakpoint, Primer's (544, 768, 1012, 1280px), `null` to skip one.
+- **States** take a style of their own: `hover`, `focus`, `focusVisible`, `focusWithin`, `active`, and `reducedMotion`.
+- **One class per style.** The props are resolved and hashed into one class whose rules are inserted once into a stylesheet of the document, or of the shadow root the element is in. No styled-components: this package's own copy once shipped beside Primer's and, wherever a bundler did not dedupe them, `Box` rendered with no theme.
+- **`sx` still works**, typed, while the call sites move to props: a `Box` given `sx` is rendered by Primer's `Box`, with its props' class beside. What a codemod cannot move to props (nested selectors, arbitrary media) stays in `sx`.
+
+The sources: `src/components/box/Box.tsx` (the design), `boxCss.ts` (the props and their scales, the stylesheet), `boxTokens.ts` (the tokens, generated from Primer's theme), `src/theme/css/primerBaseVars.ts` (Primer's variables no theme sets).
+
 ## The `loop` theme
 
 `loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on its own page, *Loop Theme*, whatever theme the gallery itself wears.

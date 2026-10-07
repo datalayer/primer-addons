@@ -6,7 +6,7 @@
 import { Box, Text } from '@primer/react';
 import {
   CollaboratorPalette,
-  collaboratorColor,
+  collaboratorHash,
   useCollaboratorColors,
 } from '@datalayer/primer-addons';
 
@@ -53,7 +53,7 @@ export function CollaboratorPaletteDemo() {
                 style={{
                   width: 2,
                   height: 20,
-                  backgroundColor: collaboratorColor(person),
+                  backgroundColor: colors[collaboratorHash(person) % colors.length],
                 }}
               />
               <Text
@@ -63,7 +63,7 @@ export function CollaboratorPaletteDemo() {
                   borderRadius: 1,
                   color: '#fff',
                 }}
-                style={{ backgroundColor: collaboratorColor(person) }}
+                style={{ backgroundColor: colors[collaboratorHash(person) % colors.length] }}
               >
                 {person}
               </Text>

@@ -8,6 +8,13 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown in the gallery's *Loop Theme* page.
 
+## 1.0.38
+
+- A portable entry, `@datalayer/primer-addons/lib/theme/portable`: the nine themes as data and pure functions (`exportPortableTheme`, the token registry, the colours, the font stacks), with no Primer React, styled-components or browser global, for a native app (Datalayer Mobile) or a build script. Each `themes/*Theme.ts` now re-exports `themes/*ThemeStyles.ts` and adds the Primer theme object; `themeRegistry.ts` adds the Primer objects to `themeTokens.ts`. The public API is unchanged. MOBILE M-012a.
+- The eyes of L👀P as geometry (`loopEyes`), in that entry: the web and the mobile app draw the same eyes. MOBILE M-012b.
+- The build is green from npm again: Vitest inlines `@datalayer/reactor`, whose lib imports without extensions.
+- 1.0.37 was tagged and never published; its changes are in this release.
+
 ## 1.0.37
 
 - An application's own Primer wrapper, marked `data-datalayer-app-root`, is not a host page: the Datalayer provider inside it themes the portal root, so menus and dialogs drawn there have the theme's background. LOOP T-13 — [What a host may override](https://github.com/datalayer/primer-addons/blob/main/README.md#what-a-host-may-override).

@@ -15,6 +15,8 @@ import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
 import { ColorPaletteDemo } from './ColorPaletteDemo';
+import { ColorSwatchDemo } from './ColorSwatchDemo';
+import { SheetDemo } from './SheetDemo';
 import { ThemeAccentsDemo } from './ThemeAccentsDemo';
 import { CollaboratorPaletteDemo } from './CollaboratorPaletteDemo';
 import { ColorPickerDemo } from './ColorPickerDemo';
@@ -95,6 +97,18 @@ export const demos: Demo[] = [
     title: 'Color Palette',
     description: 'Primer primitive scales and semantic color tokens.',
     render: () => <ColorPaletteDemo />,
+  },
+  {
+    slug: 'color-swatch',
+    title: 'Color Swatch',
+    description: 'One colour as a card: its block, its name and the value the theme gives it.',
+    render: () => <ColorSwatchDemo />,
+  },
+  {
+    slug: 'sheet',
+    title: 'Sheet',
+    description: 'A page on a canvas: hairline, the theme’s card corner and a sheet’s shadow.',
+    render: () => <SheetDemo />,
   },
   {
     slug: 'theme-accents',

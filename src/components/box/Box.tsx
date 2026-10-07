@@ -161,7 +161,10 @@ function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
 }
 
 const BoxImpl = forwardRef<unknown, BoxProps>(function Box(props, ref) {
-  const { as: Component = 'div', sx, className, ...rest } = props;
+  const { as, sx: sxProp, className, ...rest } = props;
+  // The index signature widens what destructuring reads: typed back here.
+  const Component = (as ?? 'div') as ElementType;
+  const sx = sxProp as BetterSystemStyleObject | undefined;
   const style: Record<string, unknown> = {};
   const element: Record<string, unknown> = {};
   for (const key of Object.keys(rest)) {

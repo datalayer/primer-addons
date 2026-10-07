@@ -62,7 +62,7 @@ import { Box } from '@datalayer/primer-addons';
 - **Responsive values** are one per breakpoint, Primer's (544, 768, 1012, 1280px), `null` to skip one.
 - **States** take a style of their own: `hover`, `focus`, `focusVisible`, `focusWithin`, `active`, and `reducedMotion`.
 - **One class per style.** The props are resolved and hashed into one class whose rules are inserted once into a stylesheet of the document, or of the shadow root the element is in. No styled-components: this package's own copy once shipped beside Primer's and, wherever a bundler did not dedupe them, `Box` rendered with no theme.
-- **`sx` still works**, typed, while the call sites move to props: a `Box` given `sx` is rendered by Primer's `Box`, with its props' class beside. What a codemod cannot move to props (nested selectors, arbitrary media) stays in `sx`.
+- **`sx` still works**, typed, while the call sites move to props: its keys are read as the props are (the same tokens) and its nested blocks — `'&:hover'`, `'& svg'`, `'@media (…)'`, `'@keyframes …'` — become rules of the same class, after the props'. No styled-components there either: Primer's `Box` on styled-components 6 passed `sx` on to the DOM. What a codemod cannot move to props (nested selectors, keyframes) stays in `sx`.
 
 The sources: `src/components/box/Box.tsx` (the design), `boxCss.ts` (the props and their scales, the stylesheet), `boxTokens.ts` (the tokens, generated from Primer's theme), `src/theme/css/primerBaseVars.ts` (Primer's variables no theme sets).
 
@@ -89,14 +89,14 @@ Six soft accents, and an application takes one — **over any theme**: `datalaye
 
 So nothing on an application's page keeps the theme's default accent beside its own. The theme's focus ring (`--focus-outlineColor`) is kept: it is drawn to show around every accent. An unknown name is refused.
 
-An application names its accent in its Appspec, as `interface.accent` (one of the six names; `green` when it says nothing), and its host applies it, whatever theme the application wears:
+An application names its accent in its Appspec, as `interface.accent` (one of the six names), and its host applies it, whatever theme the application wears. An application that names none is not recoloured: it wears its theme's own colours — mint in `loop` (decided 2026-10-07).
 
 ```tsx
 import { getThemeConfig, themeAccentVars } from '@datalayer/primer-addons';
 
 const config = getThemeConfig(app.interface.theme.variant);
 <DatalayerThemeProvider theme={config.primerTheme} themeStyles={config.themeStyles}
-  baseStyles={themeAccentVars(app.interface.accent, mode)}>
+  baseStyles={app.interface.accent ? themeAccentVars(app.interface.accent, mode) : undefined}>
 ```
 
 The source: `src/theme/colors/themeAccents.ts`.

@@ -159,3 +159,16 @@ describe('the variables Box emits', () => {
     expect(light['--borderRadius-large']).toBe(light['--loop-radius-card']);
   });
 });
+
+describe('a reset', () => {
+  it('is emitted before what it would reset, wherever the author wrote it', () => {
+    // `all: unset` sets every property: written after `width` it undoes it.
+    // A grown card's picture collapsed to 40px that way, and the artwork of
+    // the Library's hover card was a sliver at its left (2026-10-09).
+    const written = css({ display: 'block', width: '100%', all: 'unset' });
+    expect(written.indexOf('all:unset')).toBeLessThan(written.indexOf('width:100%'));
+    expect(written).toContain('display:block');
+    // First or last, the rule reads the same.
+    expect(css({ all: 'unset', display: 'block', width: '100%' })).toBe(written);
+  });
+});

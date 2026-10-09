@@ -403,13 +403,31 @@ const kebab = (key: string): string =>
   key.startsWith('--') ? key : key.replace(/^(Webkit|Moz|ms)(?=[A-Z])/, m => `-${m.toLowerCase()}`).replace(/[A-Z]/g, m => `-${m.toLowerCase()}`);
 
 /**
+ * The keys of a style, with the resets first.
+ *
+ * `all` is a shorthand that sets *every* property: written after `width` it
+ * undoes it, whatever the author meant. A grown card's picture collapsed to
+ * 40px that way — `<Box as="button" display="block" width="100%" all="unset">`
+ * — and the artwork of the Library's hover card was a sliver at its left
+ * (seen 2026-10-09). An author may write the props in any order; a reset is
+ * emitted before what it would reset.
+ */
+const RESETS = ['all'] as const;
+
+const keysOf = (style: Record<string, unknown>): string[] => {
+  const keys = Object.keys(style);
+  const resets = keys.filter(key => (RESETS as readonly string[]).includes(key));
+  return resets.length === 0 ? keys : [...resets, ...keys.filter(key => !resets.includes(key))];
+};
+
+/**
  * A style's declarations. With `raw` (an `sx` object), a key that is no
  * style prop is CSS as written — its number in pixels unless the property
  * has no unit — as Primer's `sx` read it.
  */
 function blockOf(style: Record<string, unknown>, raw = false): Block {
   const block: Block = [];
-  for (const key of Object.keys(style)) {
+  for (const key of keysOf(style)) {
     const value = style[key];
     if (key in BOX_STYLE_PROPS) {
       addDeclarations(block, key as BoxStyleKey, value);

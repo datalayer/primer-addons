@@ -13,6 +13,7 @@ import { BoxDemo } from './BoxDemo';
 import { CardDemo } from './CardDemo';
 import { PrimerDemo } from './PrimerDemo';
 import { HoverCardDemo } from './HoverCardDemo';
+import { EntityAvatarDemo } from './EntityAvatarDemo';
 import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
@@ -83,6 +84,13 @@ export const demos: Demo[] = [
     description:
       'A small card that grows into a larger one on hover, whose chevron opens the large card: useHoverCard, HoverCardAnchor, HoverCardLayer, HoverCard and HoverCardDetails, on the theme\'s Card.',
     render: () => <HoverCardDemo />,
+  },
+  {
+    slug: 'entity-avatar',
+    title: 'Entity Avatar',
+    description:
+      "The face of a person, an agent, an app or a space, drawn by the theme: an image, an emoji or icon, or initials, on a tone's wash or solid colour, the page's ground or the entity's own colour — a circle for a person, the theme's corner for the rest.",
+    render: () => <EntityAvatarDemo />,
   },
   {
     slug: 'primer',

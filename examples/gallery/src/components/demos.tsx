@@ -12,6 +12,7 @@ import { ThemeCircleDemo } from './ThemeCircleDemo';
 import { BoxDemo } from './BoxDemo';
 import { CardDemo } from './CardDemo';
 import { PrimerDemo } from './PrimerDemo';
+import { HoverCardDemo } from './HoverCardDemo';
 import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
@@ -75,6 +76,13 @@ export const demos: Demo[] = [
     description:
       "primer-addons' Card on the theme's tokens: slots (Header, Cover, Image, Content, Footer, Actions), border, rounded, shadow, the variants, interactive, selected, dashed, disabled and an accent edge.",
     render: () => <CardDemo />,
+  },
+  {
+    slug: 'hover-card',
+    title: 'Hover Card',
+    description:
+      'A small card that grows into a larger one on hover, whose chevron opens the large card: useHoverCard, HoverCardAnchor, HoverCardLayer, HoverCard and HoverCardDetails, on the theme\'s Card.',
+    render: () => <HoverCardDemo />,
   },
   {
     slug: 'primer',

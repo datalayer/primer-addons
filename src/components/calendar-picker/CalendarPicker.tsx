@@ -232,7 +232,8 @@ export function CalendarPicker({
                   : isToday
                     ? "var(--borderColor-default)"
                     : "transparent",
-                borderRadius: 2,
+                // The theme's control corner: a pill in loop, Primer's medium elsewhere.
+                borderRadius: "var(--theme-radius-control)",
                 height: 30,
                 cursor: disabled ? "not-allowed" : "pointer",
                 fontSize: 1,

@@ -46,6 +46,7 @@ export {
 } from "./page-layout/PageLayoutPlugin";
 export {
   PageLayout,
+  panelOpening,
   PAGE_SHEET_WIDTH,
   PAGE_PANEL_WIDTH,
   PAGE_SIZE_FORMATS,

@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) 2023-2026 Datalayer, Inc.
+ * Distributed under the terms of the Modified BSD License.
+ */
+
+/*
+ * The `loop` theme's face (LOOP T-04): Inter, open licence (SIL OFL 1.1) and
+ * variable, served by the page's own build from `@fontsource-variable/inter`
+ * — the woff2 is bundled as an asset of the importing application, so it is
+ * fetched from that application's origin and never from a third party.
+ *
+ * Import it once where the theme can be worn:
+ *
+ *   import '@datalayer/primer-addons/style/loop-face.css';
+ *
+ * Only the upright variable axis (weights 100 to 900 in one file; the theme
+ * uses 400 and 600) and only two subsets, latin and latin-ext: a browser
+ * fetches a subset only when the page draws one of its characters, and
+ * everything else falls to the system face.
+ */
+
+/* inter-latin-ext-wght-normal */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* inter-latin-wght-normal */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC,
+    U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * The fallback the text is painted in first (`font-display: swap`), drawn to
+ * Inter's measure so that nothing moves when Inter arrives: Arial — or a face
+ * metric-compatible with it, Liberation Sans or Arimo, where Arial is not
+ * installed — scaled to Inter's average width and given Inter's ascent and
+ * descent. The values are next/font's for Inter (`@next/font`, computed by
+ * Capsize from Inter's metrics against Arial's: size-adjust 107.4%, ascent
+ * 90.2%, descent 22.48%, no line gap). Measured again in Chrome against the
+ * woff2 above: Inter's ascent 0.969 and descent 0.241 of its em, and a
+ * sentence of English 107.0% as wide as Arial's.
+ */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'), local('Arimo');
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+}

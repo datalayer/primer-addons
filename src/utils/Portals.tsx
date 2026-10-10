@@ -217,4 +217,68 @@ export function syncPortalThemeStyles(styles: CSSProperties): void {
   }
 }
 
+/* ─── A theme's own stylesheet ───────────────────────────────────────── */
+
+/**
+ * The attribute every theme provider stamps on its own element, its value
+ * unique to that provider: what a theme's stylesheet is scoped to, and where
+ * it stops — at the element of any provider nested inside.
+ */
+export const THEME_SCOPE_ATTRIBUTE = 'data-datalayer-theme-scope';
+
+/**
+ * The attribute an application puts on its own outer Primer `BaseStyles`
+ * when it wraps everything in Primer's provider above a Datalayer one: that
+ * element is the application's, not a host page's (LOOP T-13), so the
+ * provider inside it still themes the page's portal root.
+ */
+export const APP_ROOT_ATTRIBUTE = 'data-datalayer-app-root';
+
+/** The attribute on the `<style>` element a provider injects, its value the provider's scope. */
+export const THEME_STYLESHEET_ATTRIBUTE = 'data-datalayer-theme-stylesheet';
+
+/** The selector of a provider's own element, from its scope. */
+export const themeScopeSelector = (scope: string): string =>
+  `[${THEME_SCOPE_ATTRIBUTE}="${scope}"]`;
+
+/**
+ * A theme's stylesheet — written relative to `:scope` — scoped to each of
+ * `roots`, and stopping at the element of any other theme provider inside
+ * one, so a widget nested in its own theme keeps its own shapes.
+ */
+export function scopeThemeCss(css: string, roots: string[]): string {
+  return roots
+    .map(
+      (root) =>
+        `@scope (${root}) to ([${THEME_SCOPE_ATTRIBUTE}]:not(${root})) {\n${css}\n}`,
+    )
+    .join('\n');
+}
+
+/**
+ * Inject a theme's stylesheet for one provider: scoped to its own element
+ * and, when `portal` is true (the provider owns the portal root), to the
+ * portal root as well — overlays, menus and dialogs are drawn there, outside
+ * the provider's element. Returns what removes it; a theme change calls it
+ * before injecting the next theme's. Without `css`, nothing is injected.
+ */
+export function injectThemeStylesheet(
+  scope: string,
+  css: string | undefined,
+  portal: boolean,
+): () => void {
+  if (!css || typeof document === 'undefined') {
+    return () => undefined;
+  }
+  const roots = [themeScopeSelector(scope)];
+  if (portal) {
+    roots.push(`#${PRIMER_PORTAL_ROOT_ID}`);
+  }
+  const style = document.createElement('style');
+  style.setAttribute(THEME_STYLESHEET_ATTRIBUTE, scope);
+  style.textContent = scopeThemeCss(css, roots);
+  document.head.appendChild(style);
+  return () => style.remove();
+}
+
 export default setupPrimerPortals;

@@ -46,6 +46,7 @@
 
 import { useEffect, type JSX, type ReactNode } from "react";
 import { Box, Text } from "@primer/react";
+import { Sheet } from "../../components/sheet/Sheet";
 import { useSignalValue } from "@datalayer/reactor/react";
 import {
   pageLayoutActivity,
@@ -163,6 +164,26 @@ function ActivityLine({ label }: { label: string }): JSX.Element {
       <Text>{label}</Text>
     </Box>
   );
+}
+
+/**
+ * A panel opening from its side at the theme's pace: `--theme-motion-pane`
+ * and `--theme-motion-easing`, which every theme sets — to no motion at all
+ * but in `loop` (LOOP T-10). The animation starts when the panel is shown.
+ */
+export function panelOpening(side: "left" | "right"): Record<string, unknown> {
+  const name = side === "left" ? "pagePanelOpenLeft" : "pagePanelOpenRight";
+  return {
+    animation: `${name} var(--theme-motion-pane, 0ms) var(--theme-motion-easing, ease) both`,
+    [`@keyframes ${name}`]: {
+      from: {
+        opacity: 0,
+        transform: `translateX(${side === "left" ? "-12px" : "12px"})`,
+      },
+      to: { opacity: 1, transform: "none" },
+    },
+    "@media (prefers-reduced-motion: reduce)": { animation: "none" },
+  };
 }
 
 export type PageLayoutProps = {
@@ -387,7 +408,7 @@ export function PageLayout({
                 <ActivityLine label={activityLabel} />
               </Box>
             ) : null}
-            <Box
+            <Sheet
               data-page-sheet=""
               sx={{
                 width: "100%",
@@ -403,12 +424,8 @@ export function PageLayout({
                   change in the layout's height reaches the page at once.
                 */
                 flex: hasPage ? "1 0 auto" : "1 1 auto",
-                bg: "canvas.default",
-                border: "1px solid",
-                borderColor: "border.default",
-                borderRadius: "10px",
-                boxShadow:
-                  "0 1px 2px rgba(0,0,0,0.06), 0 24px 48px -28px rgba(0,0,0,0.35)",
+                // Its look — canvas, hairline, the theme's card corner, the
+                // shadow — is the Sheet's.
                 // The page's own margins. A page fills the sheet and reads
                 // against these, as text on paper does; a panel's content
                 // brings its own gutters, so it sits closer.
@@ -430,7 +447,7 @@ export function PageLayout({
               }}
             >
               {hasPage ? page : panel}
-            </Box>
+            </Sheet>
             {/* With the panel's content on the sheet, the page is parked out
                 of sight, not unmounted: whatever runs in it — an editor's
                 tools, say — would leave with it. Hidden visibility keeps real
@@ -538,6 +555,13 @@ export function PageLayout({
                 display: "flex",
                 flexDirection: "column",
                 "& > *": { flex: "1 1 auto", minHeight: 0 },
+                // A pane opening, at the theme's pace (LOOP T-10): from its
+                // side, by the theme's motion tokens — none in a theme that
+                // sets no motion, none when motion is reduced. On the
+                // content, not the column: a transform on the column would
+                // hold the floating composer, which lives in it, while it
+                // runs.
+                ...(panelShown ? panelOpening(panelSide) : null),
               }}
             >
               {panel}

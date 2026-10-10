@@ -3,13 +3,60 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import React from "react";
-import { Box, BoxProps, IconButton, Text } from "@primer/react";
+/**
+ * `Card`: a surface that follows the theme.
+ *
+ * It is this package's own `Box`, so every colour, shadow and corner is one
+ * of the theme's variables: the ground is `canvas.default` (a card is never
+ * the page showing through), the hairline `border.default`, the shadow one of
+ * Primer's (`shadow.small`…, which each colour mode sets for itself — no
+ * literal `rgba` that reads as a smudge on a dark page), and the corner the
+ * theme's card corner unless `rounded` says otherwise.
+ *
+ * Every `Box` prop passes through and wins over the card's defaults (`bg`,
+ * `p`, `as`, …), and `sx` wins over both, as it does on `Box`.
+ *
+ * - `interactive` — a card that is clicked: a pointer, a border that takes
+ *   the accent and a lifted shadow on hover, a focus ring for the keyboard.
+ *   It always has a border, so a card rendered `as="button"` shows the
+ *   card's hairline rather than the browser's button border, and a button
+ *   reads its text left to right in the page's font.
+ * - `selected` — the card that is chosen among others: an accent border on
+ *   an accent wash. It says nothing to assistive technology by itself: the
+ *   caller sets `aria-pressed` or `aria-selected`, as its role requires.
+ */
 
-export type CardProps = Omit<BoxProps, 'border'> & {
+import React from "react";
+import { IconButton, Text } from "@primer/react";
+import { Box, type BoxProps, type BoxPseudoProps, type BoxStyleProps } from "../box/Box";
+
+/**
+ * `Box`'s props, but `border` is the card's switch rather than a CSS value.
+ * Spelled out rather than `Omit<BoxProps, 'border'>`: `BoxProps` has an index
+ * signature, and `Omit` over one drops every named key (`children` would be
+ * `unknown`).
+ */
+type CardBoxProps = Omit<BoxStyleProps, 'border'> &
+  BoxPseudoProps &
+  Omit<React.HTMLAttributes<HTMLElement>, keyof BoxStyleProps | 'as'> & {
+    as?: React.ElementType;
+    sx?: BoxProps['sx'];
+    className?: string;
+    style?: React.CSSProperties;
+    children?: React.ReactNode;
+    [prop: string]: unknown;
+  };
+
+export type CardProps = CardBoxProps & {
   rounded?: 'small' | 'medium' | 'large' | 'full' | number;
+  /** A hairline around the card, `border.default`. */
   border?: boolean;
-  shadow?: 'small' | 'medium' | 'large' | 'extraLarge';
+  /** Primer's shadows by name; `none` for a card that lies flat. `small` by default. */
+  shadow?: 'none' | 'small' | 'medium' | 'large' | 'extraLarge';
+  /** A card that is clicked: hover and focus states, a pointer, a border. */
+  interactive?: boolean;
+  /** The chosen card among others: an accent border on an accent wash. */
+  selected?: boolean;
 };
 
 export type CardHeaderProps = {
@@ -43,20 +90,25 @@ export type CardActionsProps = {
  * The corners, read from the theme: each theme sets Primer's radii (loop's
  * are rounder), and a card left unsaid takes the theme's card corner.
  */
-const roundedVals = {
-  small: "var(--borderRadius-small)",
-  medium: "var(--borderRadius-medium)",
-  large: "var(--borderRadius-large)",
-  full: "var(--borderRadius-full)",
-};
+const CARD_RADIUS = 'card';
 
-const CARD_RADIUS = "var(--theme-radius-card)";
+const SHADOWS = {
+  none: 'none',
+  small: 'shadow.small',
+  medium: 'shadow.medium',
+  large: 'shadow.large',
+  extraLarge: 'shadow.extraLarge',
+} as const;
 
-const shadowVals = {
-  small: '0 1px 0 rgba(31,35,40,0.04)',
-  medium: '0 3px 6px rgba(140,149,159,0.15)',
-  large: '0 8px 24px rgba(140,149,159,0.2)',
-  extraLarge: '0 12px 28px rgba(140,149,159,0.3)',
+/** What `interactive` adds: a pointer, the hover and focus states, a button reset. */
+const INTERACTIVE: BoxProps = {
+  cursor: 'pointer',
+  textAlign: 'left',
+  font: 'inherit',
+  transition: 'border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease',
+  hover: { borderColor: 'accent.emphasis', boxShadow: SHADOWS.medium },
+  focusVisible: { outline: '2px solid', outlineColor: 'accent.emphasis', outlineOffset: '2px' },
+  reducedMotion: { transition: 'none' },
 };
 
 export const Card: React.FC<CardProps> & {
@@ -65,31 +117,23 @@ export const Card: React.FC<CardProps> & {
   Content: React.FC<CardContentProps>;
   Actions: React.FC<CardActionsProps>;
 } = (props) => {
-  const { sx, rounded, border, shadow, children, ...otherProps } = props;
+  const { rounded, border, shadow = 'small', interactive, selected, children, ...otherProps } = props;
+  const outlined = border || interactive || selected;
   return (
     <Box
-      sx={{
-        // A column, so the actions stand at the bottom however long the
-        // text above them: cards side by side end on one line.
-        display: "flex",
-        flexDirection: "column",
-        ...(sx ? sx : undefined),
-        borderRadius: rounded === undefined
-          ? CARD_RADIUS
-          : typeof rounded === "string"
-            ? roundedVals[rounded]
-            : rounded,
-        ...(border ? {
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: 'border.default'
-        } : undefined),
-        ...(shadow ? {
-          boxShadow: shadowVals[shadow]
-        } : {
-          boxShadow: shadowVals['small']
-        })
-      }}
+      // A column, so the actions stand at the bottom however long the text
+      // above them: cards side by side end on one line.
+      display="flex"
+      flexDirection="column"
+      bg={selected ? 'accent.subtle' : 'canvas.default'}
+      color="fg.default"
+      borderRadius={rounded ?? CARD_RADIUS}
+      boxShadow={SHADOWS[shadow]}
+      {...(outlined ? {
+        border: '1px solid',
+        borderColor: selected ? 'accent.emphasis' : 'border.default',
+      } : undefined)}
+      {...(interactive ? INTERACTIVE : undefined)}
       {...otherProps}
     >
       {children}
@@ -99,11 +143,11 @@ export const Card: React.FC<CardProps> & {
 
 Card.Header = (props) => {
   const { title, description, leadingVisual, action } = props;
-  return <Box display="flex" alignItems="center" sx={{p: 3}}>
-    {leadingVisual && <Box sx={{mr: 3}}>
+  return <Box display="flex" alignItems="center" p={3}>
+    {leadingVisual && <Box mr={3}>
       <IconButton size="medium" icon={leadingVisual} aria-label=""/>
     </Box>}
-    <Box sx={{flexGrow: 1}}>
+    <Box flexGrow={1}>
       <Text as="div" display="block">{title}</Text>
       <Text display="block" color="fg.muted">{description}</Text>
     </Box>
@@ -119,13 +163,12 @@ Card.Image = ({url, image, svg, height}) => {
       display="block"
       width="100%"
       height={`${height}px`}
-      backgroundImage={`url(${url})`}
-      sx={{
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        objectFit: "cover"
-      }}>
+      backgroundImage={url ? `url(${url})` : undefined}
+      backgroundSize="cover"
+      backgroundRepeat="no-repeat"
+      backgroundPosition="center"
+      objectFit="cover"
+    >
     {image && <img src={image} style={{maxHeight: `${height}px`}} />}
     {svg && <img src={`data:image/svg+xml;utf8,${svg}`} style={{maxHeight: height}} />}
   </Box>
@@ -134,14 +177,14 @@ Card.Image = ({url, image, svg, height}) => {
 
 Card.Content = ({children}) => {
   return (
-    <Box display="block" sx={{p: 3}}>
+    <Box display="block" p={3}>
       {children}
     </Box>
   );
 }
 
 Card.Actions = ({ children }) => {
-  return <Box display="block" sx={{p: 3, mt: "auto"}}>
+  return <Box display="block" p={3} mt="auto">
     {children}
   </Box>;
 }

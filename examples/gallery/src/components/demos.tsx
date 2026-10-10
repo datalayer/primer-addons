@@ -11,6 +11,7 @@ import { ColorModeCircleDemo } from './ColorModeCircleDemo';
 import { ThemeCircleDemo } from './ThemeCircleDemo';
 import { BoxDemo } from './BoxDemo';
 import { CardDemo } from './CardDemo';
+import { PrimerDemo } from './PrimerDemo';
 import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
@@ -74,6 +75,13 @@ export const demos: Demo[] = [
     description:
       "primer-addons' Card on the theme's tokens: slots (Header, Cover, Image, Content, Footer, Actions), border, rounded, shadow, the variants, interactive, selected, dashed, disabled and an accent edge.",
     render: () => <CardDemo />,
+  },
+  {
+    slug: 'primer',
+    title: 'Primer',
+    description:
+      "Primer's own components under the selected theme: Table/DataTable, ToggleSwitch, SegmentedControl, Button, TextInput, Select, ActionMenu, Label, Token, UnderlineNav and Dialog. A theme's shape draws their corners and the table's header and hairline; switch themes to see each one's.",
+    render: () => <PrimerDemo />,
   },
   {
     slug: 'closeable-flash',

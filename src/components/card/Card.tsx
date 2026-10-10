@@ -89,7 +89,8 @@ const VARIANTS: Record<CardVariant, { bg: BoxColorToken; borderColor: BoxColorTo
 export type CardProps = CardBoxProps & {
   /**
    * The corner: a radius by name — Primer's (`small`, `medium`, `large`,
-   * `full`) or the theme's shapes (`control`, `card`, `bubble`, `frame`) —
+   * `full`) or the theme's shapes (`control`, `card`, `bubble`, `frame`,
+   * `overlay` for a panel floating over the page) —
    * or an index of Primer's radii. The theme's `card` corner by default.
    */
   rounded?: BoxRadiusToken | number;

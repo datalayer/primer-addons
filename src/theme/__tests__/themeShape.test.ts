@@ -36,6 +36,7 @@ describe('the shape of a theme', () => {
         '--theme-radius-card',
         '--theme-radius-control',
         '--theme-radius-frame',
+        '--theme-radius-overlay',
         '--theme-radius-table',
         '--theme-shadow',
         '--theme-stage',
@@ -84,6 +85,8 @@ describe('the themes that existed before the shape tokens', () => {
     expect(datalayer['--theme-radius-table']).toBe(DEFAULT_THEME_SHAPE.radiusTable);
     expect(datalayer['--theme-table-header-bg']).toBe('var(--bgColor-muted)');
     expect(datalayer['--theme-table-border']).toBe('var(--borderColor-default)');
+    expect(datalayer['--theme-radius-overlay']).toBe('var(--borderRadius-large, 12px)');
+    expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-radius-overlay']).toBe('20px');
     // The loop theme's tables have the corners of its list items.
     expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-radius-table']).toBe('14px');
   });

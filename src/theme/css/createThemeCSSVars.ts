@@ -485,6 +485,9 @@ export interface ThemeStyles {
  * — `currentColor` — plain, the colour of the words around it, underlined in
  * every theme.
  *
+ * And the corner of a panel floating over the page — a menu, a header's
+ * mega-menu (`--theme-radius-overlay`, `borderRadius="overlay"` on a Box).
+ *
  * And Primer's own components, as the theme draws them: a data table's
  * corner, header band, header text and hairline. Primer's values unless the
  * theme says otherwise; what a theme says about a control or a table is
@@ -503,6 +506,7 @@ export interface ThemeShape {
   motionEasing: string;
   messageLink: string;
   radiusTable: string;
+  radiusOverlay: string;
   tableHeaderBg: string;
   tableHeaderFg: string;
   tableBorder: string;
@@ -523,6 +527,9 @@ export const DEFAULT_THEME_SHAPE: ThemeShape = {
   messageLink: 'var(--fgColor-accent, #0969da)',
   // Primer's own DataTable: its corner, its header band and text, its hairline.
   radiusTable: '0.375rem',
+  // A panel that floats over the page — a menu, a header's mega-menu: Primer's
+  // overlay corner unless the theme says otherwise.
+  radiusOverlay: 'var(--borderRadius-large, 12px)',
   tableHeaderBg: 'var(--bgColor-muted)',
   tableHeaderFg: 'var(--fgColor-muted)',
   tableBorder: 'var(--borderColor-default)',
@@ -544,6 +551,7 @@ export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, strin
     '--theme-motion-easing': full.motionEasing,
     '--theme-message-link': full.messageLink,
     '--theme-radius-table': full.radiusTable,
+    '--theme-radius-overlay': full.radiusOverlay,
     '--theme-table-header-bg': full.tableHeaderBg,
     '--theme-table-header-fg': full.tableHeaderFg,
     '--theme-table-border': full.tableBorder,

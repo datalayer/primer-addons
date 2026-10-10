@@ -82,7 +82,7 @@ const EXAMPLES: Example[] = [
   {
     title: 'Border, corner, shadow',
     caption:
-      "border draws the theme's hairline. rounded takes Primer's radii (small, medium, large, full) or the theme's shapes (control, card, bubble, frame); the theme's card corner by default. shadow is none, small (the default), medium, large or extraLarge — Primer's shadow variables, set per colour mode.",
+      "border draws the theme's hairline. rounded takes Primer's radii (small, medium, large, full) or the theme's shapes (control, card, bubble, frame, overlay); the theme's card corner by default. shadow is none, small (the default), medium, large or extraLarge — Primer's shadow variables, set per colour mode.",
     code: `<Card border shadow="none">flat</Card>
 <Card rounded="control" shadow="medium">control, medium</Card>
 <Card rounded="small" shadow="large">small, large</Card>
@@ -186,6 +186,46 @@ const EXAMPLES: Example[] = [
           </Card>
         ))}
       </Row>
+    ),
+  },
+  {
+    title: 'An attached panel',
+    caption:
+      "rounded=\"overlay\" is the theme's corner for a panel floating over the page — a menu, a header's mega-menu (Primer's overlay corner unless the theme sets --theme-radius-overlay; loop's is its card corner). With the top corners squared it reads as hanging from what opened it.",
+    code: `<Card border shadow="extraLarge" rounded="overlay"
+  borderTopLeftRadius={0} borderTopRightRadius={0} p={4}>…</Card>`,
+    render: () => (
+      <Box>
+        <Box px={3} py={2} bg="canvas.subtle" border="1px solid" borderColor="border.default" fontSize={1} fontWeight="semibold">
+          Header · Cases ▾
+        </Box>
+        <Card
+          border
+          shadow="extraLarge"
+          rounded="overlay"
+          borderTopLeftRadius={0}
+          borderTopRightRadius={0}
+          borderTop="none"
+          p={4}
+          display="grid"
+          gridTemplateColumns="1fr 1fr 1.1fr"
+          gap={3}
+        >
+          <Box display="grid" gap={2}>
+            <Text sx={{ fontSize: 0, color: 'fg.muted', fontWeight: 'bold' }}>Industries</Text>
+            <Text>Healthcare</Text>
+            <Text>Insurance</Text>
+          </Box>
+          <Box display="grid" gap={2}>
+            <Text sx={{ fontSize: 0, color: 'fg.muted', fontWeight: 'bold' }}>More scenarios</Text>
+            <Text>Market analyst</Text>
+            <Text>Personal assistant</Text>
+          </Box>
+          <Card border shadow="none" interactive overflow="hidden" minHeight={100}>
+            <Card.Cover height={100} color="done.emphasis">Spotlight</Card.Cover>
+          </Card>
+        </Card>
+      </Box>
     ),
   },
   {

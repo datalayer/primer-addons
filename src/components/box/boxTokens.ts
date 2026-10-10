@@ -92,7 +92,7 @@ export const BOX_FONT_SIZES = ['12px', '14px', '16px', '20px', '24px', '32px', '
 /** Primer's radii by index (`borderRadius={2}` is 6px). */
 export const BOX_RADII = ['0', '3px', '6px', '100px'] as const;
 
-/** Radii by name: Primer's, and the theme's shapes (LOOP T-03). */
+/** Radii by name: Primer's, and the theme's shapes (LOOP T-03), an overlay's among them. */
 export const BOX_RADIUS_VARS = {
   small: '--borderRadius-small',
   medium: '--borderRadius-medium',
@@ -102,6 +102,7 @@ export const BOX_RADIUS_VARS = {
   card: '--theme-radius-card',
   bubble: '--theme-radius-bubble',
   frame: '--theme-radius-frame',
+  overlay: '--theme-radius-overlay',
 } as const;
 
 export type BoxRadiusToken = keyof typeof BOX_RADIUS_VARS;

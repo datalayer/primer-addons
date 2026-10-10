@@ -477,6 +477,7 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   shape: {
     radiusControl: loopShapeVars['--loop-radius-control'],
     radiusTable: loopShapeVars['--borderRadius-medium'],
+    radiusOverlay: loopShapeVars['--loop-radius-card'],
     radiusCard: loopShapeVars['--loop-radius-card'],
     radiusBubble: loopShapeVars['--loop-radius-bubble'],
     radiusFrame: loopShapeVars['--loop-radius-frame'],

@@ -97,4 +97,20 @@ describe('Card', () => {
     expect(rules).not.toContain('var(--bgColor-default)');
     expect(rules).toContain('padding: 16px');
   });
+
+  it('takes a flavour: its ground and, bordered, its hairline', () => {
+    const subtle = rulesOf(render(<Card variant="subtle">g</Card>));
+    expect(subtle).toContain('var(--bgColor-muted)');
+    const accent = rulesOf(render(<Card variant="accent" border>h</Card>));
+    expect(accent).toContain('var(--bgColor-accent-muted)');
+    expect(accent).toContain('var(--borderColor-accent-muted)');
+    const danger = rulesOf(render(<Card variant="danger" border>i</Card>));
+    expect(danger).toContain('var(--bgColor-danger-muted)');
+    expect(danger).toContain('var(--borderColor-danger-muted)');
+    expect(rulesOf(render(<Card variant="inset">j</Card>))).toContain('var(--bgColor-inset)');
+  });
+
+  it('takes the theme\'s shapes by name for its corner', () => {
+    expect(rulesOf(render(<Card rounded="control">k</Card>))).toContain('var(--theme-radius-control)');
+  });
 });

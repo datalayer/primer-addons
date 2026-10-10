@@ -21,6 +21,9 @@
  *   It always has a border, so a card rendered `as="button"` shows the
  *   card's hairline rather than the browser's button border, and a button
  *   reads its text left to right in the page's font.
+ * - `variant` — the card's flavour: `default`, `subtle`, `inset`, or a
+ *   tone (`accent`, `success`, `attention`, `danger`), each a ground and a
+ *   hairline from the theme.
  * - `selected` — the card that is chosen among others: an accent border on
  *   an accent wash. It says nothing to assistive technology by itself: the
  *   caller sets `aria-pressed` or `aria-selected`, as its role requires.
@@ -28,7 +31,14 @@
 
 import React from "react";
 import { IconButton, Text } from "@primer/react";
-import { Box, type BoxProps, type BoxPseudoProps, type BoxStyleProps } from "../box/Box";
+import {
+  Box,
+  type BoxColorToken,
+  type BoxProps,
+  type BoxPseudoProps,
+  type BoxRadiusToken,
+  type BoxStyleProps,
+} from "../box/Box";
 
 /**
  * `Box`'s props, but `border` is the card's switch rather than a CSS value.
@@ -47,8 +57,37 @@ type CardBoxProps = Omit<BoxStyleProps, 'border'> &
     [prop: string]: unknown;
   };
 
+/**
+ * A card's flavour: its ground and, when it is bordered, its hairline.
+ *
+ * - `default` — the page's own surface, `canvas.default`;
+ * - `subtle` — a quieter ground, `canvas.subtle`, for a card among cards
+ *   or one inside a panel;
+ * - `inset` — sunk into the page, `canvas.inset`, for code, logs, a prompt;
+ * - `accent`, `success`, `attention`, `danger` — a note in that tone: the
+ *   tone's wash with the tone's muted hairline.
+ */
+export type CardVariant = 'default' | 'subtle' | 'inset' | 'accent' | 'success' | 'attention' | 'danger';
+
+const VARIANTS: Record<CardVariant, { bg: BoxColorToken; borderColor: BoxColorToken }> = {
+  default: { bg: 'canvas.default', borderColor: 'border.default' },
+  subtle: { bg: 'canvas.subtle', borderColor: 'border.default' },
+  inset: { bg: 'canvas.inset', borderColor: 'border.default' },
+  accent: { bg: 'accent.subtle', borderColor: 'accent.muted' },
+  success: { bg: 'success.subtle', borderColor: 'success.muted' },
+  attention: { bg: 'attention.subtle', borderColor: 'attention.muted' },
+  danger: { bg: 'danger.subtle', borderColor: 'danger.muted' },
+};
+
 export type CardProps = CardBoxProps & {
-  rounded?: 'small' | 'medium' | 'large' | 'full' | number;
+  /**
+   * The corner: a radius by name — Primer's (`small`, `medium`, `large`,
+   * `full`) or the theme's shapes (`control`, `card`, `bubble`, `frame`) —
+   * or an index of Primer's radii. The theme's `card` corner by default.
+   */
+  rounded?: BoxRadiusToken | number;
+  /** The card's flavour, `default` by default; see {@link CardVariant}. */
+  variant?: CardVariant;
   /** A hairline around the card, `border.default`. */
   border?: boolean;
   /** Primer's shadows by name; `none` for a card that lies flat. `small` by default. */
@@ -117,21 +156,22 @@ export const Card: React.FC<CardProps> & {
   Content: React.FC<CardContentProps>;
   Actions: React.FC<CardActionsProps>;
 } = (props) => {
-  const { rounded, border, shadow = 'small', interactive, selected, children, ...otherProps } = props;
+  const { rounded, border, shadow = 'small', variant = 'default', interactive, selected, children, ...otherProps } = props;
   const outlined = border || interactive || selected;
+  const flavour = VARIANTS[variant];
   return (
     <Box
       // A column, so the actions stand at the bottom however long the text
       // above them: cards side by side end on one line.
       display="flex"
       flexDirection="column"
-      bg={selected ? 'accent.subtle' : 'canvas.default'}
+      bg={selected ? 'accent.subtle' : flavour.bg}
       color="fg.default"
       borderRadius={rounded ?? CARD_RADIUS}
       boxShadow={SHADOWS[shadow]}
       {...(outlined ? {
         border: '1px solid',
-        borderColor: selected ? 'accent.emphasis' : 'border.default',
+        borderColor: selected ? 'accent.emphasis' : flavour.borderColor,
       } : undefined)}
       {...(interactive ? INTERACTIVE : undefined)}
       {...otherProps}

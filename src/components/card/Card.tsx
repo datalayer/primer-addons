@@ -24,6 +24,13 @@
  * - `variant` — the card's flavour: `default`, `subtle`, `inset`, or a
  *   tone (`accent`, `success`, `attention`, `danger`), each a ground and a
  *   hairline from the theme.
+ * - `dashed` — a dashed hairline, for a placeholder or a "create new" card;
+ *   `disabled` — quieter, no pointer, no hover;
+ * - `accent` — a colour along the top edge, a token or the item's own;
+ * - slots: `Card.Header`, `Card.Cover` (image, gradient or colour, a glyph,
+ *   a top-right accessory), `Card.Image`, `Card.Content`, `Card.Footer`
+ *   (the metadata line, over a hairline) and `Card.Actions`; the slots take
+ *   `Box` props over their defaults.
  * - `selected` — the card that is chosen among others: an accent border on
  *   an accent wash. It says nothing to assistive technology by itself: the
  *   caller sets `aria-pressed` or `aria-selected`, as its role requires.
@@ -96,6 +103,19 @@ export type CardProps = CardBoxProps & {
   interactive?: boolean;
   /** The chosen card among others: an accent border on an accent wash. */
   selected?: boolean;
+  /** A dashed hairline: a placeholder, a drop zone, a "create new" card. */
+  dashed?: boolean;
+  /**
+   * A card that cannot be used now: quieter, no pointer, no hover. With
+   * `interactive`, it also sets `aria-disabled`.
+   */
+  disabled?: boolean;
+  /**
+   * A colour along the card's top edge: a theme token (`accent.emphasis`,
+   * `success.emphasis`…) or any CSS colour the caller has from its theme,
+   * such as an item's own colour.
+   */
+  accent?: BoxColorToken | (string & {});
 };
 
 export type CardHeaderProps = {
@@ -117,8 +137,34 @@ export type CardImageProps = {
   height: number;
 }
 
-export type CardContentProps = {
+/** A slot's props: the slot's own defaults, overridden by any `Box` prop. */
+export type CardContentProps = CardBoxProps & {
   children: React.ReactNode;
+}
+
+/** The card's last line: metadata, chips, an owner, an action. */
+export type CardFooterProps = CardBoxProps & {
+  children: React.ReactNode;
+}
+
+/**
+ * The card's cover, above its content: an image, or a gradient between two
+ * colours, or a theme colour, with an optional glyph centred on it and an
+ * accessory (a label, a menu) in its top-right corner.
+ */
+export type CardCoverProps = CardBoxProps & {
+  /** The cover's height, in pixels. 110 by default. */
+  height?: number;
+  /** An image URL; it covers the area. */
+  image?: string;
+  /** A gradient between two colours, top left to bottom right. */
+  gradient?: { from: string; to: string };
+  /** The ground under (or instead of) the image or gradient. `neutral.emphasis` by default. */
+  color?: BoxColorToken | (string & {});
+  /** What sits in the top-right corner: a label, a menu. */
+  accessory?: React.ReactNode;
+  /** A glyph centred on the cover, drawn in `fg.onEmphasis`. */
+  children?: React.ReactNode;
 }
 
 export type CardActionsProps = {
@@ -150,14 +196,26 @@ const INTERACTIVE: BoxProps = {
   reducedMotion: { transition: 'none' },
 };
 
+/** What `disabled` takes away: the pointer and the hover, at a lower voice. */
+const DISABLED: BoxProps = {
+  cursor: 'not-allowed',
+  opacity: 0.6,
+  hover: {},
+};
+
 export const Card: React.FC<CardProps> & {
   Header: React.FC<CardHeaderProps>;
+  Cover: React.FC<CardCoverProps>;
   Image: React.FC<CardImageProps>;
   Content: React.FC<CardContentProps>;
+  Footer: React.FC<CardFooterProps>;
   Actions: React.FC<CardActionsProps>;
 } = (props) => {
-  const { rounded, border, shadow = 'small', variant = 'default', interactive, selected, children, ...otherProps } = props;
-  const outlined = border || interactive || selected;
+  const {
+    rounded, border, shadow = 'small', variant = 'default', interactive, selected, dashed, disabled, accent,
+    children, ...otherProps
+  } = props;
+  const outlined = border || interactive || selected || dashed;
   const flavour = VARIANTS[variant];
   return (
     <Box
@@ -173,7 +231,11 @@ export const Card: React.FC<CardProps> & {
         border: '1px solid',
         borderColor: selected ? 'accent.emphasis' : flavour.borderColor,
       } : undefined)}
+      {...(dashed ? { borderStyle: 'dashed' } : undefined)}
+      {...(accent ? { borderTop: '3px solid', borderTopColor: accent } : undefined)}
       {...(interactive ? INTERACTIVE : undefined)}
+      {...(disabled ? DISABLED : undefined)}
+      {...(interactive && disabled ? { 'aria-disabled': true } : undefined)}
       {...otherProps}
     >
       {children}
@@ -215,9 +277,59 @@ Card.Image = ({url, image, svg, height}) => {
   );
 }
 
-Card.Content = ({children}) => {
+Card.Cover = ({ height = 110, image, gradient, color = 'neutral.emphasis', accessory, children, ...rest }) => {
   return (
-    <Box display="block" p={3}>
+    <Box
+      position="relative"
+      width="100%"
+      height={`${height}px`}
+      flexShrink={0}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      bg={color}
+      backgroundImage={image
+        ? `url(${image})`
+        : gradient ? `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)` : undefined}
+      backgroundSize="cover"
+      backgroundPosition="center"
+      color="fg.onEmphasis"
+      fontSize={4}
+      fontWeight="semibold"
+      {...rest}
+    >
+      {children}
+      {accessory && (
+        <Box position="absolute" top={2} right={2} display="flex" alignItems="center" gap={1}>
+          {accessory}
+        </Box>
+      )}
+    </Box>
+  );
+}
+
+Card.Content = ({children, ...rest}) => {
+  return (
+    <Box display="block" p={3} {...rest}>
+      {children}
+    </Box>
+  );
+}
+
+Card.Footer = ({children, ...rest}) => {
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      gap={2}
+      flexWrap="wrap"
+      mt="auto"
+      px={3}
+      py={2}
+      borderTop="1px solid"
+      borderColor="border.muted"
+      {...rest}
+    >
       {children}
     </Box>
   );

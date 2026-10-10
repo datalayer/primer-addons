@@ -113,4 +113,38 @@ describe('Card', () => {
   it('takes the theme\'s shapes by name for its corner', () => {
     expect(rulesOf(render(<Card rounded="control">k</Card>))).toContain('var(--theme-radius-control)');
   });
+
+  it('dashed, disabled and an accent edge', () => {
+    const dashed = rulesOf(render(<Card dashed>l</Card>));
+    expect(dashed).toMatch(/border-style: dashed/);
+    expect(dashed.indexOf('border-style: dashed')).toBeGreaterThan(dashed.indexOf('border: 1px solid'));
+    const disabled = render(<Card as="button" interactive disabled>m</Card>);
+    expect(disabled.getAttribute('aria-disabled')).toBe('true');
+    const rules = rulesOf(disabled);
+    expect(rules).toContain('cursor: not-allowed');
+    expect(rules).not.toMatch(/:hover/);
+    const accent = rulesOf(render(<Card accent="success.emphasis">n</Card>));
+    expect(accent).toContain('var(--bgColor-success-emphasis)');
+    expect(rulesOf(render(<Card accent="#ff0000">o</Card>))).toMatch(/#ff0000|rgb\(255, 0, 0\)/);
+  });
+
+  it('has a cover (gradient, glyph, accessory) and a footer over a hairline', () => {
+    const card = render(
+      <Card>
+        <Card.Cover gradient={{ from: 'red', to: 'blue' }} accessory={<span data-test="acc">menu</span>}>
+          <span data-test="glyph">D</span>
+        </Card.Cover>
+        <Card.Content>body</Card.Content>
+        <Card.Footer data-test="footer">meta</Card.Footer>
+      </Card>,
+    );
+    const cover = card.firstElementChild as HTMLElement;
+    const coverRules = rulesOf(cover);
+    expect(coverRules).toContain('linear-gradient(135deg, red 0%, blue 100%)');
+    expect(coverRules).toContain('var(--fgColor-onEmphasis)');
+    expect(cover.querySelector('[data-test="glyph"]')).toBeTruthy();
+    expect(cover.querySelector('[data-test="acc"]')).toBeTruthy();
+    const footer = card.querySelector('[data-test="footer"]') as HTMLElement;
+    expect(rulesOf(footer)).toContain('var(--borderColor-muted)');
+  });
 });

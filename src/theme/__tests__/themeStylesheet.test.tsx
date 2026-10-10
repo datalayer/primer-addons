@@ -20,7 +20,8 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { DatalayerThemeProvider } from '../DatalayerThemeProvider';
 import { themeConfigs, type ThemeVariant } from '../themeRegistry';
-import { loopControlsCss, loopControlsSelectors } from '../themes/loopTheme';
+import { loopControlsCss } from '../themes/loopTheme';
+import { primerComponentSelectors, primerComponentsCss } from '../css/primerComponentsCss';
 import {
   PRIMER_PORTAL_ROOT_ID,
   THEME_SCOPE_ATTRIBUTE,
@@ -171,15 +172,15 @@ const filesUnder = (dir: string, ext: string): string[] =>
     return path.endsWith(ext) ? [path] : [];
   });
 
-describe("the loop theme's controls", () => {
+describe("the theme's drawing of Primer's components", () => {
   const primerCss = filesUnder(primerLib, '.css').map(f => readFileSync(f, 'utf8')).join('\n');
   const toggleJs = readFileSync(join(primerLib, 'ToggleSwitch', 'ToggleSwitch.js'), 'utf8');
 
-  it('match class names the installed Primer has', () => {
-    for (const [name, selector] of Object.entries(loopControlsSelectors)) {
+  it('matches class names the installed Primer has', () => {
+    for (const [name, selector] of Object.entries(primerComponentSelectors)) {
       const prefix = /^\[class\*="([^"]+)"\]$/.exec(selector)![1];
       if (prefix.startsWith('prc-')) {
-        expect(primerCss.includes(`.${prefix}-`), name).toBe(true);
+        expect(primerCss.includes(`.${prefix.replace(/-$/, '')}-`), name).toBe(true);
       } else {
         // A styled-component, by the display name in its class.
         expect(toggleJs.includes(`displayName: "${prefix.replace(/-$/, '')}"`), name).toBe(true);
@@ -187,13 +188,19 @@ describe("the loop theme's controls", () => {
     }
   });
 
-  it('are pills, but a text area', () => {
-    const rule = /([^{}]+)\{\s*--borderRadius-medium: var\(--loop-radius-control\);\s*border-radius: var\(--loop-radius-control\);\s*\}/.exec(
-      loopControlsCss,
+  it('is nothing for a shape that says nothing about them', () => {
+    expect(primerComponentsCss({})).toBe('');
+    expect(primerComponentsCss({ radiusCard: '20px' })).toBe('');
+  });
+
+  it('makes every single-line control a pill of the theme\'s corner, but a text area', () => {
+    const css = primerComponentsCss({ radiusControl: '999px' });
+    const rule = /([^{}]+)\{\s*--borderRadius-medium: var\(--theme-radius-control\);\s*border-radius: var\(--theme-radius-control\);\s*\}/.exec(
+      css,
     );
     expect(rule).not.toBeNull();
     const selectors = rule![1].split(',').map(x => x.trim());
-    const s = loopControlsSelectors;
+    const s = primerComponentSelectors;
     expect(selectors).toEqual([
       `:scope ${s.button}`,
       `:scope ${s.textInput}:not(:has(${s.textArea}))`,
@@ -203,10 +210,26 @@ describe("the loop theme's controls", () => {
       `:scope ${s.toggleKnob}`,
     ]);
     // A button group: its two ends, through the token Primer draws them with.
-    expect(loopControlsCss).toContain(
-      `:scope ${s.buttonGroup} {\n  --borderRadius-medium: var(--loop-radius-control);\n}`,
-    );
-    // Nothing else is touched: no overlay, no list item, no card.
-    expect(loopControlsCss).not.toMatch(/Overlay|ActionList|borderRadius-large/);
+    expect(css).toContain(`:scope ${s.buttonGroup} {\n  --borderRadius-medium: var(--theme-radius-control);\n}`);
+    // Nothing else is touched: no overlay, no list item, no card, no table.
+    expect(css).not.toMatch(/Overlay|ActionList|borderRadius-large|DataTable/);
+  });
+
+  it("draws a data table's corner, header and hairline, each only when the theme says it", () => {
+    const s = primerComponentSelectors;
+    const radius = primerComponentsCss({ radiusTable: '14px' });
+    expect(radius).toContain(`:scope ${s.table} {\n  --table-border-radius: var(--theme-radius-table);\n}`);
+    expect(radius).not.toMatch(/TableHeader|TableCell/);
+    const header = primerComponentsCss({ tableHeaderBg: 'x', tableHeaderFg: 'y', tableBorder: 'z' });
+    expect(header).toContain('background-color: var(--theme-table-header-bg);');
+    expect(header).toContain('color: var(--theme-table-header-fg);');
+    expect(header).toContain(`:scope ${s.tableHeader},\n:scope ${s.tableCell} {\n  border-color: var(--theme-table-border);\n}`);
+  });
+
+  it("is the loop theme's, from its shape: pills and rounder tables, then its own rules", () => {
+    expect(loopControlsCss).toContain('border-radius: var(--theme-radius-control);');
+    expect(loopControlsCss).toContain('--table-border-radius: var(--theme-radius-table);');
+    expect(loopControlsCss).toContain(':scope strong');
+    expect(loopControlsCss).not.toMatch(/--loop-radius-control/);
   });
 });

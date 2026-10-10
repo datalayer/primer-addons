@@ -36,9 +36,13 @@ describe('the shape of a theme', () => {
         '--theme-radius-card',
         '--theme-radius-control',
         '--theme-radius-frame',
+        '--theme-radius-table',
         '--theme-shadow',
         '--theme-stage',
         '--theme-stage-gradient',
+        '--theme-table-border',
+        '--theme-table-header-bg',
+        '--theme-table-header-fg',
       ]);
     }
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe(
@@ -74,4 +78,13 @@ describe('the themes that existed before the shape tokens', () => {
       }).toMatchSnapshot();
     });
   }
+
+  it("says how Primer's data table is drawn: Primer's unless a theme says otherwise", () => {
+    const datalayer = themeConfigs.datalayer.themeStyles.light as Record<string, string>;
+    expect(datalayer['--theme-radius-table']).toBe(DEFAULT_THEME_SHAPE.radiusTable);
+    expect(datalayer['--theme-table-header-bg']).toBe('var(--bgColor-muted)');
+    expect(datalayer['--theme-table-border']).toBe('var(--borderColor-default)');
+    // The loop theme's tables have the corners of its list items.
+    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-radius-table']).toBe('14px');
+  });
 });

@@ -6,6 +6,7 @@
 export * from './colors';
 export * from './indicators';
 export * from './css/createThemeCSSVars';
+export * from './css/primerComponentsCss';
 export * from './css/primerBaseVars';
 export * from './themes/datalayerTheme';
 export * from './DatalayerThemeProvider';

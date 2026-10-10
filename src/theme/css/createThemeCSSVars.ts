@@ -5,6 +5,7 @@
 
 import { type CSSProperties } from 'react';
 import { themeTintVars } from '../colors/themeAccents';
+import { primerComponentsCss } from './primerComponentsCss';
 
 /* ─── Colour-definition structure ─────────────────────────────────────── */
 
@@ -483,6 +484,11 @@ export interface ThemeStyles {
  * And how a link reads in a message (LOOP T-06): in the accent, as today, or
  * — `currentColor` — plain, the colour of the words around it, underlined in
  * every theme.
+ *
+ * And Primer's own components, as the theme draws them: a data table's
+ * corner, header band, header text and hairline. Primer's values unless the
+ * theme says otherwise; what a theme says about a control or a table is
+ * drawn by the stylesheet `primerComponentsCss` makes of it.
  */
 export interface ThemeShape {
   radiusControl: string;
@@ -496,6 +502,10 @@ export interface ThemeShape {
   motionPane: string;
   motionEasing: string;
   messageLink: string;
+  radiusTable: string;
+  tableHeaderBg: string;
+  tableHeaderFg: string;
+  tableBorder: string;
 }
 
 /** Today's shape, which every theme has unless it says otherwise. */
@@ -511,6 +521,11 @@ export const DEFAULT_THEME_SHAPE: ThemeShape = {
   motionPane: '0ms',
   motionEasing: 'ease',
   messageLink: 'var(--fgColor-accent, #0969da)',
+  // Primer's own DataTable: its corner, its header band and text, its hairline.
+  radiusTable: '0.375rem',
+  tableHeaderBg: 'var(--bgColor-muted)',
+  tableHeaderFg: 'var(--fgColor-muted)',
+  tableBorder: 'var(--borderColor-default)',
 };
 
 /** A shape as custom properties. */
@@ -528,6 +543,10 @@ export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, strin
     '--theme-motion-pane': full.motionPane,
     '--theme-motion-easing': full.motionEasing,
     '--theme-message-link': full.messageLink,
+    '--theme-radius-table': full.radiusTable,
+    '--theme-table-header-bg': full.tableHeaderBg,
+    '--theme-table-header-fg': full.tableHeaderFg,
+    '--theme-table-border': full.tableBorder,
   };
 }
 
@@ -543,10 +562,16 @@ export function buildThemeStyles(
      * theme sets beside colour and font — its radii, its own tokens.
      */
     variables?: { light?: Record<string, string>; dark?: Record<string, string> };
-    /** A stylesheet of the theme's own, relative to `:scope`; see `ThemeStyles.css`. */
+    /**
+     * A stylesheet of the theme's own, relative to `:scope`; see
+     * `ThemeStyles.css`. It follows what `primerComponentsCss` makes of the
+     * shape.
+     */
     css?: string;
   },
 ): ThemeStyles {
+  // What the shape says about Primer's components, then the theme's own.
+  const css = primerComponentsCss(options?.shape) + (options?.css ?? '');
   const fontVars: Record<string, string> = {};
   if (options?.fontFamily) {
     const f = options.fontFamily;
@@ -593,6 +618,6 @@ export function buildThemeStyles(
       ...themeTintVars(dark),
       ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
-    ...(options?.css ? { css: options.css } : {}),
+    ...(css ? { css } : {}),
   };
 }

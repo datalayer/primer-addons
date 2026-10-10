@@ -71,7 +71,8 @@ export const demos: Demo[] = [
   {
     slug: 'card',
     title: 'Card',
-    description: 'Composable card with header/content/actions.',
+    description:
+      "primer-addons' Card on the theme's tokens: slots (Header, Cover, Image, Content, Footer, Actions), border, rounded, shadow, the variants, interactive, selected, dashed, disabled and an accent edge.",
     render: () => <CardDemo />,
   },
   {

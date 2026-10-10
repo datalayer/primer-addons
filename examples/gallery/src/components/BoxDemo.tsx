@@ -307,7 +307,7 @@ const EXAMPLES: Example[] = [
   },
 ];
 
-function ExampleCode({ code }: { code: string }) {
+export function ExampleCode({ code }: { code: string }) {
   return (
     <Box
       as="pre"

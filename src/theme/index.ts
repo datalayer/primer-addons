@@ -6,6 +6,8 @@
 export * from './colors';
 export * from './indicators';
 export * from './css/createThemeCSSVars';
+export * from './css/primerComponentsCss';
+export * from './css/primerBaseVars';
 export * from './themes/datalayerTheme';
 export * from './DatalayerThemeProvider';
 export * from './DatalayerBrandThemeProvider';
@@ -21,6 +23,7 @@ export * from './themes-brand/spatialBrandTheme';
 export * from './themeRegistry';
 export * from './portableTheme';
 export * from './fontStacks';
+export * from './loopEyes';
 export * from './palettes';
 export * from './useSystemColorMode';
 export * from './useThemeStore';

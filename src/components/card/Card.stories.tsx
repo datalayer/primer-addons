@@ -129,3 +129,39 @@ export const CardNight: Story = {
   </Card.Actions>
 </ThemedCard>
 };
+
+/** A card that is clicked: rendered as a button, with hover and focus states. */
+export const CardInteractive: Story = {
+  args: {
+    as: "button",
+    type: "button",
+    interactive: true,
+    shadow: "none",
+    p: 3,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args} onClick={() => alert("Opened")}>
+    <Text display="block" fontWeight="bold">Tutor</Text>
+    <Text color="fg.muted">
+      Author lessons, exercises and assignments, and follow the courses you give and take.
+    </Text>
+  </ThemedCard>
+};
+
+/** The chosen card among others: an accent border on an accent wash. */
+export const CardSelected: Story = {
+  args: {
+    interactive: true,
+    selected: true,
+    shadow: "none",
+    role: "button",
+    tabIndex: 0,
+    "aria-pressed": true,
+    p: 3,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args}>
+    <Text display="block" fontWeight="bold">Selected example</Text>
+    <Text color="fg.muted">The one picked among its siblings.</Text>
+  </ThemedCard>
+};

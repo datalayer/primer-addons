@@ -16,7 +16,7 @@ export function ColorPickerDemo() {
         <Box
           sx={{
             height: 72,
-            borderRadius: 2,
+            borderRadius: 'var(--theme-radius-card)',
             border: '1px solid',
             borderColor: 'var(--borderColor-default)',
             backgroundColor: color,

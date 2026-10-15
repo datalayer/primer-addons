@@ -71,6 +71,20 @@ jobs:
         run: |
           npm install --no-audit --no-fund
           npm --prefix examples/gallery install --no-audit --no-fund
+          # One React, one Primer, one styled-components: the package's source
+          # resolves them from the root's node_modules, and a second copy under
+          # the gallery makes the type check compare two of each. The gallery's
+          # copy of anything the root has is removed, so both resolve the same.
+          cd examples/gallery/node_modules
+          for package in * @*/*; do
+            case "$package" in
+              .bin|@datalayer/primer-addons) continue ;;
+              @*/*) ;;
+              @*) continue ;;
+            esac
+            if [ -e "../../../node_modules/$package" ]; then rm -rf "$package"; fi
+          done
+          find .bin -xtype l -delete
 
       - name: Build the gallery
         run: npm run gallery:build

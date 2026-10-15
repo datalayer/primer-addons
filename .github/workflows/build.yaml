@@ -54,3 +54,23 @@ jobs:
         with:
           name: npm
           path: dist-npm/*.tgz
+
+  # The gallery (examples/gallery) built from the package's source: a page
+  # that does not type-check or bundle fails CI (LOOP G-10). It installs its
+  # own dependencies (its package.json, no lockfile) beside the package's.
+  gallery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Install
+        run: |
+          npm install --no-audit --no-fund
+          npm --prefix examples/gallery install --no-audit --no-fund
+
+      - name: Build the gallery
+        run: npm run gallery:build

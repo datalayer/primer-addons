@@ -103,7 +103,10 @@ function AccentPanel({ choice, mode }: { choice: Choice; mode: 'light' | 'dark' 
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
           <Button variant="primary">Send</Button>
           <Button>Later</Button>
-          <ToggleSwitch aria-label={`Ask first (${choice})`} size="small" defaultChecked />
+          <Text id={`theme-accents-ask-first-${choice}-${mode}`} sx={{ fontSize: 1 }}>
+            Ask first
+          </Text>
+          <ToggleSwitch aria-labelledby={`theme-accents-ask-first-${choice}-${mode}`} size="small" defaultChecked />
         </Box>
       </Box>
     </Box>

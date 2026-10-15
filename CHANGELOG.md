@@ -8,6 +8,15 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
+## 1.0.40
+
+- `Box` emits a reset (`all`) before what it would reset, wherever it is written: `all="unset"` written after `width` no longer undoes it.
+- `Card` is drawn by this package's `Box` with the theme's variables: Primer's shadow variables, the theme's card corner, `variant` (default, subtle, inset, accent, success, attention, danger), `rounded` by the theme's shape names, `interactive`, `selected`, `dashed`, `disabled`, `accent`, and the `Card.Cover` and `Card.Footer` slots.
+- Themes draw Primer's own components from their shape: `ThemeShape` gains `radiusTable`, `tableHeaderBg`, `tableHeaderFg`, `tableBorder` and `radiusOverlay` (as `--theme-radius-table`, `--theme-table-header-bg`/`-fg`, `--theme-table-border`, `--theme-radius-overlay`), Primer's values unless a theme says otherwise; `primerComponentsCss` scopes a rule for each — the `loop` theme's pills and rounder tables now come from its shape. LOOP T-17.
+- `HoverCard`, `useHoverCard`, `HoverCardAnchor`, `HoverCardLayer` and `HoverCardDetails`: a shelf of small cards growing on hover, and the large card its chevron opens.
+- `EntityAvatar`: the face of a person, an agent, an app or a space, drawn by the theme.
+- The gallery builds in CI (`gallery` job), with entries for Card, Hover Card, Primer's components under each theme and an attached panel; its theme accents' toggle has a visible label. LOOP G-10 — [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme).
+
 ## 1.0.39
 
 - **Breaking.** The accents are the theme system's, not `loop`'s: an application's accent colours whatever theme it wears (decided 2026-10-07). `loopAccents`, `loopAccentNames`, `loopAccentVars`, `loopAccentStyles`, `LoopAccent` and `LoopAccentName` are renamed `themeAccents`, `themeAccentNames`, `themeAccentVars`, `ThemeAccent` and `ThemeAccentName`, with no alias; `themeAccentVars(name, mode)` sets everything the accent colours (what `loopAccentStyles` did, plus a checked switch, the filled button's counter, the legacy primary aliases and the icon colour) and refuses an unknown name. The custom properties `--loop-accent`, `--loop-accent-on`, `--loop-stage`, `--loop-quiet` and `--loop-stage-gradient` are now `--theme-accent`, `--theme-accent-on`, `--theme-stage`, `--theme-quiet` and `--theme-stage-gradient`, which every theme sets — its own by default, from its colours; `loop`'s are mint's, unchanged. The gallery's *Loop Theme* page is now *Theme Accents* (`/theme-accents`): the six accents in the theme and colour mode the gallery wears, beside the theme's own, and the theme's tokens read back. LOOP T-05, T-30 — [Theme accents](https://github.com/datalayer/primer-addons/blob/main/README.md#theme-accents).

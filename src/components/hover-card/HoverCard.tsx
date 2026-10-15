@@ -172,10 +172,10 @@ export function HoverCard({
           </Box>
         ) : null}
         <Text
-          sx={{
-            fontWeight: 600,
-            fontSize: 2,
-            lineHeight: 1.25,
+          sx={{ fontWeight: 600, fontSize: 2, lineHeight: 1.25 }}
+          // The two-line clamp as a plain style: Primer's sx type has no
+          // vendor-prefixed properties, so in sx it fails the type check.
+          style={{
             overflow: 'hidden',
             display: '-webkit-box',
             WebkitLineClamp: 2,

@@ -11,6 +11,7 @@
 
 import { useState } from 'react';
 import { Button, Label, Text } from '@primer/react';
+import { DatabaseIcon, DatalayerDatasetIcon, FileIcon } from '@datalayer/icons-react';
 import {
   Box,
   Card,
@@ -35,7 +36,24 @@ const Picture = ({ item, height }: { item: Item; height: number }) => (
   </Box>
 );
 
-const Grown = ({ item, anchorWidth, closing, onExpand }: { item: Item; anchorWidth: number; closing?: boolean; onExpand: () => void }) => (
+const IllustratedDescription = ({ item }: { item: Item }) => {
+  const Icon = item.kind === 'document'
+    ? DatabaseIcon
+    : item.kind === 'deck'
+      ? FileIcon
+      : DatalayerDatasetIcon;
+
+  return (
+    <Box as="span" display="flex" alignItems="center" gap={3}>
+      <Box as="span" display="inline-flex" flexShrink={0} color="fg.default">
+        <Icon size="large" themed />
+      </Box>
+      <Box as="span">{item.description}</Box>
+    </Box>
+  );
+};
+
+const Grown = ({ item, anchorWidth, closing, onExpand, showDatasetIcon = false }: { item: Item; anchorWidth: number; closing?: boolean; onExpand: () => void; showDatasetIcon?: boolean }) => (
   <HoverCard
     anchorWidth={anchorWidth}
     closing={closing}
@@ -47,7 +65,7 @@ const Grown = ({ item, anchorWidth, closing, onExpand }: { item: Item; anchorWid
     expandLabel={`More about ${item.name}`}
     title={item.name}
     meta={<Label size="small">{item.kind}</Label>}
-    description={item.description}
+    description={showDatasetIcon ? <IllustratedDescription item={item} /> : item.description}
   />
 );
 
@@ -86,7 +104,7 @@ export function HoverCardDemo() {
           HoverCard on its own: the picture as a way in, actions, the focusable chevron, the whole title and description.
         </Box>
         <Box>
-          <Grown item={ITEMS[0]} anchorWidth={240} onExpand={() => setDetails(ITEMS[0])} />
+          <Grown item={ITEMS[0]} anchorWidth={240} onExpand={() => setDetails(ITEMS[0])} showDatasetIcon />
         </Box>
       </Box>
       <Box as="section" aria-label="The large card" display="grid" gap={2}>
@@ -104,7 +122,9 @@ export function HoverCardDemo() {
           <Box p={4} display="grid" gap={3}>
             <Text sx={{ fontSize: 4, fontWeight: 600 }}>{details.name}</Text>
             <Label>{details.kind}</Label>
-            <Text sx={{ color: 'fg.muted' }}>{details.description}</Text>
+            <Box color="fg.muted">
+              <IllustratedDescription item={details} />
+            </Box>
           </Box>
         </HoverCardDetails>
       ) : null}

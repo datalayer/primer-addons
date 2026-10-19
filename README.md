@@ -14,16 +14,27 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 
 ## Current Addons
 
-- [ ] Backdrop
-- [ ] Brand Header
-- [ ] Brand Header Lines
-- [ ] Brand Footer
-- [x] Content Loader
+- [x] Appearance controls, menus, theme previews and collaborator palettes
+- [x] Box
+- [x] Calendar Picker
 - [x] Card
-- [x] Closable Flash
-- [ ] Masonry Box
+- [x] Closeable Flash
+- [x] Color Swatch and Color Picker
+- [x] Content Loader
+- [x] Date Picker
+- [x] Entity Avatar
+- [x] Hover Card
+- [x] Datalayer logos and text marks
+- [x] Sheet
+- [x] Side Overlay
 - [x] Slider
-- [x] Toolbar
+- [x] Sliding Panel
+- [x] Toolbar and Floating Toolbar
+
+The components use the active theme's semantic tokens rather than fixed
+visual values. For example, toolbar icon buttons and dropdown triggers read
+`--theme-radius-control`: they retain the regular Primer corner in the default
+themes and become fully rounded controls in `loop`.
 
 ## Reactor Plugins
 

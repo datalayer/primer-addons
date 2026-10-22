@@ -78,6 +78,7 @@
     "prop-types": "^15.8.1",
     "storybook": "^9.0.15",
     "typescript": "5.9.3",
-    "vite": "7.3.6"
+    "vite": "7.3.6",
+    "babel-plugin-styled-components": "^2.1.4"
   }
 }

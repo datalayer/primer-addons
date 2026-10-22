@@ -14,6 +14,7 @@ import {
   ivoryColors,
   sunColors,
   loopColors,
+  vscodeColors,
   type ThemeVariant,
 } from '../../theme';
 
@@ -182,6 +183,23 @@ export const THEME_LOGO_COLORS: Record<
       textColor: loopColors.grayDark,
       primaryGradient: [loopColors.loopBrand, loopColors.loopBrand],
       secondaryGradient: [loopColors.inkDark, loopColors.inkDark],
+    },
+  },
+  vscode: {
+    // The editor's blue, flat: VS Code draws no gradient.
+    light: {
+      primary: vscodeColors.vscodeText,
+      secondary: '#3B3B3B',
+      textColor: '#767676',
+      primaryGradient: [vscodeColors.vscodeText, vscodeColors.vscodeText],
+      secondaryGradient: ['#3B3B3B', '#3B3B3B'],
+    },
+    dark: {
+      primary: vscodeColors.vscodeAccent,
+      secondary: '#CCCCCC',
+      textColor: vscodeColors.gray,
+      primaryGradient: [vscodeColors.vscodeAccent, vscodeColors.vscodeAccent],
+      secondaryGradient: ['#CCCCCC', '#CCCCCC'],
     },
   },
 };

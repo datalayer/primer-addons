@@ -24,7 +24,7 @@ describe('the portable theme entry', () => {
   it('loads without Primer React, styled-components or a browser', async () => {
     expect(typeof window).toBe('undefined');
     const portable = await import('../portable');
-    expect(portable.themeVariants).toHaveLength(9);
+    expect(portable.themeVariants).toHaveLength(10);
     for (const variant of portable.themeVariants) {
       const theme = portable.exportPortableTheme(variant);
       expect(theme.id).toBe(variant);

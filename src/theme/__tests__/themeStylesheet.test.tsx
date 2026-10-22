@@ -82,14 +82,16 @@ const themed = (variant: ThemeVariant, children?: React.ReactNode) => (
   </DatalayerThemeProvider>
 );
 
+const WITH_STYLESHEET = ['loop', 'vscode'];
+
 describe('a theme without a stylesheet', () => {
-  it('is every theme but loop', () => {
+  it('is every theme but loop and vscode', () => {
     for (const [name, config] of Object.entries(themeConfigs)) {
-      expect(config.themeStyles.css !== undefined, name).toBe(name === 'loop');
+      expect(config.themeStyles.css !== undefined, name).toBe(WITH_STYLESHEET.includes(name));
     }
   });
 
-  for (const name of Object.keys(themeConfigs).filter(n => n !== 'loop') as ThemeVariant[]) {
+  for (const name of Object.keys(themeConfigs).filter(n => !WITH_STYLESHEET.includes(n)) as ThemeVariant[]) {
     it(`${name} gets nothing injected`, () => {
       render(themed(name));
       expect(stylesheets()).toHaveLength(0);

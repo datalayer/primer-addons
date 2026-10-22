@@ -22,6 +22,7 @@ import { sandThemeStyles } from './themes/sandThemeStyles';
 import { ivoryThemeStyles } from './themes/ivoryThemeStyles';
 import { sunThemeStyles } from './themes/sunThemeStyles';
 import { loopThemeStyles } from './themes/loopThemeStyles';
+import { vscodeThemeStyles } from './themes/vscodeThemeStyles';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
@@ -31,11 +32,22 @@ import { sandColors } from './colors/sandColors';
 import { ivoryColors } from './colors/ivoryColors';
 import { sunColors } from './colors/sunColors';
 import { loopColors } from './colors/loopColors';
+import { vscodeColors } from './colors/vscodeColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
 
 /** Available theme variants. */
-export type ThemeVariant = 'datalayer' | 'spatial' | 'lovely' | 'matrix' | 'earth' | 'sand' | 'ivory' | 'sun' | 'loop';
+export type ThemeVariant =
+  | 'datalayer'
+  | 'spatial'
+  | 'lovely'
+  | 'matrix'
+  | 'earth'
+  | 'sand'
+  | 'ivory'
+  | 'sun'
+  | 'loop'
+  | 'vscode';
 
 /** A pair of colours for a two-stop gradient. */
 export interface GradientPair {
@@ -392,10 +404,53 @@ export const themeTokens: Record<ThemeVariant, ThemeTokens> = {
       gold: loopColors.brightLightGold,        // #8A6A00 — deep sun
     },
   },
+  vscode: {
+    label: 'VS Code',
+    description:
+      'The editor’s own colours: in a Visual Studio Code webview it follows the colour theme in use, and changes with it; elsewhere, Dark Modern and Light Modern.',
+    brandColor: vscodeColors.vscodeBrand,
+    defaultColorMode: 'auto',
+    themeStyles: vscodeThemeStyles,
+    cardGradient: {
+      light: { from: vscodeColors.vscodeText, to: vscodeColors.brightLightSurge },  // #005FB8 → #0451A5
+      dark:  { from: vscodeColors.vscodeAccent, to: vscodeColors.vscodeBrand },     // #4DAAFC → #0078D4
+    },
+    brightPalette: {
+      glow: vscodeColors.brightGlow,        // #4DAAFC — link blue
+      onGlow: '#1F1F1F',                    // dark text on the light blue
+      pop: vscodeColors.brightPop,          // #0DBC79 — ANSI green
+      spark: vscodeColors.brightSpark,      // #11A8CD — ANSI cyan
+      blaze: vscodeColors.brightBlaze,      // #F14C4C — ANSI bright red
+      surge: vscodeColors.brightSurge,      // #2472C8 — ANSI blue
+      flame: vscodeColors.brightFlame,      // #E5E510 — ANSI yellow
+      gold: vscodeColors.brightGold,        // #FFCC00 — gold
+    },
+    brightPaletteLight: {
+      glow: vscodeColors.brightLightGlow,        // #005FB8 — deep blue
+      onGlow: '#ffffff',                         // white text on deep blue
+      pop: vscodeColors.brightLightPop,          // #107C10 — deep green
+      spark: vscodeColors.brightLightSpark,      // #0598BC — deep cyan
+      blaze: vscodeColors.brightLightBlaze,      // #CD3131 — deep red
+      surge: vscodeColors.brightLightSurge,      // #0451A5 — deep blue
+      flame: vscodeColors.brightLightFlame,      // #949800 — deep yellow
+      gold: vscodeColors.brightLightGold,        // #9A7B00 — deep gold
+    },
+  },
 };
 
 /** All available theme variants in display order. */
-export const themeVariants: ThemeVariant[] = ['datalayer', 'spatial', 'lovely', 'matrix', 'earth', 'sand', 'ivory', 'sun', 'loop'];
+export const themeVariants: ThemeVariant[] = [
+  'datalayer',
+  'spatial',
+  'lovely',
+  'matrix',
+  'earth',
+  'sand',
+  'ivory',
+  'sun',
+  'loop',
+  'vscode',
+];
 
 /** Look up a theme's tokens by variant name. */
 export function getThemeTokens(variant: ThemeVariant): ThemeTokens {
@@ -579,6 +634,22 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       loopColors.brightBlaze,            // #F6A5C1 — rose
       loopColors.brightSurge,            // #C0AEF6 — violet
       loopColors.brightGold,             // #F8D469 — sun
+    ],
+  },
+  vscode: {
+    light: [
+      vscodeColors.brightLightGlow,      // #005FB8 — deep blue
+      vscodeColors.brightLightPop,       // #107C10 — deep green
+      vscodeColors.brightLightSpark,     // #0598BC — deep cyan
+      vscodeColors.brightLightBlaze,     // #CD3131 — deep red
+      vscodeColors.gray,                 // #9D9D9D — neutral
+    ],
+    dark: [
+      vscodeColors.brightGlow,           // #4DAAFC — link blue
+      vscodeColors.brightPop,            // #0DBC79 — ANSI green
+      vscodeColors.brightSpark,          // #11A8CD — ANSI cyan
+      vscodeColors.brightBlaze,          // #F14C4C — ANSI bright red
+      vscodeColors.brightFlame,          // #E5E510 — ANSI yellow
     ],
   },
 };

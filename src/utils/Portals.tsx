@@ -162,6 +162,27 @@ const camelToKebab = (s: string): string =>
  * Typical usage: call from `DatalayerThemeProvider`'s `useEffect` so
  * portals stay in sync whenever theme or color-mode changes.
  */
+/**
+ * What the body and the portal root take of a theme's styles, besides its
+ * custom properties: what a portal inherits or paints with — colour, type,
+ * background — and nothing of layout. A provider's `baseStyles` may size its
+ * own box (`height: 100%`, `display: contents`); written on the portal root,
+ * a fixed layer at the top of the page with the theme's background, the same
+ * height covered the whole page.
+ */
+const PORTAL_PROPERTIES = new Set([
+  'color',
+  'backgroundColor',
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'lineHeight',
+  'letterSpacing',
+  'colorScheme',
+  'WebkitFontSmoothing',
+  'textRendering',
+]);
+
 export function syncPortalThemeStyles(styles: CSSProperties): void {
   /*
    * On the portal root as well as on the body, and that is the point.
@@ -198,6 +219,7 @@ export function syncPortalThemeStyles(styles: CSSProperties): void {
 
     for (const [key, value] of Object.entries(styles)) {
       if (value == null) continue;
+      if (!key.startsWith('--') && !PORTAL_PROPERTIES.has(key)) continue;
       const strVal = String(value);
 
       if (key.startsWith('--')) {

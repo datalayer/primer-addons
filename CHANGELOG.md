@@ -8,7 +8,14 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
-## 1.0.40
+## 1.0.42
+
+- The body and the portal root take a theme's variables, colour and type, never a provider's layout: a `baseStyles` of `height: 100%` on the portal root — a fixed, painted layer — covered the whole page.
+
+## 1.0.41
+
+- The `vscode` theme: Visual Studio Code's own colours, type and shape as a theme variant, listed after the others as *VS Code*. Every token reads the editor's `--vscode-*` variable with Dark Modern and Light Modern as fallbacks, so a webview follows the colour theme in use, and changes with it, and the theme draws anywhere else. Its stylesheet carries the editor's one-pixel inset focus ring and gives JupyterLab, CodeMirror and Excalidraw the editor's colours. `vscodeColors`, `vscodeVar` and `vscodeTint` for code that needs the colours.
+- The base variables carry the primitive sizes Primer's controls read (`--base-size-*`, `--borderWidth-*`, the control sizes), for a page that loads no `@primer/primitives` sheet: a text input had no border there.
 
 - `Box` emits a reset (`all`) before what it would reset, wherever it is written: `all="unset"` written after `width` no longer undoes it.
 - `Card` is drawn by this package's `Box` with the theme's variables: Primer's shadow variables, the theme's card corner, `variant` (default, subtle, inset, accent, success, attention, danger), `rounded` by the theme's shape names, `interactive`, `selected`, `dashed`, `disabled`, `accent`, and the `Card.Cover` and `Card.Footer` slots.

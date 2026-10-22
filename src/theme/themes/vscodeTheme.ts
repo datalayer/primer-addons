@@ -14,6 +14,7 @@
 import { theme as primerTheme } from '@primer/react';
 
 export * from './vscodeThemeStyles';
+export * from './vscodeEditorsCss';
 
 /** The Primer theme object: Primer's default. */
 export const vscodeTheme = primerTheme;

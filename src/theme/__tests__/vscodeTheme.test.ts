@@ -83,4 +83,21 @@ describe('the VS Code theme', () => {
     expect(vscodeThemeStyles.css).toContain('outline: 1px solid var(--focus-outlineColor)');
     expect(vscodeThemeStyles.css).toContain('outline-offset: -1px');
   });
+
+  it('gives the editors their face: JupyterLab’s variables, CodeMirror, Excalidraw', () => {
+    const css = vscodeThemeStyles.css ?? '';
+    expect(css).toContain('--jp-layout-color0: var(--vscode-editor-background)');
+    expect(css).toContain('--jp-brand-color1: var(--vscode-button-background)');
+    expect(css).toContain(':scope .cm-editor *::selection');
+    expect(css).toContain(':scope .ExcalidrawModal__row .excalidraw.theme--dark');
+    expect(css).toContain(':scope .ExcalidrawModal__row .excalidraw.theme--light');
+    // Scoped: nothing addresses the page's body.
+    expect(css).not.toMatch(/^\s*body/m);
+  });
+
+  it('defines the sizes Primer’s controls read, for a page without the primitives sheets', () => {
+    const light = vscodeThemeStyles.light as Record<string, string>;
+    // The theme's own control size wins over the base's.
+    expect(light['--control-medium-size']).toBe('26px');
+  });
 });

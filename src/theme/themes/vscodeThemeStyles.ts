@@ -28,6 +28,7 @@ import {
 } from '../colors/vscodeColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 import { primerComponentSelectors } from '../css/primerComponentsCss';
+import { vscodeEditorsCss } from './vscodeEditorsCss';
 
 /* ── Colour definitions, one per mode ────────────────────────────────── */
 
@@ -221,7 +222,8 @@ const sel = primerComponentSelectors;
 
 /**
  * What no token says: the editor's focus ring is one pixel, drawn inside
- * the control, in the focus colour.
+ * the control, in the focus colour. Then the editors' face
+ * (`vscodeEditorsCss`): JupyterLab's variables, CodeMirror, Excalidraw.
  */
 const vscodeOwnCss = `
 :scope ${sel.button}:focus-visible,
@@ -231,7 +233,7 @@ const vscodeOwnCss = `
   outline-offset: -1px;
   box-shadow: none;
 }
-`;
+${vscodeEditorsCss}`;
 
 /* ── Exports ─────────────────────────────────────────────────────────── */
 

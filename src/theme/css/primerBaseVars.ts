@@ -25,6 +25,64 @@ const radii: Record<string, string> = {
 };
 
 /** The open and closed states are success and danger, as in Primer. */
+/*
+ * The sizes Primer's controls read from `@primer/primitives`' size and
+ * border sheets (`--base-size-*`, `--borderWidth-*`, the control sizes),
+ * for a page that loads no primitives sheet — a VS Code webview, a page of
+ * Primer components alone: without them a text input has no border and a
+ * button no height, their shorthands being invalid. The values are the
+ * primitives' own.
+ */
+const sizes: Record<string, string> = {
+  '--base-size-2': '0.125rem',
+  '--base-size-4': '0.25rem',
+  '--base-size-6': '0.375rem',
+  '--base-size-8': '0.5rem',
+  '--base-size-12': '0.75rem',
+  '--base-size-16': '1rem',
+  '--base-size-20': '1.25rem',
+  '--base-size-24': '1.5rem',
+  '--base-size-28': '1.75rem',
+  '--base-size-32': '2rem',
+  '--base-size-36': '2.25rem',
+  '--base-size-40': '2.5rem',
+  '--base-size-44': '2.75rem',
+  '--base-size-48': '3rem',
+  '--base-size-64': '4rem',
+  '--base-size-80': '5rem',
+  '--base-size-96': '6rem',
+  '--base-size-112': '7rem',
+  '--base-size-128': '8rem',
+  '--borderWidth-thin': '0.0625rem',
+  '--borderWidth-default': 'var(--borderWidth-thin)',
+  '--borderWidth-thick': '0.125rem',
+  '--borderWidth-thicker': '0.25rem',
+  '--boxShadow-thin': 'inset 0 0 0 var(--borderWidth-thin)',
+  '--stack-gap-condensed': '0.5rem',
+  '--control-xsmall-size': '1.5rem',
+  '--control-xsmall-paddingBlock': '0.125rem',
+  '--control-xsmall-paddingInline-condensed': '0.25rem',
+  '--control-xsmall-paddingInline-normal': '0.5rem',
+  '--control-xsmall-paddingInline-spacious': '0.75rem',
+  '--control-small-size': '1.75rem',
+  '--control-small-paddingBlock': '0.25rem',
+  '--control-small-paddingInline-condensed': '0.5rem',
+  '--control-small-paddingInline-normal': '0.75rem',
+  '--control-medium-size': '2rem',
+  '--control-medium-paddingBlock': '0.375rem',
+  '--control-medium-paddingInline-condensed': '0.5rem',
+  '--control-medium-paddingInline-normal': '0.75rem',
+  '--control-medium-paddingInline-spacious': '1rem',
+  '--control-large-size': '2.5rem',
+  '--control-large-paddingBlock': '0.625rem',
+  '--control-large-paddingInline-normal': '0.75rem',
+  '--control-large-paddingInline-spacious': '1rem',
+  '--control-xlarge-size': '3rem',
+  '--control-xlarge-paddingBlock': '0.875rem',
+  '--control-xlarge-paddingInline-normal': '0.75rem',
+  '--control-xlarge-paddingInline-spacious': '1rem',
+};
+
 const states: Record<string, string> = {
   '--fgColor-open': 'var(--fgColor-success)',
   '--bgColor-open-emphasis': 'var(--bgColor-success-emphasis)',
@@ -38,6 +96,7 @@ const states: Record<string, string> = {
 
 export const primerBaseVars: Record<'light' | 'dark', Record<string, string>> = {
   light: {
+    ...sizes,
     ...radii,
     ...states,
     '--bgColor-emphasis': '#25292e',
@@ -58,6 +117,7 @@ export const primerBaseVars: Record<'light' | 'dark', Record<string, string>> = 
     '--shadow-floating-xlarge': '0px 0px 0px 1px #d1d9e0, 0px 56px 112px 0px #25292e52',
   },
   dark: {
+    ...sizes,
     ...radii,
     ...states,
     '--bgColor-emphasis': '#3d444d',

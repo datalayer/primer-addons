@@ -8,7 +8,10 @@
 
 This repository contains additional React.js components for the [@primer/react](https://github.com/primer/react) toolkit. The components are compliant with the Primer theming framework and aims to respect the [Primer design system](https://primer.style).
 
-A Storybook showcasing the components and their options is available on https://primer-addons.datalayer.tech.
+See them live:
+
+- **Gallery** — every component on its page, in every theme and colour mode: https://primer-addons.datalayer.tech (`make deploy-gallery` publishes it).
+- **Storybook** — each component's options, story by story: https://primer-addons.datalayer.tech/storybook/ (`make deploy-storybook`).
 
 This project has been [shared in a discussion](https://github.com/primer/react/discussions/3297) on the Primer React main repository.
 
@@ -48,7 +51,7 @@ import { AppearancePlugin, PageLayoutPlugin, ThemePlugin } from '@datalayer/prim
 - `AppearancePlugin` puts the appearance menu — color mode, theme, the theme's description and a preview of it, the control the Datalayer header wears — in a slot, `header` by default, and brings `ThemePlugin` along as a dependency.
 - `PageLayoutPlugin` arranges a host's slots as a page: what plugins put in `page` lies on a centred sheet over a quiet canvas, `page-band` is docked above it at the sheet's width (or floats over it as a card), `page-chips` sit under the band, and `page-panel` is a side panel opened from a toggle in the header. The layout (`PageLayout`), its toggle and its signals (`pageLayoutPanelOpen`, `openPagePanel()`…) are exported too, for a host that wires the parts itself — the Loop of `@datalayer/agent-runtimes` does, with the notebook as the page and the conversation as the panel.
 
-The [gallery example](examples/gallery) is a Reactor app built on the three: `npm run gallery`.
+The [gallery example](examples/gallery) is a Reactor app built on the three: `npm run gallery` locally, live at https://primer-addons.datalayer.tech.
 
 <div align="center" style="text-align: center">
   <img alt="Primer React Addons" src="https://assets.datalayer.tech/primer-addons-example.png" />

@@ -8,11 +8,17 @@ import { ArgTypes } from '@storybook/react';
 import { createGlobalStyle } from 'styled-components';
 import { Icon } from '@primer/octicons-react';
 import { ThemeProvider, themeGet, BaseStyles, theme } from '@primer/react';
+import { DatalayerThemeProvider } from './theme/DatalayerThemeProvider';
+import {
+  themeConfigs,
+  themeVariants,
+  type ThemeVariant,
+} from './theme/themeRegistry';
 
 // we don't import StoryContext from storybook because of exports that conflict
 // with primer/react more: https://github.com/primer/react/runs/6129115026?check_suite_focus=true
 type StoryContext = Record<string, unknown> & {
-  globals: { colorScheme: string };
+  globals: { colorScheme: string; themeVariant?: string };
   parameters: Record<string, unknown>;
 };
 
@@ -35,7 +41,21 @@ export const withThemeProvider = (
 ) => {
   // used for testing ThemeProvider.stories.tsx
   if (context.parameters.disableThemeDecorator) return Story(context);
-  const { colorScheme } = context.globals;
+  const { colorScheme, themeVariant } = context.globals;
+  // One of the package's themes: the provider applications use, so the
+  // story wears that theme's tokens (its corners, hairlines, palette).
+  if (themeVariant && themeVariant !== 'primer') {
+    const config = themeConfigs[themeVariant as ThemeVariant];
+    return (
+      <DatalayerThemeProvider
+        colorMode={colormodeFromScheme(colorScheme)}
+        theme={config.primerTheme}
+        themeStyles={config.themeStyles}
+      >
+        <div id="html-addon-root">{Story(context) as React.ReactNode}</div>
+      </DatalayerThemeProvider>
+    );
+  }
   return (
     <ThemeProvider
       theme={theme}
@@ -66,6 +86,16 @@ export const toolbarTypes = {
       icon: 'photo',
       items: [...Object.keys(theme.colorSchemes)],
       title: 'Color Scheme',
+    },
+  },
+  themeVariant: {
+    name: 'Theme',
+    description: "The package's theme the story is drawn in, or plain Primer",
+    defaultValue: 'datalayer',
+    toolbar: {
+      icon: 'paintbrush',
+      items: ['primer', ...themeVariants],
+      title: 'Theme',
     },
   },
 };

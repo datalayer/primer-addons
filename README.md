@@ -21,6 +21,7 @@ This project has been [shared in a discussion](https://github.com/primer/react/d
 - [x] Box
 - [x] Calendar Picker
 - [x] Card
+- [x] Circle Icon
 - [x] Closeable Flash
 - [x] Color Swatch and Color Picker
 - [x] Content Loader

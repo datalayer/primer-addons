@@ -44,11 +44,7 @@ themes and become fully rounded controls in `loop`.
 Three plugins for hosts built on [`@datalayer/reactor`](https://github.com/datalayer/reactor), imported by path so a page without a reactor never pulls it in:
 
 ```ts
-import {
-  AppearancePlugin,
-  PageLayoutPlugin,
-  ThemePlugin,
-} from "@datalayer/primer-addons/lib/reactor";
+import { AppearancePlugin, PageLayoutPlugin, ThemePlugin } from '@datalayer/primer-addons/lib/reactor';
 ```
 
 - `ThemePlugin` keeps Primer's portals in the application's color mode and toggles that mode by command (`Mod+Alt+C`).
@@ -66,24 +62,14 @@ The [gallery example](examples/gallery) is a Reactor app built on the three: `np
 `Box` is this package's own, not Primer's deprecated one: the same prop names — space (`p`, `mx`, `gap`…), colour (`color`, `bg`), border (`border`, `borderColor`, `borderRadius`, `borderTop`…), layout, flex and grid, position, type, `boxShadow`, `opacity`, `cursor`, `transition`, `transform`, `listStyle`, and `as` — without styled-components.
 
 ```tsx
-import { Box } from "@datalayer/primer-addons";
+import { Box } from '@datalayer/primer-addons';
 
-<Box
-  as="section"
-  display="flex"
-  flexDirection="column"
-  gap={2}
-  p={3}
-  bg="canvas.default"
-  border="1px solid"
-  borderColor="border.default"
-  borderRadius="large"
-  gridTemplateColumns={["1fr", null, "repeat(3, 1fr)"]}
-  hover={{ bg: "canvas.subtle" }}
-  focusVisible={{ outline: "2px solid" }}
->
+<Box as="section" display="flex" flexDirection="column" gap={2} p={3}
+  bg="canvas.default" border="1px solid" borderColor="border.default" borderRadius="large"
+  gridTemplateColumns={['1fr', null, 'repeat(3, 1fr)']}
+  hover={{ bg: 'canvas.subtle' }} focusVisible={{ outline: '2px solid' }}>
   …
-</Box>;
+</Box>
 ```
 
 - **Tokens are Primer's CSS variables, with no fallback.** A colour path is the variable Primer's own theme reads first for it (`bg="canvas.subtle"` is `var(--bgColor-muted)`, `borderColor="border.default"` is `var(--borderColor-default)`, `boxShadow="shadow.medium"` is `var(--shadow-resting-medium)`); a radius by name is Primer's (`small`, `medium`, `large`, `full`) or the theme's shape (`control`, `card`, `bubble`, `frame`); a weight by name is the theme's weight variable. Space, font sizes, radii by index and sizes are Primer's theme scales in pixels (`p={3}` is 16px). The theme provider sets every variable `Box` emits, in every theme — a test holds it — so a theme that wants another hairline or corner sets it on Primer's variable (the `loop` theme's hairline is its `--borderColor-default`, its card corner its `--borderRadius-large`), never a call site with `var(--loop-…, var(--…))`.
@@ -96,16 +82,16 @@ The sources: `src/components/box/Box.tsx` (the design), `boxCss.ts` (the props a
 
 ## Theme accents
 
-Six soft accents, and an application takes one — **over any theme**: `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory`, `sun` and `loop` alike (decided 2026-10-07; they coloured `loop` alone before). The [gallery](examples/gallery)'s _Theme Accents_ page shows the six in whatever theme and colour mode the gallery wears, beside the theme's own, with its tokens read back. Each is five values — the accent, the text that sits on it, the **stage** (the tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
+Six soft accents, and an application takes one — **over any theme**: `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory`, `sun` and `loop` alike (decided 2026-10-07; they coloured `loop` alone before). The [gallery](examples/gallery)'s *Theme Accents* page shows the six in whatever theme and colour mode the gallery wears, beside the theme's own, with its tokens read back. Each is five values — the accent, the text that sits on it, the **stage** (the tint behind a hosted application), a **quiet** tint (the agent's bubble, a draft) and the accent **as text** (a link, a suggested question) — the last three each with a light and a dark value.
 
-| Name                        | Accent    | Text on it | Stage (light / dark)  | Quiet (light / dark)  | As text (light / dark) |
-| --------------------------- | --------- | ---------- | --------------------- | --------------------- | ---------------------- |
-| `green` (mint, the default) | `#7ADBB8` | `#06281E`  | `#DDF5EC` / `#10261F` | `#F0FAF6` / `#17211D` | `#248462` / `#8FE5C6`  |
-| `rose`                      | `#F6A5C1` | `#3A0A1C`  | `#FCE3EC` / `#2B141C` | `#FDF2F6` / `#22181C` | `#B83A6B` / `#F6A5C1`  |
-| `sky`                       | `#8CCBF9` | `#06243B`  | `#DFF0FD` / `#0F2333` | `#F0F8FE` / `#161E25` | `#1F6FB0` / `#8CCBF9`  |
-| `lime`                      | `#BEDC55` | `#1F2A00`  | `#EEF6CC` / `#1E2609` | `#F7FBE6` / `#1C2014` | `#5F7A00` / `#BEDC55`  |
-| `sun`                       | `#F8D469` | `#2E2200`  | `#FDF3CD` / `#2A2209` | `#FEF9E7` / `#221F14` | `#8A6A00` / `#F8D469`  |
-| `violet`                    | `#C0AEF6` | `#1C0F47`  | `#ECE7FD` / `#1B1533` | `#F6F3FE` / `#1C1A27` | `#6B53C9` / `#C0AEF6`  |
+| Name | Accent | Text on it | Stage (light / dark) | Quiet (light / dark) | As text (light / dark) |
+|---|---|---|---|---|---|
+| `green` (mint, the default) | `#7ADBB8` | `#06281E` | `#DDF5EC` / `#10261F` | `#F0FAF6` / `#17211D` | `#248462` / `#8FE5C6` |
+| `rose` | `#F6A5C1` | `#3A0A1C` | `#FCE3EC` / `#2B141C` | `#FDF2F6` / `#22181C` | `#B83A6B` / `#F6A5C1` |
+| `sky` | `#8CCBF9` | `#06243B` | `#DFF0FD` / `#0F2333` | `#F0F8FE` / `#161E25` | `#1F6FB0` / `#8CCBF9` |
+| `lime` | `#BEDC55` | `#1F2A00` | `#EEF6CC` / `#1E2609` | `#F7FBE6` / `#1C2014` | `#5F7A00` / `#BEDC55` |
+| `sun` | `#F8D469` | `#2E2200` | `#FDF3CD` / `#2A2209` | `#FEF9E7` / `#221F14` | `#8A6A00` / `#F8D469` |
+| `violet` | `#C0AEF6` | `#1C0F47` | `#ECE7FD` / `#1B1533` | `#F6F3FE` / `#1C1A27` | `#6B53C9` / `#C0AEF6` |
 
 `themeAccents` holds them, `themeAccentNames` lists them in the order a picker shows them (type `ThemeAccentName`), and `themeAccentVars(name, mode)` turns one into everything it colours, as custom properties an application sets on its root:
 
@@ -131,22 +117,14 @@ The source: `src/theme/colors/themeAccents.ts`.
 
 ## The `loop` theme
 
-`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on the _Theme Accents_ page when the gallery wears it. Its accent is mint, `green` of the [theme accents](#theme-accents).
+`loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on the *Theme Accents* page when the gallery wears it. Its accent is mint, `green` of the [theme accents](#theme-accents).
 
 ```tsx
-import {
-  DatalayerThemeProvider,
-  loopTheme,
-  loopThemeStyles,
-} from "@datalayer/primer-addons";
+import { DatalayerThemeProvider, loopTheme, loopThemeStyles } from '@datalayer/primer-addons';
 
-<DatalayerThemeProvider
-  theme={loopTheme}
-  themeStyles={loopThemeStyles}
-  colorMode="auto"
->
+<DatalayerThemeProvider theme={loopTheme} themeStyles={loopThemeStyles} colorMode="auto">
   {app}
-</DatalayerThemeProvider>;
+</DatalayerThemeProvider>
 ```
 
 The sources: `src/theme/colors/loopColors.ts` (colours), `src/theme/themes/loopTheme.ts` (the theme), `src/theme/css/createThemeCSSVars.ts` (what every theme sets), `src/theme/DatalayerThemeProvider.tsx` and `src/utils/Portals.tsx` (how a theme's stylesheet is applied).
@@ -155,19 +133,19 @@ The sources: `src/theme/colors/loopColors.ts` (colours), `src/theme/themes/loopT
 
 **Every theme** sets these, so that a component reads its shape — and how a link reads in a message — the way it reads its colour (`shapeVars`, `DEFAULT_THEME_SHAPE`). The eight other themes take the defaults — today's corners and no motion at all — and keep every other value they had, which `themeShape.test.ts` holds by a snapshot of each.
 
-| Token                    | Default (every other theme)         | `loop`                                                                                |
-| ------------------------ | ----------------------------------- | ------------------------------------------------------------------------------------- |
-| `--theme-radius-control` | `var(--borderRadius-medium, 6px)`   | `999px`                                                                               |
-| `--theme-radius-card`    | `var(--borderRadius-medium, 6px)`   | `20px`                                                                                |
-| `--theme-radius-bubble`  | `var(--borderRadius-large, 12px)`   | `22px`                                                                                |
-| `--theme-radius-frame`   | `var(--borderRadius-large, 12px)`   | `28px`                                                                                |
-| `--theme-hairline`       | `var(--borderWidth-thin, 1px)`      | the same                                                                              |
-| `--theme-shadow`         | `var(--shadow-resting-small, none)` | the frame's shadow, per mode                                                          |
-| `--theme-motion-status`  | `0ms`                               | `120ms`                                                                               |
-| `--theme-motion-message` | `0ms`                               | `200ms`                                                                               |
-| `--theme-motion-pane`    | `0ms`                               | `320ms`                                                                               |
-| `--theme-motion-easing`  | `ease`                              | `cubic-bezier(0.2, 0, 0, 1)`                                                          |
-| `--theme-message-link`   | `var(--fgColor-accent, #0969da)`    | `currentColor`: a link in a message is plain, the colour of its words, and underlined |
+| Token | Default (every other theme) | `loop` |
+|---|---|---|
+| `--theme-radius-control` | `var(--borderRadius-medium, 6px)` | `999px` |
+| `--theme-radius-card` | `var(--borderRadius-medium, 6px)` | `20px` |
+| `--theme-radius-bubble` | `var(--borderRadius-large, 12px)` | `22px` |
+| `--theme-radius-frame` | `var(--borderRadius-large, 12px)` | `28px` |
+| `--theme-hairline` | `var(--borderWidth-thin, 1px)` | the same |
+| `--theme-shadow` | `var(--shadow-resting-small, none)` | the frame's shadow, per mode |
+| `--theme-motion-status` | `0ms` | `120ms` |
+| `--theme-motion-message` | `0ms` | `200ms` |
+| `--theme-motion-pane` | `0ms` | `320ms` |
+| `--theme-motion-easing` | `ease` | `cubic-bezier(0.2, 0, 0, 1)` |
+| `--theme-message-link` | `var(--fgColor-accent, #0969da)` | `currentColor`: a link in a message is plain, the colour of its words, and underlined |
 
 **The `loop` theme's own**, beside them (`loopShapeVars`, `loopShadows`, `loopMotionVars`, `loopTypeVars`):
 
@@ -183,7 +161,7 @@ The sources: `src/theme/colors/loopColors.ts` (colours), `src/theme/themes/loopT
 
 ### The reference screens
 
-The tokens above are drawn together on four reference screens (LOOP T-01) — **a conversation**, **a conversation beside its work**, **the activity of a worker** and **an approval** — each in the nine themes of the registry and in both modes. They are built from the real chat components of `@datalayer/agent-runtimes`, which depends on this package, so they live there: as stories (`src/stories/loop/LoopReference.stories.tsx`, _Loop/Reference screens_) and as pictures that a test compares in Chrome (`npm run test:pictures` in agent-runtimes, T-16; `TESTING.md` there says how to run it and how to accept a change). A change of token here shows there as a picture that differs: accept it, or fix it.
+The tokens above are drawn together on four reference screens (LOOP T-01) — **a conversation**, **a conversation beside its work**, **the activity of a worker** and **an approval** — each in the nine themes of the registry and in both modes. They are built from the real chat components of `@datalayer/agent-runtimes`, which depends on this package, so they live there: as stories (`src/stories/loop/LoopReference.stories.tsx`, *Loop/Reference screens*) and as pictures that a test compares in Chrome (`npm run test:pictures` in agent-runtimes, T-16; `TESTING.md` there says how to run it and how to accept a change). A change of token here shows there as a picture that differs: accept it, or fix it.
 
 ### The controls, as pills
 

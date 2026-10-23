@@ -121,7 +121,7 @@ export function HoverCardDemo() {
           <Picture item={details} height={280} />
           <Box p={4} display="grid" gap={3}>
             <Text sx={{ fontSize: 4, fontWeight: 600 }}>{details.name}</Text>
-            <Label>{details.kind}</Label>
+            <Label sx={{ justifySelf: 'start' }}>{details.kind}</Label>
             <Box color="fg.muted">
               <IllustratedDescription item={details} />
             </Box>

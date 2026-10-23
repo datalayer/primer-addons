@@ -184,7 +184,13 @@ export function HoverCard({
         >
           {title}
         </Text>
-        {meta}
+        {meta ? (
+          // A row of its own, so a label or a token in it hugs its text
+          // rather than stretching across the grid's column.
+          <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
+            {meta}
+          </Box>
+        ) : null}
         {description ? (
           <Text sx={{ fontSize: 0, color: 'fg.muted', lineHeight: 1.5 }}>{description}</Text>
         ) : null}

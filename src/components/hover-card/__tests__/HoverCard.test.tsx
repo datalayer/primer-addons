@@ -128,6 +128,19 @@ describe('HoverCard', () => {
     act(() => root.render(<HoverCard anchorWidth={200} title="A page" />));
     expect(host.querySelector('button')).toBeNull();
   });
+
+  it('sets the meta in a row of its own, so a label hugs its text', () => {
+    act(() => root.render(<HoverCard anchorWidth={200} title="A page" meta={<span data-test="label">notebook</span>} />));
+    const row = host.querySelector('[data-test="label"]')!.parentElement as HTMLElement;
+    const className = Array.from(row.classList).find(name => name.startsWith('bx-'));
+    const rules = Array.from(document.querySelectorAll<HTMLStyleElement>('style[data-primer-addons-box]'))
+      .flatMap(style => Array.from(style.sheet?.cssRules ?? []))
+      .map(rule => rule.cssText)
+      .filter(text => text.includes(`.${className}`))
+      .join('\n');
+    expect(rules).toContain('display: flex');
+    expect(rules).toContain('flex-wrap: wrap');
+  });
 });
 
 describe('HoverCardDetails', () => {

@@ -12,7 +12,17 @@
 
 import { useState, type MouseEvent, type ReactNode } from 'react';
 import { ActionMenu, ActionList, Button, IconButton, Label, Text } from '@primer/react';
-import { GlobeIcon, KebabHorizontalIcon, PeopleIcon, PlusIcon, ProjectIcon } from '@primer/octicons-react';
+import {
+  BeakerIcon,
+  GlobeIcon,
+  KebabHorizontalIcon,
+  PeopleIcon,
+  PlusIcon,
+  ProjectIcon,
+  RocketIcon,
+  TelescopeIcon,
+  ToolsIcon,
+} from '@primer/octicons-react';
 import { Box, Card, type CardVariant } from '@datalayer/primer-addons';
 import { ExampleCode } from './BoxDemo';
 
@@ -31,6 +41,28 @@ const Row = ({ children }: { children: ReactNode }) => (
 );
 
 const VARIANTS: CardVariant[] = ['default', 'subtle', 'inset', 'accent', 'success', 'attention', 'danger'];
+
+/** The tints the landing's card grids cycle through, one per card. */
+const LIFT_ACCENTS = [
+  { color: 'accent.fg', bg: 'accent.subtle' },
+  { color: 'done.fg', bg: 'done.subtle' },
+  { color: 'attention.fg', bg: 'attention.subtle' },
+] as const;
+
+const LIFT_SOURCES = [
+  { icon: GlobeIcon, title: 'Satellite sources', text: 'Sentinel, Landsat and commercial constellations.' },
+  { icon: TelescopeIcon, title: 'Change detection', text: 'What moved since the last pass, flagged.' },
+  { icon: RocketIcon, title: 'Alerts', text: 'Within the hour, where the team already works.' },
+];
+
+const LIFT_TOOLS = [
+  { name: 'Earthdata', text: 'Search and read NASA Earthdata granules.', fact: '12 tools', enabled: true },
+  { name: 'Odoo', text: 'Invoices, partners and the ledger.', fact: '9 tools', enabled: true },
+  { name: 'Slack', text: 'Post the answer to a channel.', fact: '3 tools', enabled: false },
+];
+
+/** A small label set like the landing's: mono, wide, upper case. */
+const MONO = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace';
 
 function SelectableCards() {
   const [chosen, setChosen] = useState('ag-ui');
@@ -128,6 +160,109 @@ const EXAMPLES: Example[] = [
           </Card>
         ))}
       </Row>
+    ),
+  },
+  {
+    title: 'Lift — the Earth Observation card',
+    caption:
+      "hoverEffect=\"lift\": on hover the card rises 3px onto shadow.large, its hairline turns border.muted, a light of accent.fg runs along its top edge, and its Card.Icon grows 6% and tilts 3° (260ms, the icon 320ms, on CARD_EASE). Card.Icon is a glyph in a tinted square — any element marked data-card-icon moves the same way. This is /agentify/earth-observation's grid.",
+    code: `<Card hoverEffect="lift" shadow="none" p={4}>
+  <Card.Icon icon={GlobeIcon} color="done.fg" bg="done.subtle" />
+  <Heading as="h3">Satellite sources</Heading>
+  <Text color="fg.muted">…</Text>
+</Card>`,
+    render: () => (
+      <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(220px, 1fr))" gap={3}>
+        {LIFT_SOURCES.map((item, i) => (
+          <Card key={item.title} hoverEffect="lift" shadow="none" p={4}>
+            <Card.Icon icon={item.icon} {...LIFT_ACCENTS[i % LIFT_ACCENTS.length]} />
+            <Text sx={{ fontWeight: 'bold', fontSize: 3, mb: 2 }}>{item.title}</Text>
+            <Text sx={{ color: 'fg.muted', fontSize: 1, lineHeight: 1.65 }}>{item.text}</Text>
+          </Card>
+        ))}
+      </Box>
+    ),
+  },
+  {
+    title: 'Lift — the Integrations card',
+    caption:
+      'The same lift with a status in the corner, a fact at the foot and a dashed, quieter card for what is declared but not offered — /settings/integrations. The card is position: relative under the lift, so a badge places itself against it.',
+    code: `<Card hoverEffect="lift" shadow="none" p={4} gap={2}
+  sx={enabled ? {} : { borderStyle: 'dashed', bg: 'canvas.subtle', opacity: 0.72 }}>
+  <Label sx={{ position: 'absolute', top: 3, right: 3 }}>Enabled</Label>
+  <Card.Icon icon={ToolsIcon} color="done.fg" bg="done.subtle" />
+  …
+</Card>`,
+    render: () => (
+      <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(220px, 1fr))" gap={3}>
+        {LIFT_TOOLS.map(tool => (
+          <Card
+            key={tool.name}
+            hoverEffect="lift"
+            shadow="none"
+            p={4}
+            gap={2}
+            sx={tool.enabled ? {} : { borderStyle: 'dashed', bg: 'canvas.subtle', opacity: 0.72 }}
+          >
+            <Text
+              sx={{
+                position: 'absolute',
+                top: 3,
+                right: 3,
+                px: 2,
+                py: '2px',
+                borderRadius: 999,
+                border: '1px solid',
+                fontFamily: MONO,
+                fontSize: '10px',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                ...(tool.enabled
+                  ? { color: 'success.fg', bg: 'success.subtle', borderColor: 'success.muted' }
+                  : { color: 'fg.muted', bg: 'neutral.subtle', borderColor: 'border.default' }),
+              }}
+            >
+              {tool.enabled ? 'Enabled' : 'Not available'}
+            </Text>
+            <Card.Icon icon={ToolsIcon} color="done.fg" bg="done.subtle" />
+            <Text sx={{ fontWeight: 'bold', fontSize: 2 }}>{tool.name}</Text>
+            <Text sx={{ color: 'fg.muted', fontSize: 1, lineHeight: 1.65 }}>{tool.text}</Text>
+            <Text sx={{ mt: 'auto', pt: 3, fontFamily: MONO, fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'fg.muted' }}>
+              {tool.fact}
+            </Text>
+          </Card>
+        ))}
+      </Box>
+    ),
+  },
+  {
+    title: 'Lift — keyboard and reduced motion',
+    caption:
+      "The keyboard gets the hover: a focusable card lifts on :focus-visible (Tab to the first), and a card lifts while a link or button inside it has the keyboard's focus (:has(:focus-visible); Tab to the link in the second). With prefers-reduced-motion: reduce (your system setting, or DevTools › Rendering › Emulate CSS prefers-reduced-motion) nothing moves — no rise, no tilt — and the shadow, the hairline and the top light still change. A clickable lifted card can be interactive too: its hover hairline is then the accent (the third).",
+    code: `<Card hoverEffect="lift" tabIndex={0}>…</Card>
+<Card hoverEffect="lift"><a href="#">Open the docs</a></Card>
+<Card as="button" type="button" interactive hoverEffect="lift">…</Card>`,
+    render: () => (
+      <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(220px, 1fr))" gap={3}>
+        <Card hoverEffect="lift" shadow="none" p={4} tabIndex={0} aria-label="A focusable card">
+          <Card.Icon icon={BeakerIcon} />
+          <Text sx={{ fontWeight: 'bold' }}>tabIndex=0</Text>
+          <Text sx={{ color: 'fg.muted', fontSize: 1 }}>Lifts on hover and on focus-visible.</Text>
+        </Card>
+        <Card hoverEffect="lift" shadow="none" p={4}>
+          <Card.Icon icon={ProjectIcon} color="attention.fg" bg="attention.subtle" />
+          <Text sx={{ fontWeight: 'bold' }}>A link inside</Text>
+          <Box as="a" href="#lift" color="accent.fg" fontSize={1}>
+            Open the docs
+          </Box>
+        </Card>
+        <Card as="button" type="button" interactive hoverEffect="lift" shadow="none" p={4}>
+          <Card.Icon icon={RocketIcon} color="done.fg" bg="done.subtle" />
+          <Text sx={{ fontWeight: 'bold' }}>interactive + lift</Text>
+          <Text sx={{ color: 'fg.muted', fontSize: 1 }}>The accent hairline on hover.</Text>
+        </Card>
+      </Box>
     ),
   },
   {

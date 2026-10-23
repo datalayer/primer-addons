@@ -34,6 +34,16 @@
  * - `selected` — the card that is chosen among others: an accent border on
  *   an accent wash. It says nothing to assistive technology by itself: the
  *   caller sets `aria-pressed` or `aria-selected`, as its role requires.
+ * - `hoverEffect="lift"` — the landing pages' card (Earth Observation,
+ *   Integrations): on hover, or when it or something in it has the
+ *   keyboard's focus, it rises 3px onto `shadow.large`, its hairline turns
+ *   `border.muted`, a light of `accent.fg` is drawn along its top edge, and
+ *   its `Card.Icon` (or any element marked `data-card-icon`) grows 6% and
+ *   tilts 3°. 260ms on {@link CARD_EASE}, the icon 320ms. For the reader
+ *   who asked for less motion nothing moves: the shadow, the hairline and
+ *   the light still change.
+ * - `Card.Icon` — a glyph in a tinted, rounded square: the icon the lift
+ *   moves.
  */
 
 import React from "react";
@@ -117,6 +127,30 @@ export type CardProps = CardBoxProps & {
    * such as an item's own colour.
    */
   accent?: BoxColorToken | (string & {});
+  /**
+   * What the card does when the pointer is over it or the keyboard is in
+   * it: nothing by default (or `none`); `lift` rises onto a larger shadow,
+   * draws a light along the top edge and moves its `Card.Icon`. The card
+   * keeps its hairline, and is `position: relative` and `overflow: hidden`
+   * (the light follows the corner); props win over both. Off while
+   * `disabled`. `sx` merges over the effect's keys, one key at a time.
+   */
+  hoverEffect?: CardHoverEffect;
+};
+
+/** What a card does under the pointer and the keyboard; see {@link CardProps.hoverEffect}. */
+export type CardHoverEffect = 'none' | 'lift';
+
+/** The glyph a card wears, in a tinted rounded square; `lift` moves it. */
+export type CardIconProps = CardBoxProps & {
+  /** An octicon, or any component that takes `size`. */
+  icon: React.ElementType;
+  /** The glyph's colour, a theme token. `accent.fg` by default. */
+  color?: BoxColorToken | (string & {});
+  /** The square's ground, a theme token. `accent.subtle` by default. */
+  bg?: BoxColorToken | (string & {});
+  /** The square's side, in pixels; 46 by default. The glyph is about half of it. */
+  size?: number;
 };
 
 export type CardHeaderProps = {
@@ -197,6 +231,60 @@ const INTERACTIVE: BoxProps = {
   reducedMotion: { transition: 'none' },
 };
 
+/**
+ * The easing of the `lift` effect, the landing pages' own: quick out, a
+ * long settle, so the card arrives rather than bounces.
+ */
+export const CARD_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+/** The attribute the `lift` effect moves: `Card.Icon` wears it. */
+export const CARD_ICON_ATTRIBUTE = 'data-card-icon';
+
+const ICON = `[${CARD_ICON_ATTRIBUTE}]`;
+
+/**
+ * The states that lift a card: the pointer over it, the keyboard on it, the
+ * keyboard on something in it. Each its own rule, so a browser that cannot
+ * read `:has()` drops that one and keeps the others.
+ */
+const LIFT_STATES = ['&:hover', '&:focus-visible', '&:has(:focus-visible)'];
+
+/** The `lift` effect, as `sx`: the card, its top-edge light, its icon. */
+function liftSx(hoverBorderColor: BoxColorToken): Record<string, unknown> {
+  const lifted = { boxShadow: 'shadow.large', transform: 'translateY(-3px)', borderColor: hoverBorderColor };
+  const sx: Record<string, unknown> = {
+    transition: `box-shadow 260ms ${CARD_EASE}, transform 260ms ${CARD_EASE}, border-color 260ms ${CARD_EASE}`,
+    // The light along the top edge: the card acknowledges the pointer
+    // without moving anything the eye is trying to read.
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: '2px',
+      background: 'linear-gradient(90deg, transparent, var(--fgColor-accent), transparent)',
+      opacity: 0,
+      pointerEvents: 'none',
+      transition: `opacity 260ms ${CARD_EASE}`,
+    },
+  };
+  const still: Record<string, unknown> = {
+    // The shadow, the hairline and the light still change; nothing moves.
+    transition: `box-shadow 260ms ${CARD_EASE}, border-color 260ms ${CARD_EASE}`,
+    [`& ${ICON}`]: { transition: 'none' },
+  };
+  for (const state of LIFT_STATES) {
+    sx[state] = lifted;
+    sx[`${state}::after`] = { opacity: 1 };
+    sx[`${state} ${ICON}`] = { transform: 'scale(1.06) rotate(-3deg)' };
+    still[state] = { transform: 'none' };
+    still[`${state} ${ICON}`] = { transform: 'none' };
+  }
+  sx['@media (prefers-reduced-motion: reduce)'] = still;
+  return sx;
+}
+
 /** What `disabled` takes away: the pointer and the hover, at a lower voice. */
 const DISABLED: BoxProps = {
   cursor: 'not-allowed',
@@ -211,13 +299,18 @@ export const Card: React.FC<CardProps> & {
   Content: React.FC<CardContentProps>;
   Footer: React.FC<CardFooterProps>;
   Actions: React.FC<CardActionsProps>;
+  Icon: React.FC<CardIconProps>;
 } = (props) => {
   const {
     rounded, border, shadow = 'small', variant = 'default', interactive, selected, dashed, disabled, accent,
-    children, ...otherProps
+    hoverEffect, sx, children, ...otherProps
   } = props;
-  const outlined = border || interactive || selected || dashed;
+  const lift = hoverEffect === 'lift' && !disabled;
+  const outlined = border || interactive || selected || dashed || lift;
   const flavour = VARIANTS[variant];
+  // An interactive card's hover hairline is the accent, lifted or not.
+  const effectSx = lift ? liftSx(interactive ? 'accent.emphasis' : 'border.muted') : undefined;
+  const mergedSx = effectSx ? { ...effectSx, ...(sx as object | undefined) } : sx;
   return (
     <Box
       // A column, so the actions stand at the bottom however long the text
@@ -237,7 +330,9 @@ export const Card: React.FC<CardProps> & {
       {...(interactive ? INTERACTIVE : undefined)}
       {...(disabled ? DISABLED : undefined)}
       {...(interactive && disabled ? { 'aria-disabled': true } : undefined)}
+      {...(lift ? { position: 'relative', overflow: 'hidden' } : undefined)}
       {...otherProps}
+      sx={mergedSx as BoxProps['sx']}
     >
       {children}
     </Box>
@@ -332,6 +427,29 @@ Card.Footer = ({children, ...rest}) => {
       {...rest}
     >
       {children}
+    </Box>
+  );
+}
+
+Card.Icon = ({ icon: Icon, color = 'accent.fg', bg = 'accent.subtle', size = 46, ...rest }) => {
+  return (
+    <Box
+      {...{ [CARD_ICON_ATTRIBUTE]: '' }}
+      display="inline-flex"
+      alignItems="center"
+      justifyContent="center"
+      flexShrink={0}
+      width={size}
+      height={size}
+      borderRadius={`${Math.round(size * 13 / 46)}px`}
+      color={color}
+      bg={bg}
+      mb={3}
+      boxShadow="inset 0 0 0 1px currentColor"
+      transition={`transform 320ms ${CARD_EASE}`}
+      {...rest}
+    >
+      <Icon size={Math.round(size * 22 / 46)} fill="currentColor" />
     </Box>
   );
 }

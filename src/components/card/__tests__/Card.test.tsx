@@ -147,4 +147,52 @@ describe('Card', () => {
     const footer = card.querySelector('[data-test="footer"]') as HTMLElement;
     expect(rulesOf(footer)).toContain('var(--borderColor-muted)');
   });
+
+  it('hoverEffect lift: rises on hover and keyboard focus, lights its top edge, moves its icon', () => {
+    const card = render(
+      <Card hoverEffect="lift" shadow="none" p={4}>
+        <Card.Icon icon={() => <svg data-test="glyph" />} color="done.fg" bg="done.subtle" />
+        body
+      </Card>,
+    );
+    const rules = rulesOf(card);
+    // Bordered, a positioned ground for the light, the light clipped to the corner.
+    expect(rules).toContain('var(--borderColor-default)');
+    expect(rules).toContain('position: relative');
+    expect(rules).toContain('overflow: hidden');
+    expect(rules).toContain('cubic-bezier(0.22, 1, 0.36, 1)');
+    for (const state of [':hover', ':focus-visible']) {
+      const lifted = new RegExp(`${state} \\{[^}]*translateY\\(-3px\\)`);
+      expect(rules).toMatch(lifted);
+      expect(rules).toMatch(new RegExp(`${state} \\{[^}]*var\\(--shadow-floating-large\\)`));
+      expect(rules).toMatch(new RegExp(`${state} \\{[^}]*var\\(--borderColor-muted\\)`));
+      expect(rules).toMatch(new RegExp(`${state}::after \\{[^}]*opacity: 1`));
+      expect(rules).toMatch(new RegExp(`${state} \\[data-card-icon\\] \\{[^}]*scale\\(1\\.06\\) rotate\\(-3deg\\)`));
+    }
+    expect(rules).toMatch(/::after \{[^}]*var\(--fgColor-accent\)/);
+    // Less motion: nothing moves, the hairline and shadow still change.
+    expect(rules).toMatch(/prefers-reduced-motion: reduce[\s\S]*:hover \{[^}]*transform: none/);
+    expect(rules).toMatch(/prefers-reduced-motion: reduce[\s\S]*\{[^}]*transition: box-shadow 260ms[^;}]*, border-color 260ms/);
+    expect(rules).not.toContain('rgba(');
+    // The icon: the attribute the lift moves, the theme's tint, its own easing.
+    const icon = card.querySelector('[data-card-icon]') as HTMLElement;
+    expect(icon).toBeTruthy();
+    expect(icon.querySelector('[data-test="glyph"]')).toBeTruthy();
+    const iconRules = rulesOf(icon);
+    expect(iconRules).toContain('var(--fgColor-done)');
+    expect(iconRules).toContain('width: 46px');
+    expect(iconRules).toMatch(/transition: transform 320ms/);
+  });
+
+  it('hoverEffect lift: the caller\'s sx merges over it; off when disabled or by default', () => {
+    const merged = rulesOf(render(<Card hoverEffect="lift" sx={{ height: '100%' }}>p</Card>));
+    expect(merged).toContain('height: 100%');
+    expect(merged).toContain('translateY(-3px)');
+    expect(rulesOf(render(<Card hoverEffect="lift" disabled>q</Card>))).not.toContain('translateY');
+    expect(rulesOf(render(<Card border>r</Card>))).not.toContain('translateY');
+    // An interactive lifted card keeps the accent hairline on hover.
+    expect(rulesOf(render(<Card as="button" interactive hoverEffect="lift">s</Card>))).toMatch(
+      /:hover \{[^}]*translateY\(-3px\)[^}]*var\(--bgColor-accent-emphasis\)/,
+    );
+  });
 });

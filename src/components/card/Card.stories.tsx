@@ -5,7 +5,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProviderProps, Box, Button, IconButton, Text, ButtonGroup   } from "@primer/react";
-import { ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
+import { GlobeIcon, ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import { Card, CardProps } from '../..';
 
 const meta = {
@@ -163,5 +163,26 @@ export const CardSelected: Story = {
   render: (args) => <ThemedCard {...args}>
     <Text display="block" fontWeight="bold">Selected example</Text>
     <Text color="fg.muted">The one picked among its siblings.</Text>
+  </ThemedCard>
+};
+
+/**
+ * The landing pages' card (Earth Observation, Integrations): it rises, its
+ * hairline and shadow change, a light runs along its top edge and its icon
+ * tilts — on hover and on keyboard focus. Nothing moves under
+ * `prefers-reduced-motion: reduce`.
+ */
+export const CardLift: Story = {
+  args: {
+    hoverEffect: "lift",
+    shadow: "none",
+    tabIndex: 0,
+    p: 4,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args}>
+    <Card.Icon icon={GlobeIcon} color="done.fg" bg="done.subtle" />
+    <Text display="block" fontWeight="bold">Satellite sources</Text>
+    <Text color="fg.muted">Sentinel, Landsat and commercial constellations, read where they are.</Text>
   </ThemedCard>
 };

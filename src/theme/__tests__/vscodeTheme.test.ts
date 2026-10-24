@@ -13,7 +13,8 @@ import { describe, expect, it } from 'vitest';
 import { themeTokens, themeVariants } from '../themeTokens';
 import { themeConfigs } from '../themeRegistry';
 import { vscodeTint, vscodeVar, vscodeVars } from '../colors/vscodeColors';
-import { vscodeThemeStyles } from '../themes/vscodeThemeStyles';
+import { vscodeThemeStyles } from '../themes/vscodeTheme';
+import { vscodeEditorsCss } from '../themes/vscodeEditorsCss';
 
 const COLOR_TOKENS = [
   '--bgColor-default',
@@ -99,5 +100,15 @@ describe('the VS Code theme', () => {
     const light = vscodeThemeStyles.light as Record<string, string>;
     // The theme's own control size wins over the base's.
     expect(light['--control-medium-size']).toBe('26px');
+  });
+});
+
+describe('the editors\' face stays off the portable entry', () => {
+  it('leaves the editors\' CSS out of the portable tokens and puts it in the web\'s styles', () => {
+    const portableCss = themeTokens.vscode.themeStyles.css ?? '';
+    expect(portableCss).toContain(':focus-visible');
+    expect(portableCss).not.toContain(vscodeEditorsCss.trim().slice(0, 80));
+    expect(vscodeThemeStyles.css).toContain(vscodeEditorsCss.trim().slice(0, 80));
+    expect(themeConfigs.vscode.themeStyles.css).toBe(vscodeThemeStyles.css);
   });
 });

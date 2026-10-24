@@ -22,7 +22,7 @@ import { sandThemeStyles } from './themes/sandThemeStyles';
 import { ivoryThemeStyles } from './themes/ivoryThemeStyles';
 import { sunThemeStyles } from './themes/sunThemeStyles';
 import { loopThemeStyles } from './themes/loopThemeStyles';
-import { vscodeThemeStyles } from './themes/vscodeThemeStyles';
+import { vscodePortableThemeStyles } from './themes/vscodeThemeStyles';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
 import { lovelyColors } from './colors/lovelyColors';
@@ -410,7 +410,7 @@ export const themeTokens: Record<ThemeVariant, ThemeTokens> = {
       'The editor’s own colours: in a Visual Studio Code webview it follows the colour theme in use, and changes with it; elsewhere, Dark Modern and Light Modern.',
     brandColor: vscodeColors.vscodeBrand,
     defaultColorMode: 'auto',
-    themeStyles: vscodeThemeStyles,
+    themeStyles: vscodePortableThemeStyles,
     cardGradient: {
       light: { from: vscodeColors.vscodeText, to: vscodeColors.brightLightSurge },  // #005FB8 → #0451A5
       dark:  { from: vscodeColors.vscodeAccent, to: vscodeColors.vscodeBrand },     // #4DAAFC → #0078D4

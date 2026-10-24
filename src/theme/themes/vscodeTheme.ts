@@ -13,8 +13,20 @@
 
 import { theme as primerTheme } from '@primer/react';
 
+import { vscodeEditorsCss } from './vscodeEditorsCss';
+import { vscodePortableThemeStyles } from './vscodeThemeStyles';
+
 export * from './vscodeThemeStyles';
 export * from './vscodeEditorsCss';
+
+/** Comprehensive Primer CSS-variable overrides for light & dark mode, with the editors' face. */
+export const vscodeThemeStyles = {
+  ...vscodePortableThemeStyles,
+  css: `${vscodePortableThemeStyles.css ?? ''}\n${vscodeEditorsCss}`,
+};
+
+/** The theme's whole stylesheet (`ThemeStyles.css`). */
+export const vscodeControlsCss: string = vscodeThemeStyles.css;
 
 /** The Primer theme object: Primer's default. */
 export const vscodeTheme = primerTheme;

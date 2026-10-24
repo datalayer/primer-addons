@@ -19,7 +19,7 @@ import { sandTheme } from './themes/sandTheme';
 import { ivoryTheme } from './themes/ivoryTheme';
 import { sunTheme } from './themes/sunTheme';
 import { loopTheme } from './themes/loopTheme';
-import { vscodeTheme } from './themes/vscodeTheme';
+import { vscodeTheme, vscodeThemeStyles } from './themes/vscodeTheme';
 import {
   type BrightPalette,
   type ThemeTokens,
@@ -67,7 +67,13 @@ const primerThemes: Record<ThemeVariant, Record<string, any>> = {
 export const themeConfigs: Record<ThemeVariant, ThemeConfig> = Object.fromEntries(
   (Object.keys(themeTokens) as ThemeVariant[]).map(variant => [
     variant,
-    { ...themeTokens[variant], primerTheme: primerThemes[variant] },
+    {
+      ...themeTokens[variant],
+      // The web's vscode styles carry the editors' face, which the portable
+      // tokens leave out (see vscodeThemeStyles.ts).
+      ...(variant === 'vscode' ? { themeStyles: vscodeThemeStyles } : {}),
+      primerTheme: primerThemes[variant],
+    },
   ]),
 ) as Record<ThemeVariant, ThemeConfig>;
 

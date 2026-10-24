@@ -28,7 +28,6 @@ import {
 } from '../colors/vscodeColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 import { primerComponentSelectors } from '../css/primerComponentsCss';
-import { vscodeEditorsCss } from './vscodeEditorsCss';
 
 /* ── Colour definitions, one per mode ────────────────────────────────── */
 
@@ -222,8 +221,10 @@ const sel = primerComponentSelectors;
 
 /**
  * What no token says: the editor's focus ring is one pixel, drawn inside
- * the control, in the focus colour. Then the editors' face
- * (`vscodeEditorsCss`): JupyterLab's variables, CodeMirror, Excalidraw.
+ * the control, in the focus colour. The editors' face (`vscodeEditorsCss`:
+ * JupyterLab's variables, CodeMirror, Excalidraw) is web-only and joins it
+ * in `vscodeTheme.ts`, so the portable entry (`theme/portable`, read by
+ * Datalayer Mobile's Hermes bundle) never reaches it.
  */
 const vscodeOwnCss = `
 :scope ${sel.button}:focus-visible,
@@ -232,13 +233,16 @@ const vscodeOwnCss = `
   outline: 1px solid var(--focus-outlineColor);
   outline-offset: -1px;
   box-shadow: none;
-}
-${vscodeEditorsCss}`;
+}`;
 
 /* ── Exports ─────────────────────────────────────────────────────────── */
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode. */
-export const vscodeThemeStyles = buildThemeStyles(vscodeLight, vscodeDark, {
+/**
+ * The theme's tokens, shapes and focus ring, without the editors' face: what
+ * the portable theme tokens carry. The web's `vscodeThemeStyles`
+ * (`vscodeTheme.ts`) adds the editors' face to it.
+ */
+export const vscodePortableThemeStyles = buildThemeStyles(vscodeLight, vscodeDark, {
   fontFamily: vscodeFontFamily,
   css: vscodeOwnCss,
   // The editor's shape: tight corners, flat surfaces, no motion.
@@ -262,5 +266,3 @@ export const vscodeThemeStyles = buildThemeStyles(vscodeLight, vscodeDark, {
   },
 });
 
-/** The theme's whole stylesheet (`ThemeStyles.css`). */
-export const vscodeControlsCss: string = vscodeThemeStyles.css ?? '';

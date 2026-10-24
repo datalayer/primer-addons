@@ -45,10 +45,10 @@ body {
 
 .floating-anchor {
   position: relative;
-  border: 1px dashed var(--borderColor-default, #d0d7de);
-  border-radius: 8px;
+  border: 1px dashed var(--borderColor-default);
+  border-radius: var(--theme-radius-card);
   padding: 16px;
-  background: var(--bgColor-muted, #f6f8fa);
+  background: var(--bgColor-muted);
 }
 
 .floating-editor {

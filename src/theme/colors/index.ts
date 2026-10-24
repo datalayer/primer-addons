@@ -11,14 +11,28 @@ export { earthColors } from './earthColors';
 export { sandColors } from './sandColors';
 export { ivoryColors } from './ivoryColors';
 export { sunColors } from './sunColors';
+export { loopColors } from './loopColors';
 export {
-  loopColors,
-  loopAccents,
-  loopAccentNames,
-  loopAccentVars,
-  type LoopAccent,
-  type LoopAccentName,
-} from './loopColors';
+  vscodeColors,
+  vscodeVars,
+  vscodeVar,
+  vscodeTint,
+  vscodeFontFamily,
+  vscodeMonoFontFamily,
+  vscodeFontSize,
+  type VSCodeColor,
+  type VSCodeVarName,
+} from './vscodeColors';
+export {
+  themeAccents,
+  themeAccentNames,
+  themeAccentVars,
+  themeAccentTints,
+  themeStageGradient,
+  themeTintVars,
+  type ThemeAccent,
+  type ThemeAccentName,
+} from './themeAccents';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';
@@ -30,6 +44,7 @@ import { sandColors } from './sandColors';
 import { ivoryColors } from './ivoryColors';
 import { sunColors } from './sunColors';
 import { loopColors } from './loopColors';
+import { vscodeColors } from './vscodeColors';
 
 /**
  * Themed color palettes — maps each `ThemeVariant` to its corresponding
@@ -51,4 +66,5 @@ export const themedColors: Record<ThemeVariant, Record<string, string>> = {
   ivory: ivoryColors,
   sun: sunColors,
   loop: loopColors,
+  vscode: vscodeColors,
 };

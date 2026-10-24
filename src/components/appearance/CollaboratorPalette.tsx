@@ -31,7 +31,8 @@
  */
 
 import { useMemo } from "react";
-import { Box, Text } from "@primer/react";
+import { Box } from "@primer/react";
+import { ColorSwatch } from "../color/ColorSwatch";
 import {
   getBrightPalette,
   type BrightPalette,
@@ -196,44 +197,15 @@ export function CollaboratorPalette({
       }}
     >
       {entries.map((entry) => (
-        <Box
-          key={entry.key}
-          role="listitem"
-          sx={{
-            display: "grid",
-            gap: 1,
-            border: "1px solid",
-            borderColor: "var(--borderColor-default)",
-            borderRadius: 2,
-            overflow: "hidden",
-          }}
-        >
-          <Box style={{ backgroundColor: entry.color, height }} />
-          <Box sx={{ px: 2, pb: 2, display: "grid", gap: 1 }}>
-            <Text
-              sx={{
-                fontSize: 0,
-                color: "var(--fgColor-default)",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              title={entry.label}
-            >
-              {entry.label}
-            </Text>
-            {showValues ? (
-              <Text
-                sx={{
-                  fontSize: 0,
-                  fontFamily: "mono",
-                  color: "var(--fgColor-muted)",
-                }}
-              >
-                {entry.color}
-              </Text>
-            ) : null}
-          </Box>
+        // The swatch card of the palettes: its hairline and its corner are
+        // the theme's, so the palette follows whatever theme the page wears.
+        <Box key={entry.key} role="listitem" sx={{ minWidth: 0 }}>
+          <ColorSwatch
+            color={entry.color}
+            label={entry.label}
+            showValue={showValues}
+            height={height}
+          />
         </Box>
       ))}
     </Box>

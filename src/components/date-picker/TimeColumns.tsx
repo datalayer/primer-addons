@@ -20,11 +20,24 @@
  * @module components/date-picker/TimeColumns
  */
 
-import { useEffect, useRef } from "react";
-import { ActionList, Box, Text } from "@primer/react";
+import { useEffect, useRef, useState } from "react";
+import { ActionList, Box, Text, TextInput } from "@primer/react";
 
 /** `7` → `07`. Two digits, always, because a column of ragged numbers reads badly. */
 export const pad = (value: number): string => `${value}`.padStart(2, "0");
+
+/** Read a freely typed 24-hour time without letting `Date` roll it over. */
+export function parseTime(text: string): { hour: number; minute: number } | null {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(text.trim());
+  if (!match) {
+    return null;
+  }
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
+  return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59
+    ? { hour, minute }
+    : null;
+}
 
 export interface TimeColumnsProps {
   /** The hour shown as chosen, 0–23. */
@@ -136,6 +149,32 @@ export function TimeColumns({
   disabled,
   labelPrefix,
 }: TimeColumnsProps) {
+  const selectedText = `${pad(hour)}:${pad(minute)}`;
+  const [text, setText] = useState(selectedText);
+  const typing = useRef(false);
+
+  useEffect(() => {
+    if (!typing.current) {
+      setText(selectedText);
+    }
+  }, [selectedText]);
+
+  const pick = (nextHour: number, nextMinute: number) => {
+    typing.current = false;
+    setText(`${pad(nextHour)}:${pad(nextMinute)}`);
+    onChange(nextHour, nextMinute);
+  };
+
+  const commitText = (nextText: string) => {
+    typing.current = false;
+    const parsed = parseTime(nextText);
+    if (!parsed) {
+      setText(selectedText);
+      return;
+    }
+    pick(parsed.hour, parsed.minute);
+  };
+
   const every = Math.min(60, Math.max(1, Math.floor(step) || 1));
   const minutes = Array.from(
     { length: Math.ceil(60 / every) },
@@ -177,7 +216,7 @@ export function TimeColumns({
           values={HOURS}
           selected={hour}
           disabled={disabled}
-          onPick={(next) => onChange(next, minute)}
+          onPick={(next) => pick(next, minute)}
         />
         <Column
           label="Minute"
@@ -185,9 +224,27 @@ export function TimeColumns({
           values={shown}
           selected={minute}
           disabled={disabled}
-          onPick={(next) => onChange(hour, next)}
+          onPick={(next) => pick(hour, next)}
         />
       </Box>
+      <TextInput
+        aria-label={labelPrefix ? `${labelPrefix}, type a time` : "Type a time"}
+        value={text}
+        placeholder="HH:mm"
+        disabled={disabled}
+        inputMode="numeric"
+        sx={{ mt: 2, width: "100%", fontFamily: "mono" }}
+        onChange={(event) => {
+          typing.current = true;
+          setText(event.target.value);
+        }}
+        onBlur={(event) => commitText(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            commitText((event.target as HTMLInputElement).value);
+          }
+        }}
+      />
     </Box>
   );
 }

@@ -11,10 +11,16 @@ import { ColorModeCircleDemo } from './ColorModeCircleDemo';
 import { ThemeCircleDemo } from './ThemeCircleDemo';
 import { BoxDemo } from './BoxDemo';
 import { CardDemo } from './CardDemo';
+import { PrimerDemo } from './PrimerDemo';
+import { HoverCardDemo } from './HoverCardDemo';
+import { EntityAvatarDemo } from './EntityAvatarDemo';
 import { CloseableFlashDemo } from './CloseableFlashDemo';
 import { ContentLoaderDemo } from './ContentLoaderDemo';
 import { CircleIconDemo } from './CircleIconDemo';
 import { ColorPaletteDemo } from './ColorPaletteDemo';
+import { ColorSwatchDemo } from './ColorSwatchDemo';
+import { SheetDemo } from './SheetDemo';
+import { ThemeAccentsDemo } from './ThemeAccentsDemo';
 import { CollaboratorPaletteDemo } from './CollaboratorPaletteDemo';
 import { ColorPickerDemo } from './ColorPickerDemo';
 import { CalendarPickerDemo } from './CalendarPickerDemo';
@@ -61,14 +67,37 @@ export const demos: Demo[] = [
   {
     slug: 'box',
     title: 'Box',
-    description: 'Styled-system enabled layout primitive.',
+    description:
+      "primer-addons' own Box: Primer's prop names (p, bg, borderColor, borderRadius, gap, gridTemplateColumns…) on the theme's tokens — Primer's CSS variables, with no fallbacks — responsive arrays, and hover and focusVisible as props. No sx.",
     render: () => <BoxDemo />,
   },
   {
     slug: 'card',
     title: 'Card',
-    description: 'Composable card with header/content/actions.',
+    description:
+      "primer-addons' Card on the theme's tokens: slots (Header, Cover, Image, Content, Footer, Actions), border, rounded, shadow, the variants, interactive, selected, dashed, disabled and an accent edge.",
     render: () => <CardDemo />,
+  },
+  {
+    slug: 'hover-card',
+    title: 'Hover Card',
+    description:
+      'A small card that grows into a larger one on hover, whose chevron opens the large card: useHoverCard, HoverCardAnchor, HoverCardLayer, HoverCard and HoverCardDetails, on the theme\'s Card.',
+    render: () => <HoverCardDemo />,
+  },
+  {
+    slug: 'entity-avatar',
+    title: 'Entity Avatar',
+    description:
+      "The face of a person, an agent, an app or a space, drawn by the theme: an image, an emoji or icon, or initials, on a tone's wash or solid colour, the page's ground or the entity's own colour — a circle for a person, the theme's corner for the rest.",
+    render: () => <EntityAvatarDemo />,
+  },
+  {
+    slug: 'primer',
+    title: 'Primer',
+    description:
+      "Primer's own components under the selected theme: Table/DataTable, ToggleSwitch, SegmentedControl, Button, TextInput, Select, ActionMenu, Label, Token, UnderlineNav and Dialog. A theme's shape draws their corners and the table's header and hairline; switch themes to see each one's.",
+    render: () => <PrimerDemo />,
   },
   {
     slug: 'closeable-flash',
@@ -93,6 +122,25 @@ export const demos: Demo[] = [
     title: 'Color Palette',
     description: 'Primer primitive scales and semantic color tokens.',
     render: () => <ColorPaletteDemo />,
+  },
+  {
+    slug: 'color-swatch',
+    title: 'Color Swatch',
+    description: 'One colour as a card: its block, its name and the value the theme gives it.',
+    render: () => <ColorSwatchDemo />,
+  },
+  {
+    slug: 'sheet',
+    title: 'Sheet',
+    description: 'A page on a canvas: hairline, the theme’s card corner and a sheet’s shadow.',
+    render: () => <SheetDemo />,
+  },
+  {
+    slug: 'theme-accents',
+    title: 'Theme Accents',
+    description:
+      'The six accents an application can pick, in the theme and colour mode the gallery wears (change them with the appearance controls): the button, links, the switch and the chat bubbles all take the colour, beside the theme’s own. Below, the theme’s tokens, read back.',
+    render: () => <ThemeAccentsDemo />,
   },
   {
     slug: 'sliding-panel',

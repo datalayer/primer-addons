@@ -18,6 +18,7 @@ import {
   ivoryColors,
   sunColors,
   loopColors,
+  vscodeColors,
 } from '../colors';
 import {
   getBrightPalette,
@@ -62,6 +63,8 @@ const suBrightDark = getBrightPalette('sun');
 const suBrightLight = getBrightPalette('sun', 'light');
 const loBrightDark = getBrightPalette('loop');
 const loBrightLight = getBrightPalette('loop', 'light');
+const vsBrightDark = getBrightPalette('vscode');
+const vsBrightLight = getBrightPalette('vscode', 'light');
 
 const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
   datalayer: {
@@ -403,6 +406,44 @@ const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }
       gold: loBrightDark.gold,
       textLight: loopColors.inkDark,
       textMuted: loopColors.grayDark,
+      isLight: false,
+    },
+  },
+  vscode: {
+    light: {
+      bg: vscodeColors.white,
+      bgPanel: '#F8F8F8',
+      bgAlt: '#F2F2F2',
+      primary: vscodeColors.vscodeText,
+      secondary: vscodeColors.vscodeBrand,
+      accent: vscodeColors.vscodeText,
+      glow: vsBrightLight.glow,
+      pop: vsBrightLight.pop,
+      spark: vsBrightLight.spark,
+      blaze: vsBrightLight.blaze,
+      surge: vsBrightLight.surge,
+      flame: vsBrightLight.flame,
+      gold: vsBrightLight.gold,
+      textLight: '#3B3B3B',
+      textMuted: '#767676',
+      isLight: true,
+    },
+    dark: {
+      bg: vscodeColors.black,
+      bgPanel: '#202020',
+      bgAlt: '#181818',
+      primary: vscodeColors.vscodeAccent,
+      secondary: vscodeColors.vscodeBrand,
+      accent: vscodeColors.vscodeAccent,
+      glow: vsBrightDark.glow,
+      pop: vsBrightDark.pop,
+      spark: vsBrightDark.spark,
+      blaze: vsBrightDark.blaze,
+      surge: vsBrightDark.surge,
+      flame: vsBrightDark.flame,
+      gold: vsBrightDark.gold,
+      textLight: '#CCCCCC',
+      textMuted: vscodeColors.gray,
       isLight: false,
     },
   },

@@ -30,7 +30,8 @@ const COLOR_MODE_ICON_Y_OFFSET: Record<ColorMode, number> = {
   auto: -0.5,
 };
 
-type HoverOverlayPlacement = 'bottom-start' | 'bottom-end';
+/** Where the hover overlay opens: under the circle (aligned at its start or end), or to its right, aligned at its top. */
+export type HoverOverlayPlacement = 'bottom-start' | 'bottom-end' | 'right-start';
 type ColorModeCircleShape = 'square' | 'circle';
 
 export interface ColorModeCircleProps {
@@ -74,6 +75,7 @@ export function ColorModeCircle({
   const [isHoverOpen, setIsHoverOpen] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isBottomStart = hoverOverlayPlacement === 'bottom-start';
+  const isRight = hoverOverlayPlacement === 'right-start';
   const themeConfig = themeVariant ? themeConfigs[themeVariant] : undefined;
   const themeBorderColor = themeConfig?.brandColor;
   const hasThemeColor = Boolean(themeBorderColor);
@@ -188,9 +190,10 @@ export function ColorModeCircle({
       <Box
         sx={{
           position: 'absolute',
-          top: `calc(100% + 8px)`,
-          left: isBottomStart ? 0 : 'auto',
-          right: isBottomStart ? 'auto' : 0,
+          // To the right: beside the circle, its top level with the circle's.
+          top: isRight ? 0 : `calc(100% + 8px)`,
+          left: isRight ? `calc(100% + 8px)` : isBottomStart ? 0 : 'auto',
+          right: isRight || isBottomStart ? 'auto' : 0,
           zIndex: 220,
           minWidth: 340,
           bg: 'canvas.overlay',
@@ -199,7 +202,7 @@ export function ColorModeCircle({
           borderRadius: 2,
           boxShadow: 'shadow.large',
           opacity: isHoverOpen ? 1 : 0,
-          transform: isHoverOpen ? 'translateY(0)' : 'translateY(-6px)',
+          transform: isHoverOpen ? 'none' : isRight ? 'translateX(-6px)' : 'translateY(-6px)',
           pointerEvents: isHoverOpen ? 'auto' : 'none',
           transition: 'opacity 0.16s ease, transform 0.16s ease',
         }}

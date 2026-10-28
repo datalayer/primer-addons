@@ -36,7 +36,7 @@ const meta = {
       control: "radio",
     },
     hoverOverlayPlacement: {
-      options: ["bottom-start", "bottom-end"],
+      options: ["bottom-start", "bottom-end", "right-start"],
       control: "radio",
     },
     hoverOverlay: {

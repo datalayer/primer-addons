@@ -55,6 +55,9 @@ export function AppearanceControls({
           display: 'grid',
           gridTemplateColumns: `repeat(${themesPerLine}, max-content)`,
           justifyContent: 'center',
+          // The grid as wide as its swatches, centred in its row whatever lays the row out.
+          width: 'fit-content',
+          mx: 'auto',
         }
       : { display: 'flex', justifyContent: 'center', flexWrap: 'wrap' };
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);

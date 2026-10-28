@@ -30,6 +30,12 @@ export interface AppearanceControlsProps {
   showThemeChooser?: boolean;
   /** With the chooser, the chosen theme's name, description and preview under its swatches. Default: swatches only. */
   showThemePreviews?: boolean;
+  /**
+   * The most theme swatches on one line: the chooser lays them out in a grid
+   * of that many columns. Undefined, they wrap freely to the width given, as
+   * before.
+   */
+  themesPerLine?: number;
 }
 
 export function AppearanceControls({
@@ -40,7 +46,17 @@ export function AppearanceControls({
   showColorMode = true,
   showThemeChooser = true,
   showThemePreviews = false,
+  themesPerLine,
 }: AppearanceControlsProps): ReactElement {
+  // A grid of `themesPerLine` columns when given; free wrapping otherwise.
+  const swatchRow =
+    themesPerLine !== undefined && themesPerLine > 0
+      ? {
+          display: 'grid',
+          gridTemplateColumns: `repeat(${themesPerLine}, max-content)`,
+          justifyContent: 'center',
+        }
+      : { display: 'flex', justifyContent: 'center', flexWrap: 'wrap' };
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const selectedTheme = themeConfigs[themeVariant];
 
@@ -88,10 +104,8 @@ export function AppearanceControls({
         >
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              ...swatchRow,
               gap: 2,
-              flexWrap: 'wrap',
             }}
           >
             {themeVariants.map((variant) => {
@@ -196,10 +210,8 @@ export function AppearanceControls({
             // First in the controls when the colour mode is hidden.
             pt: showColorMode ? 0 : 2,
             pb: 2,
-            display: 'flex',
-            justifyContent: 'center',
             // Narrow, the swatches go on a second line rather than shrink.
-            flexWrap: 'wrap',
+            ...swatchRow,
             gap: 2,
           }}
         >

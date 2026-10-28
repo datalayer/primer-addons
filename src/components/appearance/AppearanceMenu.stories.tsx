@@ -27,6 +27,9 @@ const meta = {
     layout: "fullscreen",
   },
   argTypes: {
+    themesPerLine: {
+      control: { type: "number", min: 1, max: 12 },
+    },
     colorMode: {
       options: ["light", "dark", "auto"],
       control: "radio",

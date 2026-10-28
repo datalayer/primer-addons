@@ -126,7 +126,8 @@ export const CloseableFlash: FC<CloseableFlashProps> = (props) => {
       }}
       {...otherProps}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      {/* Layout through sx: a styled-system prop here reaches the DOM and React warns. */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box sx={{ flexGrow: 1 }}>
           {leadingVisual && <CircleOcticon icon={leadingVisual} />}
           <Text

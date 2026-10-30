@@ -116,6 +116,42 @@ const config = getThemeConfig(app.interface.theme.variant);
 
 The source: `src/theme/colors/themeAccents.ts`.
 
+## The color palette
+
+`useColorPalette()` returns one `ColorPalette` object, resolved for the current theme and color mode (a new one when either changes); `getColorPalette(theme, mode)` gives the same without a hook. It holds two categories of colors, and `isLight`, whether the mode is light. The [gallery](examples/gallery)'s *Color Palette* page shows both in whatever theme and mode the gallery wears.
+
+- **Roles**, what each theme's own design uses, by role (`paletteRoleNames`, type `PaletteRoleName`): `bg`, `bgPanel`, `bgAlt`, `primary`, `secondary`, `accent`, `glow`, `pop`, `spark`, `blaze`, `surge`, `flame`, `gold`, `textLight`, `textMuted`. What a role is changes with the theme (`surge` is blue in one theme and sage in another). Use them for a page's own design.
+- **Hues**, named colors a spec or a person picks, the same names in every theme (`hueNames`, type `HueName`): `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`, `slate`, `gray`, `stone`. A hue keeps its hue in every theme: deep on a light background, bright on a dark one. Use them for a color a spec or a person picks, such as an agent's color.
+
+`paletteColorNames` lists both, roles first (type `PaletteColorName`).
+
+Roles, for a page's own design:
+
+```tsx
+import { useColorPalette } from '@datalayer/primer-addons';
+
+const palette = useColorPalette();
+<Box style={{ background: palette.bgPanel, color: palette.textLight }}>
+  <Text style={{ color: palette.primary }}>Title</Text>
+</Box>
+```
+
+Hues, for a color that is picked: a spec gives a palette name (an agent's `color: indigo`), or a hex where no name fits. `usePaletteColor()` returns a function that resolves it in the current theme and mode; `resolvePaletteColor(value, palette)` does the same with a palette in hand. A palette name gives its value, a hex is returned as is, and nothing or anything else is `undefined`, so the caller draws its own default. `isPaletteColorName` and `isHexColor` (`#RGB` or `#RRGGBB`) check a value first.
+
+```tsx
+import { isHexColor, isPaletteColorName, resolvePaletteColor, usePaletteColor } from '@datalayer/primer-addons';
+
+const colorOf = usePaletteColor();
+const agentColor = colorOf(agent.color) ?? 'var(--fgColor-accent)';
+// 'indigo' -> the theme's indigo, '#0969da' -> '#0969da', 'nope' -> undefined
+
+resolvePaletteColor('teal', palette);
+isPaletteColorName('rose'); // true
+isHexColor('#abc');         // true
+```
+
+The source: `src/theme/palettes/ColorPalette.tsx` and `src/theme/colors/hueColors.ts`.
+
 ## The `loop` theme
 
 `loop` is one of the variants of the theme registry (`ThemeVariant`, `themeConfigs`), beside `datalayer`, `spatial`, `lovely`, `matrix`, `earth`, `sand`, `ivory` and `sun`: the look of an application built in LOOP — **one accent, neutral everything else**. A white (near-black in dark mode) canvas, a deep-grey ink, hairlines, soft shadows, round corners and one filled button in the accent. Success, attention and danger are kept for verdicts and rules only. The [gallery](examples/gallery) shows it on the *Theme Accents* page when the gallery wears it. Its accent is mint, `green` of the [theme accents](#theme-accents).

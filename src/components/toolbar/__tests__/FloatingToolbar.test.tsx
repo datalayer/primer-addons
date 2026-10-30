@@ -8,7 +8,7 @@
 /**
  * `FloatingToolbar` is drawn as a `Card` is, from the theme's variables
  * only: the overlay ground, the hairline, the floating shadow and the
- * theme's card corner.
+ * theme's overlay corner, as floating panels take.
  */
 
 import { act } from 'react';
@@ -45,7 +45,7 @@ const rulesOf = (element: HTMLElement): string => {
 };
 
 describe('FloatingToolbar', () => {
-  it('follows the theme: overlay ground, hairline, floating shadow, card corner', () => {
+  it('follows the theme: overlay ground, hairline, floating shadow, overlay corner', () => {
     host = document.createElement('div');
     anchor = document.createElement('div');
     document.body.append(host, anchor);
@@ -65,7 +65,7 @@ describe('FloatingToolbar', () => {
     expect(rules).toContain('var(--overlay-bgColor)');
     expect(rules).toContain('var(--borderColor-default)');
     expect(rules).toContain('var(--shadow-floating-large)');
-    expect(rules).toContain('var(--theme-radius-card)');
+    expect(rules).toContain('var(--theme-radius-overlay)');
     expect(rules).not.toMatch(/#[0-9a-fA-F]{3,6}\b|rgba?\(/);
   });
 });

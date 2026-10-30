@@ -160,7 +160,7 @@ export function FloatingToolbar({
       color="fg.default"
       border="1px solid"
       borderColor="border.default"
-      borderRadius="card"
+      borderRadius="overlay"
       boxShadow="shadow.large"
       position="absolute"
       zIndex={10}

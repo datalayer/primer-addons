@@ -142,31 +142,33 @@ export function FloatingToolbar({
 
   const container = portalContainer || anchorElement || document.body;
 
+  // Drawn as this package's `Card` draws itself, from the theme's tokens
+  // only: the theme's card corner, Primer's overlay ground and hairline, and
+  // the floating shadow each colour mode sets for itself.
   const toolbar = (
     <Box
       ref={floatingRef}
       className={className}
       role="toolbar"
       aria-label={ariaLabel}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '2px',
-        px: 1,
-        py: '4px',
-        bg: 'var(--overlay-bgColor, var(--bgColor-default))',
-        border: '1px solid',
-        borderColor: 'var(--borderColor-muted, transparent)',
-        borderRadius: 2,
-        boxShadow: 'shadow.large',
-        position: 'absolute',
-        zIndex: 10,
-        top: '-10000px',
-        left: '-10000px',
-        opacity: 0,
-        transition: 'opacity 0.15s ease, transform 0.15s ease',
-        transform: 'translateY(-4px)',
-      }}
+      display="flex"
+      alignItems="center"
+      gap="2px"
+      px={1}
+      py="4px"
+      bg="canvas.overlay"
+      color="fg.default"
+      border="1px solid"
+      borderColor="border.default"
+      borderRadius="card"
+      boxShadow="shadow.large"
+      position="absolute"
+      zIndex={10}
+      top="-10000px"
+      left="-10000px"
+      opacity={0}
+      transition="opacity 0.15s ease, transform 0.15s ease"
+      transform="translateY(-4px)"
     >
       <ToolbarRenderer items={allItems} disabled={disabled} size="small" />
     </Box>

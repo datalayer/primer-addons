@@ -113,7 +113,7 @@ export function HoverCardDetails({
         shadow="extraLarge"
         width={width}
         maxWidth="100%"
-        borderRadius={[0, 'card']}
+        borderRadius={[0, 'overlay']}
         overflow="hidden"
         position="relative"
         display="block"

@@ -8,6 +8,10 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
+## 1.0.46
+
+30 October 2026. Twenty hue names in the palette — red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, and slate, gray, stone — beside its roles (bg, primary, accent, glow, pop…), each deep on a light page and bright on a dark one, at least 3:1 against its page and panel in every theme. `paletteColorNames`, `hueNames`, `paletteRoleNames`, `resolvePaletteColor`, `usePaletteColor`, `isPaletteColorName` and `isHexColor`: a colour named by a spec follows the theme. The colour palette page shows the hues. `getColorPalette('auto')` reads light where there is no `matchMedia`.
+
 ## 1.0.42
 
 - The body and the portal root take a theme's variables, colour and type, never a provider's layout: a `baseStyles` of `height: 100%` on the portal root — a fixed, painted layer — covered the whole page.

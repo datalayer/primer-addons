@@ -19,7 +19,7 @@
 
 import type { ThemeVariant } from '../themeTokens';
 
-/** The hue names, in the order of the colour wheel, and grey last. */
+/** The hue names, in the order of the colour wheel, then the neutrals: slate (cool), gray, stone (warm). */
 export const hueNames = [
   'red',
   'orange',
@@ -27,6 +27,7 @@ export const hueNames = [
   'yellow',
   'lime',
   'green',
+  'emerald',
   'teal',
   'cyan',
   'sky',
@@ -34,9 +35,12 @@ export const hueNames = [
   'indigo',
   'violet',
   'purple',
+  'fuchsia',
   'pink',
   'rose',
+  'slate',
   'gray',
+  'stone',
 ] as const;
 
 /** A hue name. */
@@ -58,6 +62,7 @@ export const baseHueColors: Record<HueName, HueColor> = {
   yellow: { light: '#A16207', dark: '#FACC15' },
   lime: { light: '#4D7C0F', dark: '#A3E635' },
   green: { light: '#15803D', dark: '#4ADE80' },
+  emerald: { light: '#047857', dark: '#34D399' },
   teal: { light: '#0F766E', dark: '#2DD4BF' },
   cyan: { light: '#0E7490', dark: '#22D3EE' },
   sky: { light: '#0369A1', dark: '#38BDF8' },
@@ -65,9 +70,12 @@ export const baseHueColors: Record<HueName, HueColor> = {
   indigo: { light: '#4338CA', dark: '#818CF8' },
   violet: { light: '#6D28D9', dark: '#A78BFA' },
   purple: { light: '#7E22CE', dark: '#C084FC' },
+  fuchsia: { light: '#A21CAF', dark: '#E879F9' },
   pink: { light: '#BE185D', dark: '#F472B6' },
   rose: { light: '#BE123C', dark: '#FB7185' },
+  slate: { light: '#475569', dark: '#94A3B8' },
   gray: { light: '#4B5563', dark: '#9CA3AF' },
+  stone: { light: '#57534E', dark: '#A8A29E' },
 };
 
 /** The hues a theme gives of its own. */

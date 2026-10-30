@@ -57,7 +57,7 @@ export type PaletteRoleName = (typeof paletteRoleNames)[number];
 
 /**
  * Every name of the palette: its roles, then its hues (`hueNames`: `red`
- * … `rose`, `gray`, a hue in every theme). A spec's colour names one of
+ * … `rose`, then `slate`, `gray`, `stone`, each in every theme). A spec's colour names one of
  * these, and is drawn in the value the current theme and mode give it.
  *
  * This list is the one source of the names: agentspecs keeps a copy

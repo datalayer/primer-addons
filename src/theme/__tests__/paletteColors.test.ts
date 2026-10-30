@@ -37,7 +37,8 @@ const contrast = (a: string, b: string): number => {
 };
 
 describe('the palette names', () => {
-  it('are the roles, then the hues, each once', () => {
+  it('are the roles, then a full wheel of hues and three neutrals, each once', () => {
+    expect(hueNames.length).toBe(20);
     expect(paletteColorNames).toEqual([...paletteRoleNames, ...hueNames]);
     expect(new Set(paletteColorNames).size).toBe(paletteColorNames.length);
   });
@@ -56,15 +57,15 @@ describe('the palette names', () => {
     }
   });
 
-  it('give a hue that reads on its theme’s panel, light and dark', () => {
+  it('give a hue that reads on its theme’s page and panel, light and dark', () => {
     for (const variant of themeVariants) {
       for (const mode of ['light', 'dark'] as const) {
         const palette = getColorPalette(variant, mode);
-        if (!HEX.test(palette.bgPanel)) {
-          continue;
-        }
-        for (const name of hueNames) {
-          expect(contrast(palette[name], palette.bgPanel), `${variant} ${mode} ${name} on ${palette.bgPanel}`).toBeGreaterThanOrEqual(3);
+        // A face or a line on a scene stands on the theme's page or its panel: 3 to 1 on both.
+        for (const ground of [palette.bg, palette.bgPanel].filter(value => HEX.test(value))) {
+          for (const name of hueNames) {
+            expect(contrast(palette[name], ground), `${variant} ${mode} ${name} on ${ground}`).toBeGreaterThanOrEqual(3);
+          }
         }
       }
     }

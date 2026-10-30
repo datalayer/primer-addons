@@ -4,7 +4,12 @@
  */
 
 import { Box, Text } from "@primer/react";
-import { ColorSwatch, useColorPalette } from "@datalayer/primer-addons";
+import {
+  ColorSwatch,
+  hueNames,
+  paletteRoleNames,
+  useColorPalette,
+} from "@datalayer/primer-addons";
 
 type TokenGroup = {
   name: string;
@@ -93,26 +98,14 @@ function TokenGroupRow({ name, tokens }: TokenGroup) {
   );
 }
 
+const SWATCH_GRID = {
+  display: "grid",
+  gridTemplateColumns: ["repeat(2, minmax(0, 1fr))", "repeat(5, minmax(0, 1fr))"],
+  gap: 2,
+};
+
 export function ColorPaletteDemo() {
   const palette = useColorPalette();
-
-  const paletteSwatches: Array<{ key: string; value: string }> = [
-    { key: "bg", value: palette.bg },
-    { key: "bgPanel", value: palette.bgPanel },
-    { key: "bgAlt", value: palette.bgAlt },
-    { key: "primary", value: palette.primary },
-    { key: "secondary", value: palette.secondary },
-    { key: "accent", value: palette.accent },
-    { key: "glow", value: palette.glow },
-    { key: "pop", value: palette.pop },
-    { key: "spark", value: palette.spark },
-    { key: "blaze", value: palette.blaze },
-    { key: "surge", value: palette.surge },
-    { key: "flame", value: palette.flame },
-    { key: "gold", value: palette.gold },
-    { key: "textLight", value: palette.textLight },
-    { key: "textMuted", value: palette.textMuted },
-  ];
 
   return (
     <Box sx={{ display: "grid", gap: 4 }}>
@@ -130,22 +123,24 @@ export function ColorPaletteDemo() {
           Theme-aware palette from useColorPalette (follows the active theme and
           color mode).
         </Text>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: [
-              "repeat(2, minmax(0, 1fr))",
-              "repeat(5, minmax(0, 1fr))",
-            ],
-            gap: 2,
-          }}
-        >
-          {paletteSwatches.map((swatch) => (
-            <ColorSwatch
-              key={swatch.key}
-              color={swatch.value}
-              label={swatch.key}
-            />
+        <Box sx={SWATCH_GRID}>
+          {paletteRoleNames.map((name) => (
+            <ColorSwatch key={name} color={palette[name]} label={name} />
+          ))}
+        </Box>
+      </Box>
+
+      <Box sx={{ display: "grid", gap: 2 }}>
+        <Text sx={{ fontWeight: 600, fontSize: 2 }}>Hues</Text>
+        <Text as="p" sx={{ m: 0, color: "fg.muted" }}>
+          A colour named by its hue keeps its hue in every theme: deep on a
+          light background, bright on a dark one. A spec names its colour by
+          any name of this page (an agent&apos;s <code>color: indigo</code>),
+          or by a hex where no name fits.
+        </Text>
+        <Box sx={SWATCH_GRID}>
+          {hueNames.map((name) => (
+            <ColorSwatch key={name} color={palette[name]} label={name} />
           ))}
         </Box>
       </Box>

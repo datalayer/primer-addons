@@ -33,6 +33,13 @@ export {
   type ThemeAccent,
   type ThemeAccentName,
 } from './themeAccents';
+export {
+  hueNames,
+  baseHueColors,
+  hueColorsOf,
+  type HueName,
+  type HueColor,
+} from './hueColors';
 
 import type { ThemeVariant } from '../themeRegistry';
 import { datalayerColors } from './datalayerColors';

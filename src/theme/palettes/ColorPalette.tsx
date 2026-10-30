@@ -517,6 +517,7 @@ export function getColorPalette(
   const mode: 'light' | 'dark' =
     colorMode === 'auto'
       ? typeof window !== 'undefined' &&
+        typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light'

@@ -30,6 +30,7 @@ export function AppearanceControlsDemo() {
           </Box>
           <Box border="1px solid" borderColor="border.default" borderRadius="card" maxWidth={360}>
             <AppearanceControls
+              themesPerLine={6}
               colorMode={colorMode}
               themeVariant={theme}
               onColorModeChange={(mode: ColorMode) => setColorMode(mode)}

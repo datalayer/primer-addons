@@ -14,6 +14,7 @@ import {
   ivoryColors,
   sunColors,
   loopColors,
+  metalColors,
   vscodeColors,
   type ThemeVariant,
 } from '../../theme';
@@ -183,6 +184,22 @@ export const THEME_LOGO_COLORS: Record<
       textColor: loopColors.grayDark,
       primaryGradient: [loopColors.loopBrand, loopColors.loopBrand],
       secondaryGradient: [loopColors.inkDark, loopColors.inkDark],
+    },
+  },
+  metal: {
+    light: {
+      primary: metalColors.steelFrom,
+      secondary: metalColors.ink,
+      textColor: metalColors.gray,
+      primaryGradient: [metalColors.steelFrom, metalColors.steelTo],
+      secondaryGradient: [metalColors.ink, metalColors.ink],
+    },
+    dark: {
+      primary: metalColors.metalBright,
+      secondary: metalColors.inkDark,
+      textColor: metalColors.grayDark,
+      primaryGradient: [metalColors.metalBright, metalColors.brightPop],
+      secondaryGradient: [metalColors.inkDark, metalColors.inkDark],
     },
   },
   vscode: {

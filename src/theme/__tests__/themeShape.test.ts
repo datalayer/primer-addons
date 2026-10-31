@@ -65,7 +65,7 @@ describe('the shape of a theme', () => {
 
 describe('the themes that existed before the shape tokens', () => {
   const names = Object.keys(themeConfigs)
-    .filter(name => name !== 'loop' && name !== 'vscode')
+    .filter(name => name !== 'loop' && name !== 'metal' && name !== 'vscode')
     .sort();
 
   it('are eight', () => {

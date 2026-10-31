@@ -22,6 +22,7 @@ import { sandThemeStyles } from './themes/sandThemeStyles';
 import { ivoryThemeStyles } from './themes/ivoryThemeStyles';
 import { sunThemeStyles } from './themes/sunThemeStyles';
 import { loopThemeStyles } from './themes/loopThemeStyles';
+import { metalThemeStyles } from './themes/metalThemeStyles';
 import { vscodePortableThemeStyles } from './themes/vscodeThemeStyles';
 import { datalayerColors } from './colors/datalayerColors';
 import { spatialColors } from './colors/spatialColors';
@@ -32,6 +33,7 @@ import { sandColors } from './colors/sandColors';
 import { ivoryColors } from './colors/ivoryColors';
 import { sunColors } from './colors/sunColors';
 import { loopColors } from './colors/loopColors';
+import { metalColors } from './colors/metalColors';
 import { vscodeColors } from './colors/vscodeColors';
 
 /* ─── Types ───────────────────────────────────────────────────────────── */
@@ -47,6 +49,7 @@ export type ThemeVariant =
   | 'ivory'
   | 'sun'
   | 'loop'
+  | 'metal'
   | 'vscode';
 
 /** A pair of colours for a two-stop gradient. */
@@ -404,6 +407,37 @@ export const themeTokens: Record<ThemeVariant, ThemeTokens> = {
       gold: loopColors.brightLightGold,        // #8A6A00 — deep sun
     },
   },
+  metal: {
+    label: 'Metal',
+    description: 'Loop’s curves in cool metal: steel blue, blue-grey hairlines, brushed gradient surfaces.',
+    brandColor: metalColors.metalBrand,
+    defaultColorMode: 'light',
+    themeStyles: metalThemeStyles,
+    cardGradient: {
+      light: { from: metalColors.steelFrom, to: metalColors.steelTo },
+      dark:  { from: metalColors.steelFrom, to: metalColors.steelTo },
+    },
+    brightPalette: {
+      glow: metalColors.brightGlow,
+      onGlow: metalColors.metalOnDark,
+      pop: metalColors.brightPop,
+      spark: metalColors.brightSpark,
+      blaze: metalColors.brightBlaze,
+      surge: metalColors.brightSurge,
+      flame: metalColors.brightFlame,
+      gold: metalColors.brightGold,
+    },
+    brightPaletteLight: {
+      glow: metalColors.brightLightGlow,
+      onGlow: '#ffffff',
+      pop: metalColors.brightLightPop,
+      spark: metalColors.brightLightSpark,
+      blaze: metalColors.brightLightBlaze,
+      surge: metalColors.brightLightSurge,
+      flame: metalColors.brightLightFlame,
+      gold: metalColors.brightLightGold,
+    },
+  },
   vscode: {
     label: 'VS Code',
     description:
@@ -449,6 +483,7 @@ export const themeVariants: ThemeVariant[] = [
   'ivory',
   'sun',
   'loop',
+  'metal',
   'vscode',
 ];
 
@@ -634,6 +669,22 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       loopColors.brightBlaze,            // #F6A5C1 — rose
       loopColors.brightSurge,            // #C0AEF6 — violet
       loopColors.brightGold,             // #F8D469 — sun
+    ],
+  },
+  metal: {
+    light: [
+      metalColors.brightLightGlow,
+      metalColors.brightLightPop,
+      metalColors.brightLightBlaze,
+      metalColors.brightLightSurge,
+      metalColors.gray,
+    ],
+    dark: [
+      metalColors.loopBrand,
+      metalColors.brightPop,
+      metalColors.brightBlaze,
+      metalColors.brightSurge,
+      metalColors.brightGold,
     ],
   },
   vscode: {

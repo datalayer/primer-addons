@@ -19,6 +19,7 @@ import { sandTheme } from './themes/sandTheme';
 import { ivoryTheme } from './themes/ivoryTheme';
 import { sunTheme } from './themes/sunTheme';
 import { loopTheme } from './themes/loopTheme';
+import { metalTheme } from './themes/metalTheme';
 import { vscodeTheme, vscodeThemeStyles } from './themes/vscodeTheme';
 import {
   type BrightPalette,
@@ -61,6 +62,7 @@ const primerThemes: Record<ThemeVariant, Record<string, any>> = {
   ivory: ivoryTheme,
   sun: sunTheme,
   loop: loopTheme,
+  metal: metalTheme,
   vscode: vscodeTheme,
 };
 

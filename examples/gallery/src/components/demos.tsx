@@ -30,10 +30,17 @@ import { SideOverlayDemo } from './SideOverlayDemo';
 import { PortalOverlayDemo } from './PortalOverlayDemo';
 import { SliderDemo } from './SliderDemo';
 import { LogoDemo } from './LogoDemo';
+import { MetalSurfacesDemo } from './MetalSurfacesDemo';
 import { ToolbarDemo } from './ToolbarDemo';
 import { FloatingToolbarDemo } from './FloatingToolbarDemo';
 
 export const demos: Demo[] = [
+  {
+    slug: 'metal-surfaces',
+    title: 'Metal Surfaces',
+    description: 'The metal theme\'s four brushed gradients, with glass on top. Choose the Metal theme to see them.',
+    render: () => <MetalSurfacesDemo />,
+  },
   {
     slug: 'appearance-menu',
     title: 'Appearance Menu',

@@ -461,7 +461,7 @@ export const loopFocusRing = { light: loopColors.loopRing, dark: '#636363' } as 
  * any theme that sets them: menus and overlays keep the card's radius,
  * `--borderRadius-large`, which the theme already sets.
  */
-const loopOwnCss = `
+export const loopOwnCss = `
 :scope b,
 :scope strong {
   font-weight: var(--base-text-weight-semibold);

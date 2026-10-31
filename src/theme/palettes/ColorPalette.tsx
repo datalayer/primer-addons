@@ -18,6 +18,7 @@ import {
   ivoryColors,
   sunColors,
   loopColors,
+  metalColors,
   vscodeColors,
   hueColorsOf,
   hueNames,
@@ -113,6 +114,8 @@ const suBrightDark = getBrightPalette('sun');
 const suBrightLight = getBrightPalette('sun', 'light');
 const loBrightDark = getBrightPalette('loop');
 const loBrightLight = getBrightPalette('loop', 'light');
+const meBrightDark = getBrightPalette('metal');
+const meBrightLight = getBrightPalette('metal', 'light');
 const vsBrightDark = getBrightPalette('vscode');
 const vsBrightLight = getBrightPalette('vscode', 'light');
 
@@ -456,6 +459,44 @@ const rolePalettes: Record<ThemeVariant, { light: PaletteRoles; dark: PaletteRol
       gold: loBrightDark.gold,
       textLight: loopColors.inkDark,
       textMuted: loopColors.grayDark,
+      isLight: false,
+    },
+  },
+  metal: {
+    light: {
+      bg: metalColors.white,
+      bgPanel: '#ffffff',
+      bgAlt: metalColors.subtle,
+      primary: metalColors.metalBrand,
+      secondary: metalColors.metalText,
+      accent: metalColors.steelTo,
+      glow: meBrightLight.glow,
+      pop: meBrightLight.pop,
+      spark: meBrightLight.spark,
+      blaze: meBrightLight.blaze,
+      surge: meBrightLight.surge,
+      flame: meBrightLight.flame,
+      gold: meBrightLight.gold,
+      textLight: metalColors.ink,
+      textMuted: metalColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: metalColors.black,
+      bgPanel: '#141920',
+      bgAlt: metalColors.subtleDark,
+      primary: metalColors.metalBrand,
+      secondary: metalColors.metalBright,
+      accent: metalColors.steelTo,
+      glow: meBrightDark.glow,
+      pop: meBrightDark.pop,
+      spark: meBrightDark.spark,
+      blaze: meBrightDark.blaze,
+      surge: meBrightDark.surge,
+      flame: meBrightDark.flame,
+      gold: meBrightDark.gold,
+      textLight: metalColors.inkDark,
+      textMuted: metalColors.grayDark,
       isLight: false,
     },
   },

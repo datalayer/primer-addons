@@ -409,7 +409,7 @@ export const themeTokens: Record<ThemeVariant, ThemeTokens> = {
   },
   metal: {
     label: 'Metal',
-    description: 'Loop’s curves in cool metal: steel blue, blue-grey hairlines, brushed gradient surfaces.',
+    description: 'Loop’s curves, on a page of its own: a dotted wash on light, a deep gradient and frosted glass on dark.',
     brandColor: metalColors.metalBrand,
     defaultColorMode: 'light',
     themeStyles: metalThemeStyles,

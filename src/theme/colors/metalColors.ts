@@ -19,13 +19,13 @@ export const metalColors = {
   ...loopColors,
 
   // Core neutrals
-  black: '#0F1318',      // Blue-black — primary dark background
+  black: '#1C2A33',      // The deep base under the dark mesh
   gray: '#6B7280',       // Secondary text on light: 4.8 to 1 on white
-  ink: '#22262B',        // Text on light: 15.2 to 1 on white
+  ink: '#2A2F37',        // Text on light: softer than Loop's, 13.5 to 1 on white
   inkDark: '#EEF2F7',    // Text on dark
   subtle: '#F6F8FC',     // Subtle surface on light
-  subtleDark: '#171C23', // Subtle surface on dark
-  grayDark: '#9AA6B4',   // Secondary text on dark: 7.5 to 1 on the dark page
+  subtleDark: '#25343F', // Subtle surface on dark, and the menus
+  grayDark: '#C3CDD8',   // Secondary text on dark
 
   // Metal palette (Brand) — steel blue
   metalBrand: '#4C76BA',       // The filled button: white text 4.6 to 1
@@ -45,6 +45,7 @@ export const metalColors = {
   // Hairlines, with a little steel in them
   line: '#E3E9F2',
   lineMuted: '#EDF1F7',
+  controlLine: '#D6E0EE',
   lineDark: '#262D37',
   lineMutedDark: '#1E242C',
 

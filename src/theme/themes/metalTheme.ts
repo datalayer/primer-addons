@@ -5,13 +5,22 @@
 
 /**
  * The Metal theme for Primer React: its styles, from `./metalThemeStyles`, and
- * the Primer theme object, Loop's: the two weights are the same.
+ * the Primer theme object, whose weights are Metal's two.
  */
 
-import { loopTheme } from './loopTheme';
+import { theme as primerTheme } from '@primer/react';
+import { metalFontWeights } from './metalThemeStyles';
 
 export * from './metalThemeStyles';
 
-export const metalTheme = loopTheme;
+export const metalTheme = {
+  ...primerTheme,
+  fontWeights: {
+    light: metalFontWeights.regular,
+    normal: metalFontWeights.regular,
+    semibold: metalFontWeights.medium,
+    bold: metalFontWeights.medium,
+  },
+};
 
 export default metalTheme;

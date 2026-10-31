@@ -6,10 +6,13 @@
 /**
  * Metal Theme for Primer React.
  *
- * The Loop theme in cool metal: the same curves, type and motion, on cool
- * neutrals with a steel-blue accent. Its four brushed surfaces are gradients
- * for white text and glass (`--metal-gradient-*`, `--metal-glass-*`).
- * Theming is applied via **CSS custom-property overrides**.
+ * Loop's curves and motion, with a look of its own. On light, a page that is
+ * not white: a blue-grey wash and a dot grid, panels drawn by a pale steel
+ * line rather than floated on a shadow, outlined controls, a brushed filled
+ * button. On dark, the page is the surface: a deep mesh of sage, steel, mauve
+ * and clay, frosted glass on it, white type, and a white button. In both,
+ * Geist in regular weight, with numbers in step (`style/metal-face.css`).
+ * Theming is applied via **CSS custom-property overrides** and a stylesheet.
  */
 
 import { metalColors } from '../colors/metalColors';
@@ -17,11 +20,10 @@ import { themeAccentTints } from '../colors/themeAccents';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 import {
   loopDark,
-  loopFontFamily,
   loopLight,
   loopMotionVars,
-  loopOwnCss,
   loopShapeVars,
+  loopTypeScale,
   loopTypeVars,
 } from './loopThemeStyles';
 
@@ -51,8 +53,11 @@ export const metalLight: ThemeColorDefs = {
   btn: {
     ...loopLight.btn,
     text: metalColors.ink,
-    bg: metalColors.subtle,
-    hoverBg: '#ECF0F7',
+    // Outlined, not filled: a control is drawn as a panel is.
+    bg: '#FFFFFF',
+    border: metalColors.controlLine,
+    hoverBg: '#F4F7FB',
+    hoverBorder: '#C4D2E6',
     activeBg: '#E3E9F2',
     selectedBg: '#E3E9F2',
     counterBg: 'rgba(34, 38, 43, 0.08)',
@@ -91,6 +96,8 @@ export const metalLight: ThemeColorDefs = {
 
 export const metalDark: ThemeColorDefs = {
   ...loopDark,
+  // Solid stand-ins for the page behind the glass, which the checks read;
+  // what is painted is `metalVariables` and the mesh.
   canvas: {
     default: metalColors.black,
     subtle: metalColors.subtleDark,
@@ -102,7 +109,7 @@ export const metalDark: ThemeColorDefs = {
   },
   accent: {
     fg: metalColors.metalBright,
-    emphasis: metalColors.metalBright,
+    emphasis: metalColors.white,
     muted: metalColors.metalBright,
     subtle: metalColors.metalTintDark,
   },
@@ -113,24 +120,27 @@ export const metalDark: ThemeColorDefs = {
   btn: {
     ...loopDark.btn,
     text: metalColors.inkDark,
-    bg: metalColors.subtleDark,
-    hoverBg: '#1F2630',
-    activeBg: '#28303B',
-    selectedBg: '#28303B',
+    bg: 'rgba(255, 255, 255, 0.10)',
+    border: 'rgba(255, 255, 255, 0.22)',
+    hoverBg: 'rgba(255, 255, 255, 0.16)',
+    hoverBorder: 'rgba(255, 255, 255, 0.32)',
+    activeBg: 'rgba(255, 255, 255, 0.20)',
+    selectedBg: 'rgba(255, 255, 255, 0.20)',
     counterBg: 'rgba(238, 242, 247, 0.12)',
+    // White on the mesh, the brightest thing on the page.
     primary: {
       ...loopDark.btn.primary,
       text: metalColors.metalOnDark,
-      bg: metalColors.metalBright,
-      border: metalColors.metalBright,
-      hoverBg: metalColors.metalBrightHover,
-      hoverBorder: metalColors.metalBrightHover,
-      selectedBg: metalColors.metalBrightHover,
+      bg: metalColors.white,
+      border: metalColors.white,
+      hoverBg: '#E8EEF7',
+      hoverBorder: '#E8EEF7',
+      selectedBg: '#DCE5F2',
       disabledText: 'rgba(11, 26, 48, 0.6)',
-      disabledBg: 'rgba(143, 180, 232, 0.35)',
+      disabledBg: 'rgba(255, 255, 255, 0.35)',
       disabledBorder: 'transparent',
       icon: metalColors.metalOnDark,
-      counterBg: 'rgba(11, 26, 48, 0.15)',
+      counterBg: 'rgba(11, 26, 48, 0.12)',
     },
     outline: {
       ...loopDark.btn.outline,
@@ -152,7 +162,37 @@ export const metalDark: ThemeColorDefs = {
   },
 };
 
-/* ── Surfaces, shadows ─────────────────────────────────────────── */
+/* ── Faces, type ───────────────────────────────────────────────── */
+
+export const metalFontFamily =
+  '"Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+
+export const metalMonoFamily =
+  '"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+/** The two weights: titles stay regular, what must stand out is 500. */
+export const metalFontWeights = { regular: 400, medium: 500 } as const;
+
+/** Loop's sizes, in Metal's weights: a title is large and light, never bold. */
+const metalTypeVars = (): Record<string, string> => {
+  const { regular, medium } = metalFontWeights;
+  const { display, title, heading } = loopTypeScale;
+  return {
+    ...loopTypeVars(metalFontFamily),
+    '--base-text-weight-medium': String(medium),
+    '--base-text-weight-semibold': String(medium),
+    '--text-display-weight': String(regular),
+    '--text-display-shorthand': `${regular} ${display.size}/${display.lineHeight} ${metalFontFamily}`,
+    '--text-title-shorthand-large': `${regular} ${display.size}/${display.lineHeight} ${metalFontFamily}`,
+    '--text-title-shorthand-medium': `${regular} ${title.size}/${title.lineHeight} ${metalFontFamily}`,
+    '--text-title-shorthand-small': `${medium} ${heading.size}/${heading.lineHeight} ${metalFontFamily}`,
+    '--loop-tracking-display': '-0.03em',
+    '--loop-tracking-title': '-0.02em',
+    '--fontStack-monospace': metalMonoFamily,
+  };
+};
+
+/* ── Surfaces ──────────────────────────────────────────────────── */
 
 /** The four brushed surfaces, and the glass that sits on them, the same in both modes. */
 export const metalSurfaceVars: Record<string, string> = {
@@ -164,42 +204,79 @@ export const metalSurfaceVars: Record<string, string> = {
   '--metal-glass-border': 'rgba(255, 255, 255, 0.24)',
 };
 
-const metalHairline = {
-  light: 'rgba(76, 118, 186, 0.16)',
-  dark: 'rgba(255, 255, 255, 0.10)',
+/** What a page is painted with, per mode. */
+export const metalPage = {
+  light: [
+    'radial-gradient(rgba(76, 118, 186, 0.15) 1px, transparent 1.2px) 0 0 / 22px 22px',
+    'radial-gradient(1100px 620px at 88% -8%, #D6E4F7 0%, transparent 62%)',
+    'radial-gradient(900px 560px at -6% 4%, #E6F0EE 0%, transparent 60%)',
+    '#F7F9FD',
+  ].join(', '),
+  dark: [
+    'radial-gradient(900px 640px at 6% -4%, #55794E 0%, transparent 62%)',
+    'radial-gradient(1000px 700px at 96% 4%, #2C6AA8 0%, transparent 60%)',
+    'radial-gradient(900px 640px at 92% 102%, #8E3F60 0%, transparent 60%)',
+    'radial-gradient(800px 560px at 8% 104%, #93492E 0%, transparent 58%)',
+    '#1C2A33',
+  ].join(', '),
 };
 
-/** Loop's soft shadows, with blue in them on light, and a hairline around a floating surface. */
-export const metalShadows: Record<'light' | 'dark', Record<string, string>> = {
+const metalHairline = {
+  light: 'rgba(76, 118, 186, 0.20)',
+  dark: 'rgba(255, 255, 255, 0.18)',
+};
+
+/** What is painted, beside the solid stand-ins: a panel on light, glass on dark. */
+const metalPainted: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    '--loop-shadow-frame': '0 1px 2px rgba(34, 52, 84, 0.04), 0 12px 32px rgba(34, 52, 84, 0.08)',
-    '--theme-shadow': '0 1px 2px rgba(34, 52, 84, 0.04), 0 12px 32px rgba(34, 52, 84, 0.08)',
-    '--shadow-resting-xsmall': '0 1px 1px rgba(34, 52, 84, 0.04)',
-    '--shadow-resting-small': '0 1px 2px rgba(34, 52, 84, 0.05)',
-    '--shadow-resting-medium': '0 2px 8px rgba(34, 52, 84, 0.06)',
-    '--shadow-floating-small': '0 0 0 1px rgba(76, 118, 186, 0.10), 0 4px 14px rgba(34, 52, 84, 0.09)',
-    '--shadow-floating-medium': '0 0 0 1px rgba(76, 118, 186, 0.10), 0 8px 24px rgba(34, 52, 84, 0.11)',
-    '--shadow-floating-large': '0 0 0 1px rgba(76, 118, 186, 0.10), 0 16px 48px rgba(34, 52, 84, 0.14)',
-    '--shadow-floating-xlarge': '0 0 0 1px rgba(76, 118, 186, 0.10), 0 24px 64px rgba(34, 52, 84, 0.18)',
+    '--bgColor-default': 'rgba(255, 255, 255, 0.82)',
+    '--bgColor-muted': 'rgba(244, 247, 252, 0.72)',
+    '--bgColor-inset': 'rgba(240, 244, 250, 0.72)',
+    '--overlay-bgColor': '#FFFFFF',
+    '--control-transparent-bgColor-selected': '#EDF1F6',
   },
   dark: {
-    '--loop-shadow-frame': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 12px 36px rgba(0, 0, 0, 0.5)',
-    '--theme-shadow': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 12px 36px rgba(0, 0, 0, 0.5)',
-    '--shadow-resting-xsmall': '0 0 0 1px rgba(255, 255, 255, 0.05)',
-    '--shadow-resting-small': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.35)',
-    '--shadow-resting-medium': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 8px rgba(0, 0, 0, 0.4)',
-    '--shadow-floating-small': '0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 14px rgba(0, 0, 0, 0.5)',
-    '--shadow-floating-medium': '0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.55)',
-    '--shadow-floating-large': '0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 48px rgba(0, 0, 0, 0.6)',
-    '--shadow-floating-xlarge': '0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 64px rgba(0, 0, 0, 0.65)',
+    '--bgColor-default': 'rgba(255, 255, 255, 0.07)',
+    '--bgColor-muted': 'rgba(255, 255, 255, 0.05)',
+    '--bgColor-inset': 'rgba(0, 0, 0, 0.14)',
+    '--overlay-bgColor': '#25343F',
+    '--fgColor-default': '#FFFFFF',
+    '--fgColor-muted': 'rgba(255, 255, 255, 0.74)',
+    '--control-transparent-bgColor-selected': 'rgba(255, 255, 255, 0.14)',
   },
 };
 
-export const metalFocusRing = { light: metalColors.metalRing, dark: metalColors.metalBright } as const;
+/** A panel lies on the page: a line and nothing under it, a menu alone floats. */
+export const metalShadows: Record<'light' | 'dark', Record<string, string>> = {
+  light: {
+    '--loop-shadow-frame': 'none',
+    '--theme-shadow': 'none',
+    '--shadow-resting-xsmall': 'none',
+    '--shadow-resting-small': 'none',
+    '--shadow-resting-medium': 'none',
+    '--shadow-floating-small': '0 0 0 1px rgba(76, 118, 186, 0.16), 0 6px 18px rgba(34, 52, 84, 0.08)',
+    '--shadow-floating-medium': '0 0 0 1px rgba(76, 118, 186, 0.16), 0 10px 28px rgba(34, 52, 84, 0.10)',
+    '--shadow-floating-large': '0 0 0 1px rgba(76, 118, 186, 0.16), 0 18px 48px rgba(34, 52, 84, 0.12)',
+    '--shadow-floating-xlarge': '0 0 0 1px rgba(76, 118, 186, 0.16), 0 24px 64px rgba(34, 52, 84, 0.14)',
+  },
+  dark: {
+    '--loop-shadow-frame': 'none',
+    '--theme-shadow': 'none',
+    '--shadow-resting-xsmall': 'none',
+    '--shadow-resting-small': 'none',
+    '--shadow-resting-medium': 'none',
+    '--shadow-floating-small': '0 0 0 1px rgba(255, 255, 255, 0.16), 0 6px 18px rgba(0, 0, 0, 0.3)',
+    '--shadow-floating-medium': '0 0 0 1px rgba(255, 255, 255, 0.16), 0 10px 28px rgba(0, 0, 0, 0.35)',
+    '--shadow-floating-large': '0 0 0 1px rgba(255, 255, 255, 0.16), 0 18px 48px rgba(0, 0, 0, 0.4)',
+    '--shadow-floating-xlarge': '0 0 0 1px rgba(255, 255, 255, 0.16), 0 24px 64px rgba(0, 0, 0, 0.45)',
+  },
+};
+
+export const metalFocusRing = { light: metalColors.metalRing, dark: metalColors.white } as const;
 
 const metalTints = (mode: 'light' | 'dark') =>
   themeAccentTints({
-    accent: mode === 'light' ? metalColors.metalBrand : metalColors.metalBright,
+    accent: mode === 'light' ? metalColors.metalBrand : metalColors.white,
     on: mode === 'light' ? metalColors.metalOn : metalColors.metalOnDark,
     stage: mode === 'light' ? metalColors.metalStage : metalColors.metalStageDark,
     quiet: mode === 'light' ? metalColors.metalTint : metalColors.metalTintDark,
@@ -210,20 +287,63 @@ const metalVariables = (mode: 'light' | 'dark'): Record<string, string> => ({
   ...metalTints(mode),
   ...loopMotionVars,
   ...metalShadows[mode],
-  ...loopTypeVars(loopFontFamily),
+  ...metalTypeVars(),
   ...metalSurfaceVars,
+  ...metalPainted[mode],
+  '--metal-page': metalPage[mode],
   '--loop-hairline': metalHairline[mode],
   '--borderColor-default': metalHairline[mode],
+  '--borderColor-muted': metalHairline[mode],
   '--focus-outlineColor': metalFocusRing[mode],
-  '--underlineNav-borderColor-active': mode === 'light' ? metalColors.metalBrand : metalColors.metalBright,
+  '--underlineNav-borderColor-active': mode === 'light' ? metalColors.metalBrand : metalColors.white,
 });
+
+/**
+ * Metal's own stylesheet: the page painted under everything, its numbers in
+ * step, bold at the theme's heavier weight, and the filled button brushed on
+ * light (dark's is plain white).
+ */
+const metalOwnCss = `
+:scope {
+  background: var(--metal-page);
+  background-attachment: fixed;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.006em;
+}
+:scope b,
+:scope strong {
+  font-weight: var(--base-text-weight-medium);
+}
+:scope h1,
+:scope h2 {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+:scope h3,
+:scope h4 {
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+:scope code,
+:scope kbd,
+:scope pre,
+:scope [class*="CounterLabel"] {
+  font-family: var(--fontStack-monospace);
+}
+:scope[data-color-mode="light"] [data-variant="primary"],
+[data-color-mode="light"] :scope [data-variant="primary"] {
+  background-image: linear-gradient(180deg, #5C86C8 0%, #3F68AC 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(34, 52, 84, 0.18);
+}
+`;
 
 /* ── Exports ───────────────────────────────────────────────────── */
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode: Loop's curves, Metal's colours. */
+/** Comprehensive Primer CSS-variable overrides for light & dark mode: Loop's curves, Metal's look. */
 export const metalThemeStyles = buildThemeStyles(metalLight, metalDark, {
-  fontFamily: loopFontFamily,
-  css: loopOwnCss,
+  fontFamily: metalFontFamily,
+  css: metalOwnCss,
   shape: {
     radiusControl: loopShapeVars['--loop-radius-control'],
     radiusTable: loopShapeVars['--borderRadius-medium'],
@@ -231,7 +351,7 @@ export const metalThemeStyles = buildThemeStyles(metalLight, metalDark, {
     radiusCard: loopShapeVars['--loop-radius-card'],
     radiusBubble: loopShapeVars['--loop-radius-bubble'],
     radiusFrame: loopShapeVars['--loop-radius-frame'],
-    shadow: metalShadows.light['--theme-shadow'],
+    shadow: 'none',
     motionStatus: loopMotionVars['--loop-motion-status'],
     motionMessage: loopMotionVars['--loop-motion-message'],
     motionPane: loopMotionVars['--loop-motion-pane'],

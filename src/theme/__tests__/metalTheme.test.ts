@@ -50,6 +50,9 @@ describe('the metal theme', () => {
       [metalDark.fg.muted, metalDark.canvas.default],
       [metalDark.accent.fg, metalDark.canvas.default],
       [metalDark.btn.primary.text, metalDark.btn.primary.bg],
+      // What is drawn on the accent's fill, in both modes.
+      [metalLight.fg.onEmphasis, metalLight.accent.emphasis],
+      [metalDark.fg.onEmphasis, metalDark.accent.emphasis],
     ] as [string, string][]) {
       expect([text, surface, contrast(text, surface) >= 4.5]).toEqual([text, surface, true]);
     }

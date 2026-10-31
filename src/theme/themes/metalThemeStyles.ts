@@ -109,7 +109,8 @@ export const metalDark: ThemeColorDefs = {
   },
   accent: {
     fg: metalColors.metalBright,
-    emphasis: metalColors.white,
+    // A fill with white text on it, as everywhere; the white button is `btn.primary`.
+    emphasis: metalColors.metalBrand,
     muted: metalColors.metalBright,
     subtle: metalColors.metalTintDark,
   },

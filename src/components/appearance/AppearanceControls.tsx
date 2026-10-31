@@ -3,28 +3,35 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { useState, type ReactElement } from 'react';
-import { SegmentedControl, Tooltip } from '@primer/react';
-import {
-  MoonIcon,
-  SunIcon,
-  DeviceDesktopIcon,
-} from '@primer/octicons-react';
-import { Box } from '../box/Box';
+import { useState, type ReactElement } from "react";
+import { SegmentedControl, Tooltip } from "@primer/react";
+import { MoonIcon, SunIcon, DeviceDesktopIcon } from "@primer/octicons-react";
+import { Box } from "../box/Box";
 import {
   themeVariants,
   themeConfigs,
   type ColorMode,
   type ThemeVariant,
-} from '../../theme';
-import { ThemePreviewCard } from './ThemePreviewCard';
+} from "../../theme";
+import { ThemePreviewCard } from "./ThemePreviewCard";
 
 export interface AppearanceControlsProps {
   colorMode: ColorMode;
   themeVariant: ThemeVariant;
   onColorModeChange: (mode: ColorMode) => void;
   onThemeChange: (theme: ThemeVariant) => void;
+  /** Show the light / dark / auto switch. Default: shown. */
+  showColorMode?: boolean;
+  /** Show the theme chooser. Default: shown. */
+  showThemeChooser?: boolean;
+  /** With the chooser, the chosen theme's name, description and preview under its swatches. Default: swatches only. */
   showThemePreviews?: boolean;
+  /**
+   * The most theme swatches on one line; every line is centred, so a shorter
+   * last line sits in the middle under the full ones. Undefined, they wrap
+   * freely to the width given, as before.
+   */
+  themesPerLine?: number;
 }
 
 export function AppearanceControls({
@@ -32,106 +39,146 @@ export function AppearanceControls({
   themeVariant,
   onColorModeChange,
   onThemeChange,
+  showColorMode = true,
+  showThemeChooser = true,
   showThemePreviews = false,
+  themesPerLine,
 }: AppearanceControlsProps): ReactElement {
+  // At most `themesPerLine` swatches on a line when given, each line centred,
+  // so a shorter last line sits in the middle under the full ones; one line
+  // wrapping freely otherwise. Explicit lines rather than a width: the
+  // tooltips' hidden siblings take gaps of their own.
+  const swatchLines: ThemeVariant[][] =
+    themesPerLine !== undefined && themesPerLine > 0
+      ? Array.from(
+          { length: Math.ceil(themeVariants.length / themesPerLine) },
+          (_, line) =>
+            themeVariants.slice(
+              line * themesPerLine,
+              (line + 1) * themesPerLine,
+            ),
+        )
+      : [[...themeVariants]];
+  const swatchRow = { display: "grid", rowGap: 2 };
+  const swatchLine = {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: 2,
+  };
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const selectedTheme = themeConfigs[themeVariant];
 
   return (
     <>
-      <Box sx={{ px: 2, py: 2, display: 'flex', justifyContent: 'center' }}>
-        <SegmentedControl
-          aria-label="Color mode"
-          size="small"
-          onChange={(index: number) => {
-            const modes: ColorMode[] = ['light', 'dark', 'auto'];
-            onColorModeChange(modes[index]);
-          }}
-        >
-          <SegmentedControl.IconButton
-            selected={colorMode === 'light'}
-            icon={SunIcon}
-            aria-label="Light"
-          />
-          <SegmentedControl.IconButton
-            selected={colorMode === 'dark'}
-            icon={MoonIcon}
-            aria-label="Dark"
-          />
-          <SegmentedControl.IconButton
-            selected={colorMode === 'auto'}
-            icon={DeviceDesktopIcon}
-            aria-label="Auto"
-          />
-        </SegmentedControl>
-      </Box>
+      {showColorMode ? (
+        <Box sx={{ px: 2, py: 2, display: "flex", justifyContent: "center" }}>
+          <SegmentedControl
+            aria-label="Color mode"
+            size="small"
+            onChange={(index: number) => {
+              const modes: ColorMode[] = ["light", "dark", "auto"];
+              onColorModeChange(modes[index]);
+            }}
+          >
+            <SegmentedControl.IconButton
+              selected={colorMode === "light"}
+              icon={SunIcon}
+              aria-label="Light"
+            />
+            <SegmentedControl.IconButton
+              selected={colorMode === "dark"}
+              icon={MoonIcon}
+              aria-label="Dark"
+            />
+            <SegmentedControl.IconButton
+              selected={colorMode === "auto"}
+              icon={DeviceDesktopIcon}
+              aria-label="Auto"
+            />
+          </SegmentedControl>
+        </Box>
+      ) : null}
 
-      {showThemePreviews ? (
+      {!showThemeChooser ? null : showThemePreviews ? (
         <Box
           sx={{
             px: 2,
+            // First in the controls when the colour mode is hidden.
+            pt: showColorMode ? 0 : 2,
             pb: 2,
-            display: 'grid',
+            display: "grid",
             gap: 2,
           }}
         >
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              ...swatchRow,
               gap: 2,
-              flexWrap: 'wrap',
             }}
           >
-            {themeVariants.map((variant) => {
-              const cfg = themeConfigs[variant];
-              const isSelected = themeVariant === variant;
-              return (
-                <Tooltip key={variant} text={`${cfg.label} — ${cfg.description}`} direction="s">
-                  <Box
-                    as="button"
-                    aria-label={cfg.label}
-                    aria-pressed={isSelected}
-                    onClick={() => onThemeChange(variant)}
-                    sx={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: '50%',
-                      backgroundColor: cfg.brandColor,
-                      border: '2px solid',
-                      borderColor: isSelected ? 'accent.fg' : 'border.default',
-                      cursor: 'pointer',
-                      padding: 0,
-                      outline: 'none',
-                      transition: 'border-color 0.15s ease',
-                      boxShadow: isSelected
-                        ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
-                        : 'none',
-                      '&:hover': {
-                        borderColor: 'accent.fg',
-                      },
-                      '&:focus-visible': {
-                        boxShadow:
-                          '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
-                      },
-                    }}
-                  />
-                </Tooltip>
-              );
-            })}
+            {swatchLines.map((line) => (
+              <Box key={line.join()} sx={swatchLine}>
+                {line.map((variant) => {
+                  const cfg = themeConfigs[variant];
+                  const isSelected = themeVariant === variant;
+                  return (
+                    <Tooltip
+                      key={variant}
+                      text={`${cfg.label} — ${cfg.description}`}
+                      direction="s"
+                    >
+                      <Box
+                        as="button"
+                        aria-label={cfg.label}
+                        aria-pressed={isSelected}
+                        onClick={() => onThemeChange(variant)}
+                        sx={{
+                          width: 24,
+                          height: 24,
+                          flexShrink: 0,
+                          borderRadius: "50%",
+                          backgroundColor: cfg.brandColor,
+                          border: "2px solid",
+                          borderColor: isSelected
+                            ? "accent.fg"
+                            : "border.default",
+                          cursor: "pointer",
+                          padding: 0,
+                          outline: "none",
+                          transition: "border-color 0.15s ease",
+                          boxShadow: isSelected
+                            ? "0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))"
+                            : "none",
+                          "&:hover": {
+                            borderColor: "accent.fg",
+                          },
+                          "&:focus-visible": {
+                            boxShadow:
+                              "0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))",
+                          },
+                        }}
+                      />
+                    </Tooltip>
+                  );
+                })}
+              </Box>
+            ))}
           </Box>
 
           <Box
             sx={{
               px: 1,
-              display: 'grid',
+              display: "grid",
               gap: 1,
             }}
           >
-            <Box sx={{ fontSize: 1, fontWeight: 'semibold', color: 'fg.default' }}>
+            <Box
+              sx={{ fontSize: 1, fontWeight: "semibold", color: "fg.default" }}
+            >
               {selectedTheme.label}
             </Box>
-            <Box sx={{ fontSize: 0, color: 'fg.muted', lineHeight: 1.5 }}>
+            <Box sx={{ fontSize: 0, color: "fg.muted", lineHeight: 1.5 }}>
               {selectedTheme.description}
             </Box>
             <Box
@@ -141,29 +188,29 @@ export function AppearanceControls({
               aria-expanded={isPreviewOpen}
               sx={{
                 mt: 1,
-                width: 'fit-content',
+                width: "fit-content",
                 px: 2,
-                py: '4px',
+                py: "4px",
                 borderRadius: 2,
-                border: '1px solid',
-                borderColor: 'border.default',
-                bg: 'canvas.default',
-                color: 'fg.default',
+                border: "1px solid",
+                borderColor: "border.default",
+                bg: "canvas.default",
+                color: "fg.default",
                 fontSize: 0,
-                fontWeight: 'semibold',
-                cursor: 'pointer',
-                '&:hover': {
-                  borderColor: 'accent.fg',
-                  color: 'accent.fg',
+                fontWeight: "semibold",
+                cursor: "pointer",
+                "&:hover": {
+                  borderColor: "accent.fg",
+                  color: "accent.fg",
                 },
-                '&:focus-visible': {
-                  outline: '2px solid',
-                  outlineColor: 'accent.fg',
+                "&:focus-visible": {
+                  outline: "2px solid",
+                  outlineColor: "accent.fg",
                   outlineOffset: 1,
                 },
               }}
             >
-              {isPreviewOpen ? 'Hide preview' : 'Show preview'}
+              {isPreviewOpen ? "Hide preview" : "Show preview"}
             </Box>
           </Box>
 
@@ -181,48 +228,58 @@ export function AppearanceControls({
         <Box
           sx={{
             px: 2,
+            // First in the controls when the colour mode is hidden.
+            pt: showColorMode ? 0 : 2,
             pb: 2,
-            display: 'flex',
-            justifyContent: 'center',
+            // Narrow, the swatches go on a second line rather than shrink.
+            ...swatchRow,
             gap: 2,
           }}
         >
-          {themeVariants.map((variant) => {
-            const cfg = themeConfigs[variant];
-            const isSelected = themeVariant === variant;
-            return (
-              <Tooltip key={variant} text={cfg.label} direction="s">
-                <Box
-                  as="button"
-                  aria-label={cfg.label}
-                  aria-pressed={isSelected}
-                  onClick={() => onThemeChange(variant)}
-                  sx={{
-                    width: 24,
-                    height: 24,
-                    borderRadius: '50%',
-                    backgroundColor: cfg.brandColor,
-                    border: '2px solid',
-                    borderColor: isSelected ? 'accent.fg' : 'border.default',
-                    cursor: 'pointer',
-                    padding: 0,
-                    outline: 'none',
-                    transition: 'border-color 0.15s ease',
-                    boxShadow: isSelected
-                      ? '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))'
-                      : 'none',
-                    '&:hover': {
-                      borderColor: 'accent.fg',
-                    },
-                    '&:focus-visible': {
-                      boxShadow:
-                        '0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))',
-                    },
-                  }}
-                />
-              </Tooltip>
-            );
-          })}
+          {swatchLines.map((line) => (
+            <Box key={line.join()} sx={swatchLine}>
+              {line.map((variant) => {
+                const cfg = themeConfigs[variant];
+                const isSelected = themeVariant === variant;
+                return (
+                  <Tooltip key={variant} text={cfg.label} direction="s">
+                    <Box
+                      as="button"
+                      aria-label={cfg.label}
+                      aria-pressed={isSelected}
+                      onClick={() => onThemeChange(variant)}
+                      sx={{
+                        width: 24,
+                        height: 24,
+                        // A circle at any width: never squeezed into an oval.
+                        flexShrink: 0,
+                        borderRadius: "50%",
+                        backgroundColor: cfg.brandColor,
+                        border: "2px solid",
+                        borderColor: isSelected
+                          ? "accent.fg"
+                          : "border.default",
+                        cursor: "pointer",
+                        padding: 0,
+                        outline: "none",
+                        transition: "border-color 0.15s ease",
+                        boxShadow: isSelected
+                          ? "0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))"
+                          : "none",
+                        "&:hover": {
+                          borderColor: "accent.fg",
+                        },
+                        "&:focus-visible": {
+                          boxShadow:
+                            "0 0 0 2px var(--bgColor-accent-muted, rgba(9,105,218,0.3))",
+                        },
+                      }}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </Box>
+          ))}
         </Box>
       )}
     </>

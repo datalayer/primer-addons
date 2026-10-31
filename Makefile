@@ -43,16 +43,47 @@ publish-npm: # publish the npm packages
 		npm publish --access public
 	echo https://www.npmjs.com/package/@datalayer/primer-addons?activeTab=versions
 
-deploy-storybook: ## deploy-storybook to s3 and invalidate cloudfront
+# https://primer-addons.datalayer.tech serves the gallery at its root and
+# Storybook under /storybook/. The CloudFront origin is the bucket's S3
+# website endpoint, whose error document is index.html, so a gallery address
+# such as /card is answered by the gallery's page (with a 404 status).
+SITE_BUCKET=s3://datalayer-primer-addons
+SITE_DISTRIBUTION=E31G4MWCFRSED1
+AWS_PROFILE_SITE=datalayer
+
+deploy-gallery: ## build the gallery and deploy it to the site's root on s3, then invalidate cloudfront
+	rm -fr examples/gallery/dist && \
+	npm run gallery:build && \
+	aws s3 sync \
+		./examples/gallery/dist \
+		$(SITE_BUCKET)/ \
+		--delete \
+		--exclude "storybook/*" \
+		--exclude "index.html" \
+		--cache-control "public, max-age=31536000, immutable" \
+		--profile $(AWS_PROFILE_SITE) && \
+	aws s3 cp \
+		./examples/gallery/dist/index.html \
+		$(SITE_BUCKET)/index.html \
+		--content-type "text/html; charset=utf-8" \
+		--cache-control "no-cache" \
+		--profile $(AWS_PROFILE_SITE) && \
+	aws cloudfront create-invalidation \
+		--distribution-id $(SITE_DISTRIBUTION) \
+		--paths "/*" \
+		--profile $(AWS_PROFILE_SITE) && \
+	echo open ✨  https://primer-addons.datalayer.tech
+
+deploy-storybook: ## build storybook and deploy it under /storybook/ on s3, then invalidate cloudfront
 	rm -fr storybook-static/* && \
 	npm run build-storybook && \
-	aws s3 cp \
+	aws s3 sync \
 		./storybook-static \
-		s3://datalayer-primer-addons/ \
-		--recursive \
-		--profile datalayer && \
-		aws cloudfront create-invalidation \
-		--distribution-id E31G4MWCFRSED1 \
-		--paths "/*" \
-		--profile datalayer && \
-	echo open ✨  https://primer-addons.datalayer.tech
+		$(SITE_BUCKET)/storybook/ \
+		--delete \
+		--profile $(AWS_PROFILE_SITE) && \
+	aws cloudfront create-invalidation \
+		--distribution-id $(SITE_DISTRIBUTION) \
+		--paths "/storybook/*" \
+		--profile $(AWS_PROFILE_SITE) && \
+	echo open ✨  https://primer-addons.datalayer.tech/storybook/

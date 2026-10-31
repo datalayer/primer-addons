@@ -103,7 +103,9 @@ export function ToolbarDropdown({
             padding: label ? "0 8px" : 0,
             margin: 0,
             border: "none",
-            borderRadius: 6,
+            // Match ToolbarButton and every Primer control in the active
+            // theme instead of freezing the trigger at a 6px corner.
+            borderRadius: "var(--theme-radius-control)",
             cursor: disabled ? "not-allowed" : "pointer",
             /*
               Neutral while the menu is open, not accented.

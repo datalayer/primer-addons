@@ -4,7 +4,7 @@
  */
 
 import { type ReactElement } from 'react';
-import { ColorModeCircle } from './ColorModeCircle';
+import { ColorModeCircle, type HoverOverlayPlacement } from './ColorModeCircle';
 import { AppearanceControls } from './AppearanceControls';
 import type { ColorMode, ThemeVariant } from '../../theme';
 
@@ -22,9 +22,11 @@ export interface AppearanceMenuProps {
   /** Visual shape of the trigger control. */
   shape?: 'square' | 'circle';
   /** Overlay placement relative to the circle. */
-  hoverOverlayPlacement?: 'bottom-start' | 'bottom-end';
+  hoverOverlayPlacement?: HoverOverlayPlacement;
   /** Whether the overlay shows the live theme previews. */
   showThemePreviews?: boolean;
+  /** The most theme swatches on one line in the overlay; undefined, they wrap freely. */
+  themesPerLine?: number;
 }
 
 /**
@@ -44,6 +46,7 @@ export function AppearanceMenu({
   shape = 'square',
   hoverOverlayPlacement = 'bottom-end',
   showThemePreviews = true,
+  themesPerLine,
 }: AppearanceMenuProps): ReactElement {
   return (
     <ColorModeCircle
@@ -61,6 +64,7 @@ export function AppearanceMenu({
           onColorModeChange={onColorModeChange}
           onThemeChange={onThemeChange}
           showThemePreviews={showThemePreviews}
+          themesPerLine={themesPerLine}
         />
       }
     />

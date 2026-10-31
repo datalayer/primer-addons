@@ -28,21 +28,21 @@
  * @module components/toolbar/ToolbarButton
  */
 
-import { type ReactNode, isValidElement, useState } from 'react';
-import { Tooltip } from '@primer/react';
-import type { ToolbarButtonItem } from './types';
+import { type ReactNode, isValidElement, useState } from "react";
+import { Tooltip } from "@primer/react";
+import type { ToolbarButtonItem } from "./types";
 
 export interface ToolbarButtonProps {
   item: ToolbarButtonItem;
   /** Size variant: 'small' for floating toolbar, 'medium' for fixed toolbar */
-  size?: 'small' | 'medium';
+  size?: "small" | "medium";
   /** Print `ariaLabel` beside the icon — see the module doc. Off by default. */
   showLabel?: boolean;
 }
 
 export function ToolbarButton({
   item,
-  size = 'medium',
+  size = "medium",
   showLabel = false,
 }: ToolbarButtonProps) {
   const { ariaLabel, title, icon, label, isActive, onClick, disabled } = item;
@@ -62,10 +62,14 @@ export function ToolbarButton({
     }
   } else if (label) {
     // Fallback: render text label (e.g. "x₂" for subscript)
-    iconElement = <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }}>{label}</span>;
+    iconElement = (
+      <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }}>
+        {label}
+      </span>
+    );
   }
 
-  const btnSize = size === 'small' ? 28 : 32;
+  const btnSize = size === "small" ? 28 : 32;
   // Only when there is a name to show, and only where it was asked for:
   // showLabel with no ariaLabel (should never happen — it is required on
   // the item — but this keeps a bare icon rather than an empty gap) falls
@@ -91,9 +95,9 @@ export function ToolbarButton({
       onMouseDown={(e) => e.preventDefault()}
       onClick={disabled ? undefined : onClick}
       style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: printLabel ? 'flex-start' : 'center',
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: printLabel ? "flex-start" : "center",
         gap: printLabel ? 6 : 0,
         // No explicit `width` when labelled: sized to its own icon-plus-name
         // content, the same as `ToolbarDropdown`'s trigger — the two sit in
@@ -103,26 +107,28 @@ export function ToolbarButton({
         width: printLabel ? undefined : btnSize,
         minWidth: btnSize,
         height: btnSize,
-        padding: printLabel ? '0 8px' : 0,
+        padding: printLabel ? "0 8px" : 0,
         margin: 0,
-        border: 'none',
-        borderRadius: 6,
-        cursor: disabled ? 'not-allowed' : 'pointer',
+        border: "none",
+        // Follow the active theme: Loop makes controls pills, while every
+        // other theme supplies its own control radius through the same token.
+        borderRadius: "var(--theme-radius-control)",
+        cursor: disabled ? "not-allowed" : "pointer",
         background: lit
-          ? 'var(--bgColor-neutral-muted, rgba(175,184,193,0.2))'
+          ? "var(--bgColor-neutral-muted, rgba(175,184,193,0.2))"
           : isActive
-            ? 'var(--bgColor-accent-muted, rgba(9,105,218,0.1))'
-            : 'transparent',
+            ? "var(--bgColor-accent-muted, rgba(9,105,218,0.1))"
+            : "transparent",
         color: lit
-          ? 'var(--fgColor-default, #1f2328)'
+          ? "var(--fgColor-default, #1f2328)"
           : isActive
-            ? 'var(--fgColor-accent, #0969da)'
-            : 'var(--fgColor-muted, #656d76)',
+            ? "var(--fgColor-accent, #0969da)"
+            : "var(--fgColor-muted, #656d76)",
         opacity: disabled ? 0.5 : 1,
         lineHeight: 1,
-        fontSize: size === 'small' ? 12 : 14,
-        fontFamily: 'inherit',
-        whiteSpace: 'nowrap',
+        fontSize: size === "small" ? 12 : 14,
+        fontFamily: "inherit",
+        whiteSpace: "nowrap",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

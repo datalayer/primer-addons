@@ -5,7 +5,7 @@
 
 import { type ColorMode } from './DatalayerBrandThemeProvider';
 import { systemFontStack } from './fontStacks';
-import { themeConfigs, type ThemeVariant } from './themeRegistry';
+import { themeTokens, type ThemeVariant } from './themeTokens';
 
 /** A valid CSS custom-property name. */
 export type CssVariableName = `--${string}`;
@@ -59,7 +59,7 @@ function cssVariables(styles: object): CssVariableMap {
  * instead of translating them into framework-specific color names.
  */
 export function exportPortableTheme(variant: ThemeVariant): PortableTheme {
-  const config = themeConfigs[variant];
+  const config = themeTokens[variant];
   return {
     id: variant,
     label: config.label,

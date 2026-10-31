@@ -196,3 +196,23 @@ describe('Card', () => {
     );
   });
 });
+
+describe('a card on a surface', () => {
+  it('is the gradient, in white, flat, its slots white too', () => {
+    const card = render(<Card surface="steel">text</Card>);
+    expect(card.style.backgroundImage).toContain('--metal-gradient-steel');
+    expect(card.style.color).toBe('rgb(255, 255, 255)');
+    expect(card.style.getPropertyValue('--fgColor-default')).toBe('#FFFFFF');
+  });
+
+  it('takes glass', () => {
+    const glass = render(<Card.Glass>text</Card.Glass>);
+    expect(glass.getAttribute('style')).toContain('--metal-glass-bg');
+  });
+
+  it('leaves a card with no surface as it was', () => {
+    const card = render(<Card>text</Card>);
+    expect(card.style.backgroundImage).toBe('');
+  });
+});
+

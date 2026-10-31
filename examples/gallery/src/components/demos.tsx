@@ -31,6 +31,7 @@ import { PortalOverlayDemo } from './PortalOverlayDemo';
 import { SliderDemo } from './SliderDemo';
 import { LogoDemo } from './LogoDemo';
 import { LandingDemo } from './LandingDemo';
+import { ButtonDemo } from './ButtonDemo';
 import { ToolbarDemo } from './ToolbarDemo';
 import { FloatingToolbarDemo } from './FloatingToolbarDemo';
 
@@ -40,6 +41,12 @@ export const demos: Demo[] = [
     title: 'Landing Page',
     description: 'A hero and landing sections in the theme: choose a theme at the top right and judge it here.',
     render: () => <LandingDemo />,
+  },
+  {
+    slug: 'button',
+    title: 'Button',
+    description: 'The buttons in the theme: variants, sizes, icons, states, links and groups.',
+    render: () => <ButtonDemo />,
   },
   {
     slug: 'appearance-menu',

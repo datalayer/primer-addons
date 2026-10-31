@@ -112,6 +112,27 @@ const EXAMPLES: Example[] = [
     ),
   },
   {
+    title: 'Surface',
+    caption:
+      "surface makes the card a gradient with white text: sage, steel, mauve or clay, set by the metal theme; under another theme each is its accent. Card.Glass is a frosted panel on it.",
+    code: `<Card surface="steel" p={3} gap={3}>
+  <Heading as="h3">Empower every team</Heading>
+  <Card.Glass>Compose agents into teams.</Card.Glass>
+</Card>`,
+    render: () => (
+      <Box display="grid" gap={3} gridTemplateColumns={['1fr', 'repeat(2, minmax(0, 1fr))', 'repeat(4, minmax(0, 1fr))']}>
+        {(['sage', 'steel', 'mauve', 'clay'] as const).map(surface => (
+          <Card key={surface} surface={surface} p={3} gap={3} minHeight={200} justifyContent="space-between">
+            <Text sx={{ fontSize: 2 }}>{surface}</Text>
+            <Card.Glass>
+              <Text sx={{ fontSize: 1 }}>Glass on the gradient.</Text>
+            </Card.Glass>
+          </Card>
+        ))}
+      </Box>
+    ),
+  },
+  {
     title: 'Border, corner, shadow',
     caption:
       "border draws the theme's hairline. rounded takes Primer's radii (small, medium, large, full) or the theme's shapes (control, card, bubble, frame, overlay); the theme's card corner by default. shadow is none, small (the default), medium, large or extraLarge — Primer's shadow variables, set per colour mode.",

@@ -186,3 +186,17 @@ export const CardLift: Story = {
     <Text color="fg.muted">Sentinel, Landsat and commercial constellations, read where they are.</Text>
   </ThemedCard>
 };
+
+export const CardSurfaces: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, 240px)' }}>
+      {(['sage', 'steel', 'mauve', 'clay'] as const).map(surface => (
+        <Card key={surface} surface={surface} p={3} gap={3}>
+          {surface}
+          <Card.Glass>Glass on the gradient.</Card.Glass>
+        </Card>
+      ))}
+    </div>
+  ),
+};
+

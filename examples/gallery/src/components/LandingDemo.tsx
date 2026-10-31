@@ -16,23 +16,14 @@ import {
   ShieldCheckIcon,
   WorkflowIcon,
 } from '@primer/octicons-react';
-import { Box } from '@datalayer/primer-addons';
+import { Box, Card, type CardSurface } from '@datalayer/primer-addons';
 
 /*
  * A landing page in the theme, to judge a theme by something other than a
  * list of components: a hero with the product in it, surfaces, numbers, a
- * call to action. Metal's gradients where the theme has them, its accent where
- * it has not.
+ * call to action.
  */
 
-const surface = (name: string): CSSProperties => ({
-  backgroundImage: `var(--metal-gradient-${name}, linear-gradient(160deg, var(--theme-accent), var(--bgColor-accent-emphasis)))`,
-  color: 'var(--theme-accent-on-surface, #FFFFFF)',
-});
-const glass: CSSProperties = {
-  background: 'var(--metal-glass-bg, rgba(255, 255, 255, 0.16))',
-  borderColor: 'var(--metal-glass-border, rgba(255, 255, 255, 0.28))',
-};
 const mono: CSSProperties = { fontFamily: 'var(--fontStack-monospace)' };
 const title = (size: number): CSSProperties => ({ fontSize: size, lineHeight: 1.12, letterSpacing: '-0.03em' });
 
@@ -140,7 +131,7 @@ function ProductWindow() {
   );
 }
 
-const CHANNELS = [
+const CHANNELS: { surface: CardSurface; icon: typeof PeopleIcon; title: string; says: string }[] = [
   { surface: 'steel', icon: PeopleIcon, title: 'Empower every team', says: 'Compose agents into teams, with or without engineering support.' },
   { surface: 'mauve', icon: WorkflowIcon, title: 'Unify your channels', says: 'One agent across chat, email, voice and your own applications.' },
   { surface: 'clay', icon: ShieldCheckIcon, title: 'Pay for work well done', says: 'Budgets, approvals and evidence behind every number.' },
@@ -173,30 +164,30 @@ export function LandingDemo() {
       <ProductWindow />
 
       {/* The large surface: glass on a gradient */}
-      <Box position="relative" overflow="hidden" p={[3, 4]} minHeight={320} borderRadius="var(--theme-radius-card, 12px)" display="flex" flexDirection="column" justifyContent="space-between" gap={4} style={surface('sage')}>
+      <Card surface="sage" p={[3, 4]} minHeight={320} justifyContent="space-between" gap={4}>
         <Heading as="h2" style={{ ...title(30), color: 'inherit' }} sx={{ fontWeight: 'normal', m: 0 }}>
           Increase what every agent delivers
         </Heading>
-        <Box p={3} maxWidth={460} mx="auto" width="100%" border="1px solid" borderRadius="var(--theme-radius-bubble, 16px)" style={glass}>
+        <Card.Glass maxWidth={460} mx="auto" width="100%">
           <Box display="flex" alignItems="center" gap={2} mb={1}>
             <CommentDiscussionIcon size={16} />
             <Text sx={{ fontSize: 1, color: 'inherit' }}>Your agent</Text>
           </Box>
           <Text sx={{ fontSize: 2, color: 'inherit' }}>Your weekly report is ready. Shall I send it?</Text>
-        </Box>
+        </Card.Glass>
         <Text sx={{ fontSize: 2, color: 'inherit' }}>Go beyond answers, to work that gets done.</Text>
-      </Box>
+      </Card>
 
       {/* Three surfaces */}
       <Box display="grid" gridTemplateColumns={['1fr', '1fr', 'repeat(3, minmax(0, 1fr))']} gap={3}>
         {CHANNELS.map(channel => (
-          <Box key={channel.surface} p={3} minHeight={280} display="flex" flexDirection="column" justifyContent="space-between" gap={3} borderRadius="var(--theme-radius-card, 12px)" style={surface(channel.surface)}>
+          <Card key={channel.surface} surface={channel.surface} p={3} minHeight={280} justifyContent="space-between" gap={3}>
             <Heading as="h3" style={{ ...title(22), color: 'inherit' }} sx={{ fontWeight: 'normal', m: 0 }}>{channel.title}</Heading>
-            <Box alignSelf="center" display="flex" alignItems="center" justifyContent="center" width={72} height={72} border="1px solid" borderRadius={12} style={glass}>
+            <Card.Glass alignSelf="center" display="flex" alignItems="center" justifyContent="center" width={72} height={72} p={0} borderRadius={12}>
               <channel.icon size={24} />
-            </Box>
+            </Card.Glass>
             <Text sx={{ fontSize: 1, color: 'inherit' }}>{channel.says}</Text>
-          </Box>
+          </Card>
         ))}
       </Box>
 

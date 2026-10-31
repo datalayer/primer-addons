@@ -44,6 +44,10 @@
  *   the light still change.
  * - `Card.Icon` — a glyph in a tinted, rounded square: the icon the lift
  *   moves.
+ * - `surface` — the card is a gradient with white text on it, its slots
+ *   included: `sage`, `steel`, `mauve` or `clay`. The `metal` theme sets the
+ *   four; under another theme each is its accent. `Card.Glass` is a frosted
+ *   panel for such a card.
  */
 
 import React from "react";
@@ -96,6 +100,18 @@ const VARIANTS: Record<CardVariant, { bg: BoxColorToken; borderColor: BoxColorTo
   danger: { bg: 'danger.subtle', borderColor: 'danger.muted' },
 };
 
+/** The gradient a card is made of; see {@link CardProps.surface}. */
+export type CardSurface = 'sage' | 'steel' | 'mauve' | 'clay';
+
+const surfaceStyle = (surface: CardSurface): React.CSSProperties =>
+  ({
+    backgroundImage: `var(--metal-gradient-${surface}, linear-gradient(160deg, var(--theme-accent), var(--bgColor-accent-emphasis)))`,
+    color: '#FFFFFF',
+    // What the slots read: their text is white on the gradient in either mode.
+    '--fgColor-default': '#FFFFFF',
+    '--fgColor-muted': 'rgba(255, 255, 255, 0.85)',
+  }) as React.CSSProperties;
+
 export type CardProps = CardBoxProps & {
   /**
    * The corner: a radius by name — Primer's (`small`, `medium`, `large`,
@@ -106,6 +122,11 @@ export type CardProps = CardBoxProps & {
   rounded?: BoxRadiusToken | number;
   /** The card's flavour, `default` by default; see {@link CardVariant}. */
   variant?: CardVariant;
+  /**
+   * The card as a gradient, with white text on it and no hairline; it lies
+   * flat unless `shadow` says otherwise. Over `variant`. See {@link CardSurface}.
+   */
+  surface?: CardSurface;
   /** A hairline around the card, `border.default`. */
   border?: boolean;
   /** Primer's shadows by name; `none` for a card that lies flat. `small` by default. */
@@ -201,6 +222,8 @@ export type CardCoverProps = CardBoxProps & {
   /** A glyph centred on the cover, drawn in `fg.onEmphasis`. */
   children?: React.ReactNode;
 }
+
+export type CardGlassProps = CardBoxProps;
 
 export type CardActionsProps = {
   children: React.ReactNode;
@@ -300,10 +323,11 @@ export const Card: React.FC<CardProps> & {
   Footer: React.FC<CardFooterProps>;
   Actions: React.FC<CardActionsProps>;
   Icon: React.FC<CardIconProps>;
+  Glass: React.FC<CardGlassProps>;
 } = (props) => {
   const {
-    rounded, border, shadow = 'small', variant = 'default', interactive, selected, dashed, disabled, accent,
-    hoverEffect, sx, children, ...otherProps
+    rounded, border, shadow, variant = 'default', surface, interactive, selected, dashed, disabled, accent,
+    hoverEffect, sx, style, children, ...otherProps
   } = props;
   const lift = hoverEffect === 'lift' && !disabled;
   const outlined = border || interactive || selected || dashed || lift;
@@ -317,10 +341,10 @@ export const Card: React.FC<CardProps> & {
       // above them: cards side by side end on one line.
       display="flex"
       flexDirection="column"
-      bg={selected ? 'accent.subtle' : flavour.bg}
+      {...(surface ? undefined : { bg: selected ? 'accent.subtle' : flavour.bg })}
       color="fg.default"
       borderRadius={rounded ?? CARD_RADIUS}
-      boxShadow={SHADOWS[shadow]}
+      boxShadow={SHADOWS[shadow ?? (surface ? 'none' : 'small')]}
       {...(outlined ? {
         border: '1px solid',
         borderColor: selected ? 'accent.emphasis' : flavour.borderColor,
@@ -332,6 +356,7 @@ export const Card: React.FC<CardProps> & {
       {...(interactive && disabled ? { 'aria-disabled': true } : undefined)}
       {...(lift ? { position: 'relative', overflow: 'hidden' } : undefined)}
       {...otherProps}
+      style={surface ? { ...surfaceStyle(surface), ...style } : style}
       sx={mergedSx as BoxProps['sx']}
     >
       {children}
@@ -453,6 +478,24 @@ Card.Icon = ({ icon: Icon, color = 'accent.fg', bg = 'accent.subtle', size = 46,
     </Box>
   );
 }
+
+Card.Glass = ({ children, style, ...rest }) => {
+  return (
+    <Box
+      p={3}
+      border="1px solid"
+      borderRadius="bubble"
+      {...rest}
+      style={{
+        background: 'var(--metal-glass-bg, rgba(255, 255, 255, 0.16))',
+        borderColor: 'var(--metal-glass-border, rgba(255, 255, 255, 0.28))',
+        ...style,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 
 Card.Actions = ({ children }) => {
   return <Box display="block" p={3} mt="auto">

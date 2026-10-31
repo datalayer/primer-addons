@@ -205,6 +205,16 @@ describe('a card on a surface', () => {
     expect(card.style.getPropertyValue('--fgColor-default')).toBe('#FFFFFF');
   });
 
+  it('differs from one surface to the next under a theme with no gradients', () => {
+    const fallbacks = (['sage', 'steel', 'mauve', 'clay'] as const).map(surface =>
+      render(<Card surface={surface}>text</Card>).style.backgroundImage,
+    );
+    expect(new Set(fallbacks).size).toBe(4);
+    for (const token of ['success', 'accent', 'done', 'severe']) {
+      expect(fallbacks.join(' ')).toContain(`--bgColor-${token}-emphasis`);
+    }
+  });
+
   it('takes glass', () => {
     const glass = render(<Card.Glass>text</Card.Glass>);
     expect(glass.getAttribute('style')).toContain('--metal-glass-bg');

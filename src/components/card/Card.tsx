@@ -46,7 +46,8 @@
  *   moves.
  * - `surface` — the card is a gradient with white text on it, its slots
  *   included: `sage`, `steel`, `mauve` or `clay`. The `metal` theme sets the
- *   four; under another theme each is its accent. `Card.Glass` is a frosted
+ *   four; another theme draws them from its success, accent, done and severe
+ *   colours, deepened, so they differ there too. `Card.Glass` is a frosted
  *   panel for such a card.
  */
 
@@ -103,9 +104,23 @@ const VARIANTS: Record<CardVariant, { bg: BoxColorToken; borderColor: BoxColorTo
 /** The gradient a card is made of; see {@link CardProps.surface}. */
 export type CardSurface = 'sage' | 'steel' | 'mauve' | 'clay';
 
+/** Where a theme with no gradients of its own takes each surface's colour: every theme sets these. */
+const SURFACE_FALLBACKS: Record<CardSurface, string> = {
+  sage: '--bgColor-success-emphasis',
+  steel: '--bgColor-accent-emphasis',
+  mauve: '--bgColor-done-emphasis',
+  clay: '--bgColor-severe-emphasis',
+};
+
+/** The colour, deepened: white text has to read on it, a pastel accent included. */
+const fallbackGradient = (surface: CardSurface): string => {
+  const color = `var(${SURFACE_FALLBACKS[surface]})`;
+  return `linear-gradient(160deg, color-mix(in srgb, ${color} 82%, black), color-mix(in srgb, ${color} 58%, black))`;
+};
+
 const surfaceStyle = (surface: CardSurface): React.CSSProperties =>
   ({
-    backgroundImage: `var(--metal-gradient-${surface}, linear-gradient(160deg, var(--theme-accent), var(--bgColor-accent-emphasis)))`,
+    backgroundImage: `var(--metal-gradient-${surface}, ${fallbackGradient(surface)})`,
     color: '#FFFFFF',
     // What the slots read: their text is white on the gradient in either mode.
     '--fgColor-default': '#FFFFFF',

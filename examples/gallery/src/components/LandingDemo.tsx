@@ -4,16 +4,22 @@
  */
 
 import type { CSSProperties, ReactNode } from 'react';
-import { Button, Heading, Label, Text } from '@primer/react';
+import { Button, Heading, IconButton, Label, Spinner, Text } from '@primer/react';
 import {
   ArrowRightIcon,
+  ArrowUpIcon,
   BeakerIcon,
+  CheckCircleFillIcon,
+  CheckCircleIcon,
   CommentDiscussionIcon,
+  CopilotIcon,
   DatabaseIcon,
   GraphIcon,
   PeopleIcon,
+  ChecklistIcon,
   PlayIcon,
   ShieldCheckIcon,
+  SparkleFillIcon,
   WorkflowIcon,
 } from '@primer/octicons-react';
 import { Box, Card, type CardSurface } from '@datalayer/primer-addons';
@@ -131,6 +137,205 @@ function ProductWindow() {
   );
 }
 
+/** A stage, the pale panel a fragment of the product stands on, and what it is under it. */
+function Feature({ title: name, says, height, children }: { title: string; says: string; height: number; children: ReactNode }) {
+  return (
+    <Box display="grid" gap={2} alignContent="start" minWidth={0}>
+      <Card variant="accent" shadow="none" height={height} overflow="hidden" position="relative" px={[3, 3, 4]} pt={[3, 3, 4]} style={{ border: 'none' }}>
+        {children}
+      </Card>
+      <Text as="p" sx={{ fontSize: 2, m: 0, mt: 1 }}>{name}</Text>
+      <Text as="p" sx={{ fontSize: 1, color: 'fg.muted', m: 0 }}>{says}</Text>
+    </Box>
+  );
+}
+
+/** The fragment itself: a panel in the stage, running off its bottom edge. */
+const Fragment = ({ children, ...rest }: { children: ReactNode } & Record<string, unknown>) => (
+  <Card border shadow="none" p={3} gap={3} flex="1 1 auto" style={{ borderBottom: 'none', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }} {...rest}>
+    {children}
+  </Card>
+);
+
+const accentPill: CSSProperties = {
+  background: 'var(--bgColor-accent-muted)',
+  borderColor: 'var(--borderColor-accent-muted)',
+  color: 'var(--fgColor-accent)',
+};
+
+const STEPS = ['Updating the agent', 'Researching', 'Writing tests'];
+
+function BuildFragment() {
+  return (
+    <Fragment>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box display="flex" alignItems="center" gap={2}>
+          <CopilotIcon size={18} />
+          <Text sx={{ fontSize: 3 }}>Composer</Text>
+        </Box>
+        <Button size="small">Merge</Button>
+      </Box>
+      <Card variant="accent" shadow="none" border p={3} gap={2}>
+        <Text sx={{ fontSize: 1, color: 'accent.fg' }}>Create a support agent that tracks orders</Text>
+        <Box height={10} bg="accent.muted" borderRadius="full" />
+        <Box height={10} width="70%" bg="accent.muted" borderRadius="full" />
+      </Card>
+      <Box display="grid" gap={2}>
+        {STEPS.map(step => (
+          <Box key={step} display="flex" alignItems="center" gap={2} color="accent.fg">
+            <CheckCircleFillIcon size={16} />
+            <Text sx={{ fontSize: 1, color: 'fg.muted' }}>{step}</Text>
+          </Box>
+        ))}
+        <Box display="flex" alignItems="center" gap={2}>
+          <Spinner size="small" />
+          <Text sx={{ fontSize: 1, color: 'fg.muted' }}>Running the tests</Text>
+        </Box>
+      </Box>
+      <Card border shadow="none" px={3} py={2} rounded="bubble">
+        <Box display="flex" justifyContent="space-between" alignItems="center" gap={2}>
+          <Text sx={{ fontSize: 1, color: 'fg.muted' }}>What can I help you with?</Text>
+          <IconButton icon={ArrowUpIcon} aria-label="Send" variant="primary" size="small" />
+        </Box>
+      </Card>
+    </Fragment>
+  );
+}
+
+const RECOMMENDATIONS = [
+  'Handle cancellations, disputes and refunds with care.',
+  'Add secure subscription management for plans and billing.',
+  'Apply all three to strengthen the billing experience.',
+];
+
+function ImproveFragment() {
+  return (
+    <Fragment>
+      <Text sx={{ fontSize: 3 }}>Recommendations</Text>
+      <Card border shadow="none" overflow="hidden">
+        {RECOMMENDATIONS.map((text, index) => (
+          <Box
+            key={text}
+            display="flex"
+            alignItems="center"
+            gap={3}
+            p={3}
+            bg={index === 1 ? 'accent.subtle' : undefined}
+            color={index === 1 ? 'accent.fg' : 'fg.muted'}
+            borderTop={index ? '1px solid' : undefined}
+            borderColor="border.default"
+          >
+            <Box color="accent.fg" display="flex"><CopilotIcon size={18} /></Box>
+            <Text sx={{ fontSize: 1, color: 'inherit' }}>{text}</Text>
+          </Box>
+        ))}
+      </Card>
+      <Box display="flex" gap={2} flexWrap="wrap">
+        <Button trailingVisual={ArrowRightIcon} style={accentPill}>Compare findings</Button>
+        <Button trailingVisual={ArrowRightIcon} style={accentPill}>Show all sessions</Button>
+      </Box>
+    </Fragment>
+  );
+}
+
+const BARS = [
+  { base: 34, top: 28 },
+  { base: 52, top: 36 },
+  { base: 12, top: 10 },
+  { base: 36, top: 8 },
+  { base: 30, top: 6 },
+];
+
+function Monitors() {
+  return (
+    <Box position="relative" height="100%">
+      <Card border shadow="none" p={2} position="absolute" left={0} bottom={16} width="64%" height={140}>
+        <Text sx={{ fontSize: 0, color: 'fg.muted' }}>Total runs</Text>
+        <Box display="flex" alignItems="flex-end" gap={1} mt="auto">
+          {BARS.map((bar, index) => (
+            <Box key={index} flex="1 1 0" display="grid" gap="2px">
+              <Box height={bar.top} bg="border.muted" />
+              <Box height={bar.base} bg="accent.emphasis" />
+            </Box>
+          ))}
+        </Box>
+      </Card>
+      <Card border shadow="large" p={2} position="absolute" right={0} top={0} width="62%" height={132}>
+        <Text sx={{ fontSize: 0, color: 'fg.muted' }}>Completion</Text>
+        <span style={{ ...mono, fontSize: 26, letterSpacing: '-0.02em' }}>32%</span>
+        <svg viewBox="0 0 130 60" width="100%" height="44" role="img" aria-label="Completion, rising">
+          <path d="M0 52 L14 50 L30 36 L48 33 L66 30 L80 18 L96 12 L130 4 L130 60 L0 60 Z" fill="var(--fgColor-success)" opacity="0.14" />
+          <path d="M0 52 L14 50 L30 36 L48 33 L66 30 L80 18 L96 12 L130 4" fill="none" stroke="var(--fgColor-success)" strokeWidth="1.5" />
+        </svg>
+      </Card>
+    </Box>
+  );
+}
+
+function Experiments() {
+  return (
+    <Box display="grid" gap={3} pl={2} style={{ borderLeft: '1px dashed var(--borderColor-accent-muted)' }}>
+      {['Hi, how can I help?', 'Hello, how are you this evening?'].map(text => (
+        <Card key={text} border shadow="none" p={3} gap={1}>
+          <Box display="flex" alignItems="center" gap={1} color="fg.muted">
+            <SparkleFillIcon size={10} />
+            <Text sx={{ fontSize: 0 }}>Agent</Text>
+          </Box>
+          <Text sx={{ fontSize: 1 }}>{text}</Text>
+        </Card>
+      ))}
+    </Box>
+  );
+}
+
+const REASONING = [
+  { group: 'Supervisors', steps: ['Detect abuse', 'Observations'] },
+  { group: 'Decisions', steps: ['Security setup'] },
+  { group: 'Responses', steps: ['Main response'] },
+];
+
+function Reasoning() {
+  return (
+    <Fragment gap={2}>
+      <Box display="flex" alignItems="center" gap={2} color="accent.fg">
+        <SparkleFillIcon size={14} />
+        <Text sx={{ fontSize: 1, color: 'inherit' }}>Agent reasoning</Text>
+      </Box>
+      {REASONING.map(section => (
+        <Box key={section.group}>
+          <Text as="p" sx={{ fontSize: 0, m: 0 }}>{section.group}</Text>
+          {section.steps.map(step => (
+            <Box key={step} display="flex" justifyContent="space-between" alignItems="center" color="success.fg">
+              <Text sx={{ fontSize: 0, color: 'fg.muted' }}>{step}</Text>
+              <CheckCircleIcon size={12} />
+            </Box>
+          ))}
+        </Box>
+      ))}
+    </Fragment>
+  );
+}
+
+function Explorer() {
+  return (
+    <Fragment gap={2}>
+      <Text sx={{ fontSize: 2 }}>“Why do runs hand over to a person?”</Text>
+      <Text sx={{ fontSize: 0, color: 'fg.muted' }}>Highlights</Text>
+      <Text sx={{ fontSize: 0, color: 'fg.muted' }}>Out of 120k runs, the top reasons are:</Text>
+      <Card border shadow="none" px={2} py={1}>
+        <Text sx={{ fontSize: 0 }}>Package stuck in transit</Text>
+      </Card>
+    </Fragment>
+  );
+}
+
+const IMPROVE = [
+  { title: 'Explorer', says: 'Ask why agents behave as they do, and read the evidence.', render: () => <Explorer /> },
+  { title: 'Monitors', says: 'See what needs attention before anybody reports it.', render: () => <Monitors /> },
+  { title: 'Experiments', says: 'Compare variants on the same tasks and keep what works.', render: () => <Experiments /> },
+  { title: 'Observability', says: 'Follow every action: tool calls, lookups, latency and cost.', render: () => <Reasoning /> },
+];
+
 const CHANNELS: { surface: CardSurface; icon: typeof PeopleIcon; title: string; says: string }[] = [
   { surface: 'steel', icon: PeopleIcon, title: 'Empower every team', says: 'Compose agents into teams, with or without engineering support.' },
   { surface: 'mauve', icon: WorkflowIcon, title: 'Unify your channels', says: 'One agent across chat, email, voice and your own applications.' },
@@ -188,6 +393,28 @@ export function LandingDemo() {
             </Card.Glass>
             <Text sx={{ fontSize: 1, color: 'inherit' }}>{channel.says}</Text>
           </Card>
+        ))}
+      </Box>
+
+      {/* Build, and improve: fragments of the product on their stages */}
+      <Box display="grid" gridTemplateColumns={['1fr', '1fr', 'repeat(2, minmax(0, 1fr))']} gap={3}>
+        <Feature title="Build" says="Describe the goal in plain words. The composer drafts an agent, with its tests and its guardrails." height={480}>
+          <BuildFragment />
+        </Feature>
+        <Feature title="Improve" says="Updates proposed from what went wrong, with every change visible, to review and ship with confidence." height={480}>
+          <ImproveFragment />
+        </Feature>
+      </Box>
+
+      <Box textAlign="center" pt={4} display="grid" justifyItems="center" gap={3}>
+        <Heading as="h2" style={title(38)} sx={{ fontWeight: 'normal', m: 0 }}>Use your agents to improve your agents</Heading>
+        <Button size="small" leadingVisual={ChecklistIcon}>Insights</Button>
+      </Box>
+      <Box display="grid" gridTemplateColumns={['1fr', 'repeat(2, minmax(0, 1fr))', 'repeat(4, minmax(0, 1fr))']} gap={3}>
+        {IMPROVE.map(item => (
+          <Feature key={item.title} title={item.title} says={item.says} height={250}>
+            {item.render()}
+          </Feature>
         ))}
       </Box>
 

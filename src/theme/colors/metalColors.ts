@@ -34,8 +34,9 @@ export const metalColors = {
   metalActive: '#355A98',      // The filled button, pressed
   metalText: '#3A66AC',        // Accent text & links on white: 5.7 to 1
   metalRing: '#264F8F',        // The focus ring on light: 8 to 1 on white
-  metalTint: '#F1F5FB',        // Quiet tint — a draft, a callout
-  metalStage: '#E4ECF7',       // The stage behind an application
+  metalTint: '#EDF4FC',        // The pale stage a product fragment stands on, a chosen row
+  metalStage: '#F2F7FC',       // The stage behind an application
+  metalTintLine: '#C4DAF0',    // The line around anything on the tint
   metalBright: '#8FB4E8',      // The accent on dark: dark text 8.2 to 1
   metalBrightHover: '#A9C6EE', // The accent on dark, hovered
   metalOnDark: '#0B1A30',      // Text that sits on the accent on dark
@@ -43,8 +44,8 @@ export const metalColors = {
   metalTintDark: '#141A23',
 
   // Hairlines, with a little steel in them
-  line: '#E3E9F2',
-  lineMuted: '#EDF1F7',
+  line: '#D8E5F2',
+  lineMuted: '#E6EEF7',
   controlLine: '#D6E0EE',
   lineDark: '#262D37',
   lineMutedDark: '#1E242C',

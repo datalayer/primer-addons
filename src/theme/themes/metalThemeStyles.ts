@@ -43,7 +43,7 @@ export const metalLight: ThemeColorDefs = {
   accent: {
     fg: metalColors.metalText,
     emphasis: metalColors.metalBrand,
-    muted: metalColors.metalBrand,
+    muted: metalColors.metalTintLine,
     subtle: metalColors.metalTint,
   },
   border: {
@@ -222,24 +222,31 @@ export const metalPage = {
 };
 
 const metalHairline = {
-  light: 'rgba(76, 118, 186, 0.20)',
+  light: 'rgba(76, 138, 200, 0.26)',
   dark: 'rgba(255, 255, 255, 0.18)',
 };
 
 /** What is painted, beside the solid stand-ins: a panel on light, glass on dark. */
 const metalPainted: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    '--bgColor-default': 'rgba(255, 255, 255, 0.82)',
-    '--bgColor-muted': 'rgba(244, 247, 252, 0.72)',
-    '--bgColor-inset': 'rgba(240, 244, 250, 0.72)',
+    '--bgColor-default': '#FFFFFF',
+    '--bgColor-muted': '#F6F9FD',
+    '--bgColor-inset': '#F1F5FB',
     '--overlay-bgColor': '#FFFFFF',
+    '--metal-primary-image': 'linear-gradient(180deg, #5C86C8 0%, #3F68AC 100%)',
+    '--metal-primary-shadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(34, 52, 84, 0.18)',
     '--control-transparent-bgColor-selected': '#EDF1F6',
   },
   dark: {
-    '--bgColor-default': 'rgba(255, 255, 255, 0.07)',
-    '--bgColor-muted': 'rgba(255, 255, 255, 0.05)',
+    // Deep rather than clear: what floats over the page must stay readable.
+    '--bgColor-default': 'rgba(30, 44, 54, 0.74)',
+    '--bgColor-muted': 'rgba(255, 255, 255, 0.06)',
     '--bgColor-inset': 'rgba(0, 0, 0, 0.14)',
+    '--bgColor-accent-muted': 'rgba(255, 255, 255, 0.09)',
+    '--borderColor-accent-muted': 'rgba(255, 255, 255, 0.22)',
     '--overlay-bgColor': '#25343F',
+    '--metal-primary-image': 'none',
+    '--metal-primary-shadow': 'none',
     '--fgColor-default': '#FFFFFF',
     '--fgColor-muted': 'rgba(255, 255, 255, 0.74)',
     '--control-transparent-bgColor-selected': 'rgba(255, 255, 255, 0.14)',
@@ -301,7 +308,8 @@ const metalVariables = (mode: 'light' | 'dark'): Record<string, string> => ({
 /**
  * Metal's own stylesheet: the page painted under everything, its numbers in
  * step, bold at the theme's heavier weight, and the filled button brushed on
- * light (dark's is plain white).
+ * light (dark's is plain white: the mode is in the variables, not a selector,
+ * since an ancestor's `data-color-mode` may say `auto` or the other mode).
  */
 const metalOwnCss = `
 :scope {
@@ -331,10 +339,9 @@ const metalOwnCss = `
 :scope [class*="CounterLabel"] {
   font-family: var(--fontStack-monospace);
 }
-:scope[data-color-mode="light"] [data-variant="primary"],
-[data-color-mode="light"] :scope [data-variant="primary"] {
-  background-image: linear-gradient(180deg, #5C86C8 0%, #3F68AC 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(34, 52, 84, 0.18);
+:scope [data-variant="primary"] {
+  background-image: var(--metal-primary-image);
+  box-shadow: var(--metal-primary-shadow);
 }
 `;
 

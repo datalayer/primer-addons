@@ -114,7 +114,7 @@ const EXAMPLES: Example[] = [
   {
     title: 'Surface',
     caption:
-      "surface makes the card a gradient with white text: sage, steel, mauve or clay, set by the metal theme; under another theme each is its accent. Card.Glass is a frosted panel on it.",
+      "surface makes the card a gradient with white text: sage, steel, mauve or clay, set by the metal theme; another theme draws them from its success, accent, done and severe colours. Card.Glass is a frosted panel on it.",
     code: `<Card surface="steel" p={3} gap={3}>
   <Heading as="h3">Empower every team</Heading>
   <Card.Glass>Compose agents into teams.</Card.Glass>

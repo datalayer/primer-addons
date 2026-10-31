@@ -336,6 +336,34 @@ const IMPROVE = [
   { title: 'Observability', says: 'Follow every action: tool calls, lookups, latency and cost.', render: () => <Reasoning /> },
 ];
 
+/** Sample marks, drawn in the theme: not any standard's own badge. */
+const STANDARDS = [
+  { name: 'SOC 2', detail: 'Type II' },
+  { name: 'ISO 27001', detail: 'Security' },
+  { name: 'ISO 42001', detail: 'AI' },
+  { name: 'GDPR', detail: 'Privacy' },
+];
+
+function Standard({ name, detail }: { name: string; detail: string }) {
+  return (
+    <Box
+      display="grid"
+      alignContent="center"
+      justifyItems="center"
+      width={84}
+      height={84}
+      border="1px solid"
+      borderColor="accent.muted"
+      borderRadius="full"
+      bg="accent.subtle"
+      data-landing-standard={name}
+    >
+      <Text sx={{ fontSize: 1, color: 'accent.fg', lineHeight: 1.2 }}>{name}</Text>
+      <Text sx={{ fontSize: 0, color: 'fg.muted', lineHeight: 1.2 }}>{detail}</Text>
+    </Box>
+  );
+}
+
 const CHANNELS: { surface: CardSurface; icon: typeof PeopleIcon; title: string; says: string }[] = [
   { surface: 'steel', icon: PeopleIcon, title: 'Empower every team', says: 'Compose agents into teams, with or without engineering support.' },
   { surface: 'mauve', icon: WorkflowIcon, title: 'Unify your channels', says: 'One agent across chat, email, voice and your own applications.' },
@@ -428,11 +456,24 @@ export function LandingDemo() {
         ))}
       </Box>
 
+      {/* Trust */}
+      <Box textAlign="center" pt={5} display="grid" justifyItems="center" gap={3}>
+        <Heading as="h2" style={title(38)} sx={{ fontWeight: 'normal', m: 0 }}>Trust and reliability</Heading>
+        <Text as="p" sx={{ color: 'fg.muted', fontSize: 2, m: 0, maxWidth: 440 }}>
+          Designed from the start for trust, security and compliance.
+        </Text>
+        <Box display="flex" flexWrap="wrap" justifyContent="center" gap={3} mt={3}>
+          {STANDARDS.map(standard => (
+            <Standard key={standard.name} {...standard} />
+          ))}
+        </Box>
+      </Box>
+
       {/* Call to action */}
-      <Box textAlign="center" py={4} display="grid" justifyItems="center" gap={2}>
-        <Heading as="h2" style={title(34)} sx={{ fontWeight: 'normal', m: 0 }}>Put your agents to work</Heading>
-        <Text as="p" sx={{ color: 'fg.muted', fontSize: 2, m: 0 }}>Start from an example, or from nothing at all.</Text>
-        <Box mt={2}><Button variant="primary" size="large">Get started</Button></Box>
+      <Box textAlign="center" pt={5} pb={5} display="grid" justifyItems="center" gap={3}>
+        <Heading as="h2" style={title(38)} sx={{ fontWeight: 'normal', m: 0 }}>Discover what your agents can do</Heading>
+        <Text as="p" sx={{ color: 'fg.muted', fontSize: 2, m: 0 }}>Find out how a team of agents can deliver better outcomes.</Text>
+        <Button variant="primary" size="large">Learn more</Button>
       </Box>
     </Box>
   );

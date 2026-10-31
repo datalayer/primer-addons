@@ -8,6 +8,10 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
+## 1.0.48
+
+31 October 2026. A new theme, `metal`: Loop's curves with a look of its own. On light, a dotted blue-grey wash, panels drawn by a line, outlined controls and a brushed filled button; on dark, a deep gradient mesh, frosted glass and a white button. Geist and Geist Mono, shipped in `style/fonts` and declared by `style/metal-face.css`. Four gradient surfaces and their glass as `--metal-*` tokens. `AppearancePlugin` takes `themesPerLine`, 6 by default. A Landing Page in the gallery, to judge a theme on.
+
 ## 1.0.47
 
 30 October 2026. The colour palette page in two sections, *Roles* (what each theme's own design uses) and *Hues* (the names a spec or a person picks), with what `useColorPalette` gives and how to use each, also in the README. Floating panels take the theme's overlay corner: the floating toolbar, which also follows the theme's overlay ground, hairline and shadow, and the hover card's details.

@@ -51,7 +51,7 @@ SITE_BUCKET=s3://datalayer-primer-addons
 SITE_DISTRIBUTION=E31G4MWCFRSED1
 AWS_PROFILE_SITE=datalayer
 
-deploy: deploy-gallery deploy-storybook ## deploy the gallery, then storybook
+deploy: deploy-storybook deploy-gallery ## deploy storybook, then the gallery
 
 deploy-gallery: ## build the gallery and deploy it to the site's root on s3, then invalidate cloudfront
 	rm -fr examples/gallery/dist && \

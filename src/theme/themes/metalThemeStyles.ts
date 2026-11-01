@@ -229,13 +229,12 @@ const metalHairline = {
   dark: 'rgba(255, 255, 255, 0.18)',
 };
 
-/** What is painted, beside the solid stand-ins: a light glass on light, a deep one on dark. */
+/** What is painted, beside the solid stand-ins: a panel on light, glass on dark. */
 const metalPainted: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    // Clear, as on dark: the page's colors are its own, and solid panels hide them.
-    '--bgColor-default': 'rgba(255, 255, 255, 0.7)',
-    '--bgColor-muted': 'rgba(255, 255, 255, 0.45)',
-    '--bgColor-inset': 'rgba(34, 52, 84, 0.035)',
+    '--bgColor-default': '#FFFFFF',
+    '--bgColor-muted': '#F6F9FD',
+    '--bgColor-inset': '#F1F5FB',
     '--overlay-bgColor': '#FFFFFF',
     '--metal-primary-image': 'linear-gradient(180deg, #5C86C8 0%, #3F68AC 100%)',
     '--metal-primary-shadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(34, 52, 84, 0.18)',

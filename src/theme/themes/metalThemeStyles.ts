@@ -209,8 +209,10 @@ export const metalSurfaceVars: Record<string, string> = {
 export const metalPage = {
   light: [
     'radial-gradient(rgba(76, 118, 186, 0.15) 1px, transparent 1.2px) 0 0 / 22px 22px',
-    'radial-gradient(1100px 620px at 88% -8%, #D6E4F7 0%, transparent 62%)',
-    'radial-gradient(900px 560px at -6% 4%, #E6F0EE 0%, transparent 60%)',
+    'radial-gradient(900px 640px at 6% -4%, #C4DDBB 0%, transparent 62%)',
+    'radial-gradient(1000px 700px at 96% 4%, #AFCFF3 0%, transparent 60%)',
+    'radial-gradient(900px 640px at 92% 102%, #EDC3D6 0%, transparent 60%)',
+    'radial-gradient(800px 560px at 8% 104%, #F2CBB2 0%, transparent 58%)',
     '#F7F9FD',
   ].join(', '),
   dark: [
@@ -227,12 +229,13 @@ const metalHairline = {
   dark: 'rgba(255, 255, 255, 0.18)',
 };
 
-/** What is painted, beside the solid stand-ins: a panel on light, glass on dark. */
+/** What is painted, beside the solid stand-ins: a light glass on light, a deep one on dark. */
 const metalPainted: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    '--bgColor-default': '#FFFFFF',
-    '--bgColor-muted': '#F6F9FD',
-    '--bgColor-inset': '#F1F5FB',
+    // Clear, as on dark: the page's colors are its own, and solid panels hide them.
+    '--bgColor-default': 'rgba(255, 255, 255, 0.7)',
+    '--bgColor-muted': 'rgba(255, 255, 255, 0.45)',
+    '--bgColor-inset': 'rgba(34, 52, 84, 0.035)',
     '--overlay-bgColor': '#FFFFFF',
     '--metal-primary-image': 'linear-gradient(180deg, #5C86C8 0%, #3F68AC 100%)',
     '--metal-primary-shadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(34, 52, 84, 0.18)',

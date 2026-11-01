@@ -5,7 +5,7 @@ SHELL=/bin/bash
 
 ENV_NAME=datalayer
 
-.PHONY: help
+.PHONY: help deploy
 
 help: ## display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
@@ -50,6 +50,8 @@ publish-npm: # publish the npm packages
 SITE_BUCKET=s3://datalayer-primer-addons
 SITE_DISTRIBUTION=E31G4MWCFRSED1
 AWS_PROFILE_SITE=datalayer
+
+deploy: deploy-gallery deploy-storybook ## deploy the gallery, then storybook
 
 deploy-gallery: ## build the gallery and deploy it to the site's root on s3, then invalidate cloudfront
 	rm -fr examples/gallery/dist && \

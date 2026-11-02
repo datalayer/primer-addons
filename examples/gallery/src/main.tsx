@@ -6,6 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import '../../../style/metal-face.css';
 import './index.css';
 
 // No `setupPrimerPortals()` here: the theme plugin sets the portal root up

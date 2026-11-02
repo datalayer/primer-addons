@@ -19,13 +19,22 @@ import type { ColorMode } from '../../theme/DatalayerBrandThemeProvider';
 
 export interface AppearanceControlsWithStoreProps {
   useStore: UseBoundStore<StoreApi<ThemeState>>;
+  /** Show the light / dark / auto switch. Default: shown. */
+  showColorMode?: boolean;
+  /** Show the theme chooser (one swatch per theme). Default: shown. */
+  showThemeChooser?: boolean;
 }
 
-export const AppearanceControlsWithStore: React.FC<AppearanceControlsWithStoreProps> = ({ useStore }) => {
+export const AppearanceControlsWithStore: React.FC<AppearanceControlsWithStoreProps> = ({
+  useStore,
+  showColorMode = true,
+  showThemeChooser = true,
+}) => {
   const { colorMode, theme: themeVariant } = useStore();
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+      {showThemeChooser ? (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {themeVariants.map(variant => {
           const tcfg = themeConfigs[variant];
@@ -49,7 +58,9 @@ export const AppearanceControlsWithStore: React.FC<AppearanceControlsWithStorePr
           );
         })}
       </Box>
+      ) : null}
 
+      {showColorMode ? (
       <SegmentedControl
         aria-label="Color mode"
         size="small"
@@ -74,6 +85,7 @@ export const AppearanceControlsWithStore: React.FC<AppearanceControlsWithStorePr
           aria-label="Auto"
         />
       </SegmentedControl>
+      ) : null}
     </Box>
   );
 };

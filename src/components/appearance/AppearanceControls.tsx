@@ -217,10 +217,12 @@ export function AppearanceControls({
 
           {isPreviewOpen ? (
             <>
+              {/* Not `selected`: the sample stands on a neutral hairline,
+                  not inside the accent's ring — the swatches above already
+                  say which theme is chosen. */}
               <ThemePreviewCard
                 variant={themeVariant}
                 colorMode={colorMode}
-                selected
                 compact
                 showDescription
               />

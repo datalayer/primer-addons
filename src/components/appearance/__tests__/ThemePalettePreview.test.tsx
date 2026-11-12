@@ -170,5 +170,8 @@ describe('AppearanceControls', () => {
     const preview = view.querySelector<HTMLElement>('[data-testid="theme-palette-preview"]')!;
     expect(preview).not.toBeNull();
     expect(preview.dataset.themeVariant).toBe('datalayer');
+    // The sample card is not drawn as chosen: no accent ring, no check mark.
+    expect(view.querySelector('.octicon-check-circle-fill')).toBeNull();
+    expect(view.textContent).toContain('The quick brown fox');
   });
 });

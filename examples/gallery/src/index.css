@@ -33,6 +33,31 @@ body {
   font-family: inherit;
 }
 
+/* The sidebar's scrollbar: small, but always there, in the theme's colours
+   (a muted thumb on a clear track), light and dark alike. Firefox and
+   Chromium read the standard properties; Safari the WebKit pseudo-elements. */
+.gallery-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--borderColor-default) transparent;
+}
+
+.gallery-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.gallery-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gallery-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--borderColor-default);
+  border-radius: 3px;
+}
+
+.gallery-sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--fgColor-muted);
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

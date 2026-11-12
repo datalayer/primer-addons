@@ -11,7 +11,8 @@
  * and shows the cards; the rest are the demos, alphabetically. The items are
  * real links to the demos' addresses, so a middle click opens one in a tab
  * while a plain click navigates in place. The header's toggle still closes
- * the whole sidebar.
+ * the whole sidebar. It scrolls on its own, apart from the page, with a
+ * small scrollbar always shown.
  */
 
 import { useMemo, type MouseEvent } from 'react';
@@ -34,7 +35,10 @@ export function GalleryPanel() {
     navigate(slug);
   };
   return (
-    <Box sx={{ overflowY: 'auto', py: 2 }}>
+    // Its own scroller, bounded by the panel column under the header, with
+    // a thin scrollbar that stays visible (index.css: `.gallery-sidebar`):
+    // the list is longer than a screen, and the bar is what says so.
+    <Box className="gallery-sidebar" sx={{ overflowY: 'auto', minHeight: 0, py: 2 }}>
       <NavList aria-label="Primer addon components">
         <NavList.Item
           href={slugToPath(GALLERY_SLUG)}

@@ -10,4 +10,7 @@ export * from './AppearanceMenuWithStore';
 export * from './CollaboratorPalette';
 export * from './ColorModeCircle';
 export * from './ThemePreviewCard';
+export * from './ThemePalettePreview';
+export * from './ThemePaletteSwatches';
+export * from './ThemeAccents';
 export * from './ThemeCircle';

@@ -6,6 +6,7 @@
 import { Box, Text } from "@primer/react";
 import {
   ColorSwatch,
+  PaletteSwatchGrid,
   hueNames,
   paletteRoleNames,
   useColorPalette,
@@ -99,12 +100,6 @@ function TokenGroupRow({ name, tokens }: TokenGroup) {
   );
 }
 
-const SWATCH_GRID = {
-  display: "grid",
-  gridTemplateColumns: ["repeat(2, minmax(0, 1fr))", "repeat(5, minmax(0, 1fr))"],
-  gap: 2,
-};
-
 const PALETTE_EXAMPLE = `import { useColorPalette } from '@datalayer/primer-addons';
 
 const palette = useColorPalette();
@@ -188,11 +183,7 @@ export function ColorPaletteDemo() {
           is changes with the theme and the color mode.
         </Text>
         <ExampleCode code={ROLES_EXAMPLE} />
-        <Box sx={SWATCH_GRID}>
-          {paletteRoleNames.map((name) => (
-            <ColorSwatch key={name} color={palette[name]} label={name} />
-          ))}
-        </Box>
+        <PaletteSwatchGrid palette={palette} names={paletteRoleNames} />
       </Box>
 
       <Box sx={{ display: "grid", gap: 2 }}>
@@ -211,11 +202,7 @@ export function ColorPaletteDemo() {
           <code>isHexColor</code> check a value first.
         </Text>
         <ExampleCode code={HUES_EXAMPLE} />
-        <Box sx={SWATCH_GRID}>
-          {hueNames.map((name) => (
-            <ColorSwatch key={name} color={palette[name]} label={name} />
-          ))}
-        </Box>
+        <PaletteSwatchGrid palette={palette} names={hueNames} />
       </Box>
 
       <Box sx={{ display: "grid", gap: 3 }}>

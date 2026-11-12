@@ -14,6 +14,7 @@ import {
   type ThemeVariant,
 } from "../../theme";
 import { ThemePreviewCard } from "./ThemePreviewCard";
+import { ThemePalettePreview } from "./ThemePalettePreview";
 
 export interface AppearanceControlsProps {
   colorMode: ColorMode;
@@ -215,13 +216,20 @@ export function AppearanceControls({
           </Box>
 
           {isPreviewOpen ? (
-            <ThemePreviewCard
-              variant={themeVariant}
-              colorMode={colorMode}
-              selected
-              compact
-              showDescription
-            />
+            <>
+              <ThemePreviewCard
+                variant={themeVariant}
+                colorMode={colorMode}
+                selected
+                compact
+                showDescription
+              />
+              {/* Under the card: the theme's colour palette and its accents. */}
+              <ThemePalettePreview
+                variant={themeVariant}
+                colorMode={colorMode}
+              />
+            </>
           ) : null}
         </Box>
       ) : (

@@ -10,19 +10,9 @@
  * theme's tokens read back. The gallery page is "Theme Accents"; the README's "Theme accents" says what each one is.
  */
 
-import { type CSSProperties, useEffect, useRef, useState } from 'react';
-import { Box, Button, Link, Text, ToggleSwitch, useTheme } from '@primer/react';
-import {
-  type ThemeAccentName,
-  themeAccentNames,
-  themeAccentVars,
-  useThemeStore,
-} from '@datalayer/primer-addons';
-
-/** The theme's own accent, or one of the six. */
-type Choice = ThemeAccentName | 'theme';
-
-const CHOICES: Choice[] = ['theme', ...themeAccentNames];
+import { useEffect, useRef, useState } from 'react';
+import { Box, Text, useTheme } from '@primer/react';
+import { ThemeAccentPanel, themeAccentChoices, useThemeStore } from '@datalayer/primer-addons';
 
 const TOKENS = [
   '--theme-accent',
@@ -45,72 +35,6 @@ const TOKENS = [
 function useMode(): 'light' | 'dark' {
   const { resolvedColorMode } = useTheme();
   return resolvedColorMode === 'dark' || resolvedColorMode === 'night' ? 'dark' : 'light';
-}
-
-/** One accent over the gallery's theme: the stage, two bubbles, a link and the controls. */
-function AccentPanel({ choice, mode }: { choice: Choice; mode: 'light' | 'dark' }) {
-  return (
-    <Box
-      style={choice === 'theme' ? undefined : (themeAccentVars(choice, mode) as CSSProperties)}
-      sx={{
-        background: 'var(--theme-stage-gradient)',
-        borderRadius: 'var(--theme-radius-frame)',
-        p: 3,
-        display: 'grid',
-        gap: 2,
-      }}
-    >
-      <Text sx={{ fontWeight: 600, fontFamily: 'mono', fontSize: 1 }}>
-        {choice === 'theme' ? "the theme's own" : choice}
-      </Text>
-      <Box
-        sx={{
-          bg: 'canvas.default',
-          borderRadius: 'var(--theme-radius-card)',
-          boxShadow: 'var(--theme-shadow)',
-          p: 3,
-          display: 'grid',
-          gap: 2,
-        }}
-      >
-        <Box
-          sx={{
-            justifySelf: 'start',
-            bg: 'var(--theme-quiet)',
-            color: 'fg.default',
-            borderRadius: 'var(--theme-radius-bubble)',
-            px: 3,
-            py: 2,
-          }}
-        >
-          The agent's words, on the quiet tint.
-        </Box>
-        <Box
-          sx={{
-            justifySelf: 'end',
-            bg: 'var(--theme-accent)',
-            color: 'var(--theme-accent-on)',
-            borderRadius: 'var(--theme-radius-bubble)',
-            px: 3,
-            py: 2,
-          }}
-        >
-          The person's, on the accent.
-        </Box>
-        <Text>
-          A <Link href="#theme-accents">link</Link> in the accent's text.
-        </Text>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-          <Button variant="primary">Send</Button>
-          <Button>Later</Button>
-          <Text id={`theme-accents-ask-first-${choice}-${mode}`} sx={{ fontSize: 1 }}>
-            Ask first
-          </Text>
-          <ToggleSwitch aria-labelledby={`theme-accents-ask-first-${choice}-${mode}`} size="small" defaultChecked />
-        </Box>
-      </Box>
-    </Box>
-  );
 }
 
 export function ThemeAccentsDemo() {
@@ -147,8 +71,8 @@ export function ThemeAccentsDemo() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
         }}
       >
-        {CHOICES.map(choice => (
-          <AccentPanel key={choice} choice={choice} mode={mode} />
+        {themeAccentChoices.map(choice => (
+          <ThemeAccentPanel key={choice} choice={choice} mode={mode} />
         ))}
       </Box>
       <Box sx={{ display: 'grid', gap: 2 }}>

@@ -12,6 +12,7 @@
 import type { ReactElement } from 'react';
 import { Text } from '@primer/react';
 import { Box } from '../box/Box';
+import { Card } from '../card/Card';
 import { DatalayerThemeProvider } from '../../theme/DatalayerThemeProvider';
 import type { ColorMode } from '../../theme/DatalayerBrandThemeProvider';
 import { themeConfigs } from '../../theme/themeRegistry';
@@ -33,20 +34,16 @@ export function ThemePalettePreview({ variant, colorMode }: ThemePalettePreviewP
   return (
     <DatalayerThemeProvider colorMode={mode} theme={cfg.primerTheme} themeStyles={cfg.themeStyles}>
       {/* Keyed by theme and mode: swatches that read values back from the page read them again. */}
-      <Box
+      {/* A Card of this package, so its surface, hairline and corner are the theme's (13 November 2026). */}
+      <Card
         key={`${variant}-${mode}`}
         data-testid="theme-palette-preview"
         data-theme-variant={variant}
         data-theme-mode={mode}
-        sx={{
-          display: 'grid',
-          gap: 3,
-          p: 2,
-          bg: 'canvas.default',
-          border: '1px solid',
-          borderColor: 'border.default',
-          borderRadius: 'var(--theme-radius-card)',
-        }}
+        border
+        shadow="none"
+        display="grid"
+        sx={{ gap: 3, p: 2 }}
       >
         <Box as="section" sx={{ display: 'grid', gap: 2 }}>
           <Text as="h3" sx={heading}>
@@ -60,7 +57,7 @@ export function ThemePalettePreview({ variant, colorMode }: ThemePalettePreviewP
           </Text>
           <ThemeAccentSwatches mode={mode} />
         </Box>
-      </Box>
+      </Card>
     </DatalayerThemeProvider>
   );
 }

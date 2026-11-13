@@ -6,6 +6,7 @@
 import type { ReactElement } from 'react';
 import { CheckCircleFillIcon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
+import { Card } from '../card/Card';
 import { matrixColors } from '../../theme/colors';
 import { DatalayerThemeProvider, type ColorMode, themeConfigs, type ThemeVariant, useSystemColorMode } from '../../theme';
 
@@ -31,37 +32,17 @@ export function ThemePreviewCard({
   const resolvedMode = colorMode === 'auto' ? systemMode : colorMode;
 
   return (
-    <Box
+    // A Card of this package: the theme's surface, hairline, corner and, when
+    // it is picked from, its hover, focus and selected states (13 November 2026).
+    <Card
       as={onSelect ? 'button' : 'div'}
       onClick={onSelect ? () => onSelect(variant) : undefined}
-      sx={{
-        position: 'relative',
-        width: '100%',
-        textAlign: 'left',
-        cursor: onSelect ? 'pointer' : 'default',
-        bg: 'canvas.default',
-        border: '2px solid',
-        borderColor: selected ? 'accent.fg' : 'border.default',
-        borderRadius: 2,
-        p: compact ? 2 : 4,
-        transition: 'border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease',
-        boxShadow: selected
-          ? '0 0 0 1px var(--fgColor-accent, var(--color-accent-fg))'
-          : 'none',
-        ':hover': onSelect
-          ? {
-              borderColor: selected ? 'accent.fg' : 'border.muted',
-              bg: 'canvas.default',
-            }
-          : undefined,
-        ':focus-visible': onSelect
-          ? {
-              outline: '2px solid',
-              outlineColor: 'accent.fg',
-              outlineOffset: 2,
-            }
-          : undefined,
-      }}
+      border
+      shadow="none"
+      interactive={Boolean(onSelect)}
+      selected={selected}
+      display="block"
+      sx={{ position: 'relative', width: '100%', textAlign: 'left', p: compact ? 2 : 4 }}
     >
       {selected ? (
         <Box
@@ -81,15 +62,7 @@ export function ThemePreviewCard({
         theme={cfg.primerTheme}
         themeStyles={cfg.themeStyles}
       >
-        <Box
-          sx={{
-            borderRadius: 2,
-            border: '1px solid',
-            borderColor: 'border.default',
-            overflow: 'hidden',
-            mb: compact ? 2 : 3,
-          }}
-        >
+        <Card border shadow="none" display="block" sx={{ overflow: 'hidden', mb: compact ? 2 : 3 }}>
           <Box
             sx={{
               display: 'flex',
@@ -147,7 +120,7 @@ export function ThemePreviewCard({
               ))}
             </Box>
           </Box>
-        </Box>
+        </Card>
       </DatalayerThemeProvider>
 
       <Box
@@ -165,7 +138,7 @@ export function ThemePreviewCard({
           {cfg.description}
         </Box>
       ) : null}
-    </Box>
+    </Card>
   );
 }
 

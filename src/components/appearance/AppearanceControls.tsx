@@ -4,7 +4,7 @@
  */
 
 import { useState, type ReactElement } from "react";
-import { SegmentedControl, Tooltip } from "@primer/react";
+import { Button, SegmentedControl, Tooltip } from "@primer/react";
 import { MoonIcon, SunIcon, DeviceDesktopIcon } from "@primer/octicons-react";
 import { Box } from "../box/Box";
 import {
@@ -182,36 +182,15 @@ export function AppearanceControls({
             <Box sx={{ fontSize: 0, color: "fg.muted", lineHeight: 1.5 }}>
               {selectedTheme.description}
             </Box>
-            <Box
-              as="button"
-              type="button"
-              onClick={() => setIsPreviewOpen((open) => !open)}
-              aria-expanded={isPreviewOpen}
-              sx={{
-                mt: 1,
-                width: "fit-content",
-                px: 2,
-                py: "4px",
-                borderRadius: 2,
-                border: "1px solid",
-                borderColor: "border.default",
-                bg: "canvas.default",
-                color: "fg.default",
-                fontSize: 0,
-                fontWeight: "semibold",
-                cursor: "pointer",
-                "&:hover": {
-                  borderColor: "accent.fg",
-                  color: "accent.fg",
-                },
-                "&:focus-visible": {
-                  outline: "2px solid",
-                  outlineColor: "accent.fg",
-                  outlineOffset: 1,
-                },
-              }}
-            >
-              {isPreviewOpen ? "Hide preview" : "Show preview"}
+            {/* The theme's own button (13 November 2026). */}
+            <Box sx={{ mt: 1 }}>
+              <Button
+                size="small"
+                onClick={() => setIsPreviewOpen((open) => !open)}
+                aria-expanded={isPreviewOpen}
+              >
+                {isPreviewOpen ? "Hide preview" : "Show preview"}
+              </Button>
             </Box>
           </Box>
 

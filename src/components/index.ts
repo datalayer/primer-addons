@@ -16,6 +16,7 @@ export * from "./calendar-picker";
 export * from "./card/Card";
 export * from "./hover-card";
 export * from "./entity-avatar";
+export * from "./scroll-area";
 export * from "./sheet/Sheet";
 export * from "./color";
 export * from "./color-picker";

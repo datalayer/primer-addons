@@ -7,6 +7,7 @@ import { type ReactElement, type ReactNode, useEffect, useLayoutEffect, useRef, 
 import { IconButton, Tooltip } from '@primer/react';
 import { MoonIcon, SunIcon, DeviceDesktopIcon, type Icon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
+import { thinScrollbarSx } from '../scroll-area/ScrollArea';
 import { themeConfigs, type ColorMode, type ThemeVariant } from '../../theme';
 
 /** Order in which a click cycles through the color modes. */
@@ -226,6 +227,8 @@ export function ColorModeCircle({
           maxHeight: overlayMaxHeight ?? `calc(100vh - ${OVERLAY_MARGIN * 2}px)`,
           overflowY: 'auto',
           overscrollBehavior: 'contain',
+          // The tiny scrollbar, as the left sidebar's (13 November 2026).
+          ...thinScrollbarSx,
           bg: 'canvas.overlay',
           border: '1px solid',
           borderColor: 'border.default',

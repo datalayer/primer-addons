@@ -59,6 +59,7 @@ export function AppearanceMenu({
       size={size}
       hoverOverlay={
         <AppearanceControls
+          withStore={false}
           colorMode={colorMode}
           themeVariant={themeVariant}
           onColorModeChange={onColorModeChange}

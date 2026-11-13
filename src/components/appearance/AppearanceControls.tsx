@@ -1,12 +1,19 @@
 /*
- * Copyright (c) 2023-2025 Datalayer, Inc.
+ * Copyright (c) 2023-2026 Datalayer, Inc.
  * Distributed under the terms of the Modified BSD License.
  */
 
 import { useState, type ReactElement } from "react";
-import { Button, SegmentedControl, Tooltip } from "@primer/react";
-import { MoonIcon, SunIcon, DeviceDesktopIcon } from "@primer/octicons-react";
+import { Button, IconButton, SegmentedControl, Tooltip } from "@primer/react";
+import {
+  CircleIcon as SwatchIcon,
+  DeviceDesktopIcon,
+  MoonIcon,
+  SunIcon,
+} from "@primer/octicons-react";
+import type { StoreApi, UseBoundStore } from "zustand";
 import { Box } from "../box/Box";
+import { useThemeStore, type ThemeState } from "../../theme/useThemeStore";
 import {
   themeVariants,
   themeConfigs,
@@ -16,35 +23,102 @@ import {
 import { ThemePreviewCard } from "./ThemePreviewCard";
 import { ThemePalettePreview } from "./ThemePalettePreview";
 
+/**
+ * How the controls are laid out:
+ * - `stacked` — the light / dark / auto switch centred above the theme
+ *   swatches (lines of `themesPerLine`), optionally the chosen theme's
+ *   preview under them: the appearance menu's panel.
+ * - `inline` — one row: a small round button per theme, then the switch: a
+ *   page header's trailing controls.
+ */
+export type AppearanceControlsLayout = "stacked" | "inline";
+
 export interface AppearanceControlsProps {
-  colorMode: ColorMode;
-  themeVariant: ThemeVariant;
-  onColorModeChange: (mode: ColorMode) => void;
-  onThemeChange: (theme: ThemeVariant) => void;
+  /**
+   * Read and write the theme store, on by default; `false` to drive the
+   * controls from `colorMode`, `themeVariant` and the two callbacks alone.
+   */
+  withStore?: boolean;
+  /** The store read and written with `withStore`: the shared one by default. */
+  useStore?: UseBoundStore<StoreApi<ThemeState>>;
+  /**
+   * With the store, whether choosing a theme also switches to its default
+   * colour mode. Off by default: a person who chose dark keeps dark.
+   */
+  applyThemeColorMode?: boolean;
+  /** The colour mode shown; required without the store, the store's otherwise. */
+  colorMode?: ColorMode;
+  /** The theme shown; required without the store, the store's otherwise. */
+  themeVariant?: ThemeVariant;
+  /** Called on a new colour mode; required without the store, called after it with the store. */
+  onColorModeChange?: (mode: ColorMode) => void;
+  /** Called on a new theme; required without the store, called after it with the store. */
+  onThemeChange?: (theme: ThemeVariant) => void;
+  /** `stacked` by default; see {@link AppearanceControlsLayout}. */
+  layout?: AppearanceControlsLayout;
   /** Show the light / dark / auto switch. Default: shown. */
   showColorMode?: boolean;
   /** Show the theme chooser. Default: shown. */
   showThemeChooser?: boolean;
-  /** With the chooser, the chosen theme's name, description and preview under its swatches. Default: swatches only. */
+  /** Stacked, with the chooser: the chosen theme's name, description and preview under its swatches. Default: swatches only. */
   showThemePreviews?: boolean;
   /**
-   * The most theme swatches on one line; every line is centred, so a shorter
-   * last line sits in the middle under the full ones. Undefined, they wrap
-   * freely to the width given, as before.
+   * Stacked: the most theme swatches on one line; every line is centred, so
+   * a shorter last line sits in the middle under the full ones. Undefined,
+   * they wrap freely to the width given.
    */
   themesPerLine?: number;
 }
 
 export function AppearanceControls({
-  colorMode,
-  themeVariant,
-  onColorModeChange,
-  onThemeChange,
+  withStore = true,
+  useStore = useThemeStore,
+  applyThemeColorMode = false,
+  colorMode: givenColorMode,
+  themeVariant: givenThemeVariant,
+  onColorModeChange: givenOnColorModeChange,
+  onThemeChange: givenOnThemeChange,
+  layout = "stacked",
   showColorMode = true,
   showThemeChooser = true,
   showThemePreviews = false,
   themesPerLine,
 }: AppearanceControlsProps): ReactElement {
+  // The store is read whatever `withStore` says: a hook is called on every render.
+  const storeColorMode = useStore((state) => state.colorMode);
+  const storeTheme = useStore((state) => state.theme);
+  let colorMode: ColorMode;
+  let themeVariant: ThemeVariant;
+  let onColorModeChange: (mode: ColorMode) => void;
+  let onThemeChange: (theme: ThemeVariant) => void;
+  if (withStore) {
+    colorMode = storeColorMode;
+    themeVariant = storeTheme;
+    onColorModeChange = (mode) => {
+      useStore.getState().setColorMode(mode);
+      givenOnColorModeChange?.(mode);
+    };
+    onThemeChange = (theme) => {
+      useStore.getState().setTheme(theme, applyThemeColorMode);
+      givenOnThemeChange?.(theme);
+    };
+  } else {
+    if (
+      givenColorMode === undefined ||
+      givenThemeVariant === undefined ||
+      !givenOnColorModeChange ||
+      !givenOnThemeChange
+    ) {
+      throw new Error(
+        "AppearanceControls without the store needs colorMode, themeVariant, onColorModeChange and onThemeChange.",
+      );
+    }
+    colorMode = givenColorMode;
+    themeVariant = givenThemeVariant;
+    onColorModeChange = givenOnColorModeChange;
+    onThemeChange = givenOnThemeChange;
+  }
+
   // At most `themesPerLine` swatches on a line when given, each line centred,
   // so a shorter last line sits in the middle under the full ones; one line
   // wrapping freely otherwise. Explicit lines rather than a width: the
@@ -70,34 +144,72 @@ export function AppearanceControls({
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const selectedTheme = themeConfigs[themeVariant];
 
+  const colorModeSwitch = (
+    <SegmentedControl
+      aria-label="Color mode"
+      size="small"
+      onChange={(index: number) => {
+        const modes: ColorMode[] = ["light", "dark", "auto"];
+        onColorModeChange(modes[index]);
+      }}
+    >
+      <SegmentedControl.IconButton
+        selected={colorMode === "light"}
+        icon={SunIcon}
+        aria-label="Light"
+      />
+      <SegmentedControl.IconButton
+        selected={colorMode === "dark"}
+        icon={MoonIcon}
+        aria-label="Dark"
+      />
+      <SegmentedControl.IconButton
+        selected={colorMode === "auto"}
+        icon={DeviceDesktopIcon}
+        aria-label="Auto"
+      />
+    </SegmentedControl>
+  );
+
+  if (layout === "inline") {
+    // One row, as a page header carries it: a round button per theme, then the switch.
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+        {showThemeChooser ? (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {themeVariants.map((variant) => {
+              const cfg = themeConfigs[variant];
+              const isSelected = themeVariant === variant;
+              return (
+                <Tooltip key={variant} text={cfg.label} direction="s">
+                  <IconButton
+                    aria-label={cfg.label}
+                    aria-pressed={isSelected}
+                    icon={() => <SwatchIcon size={16} fill={cfg.brandColor} />}
+                    size="small"
+                    variant={isSelected ? "default" : "invisible"}
+                    onClick={() => onThemeChange(variant)}
+                    sx={{
+                      border: isSelected ? "2px solid" : "1px solid",
+                      borderColor: isSelected ? "accent.fg" : "border.muted",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </Tooltip>
+              );
+            })}
+          </Box>
+        ) : null}
+        {showColorMode ? colorModeSwitch : null}
+      </Box>
+    );
+  }
+
   return (
     <>
       {showColorMode ? (
         <Box sx={{ px: 2, py: 2, display: "flex", justifyContent: "center" }}>
-          <SegmentedControl
-            aria-label="Color mode"
-            size="small"
-            onChange={(index: number) => {
-              const modes: ColorMode[] = ["light", "dark", "auto"];
-              onColorModeChange(modes[index]);
-            }}
-          >
-            <SegmentedControl.IconButton
-              selected={colorMode === "light"}
-              icon={SunIcon}
-              aria-label="Light"
-            />
-            <SegmentedControl.IconButton
-              selected={colorMode === "dark"}
-              icon={MoonIcon}
-              aria-label="Dark"
-            />
-            <SegmentedControl.IconButton
-              selected={colorMode === "auto"}
-              icon={DeviceDesktopIcon}
-              aria-label="Auto"
-            />
-          </SegmentedControl>
+          {colorModeSwitch}
         </Box>
       ) : null}
 

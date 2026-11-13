@@ -86,6 +86,7 @@ const ThemedColorModeCircle = ({
           hoverOverlay={
             withOverlay ? (
               <AppearanceControls
+                withStore={false}
                 colorMode={colorMode}
                 themeVariant={themeVariant}
                 onColorModeChange={onColorModeChange}

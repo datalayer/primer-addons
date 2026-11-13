@@ -4,7 +4,6 @@
  */
 
 export * from './AppearanceControls';
-export * from './AppearanceControlsWithStore';
 export * from './AppearanceMenu';
 export * from './AppearanceMenuWithStore';
 export * from './CollaboratorPalette';

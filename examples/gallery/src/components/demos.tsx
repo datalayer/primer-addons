@@ -5,7 +5,6 @@
 
 import type { Demo } from './Demo';
 import { AppearanceMenuDemo } from './AppearanceMenuDemo';
-import { AppearanceControlsWithStoreDemo } from './AppearanceControlsWithStoreDemo';
 import { AppearanceControlsDemo } from './AppearanceControlsDemo';
 import { ColorModeCircleDemo } from './ColorModeCircleDemo';
 import { ThemeCircleDemo } from './ThemeCircleDemo';
@@ -55,15 +54,9 @@ export const demos: Demo[] = [
     render: () => <AppearanceMenuDemo />,
   },
   {
-    slug: 'appearance-controls-with-store',
-    title: 'Appearance Controls With Store',
-    description: 'Theme + color-mode chooser bound to the shared store.',
-    render: () => <AppearanceControlsWithStoreDemo />,
-  },
-  {
     slug: 'appearance-controls',
     title: 'Appearance Controls',
-    description: 'Controlled appearance chooser component.',
+    description: 'Theme and colour-mode chooser: the shared store by default (withStore={false} for your own state), stacked or inline.',
     render: () => <AppearanceControlsDemo />,
   },
   {

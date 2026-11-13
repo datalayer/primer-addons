@@ -4,19 +4,13 @@
  */
 
 import { Text } from '@primer/react';
-import type { ColorMode, ThemeVariant } from '@datalayer/primer-addons';
+import type { ColorMode } from '@datalayer/primer-addons';
 import { AppearanceControls, Box, ColorModeCircle, useThemeStore } from '@datalayer/primer-addons';
 
 export function ColorModeCircleDemo() {
-  const { colorMode, theme, setColorMode, setTheme } = useThemeStore();
-  const overlay = (
-    <AppearanceControls
-      colorMode={colorMode}
-      themeVariant={theme}
-      onColorModeChange={(mode: ColorMode) => setColorMode(mode)}
-      onThemeChange={(variant: ThemeVariant) => setTheme(variant, false)}
-    />
-  );
+  const { colorMode, theme, setColorMode } = useThemeStore();
+  // The shared store, which the controls read and write by default.
+  const overlay = <AppearanceControls />;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>

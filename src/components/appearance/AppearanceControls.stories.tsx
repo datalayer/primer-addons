@@ -9,7 +9,6 @@ import { Box, Text } from "@primer/react";
 import {
   AppearanceControls,
   AppearanceControlsProps,
-  AppearanceControlsWithStore,
   DatalayerThemeProvider,
   ThemedProvider,
   themeConfigs,
@@ -59,12 +58,17 @@ type Story = StoryObj<typeof meta>;
  * re-themes the story around the controls.
  */
 const ThemedAppearanceControls = (props: AppearanceControlsProps) => {
-  const [colorMode, setColorMode] = useState<ColorMode>(props.colorMode);
-  const [themeVariant, setThemeVariant] = useState<ThemeVariant>(
-    props.themeVariant,
+  const [colorMode, setColorMode] = useState<ColorMode>(
+    props.colorMode ?? "light",
   );
-  useEffect(() => setColorMode(props.colorMode), [props.colorMode]);
-  useEffect(() => setThemeVariant(props.themeVariant), [props.themeVariant]);
+  const [themeVariant, setThemeVariant] = useState<ThemeVariant>(
+    props.themeVariant ?? "datalayer",
+  );
+  useEffect(() => setColorMode(props.colorMode ?? "light"), [props.colorMode]);
+  useEffect(
+    () => setThemeVariant(props.themeVariant ?? "datalayer"),
+    [props.themeVariant],
+  );
   const config = themeConfigs[themeVariant];
   return (
     <DatalayerThemeProvider
@@ -83,15 +87,16 @@ const ThemedAppearanceControls = (props: AppearanceControlsProps) => {
         >
           <AppearanceControls
             {...props}
+            withStore={false}
             colorMode={colorMode}
             themeVariant={themeVariant}
             onColorModeChange={(mode) => {
               setColorMode(mode);
-              props.onColorModeChange(mode);
+              props.onColorModeChange?.(mode);
             }}
             onThemeChange={(variant) => {
               setThemeVariant(variant);
-              props.onThemeChange(variant);
+              props.onThemeChange?.(variant);
             }}
           />
         </Box>
@@ -133,15 +138,31 @@ export const ThemeChooserOnly: Story = {
 };
 
 /**
- * `AppearanceControlsWithStore`: the same controls reading and writing a
- * theme store (`useThemeStore` here), with the story drawn by
- * `ThemedProvider` from that store.
+ * With the store (the default): the controls read and write a theme store
+ * (`useThemeStore` here), the story drawn by `ThemedProvider` from it.
  */
 export const WithStore: Story = {
   render: (args) => (
     <ThemedProvider useStore={useThemeStore}>
       <Box p={3} bg="canvas.default" maxWidth={400}>
-        <AppearanceControlsWithStore
+        <AppearanceControls
+          useStore={useThemeStore}
+          showColorMode={args.showColorMode}
+          showThemeChooser={args.showThemeChooser}
+          showThemePreviews={args.showThemePreviews}
+        />
+      </Box>
+    </ThemedProvider>
+  ),
+};
+
+/** Inline, with the store: one round button per theme, then the switch, as a page header carries them. */
+export const Inline: Story = {
+  render: (args) => (
+    <ThemedProvider useStore={useThemeStore}>
+      <Box p={3} bg="canvas.default">
+        <AppearanceControls
+          layout="inline"
           useStore={useThemeStore}
           showColorMode={args.showColorMode}
           showThemeChooser={args.showThemeChooser}

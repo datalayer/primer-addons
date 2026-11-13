@@ -157,6 +157,7 @@ describe('AppearanceControls', () => {
   it('shows the palette and the accents under the preview card once "Show preview" is pressed', () => {
     const view = render(
       <AppearanceControls
+        withStore={false}
         colorMode="light"
         themeVariant="datalayer"
         onColorModeChange={() => undefined}

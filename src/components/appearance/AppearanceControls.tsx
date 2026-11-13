@@ -188,6 +188,8 @@ export function AppearanceControls({
                 size="small"
                 onClick={() => setIsPreviewOpen((open) => !open)}
                 aria-expanded={isPreviewOpen}
+                // The theme's control corner (Loop's pill), wherever the menu is drawn.
+                sx={{ borderRadius: "var(--theme-radius-control, 6px)" }}
               >
                 {isPreviewOpen ? "Hide preview" : "Show preview"}
               </Button>

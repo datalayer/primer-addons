@@ -22,10 +22,15 @@
  */
 
 import { useEffect, useMemo } from 'react';
+import type { CSSProperties } from 'react';
 import { Box, Heading, Text } from '@primer/react';
 import { buildReactorFromPlugins, configurePlugin } from '@datalayer/reactor';
 import { ReactorSlot, useReactor } from '@datalayer/reactor/react';
-import { ThemedProvider, useThemeStore } from '@datalayer/primer-addons';
+import {
+  ThemedProvider,
+  useSystemColorMode,
+  useThemeStore,
+} from '@datalayer/primer-addons';
 import {
   AppearancePlugin,
   PageLayoutPlugin,
@@ -54,9 +59,22 @@ function createReactor() {
   ]);
 }
 
+/**
+ * The gallery shows Metal's page in light: its panels clear, as they are on
+ * dark, so that the page's colors come through. A product keeps them solid.
+ */
+const METAL_LIGHT_SHELL = {
+  '--bgColor-default': 'rgba(255, 255, 255, 0.7)',
+  '--bgColor-muted': 'rgba(255, 255, 255, 0.45)',
+  '--bgColor-inset': 'rgba(34, 52, 84, 0.035)',
+} as CSSProperties;
+
 export default function App() {
   const reactor = useMemo(createReactor, []);
   useReactor(reactor);
+  const { theme, colorMode } = useThemeStore();
+  const systemMode = useSystemColorMode();
+  const mode = colorMode === 'auto' ? systemMode : colorMode;
 
   // A first visit opens on the earth theme, following the OS for the mode;
   // after that the store remembers what the visitor chose.
@@ -71,7 +89,10 @@ export default function App() {
 
   return (
     <ThemedProvider useStore={useThemeStore}>
-      <div className="example-shell">
+      <div
+        className="example-shell"
+        style={theme === 'metal' && mode === 'light' ? METAL_LIGHT_SHELL : undefined}
+      >
         <Box
           as="header"
           sx={{

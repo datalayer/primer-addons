@@ -18,6 +18,10 @@ export const globalTypes = toolbarTypes;
 export const decorators = [withThemeProvider];
 
 const preview: Preview = {
+  initialGlobals: {
+    colorScheme: 'light',
+    themeVariant: 'datalayer',
+  },
   parameters: {
     controls: {
       expanded: true,

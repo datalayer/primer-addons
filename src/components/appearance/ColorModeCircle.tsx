@@ -3,10 +3,11 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type ReactElement, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ReactElement, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconButton, Tooltip } from '@primer/react';
 import { MoonIcon, SunIcon, DeviceDesktopIcon, type Icon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
+import { thinScrollbarSx } from '../scroll-area/ScrollArea';
 import { themeConfigs, type ColorMode, type ThemeVariant } from '../../theme';
 
 /** Order in which a click cycles through the color modes. */
@@ -30,7 +31,11 @@ const COLOR_MODE_ICON_Y_OFFSET: Record<ColorMode, number> = {
   auto: -0.5,
 };
 
-type HoverOverlayPlacement = 'bottom-start' | 'bottom-end';
+/** Where the hover overlay opens: under the circle (aligned at its start or end), or to its right, aligned at its top. */
+/** The space kept between the panel and the window's bottom edge, in pixels. */
+const OVERLAY_MARGIN = 12;
+
+export type HoverOverlayPlacement = 'bottom-start' | 'bottom-end' | 'right-start';
 type ColorModeCircleShape = 'square' | 'circle';
 
 export interface ColorModeCircleProps {
@@ -73,7 +78,29 @@ export function ColorModeCircle({
   const iconYOffset = COLOR_MODE_ICON_Y_OFFSET[colorMode] ?? 0;
   const [isHoverOpen, setIsHoverOpen] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The panel never runs past the window: it is held to the room under its
+  // top, measured each time it opens and when the window changes, and scrolls
+  // inside — Show preview's palette and accents stay reachable.
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const [overlayMaxHeight, setOverlayMaxHeight] = useState<number | undefined>(undefined);
+  useLayoutEffect(() => {
+    if (!isHoverOpen || typeof window === 'undefined') {
+      return;
+    }
+    const measure = () => {
+      const node = overlayRef.current;
+      if (!node) {
+        return;
+      }
+      const top = Math.max(0, node.getBoundingClientRect().top);
+      setOverlayMaxHeight(Math.max(200, Math.floor(window.innerHeight - top - OVERLAY_MARGIN)));
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [isHoverOpen]);
   const isBottomStart = hoverOverlayPlacement === 'bottom-start';
+  const isRight = hoverOverlayPlacement === 'right-start';
   const themeConfig = themeVariant ? themeConfigs[themeVariant] : undefined;
   const themeBorderColor = themeConfig?.brandColor;
   const hasThemeColor = Boolean(themeBorderColor);
@@ -142,7 +169,8 @@ export function ColorModeCircle({
         minWidth: size,
         width: size,
         height: size,
-        borderRadius: shape === 'circle' ? '50%' : 2,
+        // A control like the theme's others: round on Loop, square on VS Code.
+        borderRadius: shape === 'circle' ? '50%' : 'var(--theme-radius-control, 6px)',
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -186,20 +214,28 @@ export function ColorModeCircle({
     >
       {circle}
       <Box
+        ref={overlayRef}
+        data-appearance-overlay=""
         sx={{
           position: 'absolute',
-          top: `calc(100% + 8px)`,
-          left: isBottomStart ? 0 : 'auto',
-          right: isBottomStart ? 'auto' : 0,
+          // To the right: beside the circle, its top level with the circle's.
+          top: isRight ? 0 : `calc(100% + 8px)`,
+          left: isRight ? `calc(100% + 8px)` : isBottomStart ? 0 : 'auto',
+          right: isRight || isBottomStart ? 'auto' : 0,
           zIndex: 220,
           minWidth: 340,
+          maxHeight: overlayMaxHeight ?? `calc(100vh - ${OVERLAY_MARGIN * 2}px)`,
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+          // The tiny scrollbar, as the left sidebar's (13 November 2026).
+          ...thinScrollbarSx,
           bg: 'canvas.overlay',
           border: '1px solid',
           borderColor: 'border.default',
           borderRadius: 2,
           boxShadow: 'shadow.large',
           opacity: isHoverOpen ? 1 : 0,
-          transform: isHoverOpen ? 'translateY(0)' : 'translateY(-6px)',
+          transform: isHoverOpen ? 'none' : isRight ? 'translateX(-6px)' : 'translateY(-6px)',
           pointerEvents: isHoverOpen ? 'auto' : 'none',
           transition: 'opacity 0.16s ease, transform 0.16s ease',
         }}

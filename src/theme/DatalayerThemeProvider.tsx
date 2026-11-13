@@ -6,6 +6,7 @@
 import {
   type CSSProperties,
   useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -15,7 +16,15 @@ import { BaseStyles, ThemeProvider, ThemeProviderProps } from "@primer/react";
 import { useSystemColorMode } from "./useSystemColorMode";
 import { datalayerTheme, datalayerThemeStyles } from "./themes/datalayerTheme";
 import { systemFontStack } from "./fontStacks";
-import { setupPrimerPortals, syncPortalThemeStyles } from "../utils/Portals";
+import { type ThemeStyles } from "./css/createThemeCSSVars";
+import { primerBaseVars } from "./css/primerBaseVars";
+import {
+  APP_ROOT_ATTRIBUTE,
+  THEME_SCOPE_ATTRIBUTE,
+  injectThemeStylesheet,
+  setupPrimerPortals,
+  syncPortalThemeStyles,
+} from "../utils/Portals";
 
 /**
  * System sans-serif font stack — shared between `fontFamily` and
@@ -37,7 +46,7 @@ import { setupPrimerPortals, syncPortalThemeStyles } from "../utils/Portals";
  * their CSS.  We define the full set here so **every** theme gets
  * correct font inheritance — no primitives CSS import required.
  */
-const typographyVars: CSSProperties = {
+export const typographyVars: CSSProperties = {
   /* ── Font stacks ───────────────────────────────────────────────── */
   "--fontStack-monospace":
     "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace",
@@ -136,11 +145,11 @@ export interface IDatalayerThemeProviderProps extends Omit<
    *
    * Use the `buildThemeStyles` helper from `./css/createThemeCSSVars`
    * to generate comprehensive overrides from a `ThemeColorDefs` pair.
+   *
+   * A theme's own stylesheet comes with them (`css`): injected for this
+   * provider's element, and for the portal root when this provider owns it.
    */
-  themeStyles?: {
-    light: CSSProperties;
-    dark: CSSProperties;
-  };
+  themeStyles?: ThemeStyles;
 }
 
 export function DatalayerThemeProvider(
@@ -168,7 +177,11 @@ export function DatalayerThemeProvider(
    * React trees; what they share with the application is the document.
    */
   const sentinel = useRef<HTMLSpanElement>(null);
-  const [themedAncestor, setThemedAncestor] = useState<Element | null>(null);
+  // `undefined` until the DOM has been read: until then this provider does
+  // not know whether the page is its to theme, and writes nothing on it.
+  const [themedAncestor, setThemedAncestor] = useState<
+    Element | null | undefined
+  >(undefined);
   const [ancestorMode, setAncestorMode] = useState<"light" | "dark" | null>(
     null,
   );
@@ -176,7 +189,10 @@ export function DatalayerThemeProvider(
     // The sentinel's parent is this provider's own element; anything themed
     // above *that* is another provider's.
     const own = sentinel.current?.parentElement;
-    const ancestor = own?.parentElement?.closest("[data-color-mode]") ?? null;
+    const themed = own?.parentElement?.closest("[data-color-mode]") ?? null;
+    // The application's own Primer wrapper, marked so, is not a host page:
+    // the provider inside it owns the page (see APP_ROOT_ATTRIBUTE).
+    const ancestor = themed?.hasAttribute(APP_ROOT_ATTRIBUTE) ? null : themed;
     setThemedAncestor(ancestor);
     if (!ancestor) {
       setAncestorMode(null);
@@ -195,7 +211,12 @@ export function DatalayerThemeProvider(
     });
     return () => observer.disconnect();
   }, []);
-  const nested = themedAncestor !== null;
+  const nested = themedAncestor != null;
+  const placed = themedAncestor !== undefined;
+
+  // This provider's scope: what its theme's stylesheet is scoped to, and
+  // where an outer provider's stylesheet stops.
+  const scope = useId().replace(/[^A-Za-z0-9_-]/g, "");
 
   const resolvedColorMode =
     colorMode === "auto"
@@ -206,6 +227,9 @@ export function DatalayerThemeProvider(
   const resolvedTheme = theme ?? datalayerTheme;
   const styles = themeStyles ?? datalayerThemeStyles;
   const resolvedStyles = isDark ? styles.dark : styles.light;
+  // Primer's variables no theme sets (radii, neutrals, shadows…), under the
+  // theme's own: `Box` emits them with no fallback (see primerBaseVars).
+  const baseVars = (isDark ? primerBaseVars.dark : primerBaseVars.light) as CSSProperties;
 
   // The full set of styles that <BaseStyles> receives — we also push
   // these to document.body so Primer portal content inherits theme
@@ -213,10 +237,11 @@ export function DatalayerThemeProvider(
   const portalStyles: CSSProperties = useMemo(
     () => ({
       ...typographyVars,
+      ...baseVars,
       ...resolvedStyles,
       ...baseStyles,
     }),
-    [resolvedStyles, baseStyles],
+    [baseVars, resolvedStyles, baseStyles],
   );
 
   // Keep document.body portal-root attributes AND theme styles in sync
@@ -231,8 +256,13 @@ export function DatalayerThemeProvider(
   // next overlay came up in the wrong colour. Nesting is read from the DOM
   // rather than from React context, because those widget roots are separate
   // React trees: what they share with the application is the document.
+  //
+  // Not before the DOM has been read: the first commit's effects run before
+  // the update that says whether this provider is nested, and a nested one
+  // — an application embedded in another product's page, in its own shadow
+  // root (LOOP T-13) — wrote its theme on that page's <body> before it knew.
   useEffect(() => {
-    if (nested) {
+    if (!placed || nested) {
       // Another provider owns the page's portal root; see above.
       return;
     }
@@ -244,7 +274,20 @@ export function DatalayerThemeProvider(
           : (resolvedColorMode as "light" | "dark"),
     );
     syncPortalThemeStyles(portalStyles);
-  }, [nested, resolvedColorMode, portalStyles]);
+  }, [placed, nested, resolvedColorMode, portalStyles]);
+
+  // The theme's own stylesheet, if it has one: for this provider's element,
+  // and for the portal root when this provider owns it (see above). Removed
+  // when the theme changes, or the provider goes. A layout effect, so the
+  // first paint is already in the theme's shapes.
+  const themeCss = styles.css;
+  useLayoutEffect(
+    () =>
+      placed
+        ? injectThemeStylesheet(scope, themeCss, !nested)
+        : () => undefined,
+    [scope, themeCss, placed, nested],
+  );
 
   return (
     <ThemeProvider
@@ -253,10 +296,12 @@ export function DatalayerThemeProvider(
       {...rest}
     >
       <BaseStyles
+        {...{ [THEME_SCOPE_ATTRIBUTE]: scope }}
         style={{
           lineHeight: "1.7",
           transition: "background-color 0.25s ease, color 0.25s ease",
           ...typographyVars,
+          ...baseVars,
           ...resolvedStyles,
           ...baseStyles,
         }}

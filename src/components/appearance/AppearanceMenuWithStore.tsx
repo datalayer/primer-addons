@@ -30,7 +30,7 @@ export interface AppearanceMenuWithStoreProps
  * The menu itself is controlled: a page with its own idea of where the theme
  * lives hands it values and callbacks. Most pages have no such idea — the
  * theme lives in the store — and this reads it from there and writes the
- * choices back. The same shape as {@link AppearanceControlsWithStore}, for
+ * choices back. The same shape as {@link AppearanceControls} with its store, for
  * the whole menu: the trigger, the overlay, the description, the preview.
  */
 export function AppearanceMenuWithStore({

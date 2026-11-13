@@ -18,14 +18,66 @@ import {
   ivoryColors,
   sunColors,
   loopColors,
+  metalColors,
+  vscodeColors,
+  hueColorsOf,
+  hueNames,
+  type HueName,
 } from '../colors';
 import {
   getBrightPalette,
   type ThemeVariant,
 } from '../themeRegistry';
+import { useCallback } from 'react';
 import { useThemeStore } from '../useThemeStore';
 
-export interface ColorPalette {
+/**
+ * The palette's role names: what each is changes with the theme (`surge` is
+ * blue in one theme and sage in another).
+ */
+export const paletteRoleNames = [
+  'bg',
+  'bgPanel',
+  'bgAlt',
+  'primary',
+  'secondary',
+  'accent',
+  'glow',
+  'pop',
+  'spark',
+  'blaze',
+  'surge',
+  'flame',
+  'gold',
+  'textLight',
+  'textMuted',
+] as const;
+
+/** A role name of the palette. */
+export type PaletteRoleName = (typeof paletteRoleNames)[number];
+
+/**
+ * Every name of the palette: its roles, then its hues (`hueNames`: `red`
+ * … `rose`, then `slate`, `gray`, `stone`, each in every theme). A spec's colour names one of
+ * these, and is drawn in the value the current theme and mode give it.
+ *
+ * This list is the one source of the names: agentspecs keeps a copy
+ * (`agentspecs/colors.py`), and its tests check the copy against this file.
+ */
+// palette-color-names:start
+export const paletteColorNames = [
+  ...paletteRoleNames,
+  ...hueNames,
+] as const;
+// palette-color-names:end
+
+/** A name of the palette. */
+export type PaletteColorName = PaletteRoleName | HueName;
+
+/** The palette's roles, as each theme gives them. */
+type PaletteRoles = Record<PaletteRoleName, string> & { isLight: boolean };
+
+export interface ColorPalette extends Record<HueName, string> {
   bg: string;
   bgPanel: string;
   bgAlt: string;
@@ -62,8 +114,12 @@ const suBrightDark = getBrightPalette('sun');
 const suBrightLight = getBrightPalette('sun', 'light');
 const loBrightDark = getBrightPalette('loop');
 const loBrightLight = getBrightPalette('loop', 'light');
+const meBrightDark = getBrightPalette('metal');
+const meBrightLight = getBrightPalette('metal', 'light');
+const vsBrightDark = getBrightPalette('vscode');
+const vsBrightLight = getBrightPalette('vscode', 'light');
 
-const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }> = {
+const rolePalettes: Record<ThemeVariant, { light: PaletteRoles; dark: PaletteRoles }> = {
   datalayer: {
     light: {
       bg: '#f6f8fa',
@@ -406,7 +462,94 @@ const palettes: Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }
       isLight: false,
     },
   },
+  metal: {
+    light: {
+      bg: metalColors.white,
+      bgPanel: '#ffffff',
+      bgAlt: metalColors.subtle,
+      primary: metalColors.metalBrand,
+      secondary: metalColors.metalText,
+      accent: metalColors.steelTo,
+      glow: meBrightLight.glow,
+      pop: meBrightLight.pop,
+      spark: meBrightLight.spark,
+      blaze: meBrightLight.blaze,
+      surge: meBrightLight.surge,
+      flame: meBrightLight.flame,
+      gold: meBrightLight.gold,
+      textLight: metalColors.ink,
+      textMuted: metalColors.gray,
+      isLight: true,
+    },
+    dark: {
+      bg: metalColors.black,
+      bgPanel: '#141920',
+      bgAlt: metalColors.subtleDark,
+      primary: metalColors.metalBrand,
+      secondary: metalColors.metalBright,
+      accent: metalColors.steelTo,
+      glow: meBrightDark.glow,
+      pop: meBrightDark.pop,
+      spark: meBrightDark.spark,
+      blaze: meBrightDark.blaze,
+      surge: meBrightDark.surge,
+      flame: meBrightDark.flame,
+      gold: meBrightDark.gold,
+      textLight: metalColors.inkDark,
+      textMuted: metalColors.grayDark,
+      isLight: false,
+    },
+  },
+  vscode: {
+    light: {
+      bg: vscodeColors.white,
+      bgPanel: '#F8F8F8',
+      bgAlt: '#F2F2F2',
+      primary: vscodeColors.vscodeText,
+      secondary: vscodeColors.vscodeBrand,
+      accent: vscodeColors.vscodeText,
+      glow: vsBrightLight.glow,
+      pop: vsBrightLight.pop,
+      spark: vsBrightLight.spark,
+      blaze: vsBrightLight.blaze,
+      surge: vsBrightLight.surge,
+      flame: vsBrightLight.flame,
+      gold: vsBrightLight.gold,
+      textLight: '#3B3B3B',
+      textMuted: '#767676',
+      isLight: true,
+    },
+    dark: {
+      bg: vscodeColors.black,
+      bgPanel: '#202020',
+      bgAlt: '#181818',
+      primary: vscodeColors.vscodeAccent,
+      secondary: vscodeColors.vscodeBrand,
+      accent: vscodeColors.vscodeAccent,
+      glow: vsBrightDark.glow,
+      pop: vsBrightDark.pop,
+      spark: vsBrightDark.spark,
+      blaze: vsBrightDark.blaze,
+      surge: vsBrightDark.surge,
+      flame: vsBrightDark.flame,
+      gold: vsBrightDark.gold,
+      textLight: '#CCCCCC',
+      textMuted: vscodeColors.gray,
+      isLight: false,
+    },
+  },
 };
+
+/** Each theme's roles with its hues, light and dark. */
+const palettes = Object.fromEntries(
+  (Object.keys(rolePalettes) as ThemeVariant[]).map(variant => [
+    variant,
+    {
+      light: { ...rolePalettes[variant].light, ...hueColorsOf(variant, 'light') },
+      dark: { ...rolePalettes[variant].dark, ...hueColorsOf(variant, 'dark') },
+    },
+  ]),
+) as Record<ThemeVariant, { light: ColorPalette; dark: ColorPalette }>;
 
 export function getColorPalette(
   theme: ThemeVariant = 'datalayer',
@@ -415,11 +558,53 @@ export function getColorPalette(
   const mode: 'light' | 'dark' =
     colorMode === 'auto'
       ? typeof window !== 'undefined' &&
+        typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light'
       : colorMode;
   return palettes[theme]?.[mode] ?? palettes.datalayer.dark;
+}
+
+const PALETTE_NAMES: ReadonlySet<string> = new Set(paletteColorNames);
+
+/** A hex colour, `#RGB` or `#RRGGBB`: what a spec may give where no name fits. */
+export const HEX_COLOR_PATTERN = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+
+/** Whether a value is a name of the palette. */
+export const isPaletteColorName = (value: string): value is PaletteColorName =>
+  PALETTE_NAMES.has(value);
+
+/** Whether a value is a hex colour, `#RGB` or `#RRGGBB`. */
+export const isHexColor = (value: string): boolean => HEX_COLOR_PATTERN.test(value);
+
+/**
+ * A spec's colour as a CSS colour in a palette: a name of the palette is
+ * the value the palette's theme and mode give it, a hex colour is itself.
+ * Nothing, an empty string or anything else is `undefined`: the caller
+ * draws its own default.
+ */
+export function resolvePaletteColor(
+  value: string | null | undefined,
+  palette: ColorPalette,
+): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+  if (isPaletteColorName(value)) {
+    return palette[value];
+  }
+  return isHexColor(value) ? value : undefined;
+}
+
+/**
+ * `resolvePaletteColor` in the current theme and mode: a function that
+ * turns a spec's colour (a palette name, or a hex) into the CSS colour to
+ * draw, and is a new function when the theme or the mode changes.
+ */
+export function usePaletteColor(): (value: string | null | undefined) => string | undefined {
+  const palette = useColorPalette();
+  return useCallback(value => resolvePaletteColor(value, palette), [palette]);
 }
 
 export function useColorPalette(): ColorPalette {

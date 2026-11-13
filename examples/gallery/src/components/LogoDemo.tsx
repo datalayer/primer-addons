@@ -17,7 +17,7 @@ export function LogoDemo() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
-      <DatalayerLogo variant={theme} colorMode={colorMode} />
+      <DatalayerLogo variant={theme} colorMode={colorMode} size={64} />
       <DatalayerText />
       <DatalayerLogoText variant={theme} colorMode={colorMode} />
       <DatalayerTextAI variant={theme} colorMode={colorMode} />

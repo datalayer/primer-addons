@@ -28,6 +28,37 @@ export interface ToolbarItemBase {
   disabled?: boolean;
   /** Whether to hide the item */
   hidden?: boolean;
+  /**
+   * Never moved into the overflow menu, however narrow the line: the
+   * controls a reader must always find where they left them (a close
+   * button, a session menu). Pinned items count against the room first.
+   */
+  pinned?: boolean;
+  /**
+   * Which items leave the line first when the room runs out: the lowest
+   * priority goes first, and among equals the last item on the line.
+   * Default: 0. The menu lists what left in the line's own order.
+   */
+  priority?: number;
+}
+
+/**
+ * What a custom item becomes in the overflow menu.
+ *
+ * - `onSelect`: a labelled menu row (`label`, `icon`) that runs it and
+ *   closes the menu — for a control whose node only makes sense on the line.
+ * - `render`: a node of its own for the menu.
+ * - neither: the item's own `render()` is drawn in the menu as on the line.
+ */
+export interface ToolbarOverflowRepresentation {
+  /** The menu row's name (required with `onSelect`). */
+  label?: string;
+  /** The menu row's icon. */
+  icon?: React.ComponentType<IconProps> | ReactNode;
+  /** Run when the menu row is chosen; the menu closes after. */
+  onSelect?: () => void;
+  /** A node of its own for the menu instead of a row. */
+  render?: () => ReactNode;
 }
 
 /**
@@ -118,6 +149,8 @@ export interface ToolbarCustomItem extends ToolbarItemBase {
   type: "custom";
   /** Custom render function */
   render: () => ReactNode;
+  /** What it becomes in the overflow menu — see `ToolbarOverflowRepresentation`. */
+  overflow?: ToolbarOverflowRepresentation;
 }
 
 /**
@@ -151,6 +184,25 @@ export interface ToolbarProps {
    * up to the host to leave room for them.
    */
   overflow?: boolean;
+  /**
+   * `bar` (the default): an editor's strip — its own ground, a hairline
+   * under it, sticky at the top. `inline`: the items alone, no ground, no
+   * border, no padding — for a toolbar inside a header row of the host's.
+   */
+  variant?: "bar" | "inline";
+  /** Space between two items, in px. Default: 2. */
+  gap?: number;
+  /**
+   * The name of the button opening the overflow menu. Default:
+   * "N more toolbar items".
+   */
+  overflowAriaLabel?: string;
+  /**
+   * Arrow keys, Home and End move the focus between the toolbar's controls
+   * (Tab still leaves it); keys typed into a field are left alone. On by
+   * default.
+   */
+  keyboardNavigation?: boolean;
 }
 
 /**

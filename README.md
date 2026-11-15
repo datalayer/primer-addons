@@ -40,6 +40,38 @@ visual values. For example, toolbar icon buttons and dropdown triggers read
 `--theme-radius-control`: they retain the regular Primer corner in the default
 themes and become fully rounded controls in `loop`.
 
+### Toolbar overflow
+
+`Toolbar` keeps to one line: what does not fit moves into a menu behind a
+"…" button at the end of the line, measured with a `ResizeObserver` on the
+toolbar, its parent and every item (an item that draws nothing takes no room).
+
+```tsx
+<Toolbar
+  variant="inline" // no ground, border or padding: inside a header row of yours
+  gap={4}
+  items={[
+    { key: 'lead', type: 'spacer' }, // push the actions to the trailing edge
+    { key: 'chip', type: 'custom', priority: -1, render: () => <Label>Connected</Label>,
+      overflow: { label: 'Connected', onSelect: openAccounts } }, // a row in the menu
+    { key: 'new', type: 'button', icon: PlusIcon, ariaLabel: 'New chat', onClick: newChat },
+    { key: 'close', type: 'button', icon: XIcon, ariaLabel: 'Close', pinned: true, onClick: close },
+  ]}
+/>
+```
+
+- `pinned: true` never leaves the line; `priority` orders who leaves first
+  (lowest first, then the last on the line); the menu lists them in line order.
+- In the menu a button shows its icon and name and closes the menu once
+  chosen; a custom item becomes its `overflow` — `{ label, icon, onSelect }`
+  (a row), `{ render }` (a node of its own) — or itself when it has none.
+- Arrow keys, Home and End move the focus between the controls
+  (`keyboardNavigation={false}` to opt out); `overflowAriaLabel` names the
+  "…" button; `overflow={false}` lays every item on the line.
+- In a row with other things, wrap the toolbar in a box of its own
+  (`flex: 1 1 0; min-width: 0`): that box's width is the room it measures.
+- The gallery's *Toolbar* page shows an editor strip and a header row narrowing.
+
 ## Reactor Plugins
 
 Three plugins for hosts built on [`@datalayer/reactor`](https://github.com/datalayer/reactor), imported by path so a page without a reactor never pulls it in:

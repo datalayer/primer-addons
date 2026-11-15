@@ -208,7 +208,7 @@ export const demos: Demo[] = [
   {
     slug: 'toolbar',
     title: 'Toolbar',
-    description: 'Extensible fixed toolbar with button/dropdown/divider items.',
+    description: 'One-line toolbar: what does not fit collapses into a “…” menu (pinned items, priorities, inline variant).',
     render: () => <ToolbarDemo />,
   },
   {

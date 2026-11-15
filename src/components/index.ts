@@ -4,7 +4,6 @@
  */
 
 export * from "./appearance/AppearanceControls";
-export * from "./appearance/AppearanceControlsWithStore";
 export * from "./appearance/AppearanceMenu";
 export * from "./appearance/AppearanceMenuWithStore";
 export * from "./appearance/CollaboratorPalette";
@@ -14,6 +13,10 @@ export * from "./appearance/ThemeCircle";
 export * from "./box/Box";
 export * from "./calendar-picker";
 export * from "./card/Card";
+export * from "./hover-card";
+export * from "./entity-avatar";
+export * from "./scroll-area";
+export * from "./sheet/Sheet";
 export * from "./color";
 export * from "./color-picker";
 export * from "./content-loader/ContentLoader";

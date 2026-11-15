@@ -11,6 +11,8 @@ header:
       Copyright.*\d{4}(-\d{4})? Datalayer, Inc.*Distributed under the terms of the Modified BSD License
 
   paths-ignore:
+    # The fonts' own licence (Geist, SIL OFL): a third party's text, never our header.
+    - 'style/fonts/GEIST-LICENSE'
     - '**/*.ipynb'
     - '**/*.json'
     - '**/*.md'
@@ -24,6 +26,7 @@ header:
     - '**/*.yml'
     - '**/*.yaml'
     - '**/*.patch'
+    - '**/*.snap'
     - '**/*.map.js'
     - '**/*.bundle.js'
     - '**/.*'

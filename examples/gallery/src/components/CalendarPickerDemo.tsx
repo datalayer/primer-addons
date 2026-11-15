@@ -18,7 +18,7 @@ export function CalendarPickerDemo() {
           p: 3,
           border: '1px solid',
           borderColor: 'var(--borderColor-default)',
-          borderRadius: 2,
+          borderRadius: 'var(--theme-radius-card)',
         }}
       >
         <CalendarPicker value={date} onChange={setDate} max={horizon} />

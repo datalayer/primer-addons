@@ -4,6 +4,8 @@
  */
 
 import { type CSSProperties } from 'react';
+import { themeTintVars } from '../colors/themeAccents';
+import { primerComponentsCss } from './primerComponentsCss';
 
 /* ─── Colour-definition structure ─────────────────────────────────────── */
 
@@ -441,6 +443,20 @@ export function colorDefsToCSS(
 export interface ThemeStyles {
   light: CSSProperties;
   dark: CSSProperties;
+  /**
+   * A stylesheet of the theme's own, for what a custom property cannot say
+   * (LOOP T-09): every Primer control takes its corners from one token,
+   * `--borderRadius-medium`, which cards and list items take too, so a theme
+   * that wants its controls alone in another shape has to say so with
+   * selectors.
+   *
+   * Written relative to `:scope`. The theme provider wraps it in an
+   * `@scope` rule for its own element and, when it owns it, for Primer's
+   * portal root (menus, overlays, dialogs), stopping at any theme provider
+   * nested inside; and removes it when the theme changes. A theme without
+   * one gets no stylesheet at all.
+   */
+  css?: string;
 }
 
 /**
@@ -455,18 +471,115 @@ export interface ThemeStyles {
  *   `Blankslate`) picks up the themed font instead of the
  *   hard-coded system-font fallback.
  */
+/**
+ * The shape of a theme (LOOP T-03): the radii of a control, a card, a bubble
+ * and a frame; the hairline; at most one level of shadow. As custom
+ * properties every theme sets — `--theme-radius-control` and the rest — so
+ * that a component reads its shape the way it reads its colour.
+ *
+ * And its motion (LOOP T-10): three durations — a status changing, a message
+ * arriving, a pane opening — and one easing. Today's is no motion at all, so
+ * a component that moves by them moves only in a theme that says so.
+ *
+ * And how a link reads in a message (LOOP T-06): in the accent, as today, or
+ * — `currentColor` — plain, the colour of the words around it, underlined in
+ * every theme.
+ *
+ * And the corner of a panel floating over the page — a menu, a header's
+ * mega-menu (`--theme-radius-overlay`, `borderRadius="overlay"` on a Box).
+ *
+ * And Primer's own components, as the theme draws them: a data table's
+ * corner, header band, header text and hairline. Primer's values unless the
+ * theme says otherwise; what a theme says about a control or a table is
+ * drawn by the stylesheet `primerComponentsCss` makes of it.
+ */
+export interface ThemeShape {
+  radiusControl: string;
+  radiusCard: string;
+  radiusBubble: string;
+  radiusFrame: string;
+  hairline: string;
+  shadow: string;
+  motionStatus: string;
+  motionMessage: string;
+  motionPane: string;
+  motionEasing: string;
+  messageLink: string;
+  radiusTable: string;
+  radiusOverlay: string;
+  tableHeaderBg: string;
+  tableHeaderFg: string;
+  tableBorder: string;
+}
+
+/** Today's shape, which every theme has unless it says otherwise. */
+export const DEFAULT_THEME_SHAPE: ThemeShape = {
+  radiusControl: 'var(--borderRadius-medium, 6px)',
+  radiusCard: 'var(--borderRadius-medium, 6px)',
+  radiusBubble: 'var(--borderRadius-large, 12px)',
+  radiusFrame: 'var(--borderRadius-large, 12px)',
+  hairline: 'var(--borderWidth-thin, 1px)',
+  shadow: 'var(--shadow-resting-small, none)',
+  motionStatus: '0ms',
+  motionMessage: '0ms',
+  motionPane: '0ms',
+  motionEasing: 'ease',
+  messageLink: 'var(--fgColor-accent, #0969da)',
+  // Primer's own DataTable: its corner, its header band and text, its hairline.
+  radiusTable: '0.375rem',
+  // A panel that floats over the page — a menu, a header's mega-menu: Primer's
+  // overlay corner unless the theme says otherwise.
+  radiusOverlay: 'var(--borderRadius-large, 12px)',
+  tableHeaderBg: 'var(--bgColor-muted)',
+  tableHeaderFg: 'var(--fgColor-muted)',
+  tableBorder: 'var(--borderColor-default)',
+};
+
+/** A shape as custom properties. */
+export function shapeVars(shape: Partial<ThemeShape> = {}): Record<string, string> {
+  const full = { ...DEFAULT_THEME_SHAPE, ...shape };
+  return {
+    '--theme-radius-control': full.radiusControl,
+    '--theme-radius-card': full.radiusCard,
+    '--theme-radius-bubble': full.radiusBubble,
+    '--theme-radius-frame': full.radiusFrame,
+    '--theme-hairline': full.hairline,
+    '--theme-shadow': full.shadow,
+    '--theme-motion-status': full.motionStatus,
+    '--theme-motion-message': full.motionMessage,
+    '--theme-motion-pane': full.motionPane,
+    '--theme-motion-easing': full.motionEasing,
+    '--theme-message-link': full.messageLink,
+    '--theme-radius-table': full.radiusTable,
+    '--theme-radius-overlay': full.radiusOverlay,
+    '--theme-table-header-bg': full.tableHeaderBg,
+    '--theme-table-header-fg': full.tableHeaderFg,
+    '--theme-table-border': full.tableBorder,
+  };
+}
+
 export function buildThemeStyles(
   light: ThemeColorDefs,
   dark: ThemeColorDefs,
   options?: {
     fontFamily?: string;
+    /** Its shape (T-03); today's, for what it does not say. */
+    shape?: Partial<ThemeShape>;
     /**
      * More custom properties, per mode, set after everything else: what a
      * theme sets beside colour and font — its radii, its own tokens.
      */
     variables?: { light?: Record<string, string>; dark?: Record<string, string> };
+    /**
+     * A stylesheet of the theme's own, relative to `:scope`; see
+     * `ThemeStyles.css`. It follows what `primerComponentsCss` makes of the
+     * shape.
+     */
+    css?: string;
   },
 ): ThemeStyles {
+  // What the shape says about Primer's components, then the theme's own.
+  const css = primerComponentsCss(options?.shape) + (options?.css ?? '');
   const fontVars: Record<string, string> = {};
   if (options?.fontFamily) {
     const f = options.fontFamily;
@@ -498,6 +611,8 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(light, 'light'),
       ...fontVars,
+      ...shapeVars(options?.shape),
+      ...themeTintVars(light),
       ...(options?.variables?.light ?? {}),
     } as CSSProperties,
     dark: {
@@ -507,7 +622,10 @@ export function buildThemeStyles(
       ...(options?.fontFamily ? { fontFamily: options.fontFamily } : {}),
       ...colorDefsToCSS(dark, 'dark'),
       ...fontVars,
+      ...shapeVars(options?.shape),
+      ...themeTintVars(dark),
       ...(options?.variables?.dark ?? {}),
     } as CSSProperties,
+    ...(css ? { css } : {}),
   };
 }

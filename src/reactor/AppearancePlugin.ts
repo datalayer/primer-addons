@@ -57,6 +57,8 @@ export type AppearancePluginConfig = {
    * as in the public header: a person who chose dark keeps dark.
    */
   applyThemeColorMode: boolean;
+  /** The most theme swatches on one line of the overlay. */
+  themesPerLine: number;
 };
 
 export const AppearancePlugin = definePlugin<
@@ -78,6 +80,7 @@ export const AppearancePlugin = definePlugin<
     placement: "bottom-end",
     showThemePreviews: true,
     applyThemeColorMode: false,
+    themesPerLine: 6,
   },
   build: ({ config }) => ({
     components: [
@@ -92,6 +95,7 @@ export const AppearancePlugin = definePlugin<
             hoverOverlayPlacement: config.placement,
             showThemePreviews: config.showThemePreviews,
             applyThemeColorMode: config.applyThemeColorMode,
+            themesPerLine: config.themesPerLine,
           }),
       },
     ],

@@ -5,7 +5,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProviderProps, Box, Button, IconButton, Text, ButtonGroup   } from "@primer/react";
-import { ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
+import { GlobeIcon, ProjectIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import { Card, CardProps } from '../..';
 
 const meta = {
@@ -129,3 +129,74 @@ export const CardNight: Story = {
   </Card.Actions>
 </ThemedCard>
 };
+
+/** A card that is clicked: rendered as a button, with hover and focus states. */
+export const CardInteractive: Story = {
+  args: {
+    as: "button",
+    type: "button",
+    interactive: true,
+    shadow: "none",
+    p: 3,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args} onClick={() => alert("Opened")}>
+    <Text display="block" fontWeight="bold">Tutor</Text>
+    <Text color="fg.muted">
+      Author lessons, exercises and assignments, and follow the courses you give and take.
+    </Text>
+  </ThemedCard>
+};
+
+/** The chosen card among others: an accent border on an accent wash. */
+export const CardSelected: Story = {
+  args: {
+    interactive: true,
+    selected: true,
+    shadow: "none",
+    role: "button",
+    tabIndex: 0,
+    "aria-pressed": true,
+    p: 3,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args}>
+    <Text display="block" fontWeight="bold">Selected example</Text>
+    <Text color="fg.muted">The one picked among its siblings.</Text>
+  </ThemedCard>
+};
+
+/**
+ * The landing pages' card (Earth Observation, Integrations): it rises, its
+ * hairline and shadow change, a light runs along its top edge and its icon
+ * tilts — on hover and on keyboard focus. Nothing moves under
+ * `prefers-reduced-motion: reduce`.
+ */
+export const CardLift: Story = {
+  args: {
+    hoverEffect: "lift",
+    shadow: "none",
+    tabIndex: 0,
+    p: 4,
+    sx: {maxWidth: 360},
+  },
+  render: (args) => <ThemedCard {...args}>
+    <Card.Icon icon={GlobeIcon} color="done.fg" bg="done.subtle" />
+    <Text display="block" fontWeight="bold">Satellite sources</Text>
+    <Text color="fg.muted">Sentinel, Landsat and commercial constellations, read where they are.</Text>
+  </ThemedCard>
+};
+
+export const CardSurfaces: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, 240px)' }}>
+      {(['sage', 'steel', 'mauve', 'clay'] as const).map(surface => (
+        <Card key={surface} surface={surface} p={3} gap={3}>
+          {surface}
+          <Card.Glass>Glass on the gradient.</Card.Glass>
+        </Card>
+      ))}
+    </div>
+  ),
+};
+

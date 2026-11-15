@@ -75,7 +75,8 @@ export function ColorSwatch({
         gridTemplateRows: `${height}px auto`,
         border: "1px solid",
         borderColor: "var(--borderColor-default)",
-        borderRadius: 2,
+        // The theme's card corner: 20px in loop, Primer's medium elsewhere.
+        borderRadius: "var(--theme-radius-card)",
         overflow: "hidden",
         minWidth: 0,
       }}

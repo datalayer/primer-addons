@@ -466,7 +466,7 @@ export function ColorPicker({
         sx={{
           position: "relative",
           height: FIELD_HEIGHT,
-          borderRadius: 2,
+          borderRadius: "var(--theme-radius-card)",
           border: "1px solid",
           borderColor: "var(--borderColor-default)",
           cursor: "crosshair",
@@ -474,6 +474,10 @@ export function ColorPicker({
           backgroundColor: toHex(hsvToRgb({ h: hsv.h, s: 100, v: 100 })),
           backgroundImage:
             "linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent)",
+          // Sized from the border's outer edge, not repeated into it: a
+          // gradient tiled from the padding box drew its black bottom row
+          // again in the top border, a dark line over the field.
+          backgroundOrigin: "border-box",
           "&:focus-visible": {
             outline: "2px solid var(--borderColor-accent-emphasis)",
             outlineOffset: "1px",
@@ -506,7 +510,7 @@ export function ColorPicker({
         sx={{
           position: "relative",
           height: RAIL_HEIGHT,
-          borderRadius: 6,
+          borderRadius: "var(--theme-radius-control)",
           border: "1px solid",
           borderColor: "var(--borderColor-default)",
           cursor: "ew-resize",
@@ -537,7 +541,7 @@ export function ColorPicker({
               width: 28,
               height: 28,
               flex: "0 0 auto",
-              borderRadius: 2,
+              borderRadius: "var(--borderRadius-medium)",
               border: "1px solid",
               borderColor: "var(--borderColor-default)",
               backgroundColor: hex,
@@ -591,7 +595,7 @@ export function ColorPicker({
                   onClick={() => setFromText(preset)}
                   sx={{
                     height: 22,
-                    borderRadius: 2,
+                    borderRadius: "var(--theme-radius-control)",
                     cursor: "pointer",
                     backgroundColor: preset,
                     border: "1px solid",

@@ -48,6 +48,11 @@ export type AppearancePluginConfig = {
   /** Which way the overlay opens from the trigger. */
   placement: "bottom-start" | "bottom-end";
   /**
+   * Whether the overlay offers the themes, or only light, dark and auto: a
+   * host that wears one theme turns it off.
+   */
+  showThemeChooser: boolean;
+  /**
    * Whether the overlay carries the chosen theme's description and its
    * preview, or only the circles.
    */
@@ -78,6 +83,7 @@ export const AppearancePlugin = definePlugin<
     size: 26,
     shape: "square",
     placement: "bottom-end",
+    showThemeChooser: true,
     showThemePreviews: true,
     applyThemeColorMode: false,
     themesPerLine: 6,
@@ -93,6 +99,7 @@ export const AppearancePlugin = definePlugin<
             size: config.size,
             shape: config.shape,
             hoverOverlayPlacement: config.placement,
+            showThemeChooser: config.showThemeChooser,
             showThemePreviews: config.showThemePreviews,
             applyThemeColorMode: config.applyThemeColorMode,
             themesPerLine: config.themesPerLine,

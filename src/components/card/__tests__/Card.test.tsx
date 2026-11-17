@@ -110,6 +110,15 @@ describe('Card', () => {
     expect(rulesOf(render(<Card variant="inset">j</Card>))).toContain('var(--bgColor-inset)');
   });
 
+  it('floats on the overlay\'s opaque ground: variant="overlay", and rounded="overlay" by default', () => {
+    expect(rulesOf(render(<Card variant="overlay">m</Card>))).toContain('var(--overlay-bgColor)');
+    const floating = rulesOf(render(<Card rounded="overlay">n</Card>));
+    expect(floating).toContain('var(--overlay-bgColor)');
+    expect(floating).not.toContain('var(--bgColor-default)');
+    // A flavour given still wins over the corner's default.
+    expect(rulesOf(render(<Card rounded="overlay" variant="subtle">o</Card>))).toContain('var(--bgColor-muted)');
+  });
+
   it('takes the theme\'s shapes by name for its corner', () => {
     expect(rulesOf(render(<Card rounded="control">k</Card>))).toContain('var(--theme-radius-control)');
   });

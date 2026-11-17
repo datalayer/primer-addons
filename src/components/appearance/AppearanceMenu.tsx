@@ -15,14 +15,21 @@ export interface AppearanceMenuProps {
   themeVariant: ThemeVariant;
   /** Called with the next color mode. */
   onColorModeChange: (mode: ColorMode) => void;
-  /** Called with the next theme variant. */
-  onThemeChange: (theme: ThemeVariant) => void;
+  /** Called with the next theme variant; required when the theme chooser shows. */
+  onThemeChange?: (theme: ThemeVariant) => void;
   /** Diameter of the trigger circle in pixels. */
   size?: number;
   /** Visual shape of the trigger control. */
   shape?: 'square' | 'circle';
   /** Overlay placement relative to the circle. */
   hoverOverlayPlacement?: HoverOverlayPlacement;
+  /**
+   * Whether the overlay offers the themes (their swatches, and with
+   * `showThemePreviews` the chosen one's preview). Default: shown; `false`
+   * for a site that wears one theme — the overlay is the light / dark / auto
+   * switch alone.
+   */
+  showThemeChooser?: boolean;
   /** Whether the overlay shows the live theme previews. */
   showThemePreviews?: boolean;
   /** The most theme swatches on one line in the overlay; undefined, they wrap freely. */
@@ -31,7 +38,8 @@ export interface AppearanceMenuProps {
 
 /**
  * A single color-mode circle that reveals, on hover, an appearance overlay
- * with color-mode controls, theme circles and live theme previews.
+ * with color-mode controls, theme circles and live theme previews — or the
+ * color-mode controls alone, with `showThemeChooser={false}`.
  *
  * This bundles the {@link ColorModeCircle} trigger together with the
  * {@link AppearanceControls} overlay so the whole appearance menu can be
@@ -45,6 +53,7 @@ export function AppearanceMenu({
   size = 26,
   shape = 'square',
   hoverOverlayPlacement = 'bottom-end',
+  showThemeChooser = true,
   showThemePreviews = true,
   themesPerLine,
 }: AppearanceMenuProps): ReactElement {
@@ -64,6 +73,7 @@ export function AppearanceMenu({
           themeVariant={themeVariant}
           onColorModeChange={onColorModeChange}
           onThemeChange={onThemeChange}
+          showThemeChooser={showThemeChooser}
           showThemePreviews={showThemePreviews}
           themesPerLine={themesPerLine}
         />

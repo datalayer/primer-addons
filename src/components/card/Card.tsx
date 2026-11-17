@@ -86,13 +86,18 @@ type CardBoxProps = Omit<BoxStyleProps, 'border'> &
  * - `subtle` — a quieter ground, `canvas.subtle`, for a card among cards
  *   or one inside a panel;
  * - `inset` — sunk into the page, `canvas.inset`, for code, logs, a prompt;
+ * - `overlay` — a panel floating over the page (a menu, a popover, a
+ *   picker), `canvas.overlay`: opaque in every theme, where `canvas.default`
+ *   may be glass (Metal's dark panels) and let the page read through it.
+ *   The default of a card with `rounded="overlay"`;
  * - `accent`, `success`, `attention`, `danger` — a note in that tone: the
  *   tone's wash with the tone's muted hairline.
  */
-export type CardVariant = 'default' | 'subtle' | 'inset' | 'accent' | 'success' | 'attention' | 'danger';
+export type CardVariant = 'default' | 'subtle' | 'inset' | 'overlay' | 'accent' | 'success' | 'attention' | 'danger';
 
 const VARIANTS: Record<CardVariant, { bg: BoxColorToken; borderColor: BoxColorToken }> = {
   default: { bg: 'canvas.default', borderColor: 'border.default' },
+  overlay: { bg: 'canvas.overlay', borderColor: 'border.default' },
   subtle: { bg: 'canvas.subtle', borderColor: 'border.default' },
   inset: { bg: 'canvas.inset', borderColor: 'border.default' },
   accent: { bg: 'accent.subtle', borderColor: 'accent.muted' },
@@ -135,7 +140,10 @@ export type CardProps = CardBoxProps & {
    * or an index of Primer's radii. The theme's `card` corner by default.
    */
   rounded?: BoxRadiusToken | number;
-  /** The card's flavour, `default` by default; see {@link CardVariant}. */
+  /**
+   * The card's flavour: `overlay` with `rounded="overlay"`, `default`
+   * otherwise; see {@link CardVariant}.
+   */
   variant?: CardVariant;
   /**
    * The card as a gradient, with white text on it and no hairline; it lies
@@ -341,12 +349,13 @@ export const Card: React.FC<CardProps> & {
   Glass: React.FC<CardGlassProps>;
 } = (props) => {
   const {
-    rounded, border, shadow, variant = 'default', surface, interactive, selected, dashed, disabled, accent,
+    rounded, border, shadow, variant, surface, interactive, selected, dashed, disabled, accent,
     hoverEffect, sx, style, children, ...otherProps
   } = props;
   const lift = hoverEffect === 'lift' && !disabled;
   const outlined = border || interactive || selected || dashed || lift;
-  const flavour = VARIANTS[variant];
+  // A floating panel's ground is the overlay's, opaque whatever the theme.
+  const flavour = VARIANTS[variant ?? (rounded === 'overlay' ? 'overlay' : 'default')];
   // An interactive card's hover hairline is the accent, lifted or not.
   const effectSx = lift ? liftSx(interactive ? 'accent.emphasis' : 'border.muted') : undefined;
   const mergedSx = effectSx ? { ...effectSx, ...(sx as object | undefined) } : sx;

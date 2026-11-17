@@ -55,6 +55,7 @@ const meta = {
     size: 26,
     shape: "square",
     hoverOverlayPlacement: "bottom-start",
+    showThemeChooser: true,
     showThemePreviews: true,
   },
 } satisfies Meta<typeof AppearanceMenu>;
@@ -90,7 +91,7 @@ const ThemedAppearanceMenu = (props: AppearanceMenuProps) => {
             }}
             onThemeChange={(variant) => {
               setThemeVariant(variant);
-              props.onThemeChange(variant);
+              props.onThemeChange?.(variant);
             }}
           />
           <Text sx={{ color: "fg.muted", fontSize: 1 }}>
@@ -119,6 +120,19 @@ export const CircleWithoutPreviews: Story = {
 };
 
 /**
+ * The colour mode alone: light, dark and auto, no theme swatches — the menu
+ * of a site that wears one theme (the Datalayer landing, on loop).
+ */
+export const ColorModeOnly: Story = {
+  args: {
+    themeVariant: "loop",
+    colorMode: "dark",
+    showThemeChooser: false,
+  },
+  render: (args) => <ThemedAppearanceMenu {...args} />,
+};
+
+/**
  * `AppearanceMenuWithStore`: the menu wired to a theme store, as the
  * appearance plugin puts it in a header.
  */
@@ -131,6 +145,7 @@ export const WithStore: Story = {
           size={args.size}
           shape={args.shape}
           hoverOverlayPlacement={args.hoverOverlayPlacement}
+          showThemeChooser={args.showThemeChooser}
           showThemePreviews={args.showThemePreviews}
         />
       </Box>

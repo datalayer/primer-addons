@@ -52,13 +52,20 @@ export interface AppearanceControlsProps {
   themeVariant?: ThemeVariant;
   /** Called on a new colour mode; required without the store, called after it with the store. */
   onColorModeChange?: (mode: ColorMode) => void;
-  /** Called on a new theme; required without the store, called after it with the store. */
+  /**
+   * Called on a new theme; required without the store when the theme chooser
+   * shows, called after it with the store.
+   */
   onThemeChange?: (theme: ThemeVariant) => void;
   /** `stacked` by default; see {@link AppearanceControlsLayout}. */
   layout?: AppearanceControlsLayout;
   /** Show the light / dark / auto switch. Default: shown. */
   showColorMode?: boolean;
-  /** Show the theme chooser. Default: shown. */
+  /**
+   * Show the theme chooser (the swatches, and with `showThemePreviews` the
+   * chosen theme's preview). Default: shown; `false` for a site that wears
+   * one theme, where the controls are the light / dark / auto switch alone.
+   */
   showThemeChooser?: boolean;
   /** Stacked, with the chooser: the chosen theme's name, description and preview under its swatches. Default: swatches only. */
   showThemePreviews?: boolean;
@@ -107,16 +114,17 @@ export function AppearanceControls({
       givenColorMode === undefined ||
       givenThemeVariant === undefined ||
       !givenOnColorModeChange ||
-      !givenOnThemeChange
+      (showThemeChooser && !givenOnThemeChange)
     ) {
       throw new Error(
-        "AppearanceControls without the store needs colorMode, themeVariant, onColorModeChange and onThemeChange.",
+        "AppearanceControls without the store needs colorMode, themeVariant, onColorModeChange, and onThemeChange when the theme chooser shows.",
       );
     }
     colorMode = givenColorMode;
     themeVariant = givenThemeVariant;
     onColorModeChange = givenOnColorModeChange;
-    onThemeChange = givenOnThemeChange;
+    // Never called without the chooser: nothing in the controls picks a theme then.
+    onThemeChange = givenOnThemeChange ?? (() => undefined);
   }
 
   // At most `themesPerLine` swatches on a line when given, each line centred,

@@ -11,6 +11,8 @@
  * theme; and they need no theme callback then.
  */
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
@@ -107,5 +109,14 @@ describe('the appearance controls without the theme chooser', () => {
         />,
       ),
     ).toThrow(/onThemeChange/);
+  });
+});
+
+describe('the appearance menu without the theme chooser', () => {
+  it('sizes its overlay to the switch, not to the swatches', () => {
+    const menu = readFileSync(join(__dirname, '..', 'AppearanceMenu.tsx'), 'utf8');
+    const circle = readFileSync(join(__dirname, '..', 'ColorModeCircle.tsx'), 'utf8');
+    expect(menu).toContain("hoverOverlayMinWidth={showThemeChooser ? 340 : 'auto'}");
+    expect(circle).toContain('minWidth: hoverOverlayMinWidth,');
   });
 });

@@ -64,6 +64,8 @@ export function AppearanceMenu({
       cycleOnClick={false}
       themeVariant={themeVariant}
       hoverOverlayPlacement={hoverOverlayPlacement}
+      // The switch alone needs no room for the swatches.
+      hoverOverlayMinWidth={showThemeChooser ? 340 : 'auto'}
       shape={shape}
       size={size}
       hoverOverlay={

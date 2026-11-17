@@ -51,6 +51,11 @@ export interface ColorModeCircleProps {
   cycleOnClick?: boolean;
   /** Overlay placement relative to the circle. */
   hoverOverlayPlacement?: HoverOverlayPlacement;
+  /**
+   * The overlay's least width: 340 by default, room for the theme swatches;
+   * `auto` sizes it to what it holds (the colour-mode switch alone).
+   */
+  hoverOverlayMinWidth?: number | 'auto';
   /** Optional theme used to tint the circle border. */
   themeVariant?: ThemeVariant;
   /** Visual shape of the control. */
@@ -68,6 +73,7 @@ export function ColorModeCircle({
   hoverOverlay,
   cycleOnClick = true,
   hoverOverlayPlacement = 'bottom-end',
+  hoverOverlayMinWidth = 340,
   themeVariant,
   shape = 'square',
 }: ColorModeCircleProps): ReactElement {
@@ -223,7 +229,7 @@ export function ColorModeCircle({
           left: isRight ? `calc(100% + 8px)` : isBottomStart ? 0 : 'auto',
           right: isRight || isBottomStart ? 'auto' : 0,
           zIndex: 220,
-          minWidth: 340,
+          minWidth: hoverOverlayMinWidth,
           maxHeight: overlayMaxHeight ?? `calc(100vh - ${OVERLAY_MARGIN * 2}px)`,
           overflowY: 'auto',
           overscrollBehavior: 'contain',

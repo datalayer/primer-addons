@@ -100,3 +100,48 @@ export const WestError: Story = {
   },
   render: args => <Demo {...(args as DemoProps)} />,
 };
+/**
+ * Contained: the panel slides within its region of the page (here a box
+ * standing for a chat embedded in a section), never over the rest of it.
+ */
+const ContainedDemo = (props: DemoProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Box sx={{ p: 4, minHeight: '100vh', bg: 'canvas.default' }}>
+      <Heading as="h2" sx={{ fontSize: 3, mb: 3 }}>
+        A panel inside its region
+      </Heading>
+      <Button onClick={() => setIsOpen(true)}>Open panel</Button>
+      <Box
+        sx={{
+          position: 'relative',
+          overflow: 'hidden',
+          mt: 3,
+          height: 360,
+          maxWidth: 720,
+          border: '1px solid',
+          borderColor: 'border.default',
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ p: 3, color: 'fg.muted' }}>The region the panel belongs to.</Box>
+        <SlidingPanel {...props} isOpen={isOpen} onDismiss={() => setIsOpen(false)} />
+      </Box>
+    </Box>
+  );
+};
+
+export const ContainedEast: Story = {
+  args: {
+    isOpen: false,
+    message: 'Deck ready',
+    details: 'Six slides on the roast-day launch.',
+    position: 'east',
+    variant: 'success',
+    contained: true,
+    panelSize: 320,
+    dismissOnPanelClick: false,
+    closeLabel: 'Close the notice',
+  },
+  render: args => <ContainedDemo {...args} />,
+};

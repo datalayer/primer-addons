@@ -3,7 +3,7 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type MouseEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type KeyboardEvent, type MouseEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@primer/react';
 import { XIcon } from '@primer/octicons-react';
 import { Box } from '../box/Box';
@@ -31,6 +31,31 @@ export interface SlidingPanelProps {
   offset?: number;
   panelSize?: number | string;
   fullWidth?: boolean;
+  /**
+   * Slide within the nearest positioned ancestor rather than over the
+   * viewport: the panel is `position: absolute` and takes that box's width
+   * (north, south) or height (east, west). For a panel that belongs to one
+   * region of a page — a chat embedded in a section — and must not cover
+   * the rest of it. Off by default: over the viewport, as before.
+   */
+  contained?: boolean;
+  /**
+   * Whether a click on the panel's background dismisses it, as it always
+   * did. Off for a panel whose content is read and used (a table, a card):
+   * its Close button and Escape still dismiss it.
+   */
+  dismissOnPanelClick?: boolean;
+  /** The Close button's name, said to a screen reader. */
+  closeLabel?: string;
+  /**
+   * Whether the panel is a live region that a screen reader reads out when
+   * it opens (`status`, or `alert` for an error), as it always was. Off for
+   * a panel with content to read at one's pace: it is then a named region
+   * (`ariaLabel`), reached like any other part of the page.
+   */
+  live?: boolean;
+  /** The panel's name, for a region that is not live. */
+  ariaLabel?: string;
 }
 
 const variantStyles: Record<SlidingPanelVariant, { bg: string; border: string; fg: string }> = {
@@ -148,6 +173,11 @@ export const SlidingPanel = ({
   offset = 0,
   panelSize = 360,
   fullWidth = true,
+  contained = false,
+  dismissOnPanelClick = true,
+  closeLabel = 'Close panel',
+  live = true,
+  ariaLabel,
 }: SlidingPanelProps) => {
   const [isMounted, setIsMounted] = useState(isOpen);
   const [isVisible, setIsVisible] = useState(isOpen);
@@ -221,6 +251,10 @@ export const SlidingPanel = ({
   }
 
   const style = variantStyles[variant];
+  const alerting = variant === 'error' || variant === 'danger';
+  // Over the viewport, or over its own region of the page.
+  const across = contained ? '100%' : '100vw';
+  const along = contained ? '100%' : '100vh';
   const closeStyle = closeButtonStyles[variant];
   const horizontal = position === 'north' || position === 'south';
   const edgeBorder = edgeBorderStyles[position];
@@ -228,7 +262,7 @@ export const SlidingPanel = ({
   return (
     <Box
       sx={{
-        position: 'fixed',
+        position: contained ? 'absolute' : 'fixed',
         zIndex,
         display: 'flex',
         pointerEvents: 'none',
@@ -236,10 +270,22 @@ export const SlidingPanel = ({
       }}
     >
       <Box
-        role={variant === 'error' || variant === 'danger' ? 'alert' : 'status'}
-        aria-live={variant === 'error' || variant === 'danger' ? 'assertive' : 'polite'}
-        onClick={
+        role={live ? (alerting ? 'alert' : 'status') : 'region'}
+        aria-live={live ? (alerting ? 'assertive' : 'polite') : undefined}
+        aria-label={live ? undefined : ariaLabel}
+        data-sliding-panel={position}
+        onKeyDown={
           onDismiss
+            ? (event: KeyboardEvent<HTMLElement>) => {
+                if (event.key === 'Escape') {
+                  event.stopPropagation();
+                  onDismiss();
+                }
+              }
+            : undefined
+        }
+        onClick={
+          onDismiss && dismissOnPanelClick
             ? (event: MouseEvent<HTMLElement>) => {
                 // A tap on the panel dismisses it — but not a click on a
                 // link, button or field in its content, nor the end of a
@@ -261,15 +307,15 @@ export const SlidingPanel = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          cursor: onDismiss ? 'pointer' : 'default',
+          cursor: onDismiss && dismissOnPanelClick ? 'pointer' : 'default',
           width: horizontal
             ? fullWidth
-              ? '100vw'
-              : 'min(960px, 96vw)'
+              ? across
+              : `min(960px, ${contained ? '100%' : '96vw'})`
             : panelSize,
-          maxWidth: horizontal ? '100vw' : undefined,
-          height: horizontal ? undefined : '100vh',
-          maxHeight: horizontal ? undefined : '100vh',
+          maxWidth: horizontal ? across : '100%',
+          height: horizontal ? undefined : along,
+          maxHeight: horizontal ? undefined : along,
           borderColor: style.border,
           borderTop: edgeBorder.borderTop,
           borderRight: edgeBorder.borderRight,
@@ -298,7 +344,7 @@ export const SlidingPanel = ({
             <IconButton
               variant="invisible"
               icon={XIcon}
-              aria-label="Close panel"
+              aria-label={closeLabel}
               onClick={event => {
                 event.stopPropagation();
                 onDismiss();

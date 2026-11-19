@@ -8,6 +8,12 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
+## 1.0.52
+
+- SlidingPanel `contained`: a panel kept in its own region of a page, Escape closes it.
+- Overlays opaque in every theme; the appearance menu without its theme swatches, sized to the light, dark and auto switch.
+- Theme: shape tokens, contrast tested, focus ring, motion.
+
 ## 1.0.51
 
 15 November 2026. `Toolbar` overflow, made for every host: `pinned` items never move into the "…" menu, `priority` orders who leaves first (lowest first, then the end of the line), a custom item says what it becomes in the menu with `overflow` (`{ label, icon, onSelect }` for a row, `{ render }` for a node of its own), and a menu row closes the menu once chosen. Every item is watched for its size, so a control that draws nothing until its data arrives is measured when it grows, and takes no room or gap while empty. Arrow keys, Home and End move between the controls; `variant="inline"` drops the strip's ground and border for a toolbar in the host's header; `gap` and `overflowAriaLabel`; `overflowKeys` exported. See [Toolbar overflow](https://github.com/datalayer/primer-addons/blob/main/README.md#toolbar-overflow). The gallery's *Toolbar* page narrows an editor strip and a header row to show it.

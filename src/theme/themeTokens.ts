@@ -10,7 +10,7 @@
  * object and the browser-aware helpers on top.
  */
 
-import { type ColorMode } from './DatalayerBrandThemeProvider';
+import { type ColorMode } from './colorMode';
 import { type ThemeStyles } from './css/createThemeCSSVars';
 
 import { datalayerThemeStyles } from './themes/datalayerThemeStyles';

@@ -3,7 +3,7 @@
  * Distributed under the terms of the Modified BSD License.
  */
 
-import { type ColorMode } from './DatalayerBrandThemeProvider';
+import { type ColorMode } from './colorMode';
 import { systemFontStack } from './fontStacks';
 import { themeTokens, type ThemeVariant } from './themeTokens';
 

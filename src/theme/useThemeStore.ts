@@ -29,7 +29,7 @@ import { create, type StoreApi, type UseBoundStore } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { ThemeVariant } from './themeRegistry';
 import { themeConfigs } from './themeRegistry';
-import type { ColorMode } from './DatalayerBrandThemeProvider';
+import type { ColorMode } from './colorMode';
 
 const VARIANT_SCHEMA_VERSION = 1;
 

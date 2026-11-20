@@ -14,7 +14,7 @@ import { Text } from '@primer/react';
 import { Box } from '../box/Box';
 import { Card } from '../card/Card';
 import { DatalayerThemeProvider } from '../../theme/DatalayerThemeProvider';
-import type { ColorMode } from '../../theme/DatalayerBrandThemeProvider';
+import type { ColorMode } from '../../theme/colorMode';
 import { themeConfigs } from '../../theme/themeRegistry';
 import type { ThemeVariant } from '../../theme/themeTokens';
 import { useSystemColorMode } from '../../theme/useSystemColorMode';

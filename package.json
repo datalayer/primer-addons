@@ -39,7 +39,6 @@
     "@primer/octicons-react": "^19.42.0",
     "@primer/primitives": "^10.7.0",
     "@primer/react": "^37.31.0",
-    "@primer/react-brand": "^0.58.2",
     "react-loading-skeleton": "^3.5.0",
     "styled-components": "^5.3.10",
     "zustand": "^5.0.0"

@@ -82,10 +82,11 @@ const themed = (variant: ThemeVariant, children?: React.ReactNode) => (
   </DatalayerThemeProvider>
 );
 
-const WITH_STYLESHEET = ['loop', 'metal', 'vscode'];
+// Sand, ivory and sun draw their pill controls from the rounded shape.
+const WITH_STYLESHEET = ['loop', 'metal', 'vscode', 'sand', 'ivory', 'sun'];
 
 describe('a theme without a stylesheet', () => {
-  it('is every theme but loop, metal and vscode', () => {
+  it('is every theme but loop, metal, vscode, sand, ivory and sun', () => {
     for (const [name, config] of Object.entries(themeConfigs)) {
       expect(config.themeStyles.css !== undefined, name).toBe(WITH_STYLESHEET.includes(name));
     }

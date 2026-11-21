@@ -13,6 +13,10 @@
 import { describe, expect, it } from 'vitest';
 import { themeConfigs } from '../themeRegistry';
 import { DEFAULT_THEME_SHAPE } from '../css/createThemeCSSVars';
+import { roundedRadiusVars } from '../themes/roundedShape';
+
+/** The themes, beside loop and metal, rounded since 21 November 2026. */
+const ROUNDED = ['sand', 'ivory', 'sun'];
 
 /** A theme's styles, without the tokens added since the snapshot was taken. */
 const before = (styles: Record<string, unknown>) =>
@@ -65,11 +69,11 @@ describe('the shape of a theme', () => {
 
 describe('the themes that existed before the shape tokens', () => {
   const names = Object.keys(themeConfigs)
-    .filter(name => name !== 'loop' && name !== 'metal' && name !== 'vscode')
+    .filter(name => !['loop', 'metal', 'vscode', ...ROUNDED].includes(name))
     .sort();
 
-  it('are eight', () => {
-    expect(names).toHaveLength(8);
+  it('are five that keep their shape, and the three made rounded', () => {
+    expect(names).toHaveLength(5);
   });
 
   for (const name of names) {
@@ -78,6 +82,19 @@ describe('the themes that existed before the shape tokens', () => {
       expect({
         light: before(styles.light as Record<string, unknown>),
         dark: before(styles.dark as Record<string, unknown>),
+      }).toMatchSnapshot();
+    });
+  }
+
+  // The three made rounded keep every other value: their colours, their type.
+  const corners = (styles: Record<string, unknown>) =>
+    Object.fromEntries(Object.entries(before(styles)).filter(([key]) => !(key in roundedRadiusVars)));
+  for (const name of ROUNDED) {
+    it(`${name} keeps every value it had`, () => {
+      const styles = themeConfigs[name as keyof typeof themeConfigs].themeStyles;
+      expect({
+        light: corners(styles.light as Record<string, unknown>),
+        dark: corners(styles.dark as Record<string, unknown>),
       }).toMatchSnapshot();
     });
   }
@@ -91,5 +108,32 @@ describe('the themes that existed before the shape tokens', () => {
     expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-radius-overlay']).toBe('20px');
     // The loop theme's tables have the corners of its list items.
     expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-radius-table']).toBe('14px');
+  });
+});
+
+describe('the rounded shape', () => {
+  const RADII = [
+    '--theme-radius-control',
+    '--theme-radius-card',
+    '--theme-radius-bubble',
+    '--theme-radius-frame',
+    '--theme-radius-table',
+    '--theme-radius-overlay',
+  ];
+
+  it('is the same in loop, metal, sand, ivory and sun, in both modes', () => {
+    const loop = themeConfigs.loop.themeStyles.light as Record<string, string>;
+    for (const name of ['metal', ...ROUNDED] as (keyof typeof themeConfigs)[]) {
+      for (const mode of ['light', 'dark'] as const) {
+        const styles = themeConfigs[name].themeStyles[mode] as Record<string, string>;
+        for (const key of [...RADII, ...Object.keys(roundedRadiusVars)]) {
+          expect(styles[key], `${name} ${mode} ${key}`).toBe(loop[key]);
+        }
+      }
+      // Its pill controls drawn by the stylesheet.
+      expect(themeConfigs[name].themeStyles.css, name).toContain('var(--theme-radius-control)');
+    }
+    expect(loop['--theme-radius-control']).toBe('999px');
+    expect(loop['--borderRadius-medium']).toBe('14px');
   });
 });

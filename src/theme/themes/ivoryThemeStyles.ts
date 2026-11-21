@@ -14,6 +14,7 @@
 
 import { ivoryColors } from '../colors/ivoryColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
+import { roundedRadiusVars, roundedShape } from './roundedShape';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
@@ -251,8 +252,13 @@ const ivoryDark: ThemeColorDefs = {
 const ivoryFontFamily =
   '"Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", P052, Georgia, serif';
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode. */
+/**
+ * Comprehensive Primer CSS-variable overrides for light & dark mode, with
+ * the rounded shape: Loop's and Metal's corners, pill controls (`roundedShape`).
+ */
 export const ivoryThemeStyles = buildThemeStyles(ivoryLight, ivoryDark, {
   fontFamily: ivoryFontFamily,
+  shape: roundedShape,
+  variables: { light: roundedRadiusVars, dark: roundedRadiusVars },
 });
 

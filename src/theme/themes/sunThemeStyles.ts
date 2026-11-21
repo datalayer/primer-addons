@@ -14,6 +14,7 @@
 
 import { sunColors } from '../colors/sunColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
+import { roundedRadiusVars, roundedShape } from './roundedShape';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
@@ -251,8 +252,13 @@ const sunDark: ThemeColorDefs = {
 const sunFontFamily =
   '"Avenir Next", Avenir, "Segoe UI", Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif';
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode. */
+/**
+ * Comprehensive Primer CSS-variable overrides for light & dark mode, with
+ * the rounded shape: Loop's and Metal's corners, pill controls (`roundedShape`).
+ */
 export const sunThemeStyles = buildThemeStyles(sunLight, sunDark, {
   fontFamily: sunFontFamily,
+  shape: roundedShape,
+  variables: { light: roundedRadiusVars, dark: roundedRadiusVars },
 });
 

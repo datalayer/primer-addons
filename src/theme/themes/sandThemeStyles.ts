@@ -14,6 +14,7 @@
 
 import { sandColors } from '../colors/sandColors';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
+import { roundedRadiusVars, roundedShape } from './roundedShape';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
@@ -250,8 +251,13 @@ const sandDark: ThemeColorDefs = {
 const sandFontFamily =
   'Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Cambria, serif';
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode. */
+/**
+ * Comprehensive Primer CSS-variable overrides for light & dark mode, with
+ * the rounded shape: Loop's and Metal's corners, pill controls (`roundedShape`).
+ */
 export const sandThemeStyles = buildThemeStyles(sandLight, sandDark, {
   fontFamily: sandFontFamily,
+  shape: roundedShape,
+  variables: { light: roundedRadiusVars, dark: roundedRadiusVars },
 });
 

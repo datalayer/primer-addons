@@ -23,6 +23,7 @@
 import { loopColors } from '../colors/loopColors';
 import { themeAccentTints, themeAccents } from '../colors/themeAccents';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
+import { roundedRadiusVars, roundedShape } from './roundedShape';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
@@ -271,14 +272,8 @@ export const loopDark: ThemeColorDefs = {
  * motion has three durations and one easing.
  */
 export const loopShapeVars: Record<string, string> = {
-  '--borderRadius-small': '10px',
-  '--borderRadius-medium': '14px',
-  '--borderRadius-large': '20px',
-  '--borderRadius-default': '14px',
-  '--loop-radius-control': '999px',
-  '--loop-radius-card': '20px',
-  '--loop-radius-bubble': '22px',
-  '--loop-radius-frame': '28px',
+  // The rounded shape's radii, shared with Metal, Sand, Ivory and Sun.
+  ...roundedRadiusVars,
   // Light mode's; `loopShadows` says dark mode's.
   '--loop-shadow-frame': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
   '--loop-face-large': '72px',
@@ -475,12 +470,7 @@ export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
   // Rounder than the others: a pill for a control (LOOP T-09), soft cards,
   // round bubbles, a table with the corners of a list item.
   shape: {
-    radiusControl: loopShapeVars['--loop-radius-control'],
-    radiusTable: loopShapeVars['--borderRadius-medium'],
-    radiusOverlay: loopShapeVars['--loop-radius-card'],
-    radiusCard: loopShapeVars['--loop-radius-card'],
-    radiusBubble: loopShapeVars['--loop-radius-bubble'],
-    radiusFrame: loopShapeVars['--loop-radius-frame'],
+    ...roundedShape,
     shadow: loopShapeVars['--loop-shadow-frame'],
     motionStatus: loopMotionVars['--loop-motion-status'],
     motionMessage: loopMotionVars['--loop-motion-message'],

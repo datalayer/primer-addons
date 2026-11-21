@@ -21,6 +21,7 @@ export * from './themes/sunTheme';
 export * from './themes/loopTheme';
 export * from './themes/metalTheme';
 export * from './themes/vscodeTheme';
+export * from './themes/roundedShape';
 export * from './themeRegistry';
 export * from './portableTheme';
 export * from './fontStacks';

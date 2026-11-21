@@ -26,6 +26,7 @@ import {
   loopTypeScale,
   loopTypeVars,
 } from './loopThemeStyles';
+import { roundedShape } from './roundedShape';
 
 /* ── Colour definitions ────────────────────────────────────────── */
 
@@ -355,12 +356,7 @@ export const metalThemeStyles = buildThemeStyles(metalLight, metalDark, {
   fontFamily: metalFontFamily,
   css: metalOwnCss,
   shape: {
-    radiusControl: loopShapeVars['--loop-radius-control'],
-    radiusTable: loopShapeVars['--borderRadius-medium'],
-    radiusOverlay: loopShapeVars['--loop-radius-card'],
-    radiusCard: loopShapeVars['--loop-radius-card'],
-    radiusBubble: loopShapeVars['--loop-radius-bubble'],
-    radiusFrame: loopShapeVars['--loop-radius-frame'],
+    ...roundedShape,
     shadow: 'none',
     motionStatus: loopMotionVars['--loop-motion-status'],
     motionMessage: loopMotionVars['--loop-motion-message'],

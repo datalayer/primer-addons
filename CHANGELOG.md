@@ -8,6 +8,11 @@
 
 Each version names the LOOP boxes it carries — the plan's ids, as its commits say them — and links the section of the README that documents them. The `loop` theme is documented in [The `loop` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-loop-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
+## 1.0.53
+
+- The `sand`, `ivory` and `sun` themes are rounded like `loop` and `metal`: single-line controls (buttons, icon buttons, inputs, selects) as pills, cards and overlays at 20px, from one shared shape (`src/theme/themes/roundedShape.ts`) all five themes use.
+- `@primer/react-brand` is no longer a dependency.
+
 ## 1.0.52
 
 - SlidingPanel `contained`: a panel kept in its own region of a page, Escape closes it.

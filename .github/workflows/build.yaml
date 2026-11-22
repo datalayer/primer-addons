@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      # The themes' contrast and shape (LOOP T-03, T-15): a failure fails the build.
+      # The themes' contrast and shape: a failure fails the build.
       - name: Test
         run: npm test
 
@@ -56,7 +56,7 @@ jobs:
           path: dist-npm/*.tgz
 
   # The gallery (examples/gallery) built from the package's source: a page
-  # that does not type-check or bundle fails CI (LOOP G-10). It installs its
+  # that does not type-check or bundle fails CI. It installs its
   # own dependencies (its package.json, no lockfile) beside the package's.
   gallery:
     runs-on: ubuntu-latest

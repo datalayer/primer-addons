@@ -37,7 +37,7 @@
  * card over the first lines.
  *
  * Nothing here decides what the parts do. A host wires them; this arranges
- * them. It grew up as the Loop's page layout, where the page is a notebook or
+ * them. It grew up as the Agent workspace's page layout, where the page is a notebook or
  * a document, the band is the composer and the panel is the conversation;
  * the names here are the general ones.
  *
@@ -169,7 +169,7 @@ function ActivityLine({ label }: { label: string }): JSX.Element {
 /**
  * A panel opening from its side at the theme's pace: `--theme-motion-pane`
  * and `--theme-motion-easing`, which every theme sets — to no motion at all
- * but in `loop` (LOOP T-10). The animation starts when the panel is shown.
+ * but in `agent`. The animation starts when the panel is shown.
  */
 export function panelOpening(side: "left" | "right"): Record<string, unknown> {
   const name = side === "left" ? "pagePanelOpenLeft" : "pagePanelOpenRight";
@@ -555,7 +555,7 @@ export function PageLayout({
                 display: "flex",
                 flexDirection: "column",
                 "& > *": { flex: "1 1 auto", minHeight: 0 },
-                // A pane opening, at the theme's pace (LOOP T-10): from its
+                // A pane opening, at the theme's pace: from its
                 // side, by the theme's motion tokens — none in a theme that
                 // sets no motion, none when motion is reduced. On the
                 // content, not the column: a transform on the column would

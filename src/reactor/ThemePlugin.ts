@@ -10,7 +10,7 @@
  * a menu — needs the same two lines of glue: `setupPrimerPortals()` before
  * anything portals, and again on every theme change so the portal root's
  * `data-color-mode` follows the application. Each host wrote them for itself
- * (the music example at module load, the LOOP palette inside its build), and
+ * (the music example at module load, the Agent palette inside its build), and
  * each copy was one theme-change subscription short: a palette opened after a
  * toggle wore the mode the page started in.
  *

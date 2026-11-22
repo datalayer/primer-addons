@@ -11,7 +11,7 @@ export { earthColors } from './earthColors';
 export { sandColors } from './sandColors';
 export { ivoryColors } from './ivoryColors';
 export { sunColors } from './sunColors';
-export { loopColors } from './loopColors';
+export { agentColors } from './agentColors';
 export { metalColors } from './metalColors';
 export {
   vscodeColors,
@@ -51,7 +51,7 @@ import { earthColors } from './earthColors';
 import { sandColors } from './sandColors';
 import { ivoryColors } from './ivoryColors';
 import { sunColors } from './sunColors';
-import { loopColors } from './loopColors';
+import { agentColors } from './agentColors';
 import { metalColors } from './metalColors';
 import { vscodeColors } from './vscodeColors';
 
@@ -74,7 +74,7 @@ export const themedColors: Record<ThemeVariant, Record<string, string>> = {
   sand: sandColors,
   ivory: ivoryColors,
   sun: sunColors,
-  loop: loopColors,
+  agent: agentColors,
   metal: metalColors,
   vscode: vscodeColors,
 };

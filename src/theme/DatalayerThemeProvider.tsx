@@ -260,7 +260,7 @@ export function DatalayerThemeProvider(
   // Not before the DOM has been read: the first commit's effects run before
   // the update that says whether this provider is nested, and a nested one
   // — an application embedded in another product's page, in its own shadow
-  // root (LOOP T-13) — wrote its theme on that page's <body> before it knew.
+  // root — wrote its theme on that page's <body> before it knew.
   useEffect(() => {
     if (!placed || nested) {
       // Another provider owns the page's portal root; see above.

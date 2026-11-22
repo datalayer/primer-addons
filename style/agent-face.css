@@ -4,14 +4,14 @@
  */
 
 /*
- * The `loop` theme's face (LOOP T-04): Inter, open licence (SIL OFL 1.1) and
+ * The `agent` theme's face: Inter, open licence (SIL OFL 1.1) and
  * variable, served by the page's own build from `@fontsource-variable/inter`
  * — the woff2 is bundled as an asset of the importing application, so it is
  * fetched from that application's origin and never from a third party.
  *
  * Import it once where the theme can be worn:
  *
- *   import '@datalayer/primer-addons/style/loop-face.css';
+ *   import '@datalayer/primer-addons/style/agent-face.css';
  *
  * Only the upright variable axis (weights 100 to 900 in one file; the theme
  * uses 400 and 600) and only two subsets, latin and latin-ext: a browser

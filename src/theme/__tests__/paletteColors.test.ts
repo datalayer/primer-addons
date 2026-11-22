@@ -73,7 +73,7 @@ describe('the palette names', () => {
 
   it('change a hue with the mode, and a role with the theme', () => {
     expect(getColorPalette('datalayer', 'light').indigo).not.toBe(getColorPalette('datalayer', 'dark').indigo);
-    expect(getColorPalette('loop', 'dark').violet).toBe('#C0AEF6');
+    expect(getColorPalette('agent', 'dark').violet).toBe('#C0AEF6');
     expect(getColorPalette('earth', 'dark').surge).not.toBe(getColorPalette('sand', 'dark').surge);
   });
 });

@@ -5,7 +5,7 @@
 
 /**
  * `Sheet`: a page on a canvas — the canvas colour, its hairline, the theme's
- * card corner (20px in loop) and the shadow a sheet of paper has, lifted off
+ * card corner (20px in agent) and the shadow a sheet of paper has, lifted off
  * what is under it. The page layout draws its page with it; anything that
  * shows a page of its own (a document, a gallery entry, a preview) can too.
  *

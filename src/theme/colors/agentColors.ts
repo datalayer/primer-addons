@@ -4,9 +4,9 @@
  */
 
 /**
- * Loop Color System – one accent, neutral everything else.
+ * Agent Color System – one accent, neutral everything else.
  *
- * The look of an application built in LOOP: a white (or near-black)
+ * The look of an Agent application: a white (or near-black)
  * canvas, near-black (or near-white) text, hairlines instead of borders,
  * and a single soft accent that dark text sits on. Nothing else carries
  * colour, apart from the three colours of a verdict.
@@ -16,7 +16,7 @@
  * application may take one of five others: the accents are the theme
  * system's, over every theme (`themeAccents`, decided 2026-10-07).
  */
-export const loopColors = {
+export const agentColors = {
   // Core neutrals
   black: '#131314', // Near-black — primary dark background
   gray: '#6E6E73',  // Secondary text on light: a soft grey, 5.1 to 1 on white
@@ -30,21 +30,21 @@ export const loopColors = {
   subtleDark: '#1E1E20', // Subtle surface on dark
   grayDark: '#A1A1A6',   // Secondary text on dark
 
-  // Loop palette (Brand) — mint
-  loopBrand: '#7ADBB8',  // The accent — a bubble, a send button, a swatch
-  loopOn: '#06281E',     // Text that sits on the accent (9.5 to 1)
-  loopAccent: '#4FC79C', // Deeper accent — charts, highlights
-  loopBrandHover: '#6CCFAA', // The filled button, hovered: dark text 8.4 to 1
-  loopText: '#248462',   // Accent text & links on white: the lightest mint that reads, 4.6 to 1
-  loopRing: '#0F6B4F',   // The focus ring: 3 to 1 or more around every pastel
-  loopTint: '#F0FAF6',   // Quiet tint — a draft, a callout
-  loopStage: '#DDF5EC',  // The stage behind an application
-  loopBright: '#8FE5C6', // Accent text & links on dark
-  loopHover: '#227C5C',  // Accent text hover
+  // Agent palette (Brand) — mint
+  agentBrand: '#7ADBB8',  // The accent — a bubble, a send button, a swatch
+  agentOn: '#06281E',     // Text that sits on the accent (9.5 to 1)
+  agentAccent: '#4FC79C', // Deeper accent — charts, highlights
+  agentBrandHover: '#6CCFAA', // The filled button, hovered: dark text 8.4 to 1
+  agentText: '#248462',   // Accent text & links on white: the lightest mint that reads, 4.6 to 1
+  agentRing: '#0F6B4F',   // The focus ring: 3 to 1 or more around every pastel
+  agentTint: '#F0FAF6',   // Quiet tint — a draft, a callout
+  agentStage: '#DDF5EC',  // The stage behind an application
+  agentBright: '#8FE5C6', // Accent text & links on dark
+  agentHover: '#227C5C',  // Accent text hover
 
   // The stage and the quiet tint, on dark
-  loopStageDark: '#10261F',
-  loopTintDark: '#17211D',
+  agentStageDark: '#10261F',
+  agentTintDark: '#17211D',
 
   // Semantic roles — kept for verdicts and rules only
   successBrand: '#1F8A5B',

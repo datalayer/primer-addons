@@ -21,7 +21,7 @@ import { earthThemeStyles } from './themes/earthThemeStyles';
 import { sandThemeStyles } from './themes/sandThemeStyles';
 import { ivoryThemeStyles } from './themes/ivoryThemeStyles';
 import { sunThemeStyles } from './themes/sunThemeStyles';
-import { loopThemeStyles } from './themes/loopThemeStyles';
+import { agentThemeStyles } from './themes/agentThemeStyles';
 import { metalThemeStyles } from './themes/metalThemeStyles';
 import { vscodePortableThemeStyles } from './themes/vscodeThemeStyles';
 import { datalayerColors } from './colors/datalayerColors';
@@ -32,7 +32,7 @@ import { earthColors } from './colors/earthColors';
 import { sandColors } from './colors/sandColors';
 import { ivoryColors } from './colors/ivoryColors';
 import { sunColors } from './colors/sunColors';
-import { loopColors } from './colors/loopColors';
+import { agentColors } from './colors/agentColors';
 import { metalColors } from './colors/metalColors';
 import { vscodeColors } from './colors/vscodeColors';
 
@@ -48,7 +48,7 @@ export type ThemeVariant =
   | 'sand'
   | 'ivory'
   | 'sun'
-  | 'loop'
+  | 'agent'
   | 'metal'
   | 'vscode';
 
@@ -375,41 +375,41 @@ export const themeTokens: Record<ThemeVariant, ThemeTokens> = {
       gold: sunColors.brightLightGold,        // #8A6E00 — deep gold
     },
   },
-  loop: {
-    label: 'Loop',
-    description: 'Very clean: one soft accent, neutral everything else. The look of an application built in LOOP.',
-    brandColor: loopColors.loopBrand,
+  agent: {
+    label: 'Agent',
+    description: 'Very clean: one soft accent, neutral everything else. The look of an Agent application.',
+    brandColor: agentColors.agentBrand,
     defaultColorMode: 'light',
-    themeStyles: loopThemeStyles,
+    themeStyles: agentThemeStyles,
     // The theme has no gradient on a surface: both stops are the accent.
     cardGradient: {
-      light: { from: loopColors.loopBrand, to: loopColors.loopBrand }, // #7ADBB8, flat
-      dark:  { from: loopColors.loopBrand, to: loopColors.loopBrand }, // #7ADBB8, flat
+      light: { from: agentColors.agentBrand, to: agentColors.agentBrand }, // #7ADBB8, flat
+      dark:  { from: agentColors.agentBrand, to: agentColors.agentBrand }, // #7ADBB8, flat
     },
     brightPalette: {
-      glow: loopColors.brightGlow,        // #7ADBB8 — green, the accent
-      onGlow: loopColors.loopOn,          // dark text on the accent
-      pop: loopColors.brightPop,          // #8CCBF9 — sky
-      spark: loopColors.brightSpark,      // #BEDC55 — lime
-      blaze: loopColors.brightBlaze,      // #F6A5C1 — rose
-      surge: loopColors.brightSurge,      // #C0AEF6 — violet
-      flame: loopColors.brightFlame,      // #F4A261 — soft orange
-      gold: loopColors.brightGold,        // #F8D469 — sun
+      glow: agentColors.brightGlow,        // #7ADBB8 — green, the accent
+      onGlow: agentColors.agentOn,          // dark text on the accent
+      pop: agentColors.brightPop,          // #8CCBF9 — sky
+      spark: agentColors.brightSpark,      // #BEDC55 — lime
+      blaze: agentColors.brightBlaze,      // #F6A5C1 — rose
+      surge: agentColors.brightSurge,      // #C0AEF6 — violet
+      flame: agentColors.brightFlame,      // #F4A261 — soft orange
+      gold: agentColors.brightGold,        // #F8D469 — sun
     },
     brightPaletteLight: {
-      glow: loopColors.brightLightGlow,        // #0F6B4F — deep green
+      glow: agentColors.brightLightGlow,        // #0F6B4F — deep green
       onGlow: '#ffffff',                       // white text on deep green
-      pop: loopColors.brightLightPop,          // #1F6FB0 — deep sky
-      spark: loopColors.brightLightSpark,      // #5F7A00 — deep lime
-      blaze: loopColors.brightLightBlaze,      // #B83A6B — deep rose
-      surge: loopColors.brightLightSurge,      // #6B53C9 — deep violet
-      flame: loopColors.brightLightFlame,      // #B4571A — deep orange
-      gold: loopColors.brightLightGold,        // #8A6A00 — deep sun
+      pop: agentColors.brightLightPop,          // #1F6FB0 — deep sky
+      spark: agentColors.brightLightSpark,      // #5F7A00 — deep lime
+      blaze: agentColors.brightLightBlaze,      // #B83A6B — deep rose
+      surge: agentColors.brightLightSurge,      // #6B53C9 — deep violet
+      flame: agentColors.brightLightFlame,      // #B4571A — deep orange
+      gold: agentColors.brightLightGold,        // #8A6A00 — deep sun
     },
   },
   metal: {
     label: 'Metal',
-    description: 'Loop’s curves, on a page of its own: a dotted wash on light, a deep gradient and frosted glass on dark.',
+    description: 'Agent’s curves, on a page of its own: a dotted wash on light, a deep gradient and frosted glass on dark.',
     brandColor: metalColors.metalBrand,
     defaultColorMode: 'light',
     themeStyles: metalThemeStyles,
@@ -482,7 +482,7 @@ export const themeVariants: ThemeVariant[] = [
   'sand',
   'ivory',
   'sun',
-  'loop',
+  'agent',
   'metal',
   'vscode',
 ];
@@ -655,20 +655,20 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       sunColors.brightSurge,             // #4FB0C6 — sky blue
     ],
   },
-  loop: {
+  agent: {
     light: [
-      loopColors.brightLightGlow,        // #0F6B4F — deep green
-      loopColors.brightLightPop,         // #1F6FB0 — deep sky
-      loopColors.brightLightBlaze,       // #B83A6B — deep rose
-      loopColors.brightLightSurge,       // #6B53C9 — deep violet
-      loopColors.gray,                   // #6A6A66 — neutral gray
+      agentColors.brightLightGlow,        // #0F6B4F — deep green
+      agentColors.brightLightPop,         // #1F6FB0 — deep sky
+      agentColors.brightLightBlaze,       // #B83A6B — deep rose
+      agentColors.brightLightSurge,       // #6B53C9 — deep violet
+      agentColors.gray,                   // #6A6A66 — neutral gray
     ],
     dark: [
-      loopColors.loopBrand,              // #7ADBB8 — green
-      loopColors.brightPop,              // #8CCBF9 — sky
-      loopColors.brightBlaze,            // #F6A5C1 — rose
-      loopColors.brightSurge,            // #C0AEF6 — violet
-      loopColors.brightGold,             // #F8D469 — sun
+      agentColors.agentBrand,              // #7ADBB8 — green
+      agentColors.brightPop,              // #8CCBF9 — sky
+      agentColors.brightBlaze,            // #F6A5C1 — rose
+      agentColors.brightSurge,            // #C0AEF6 — violet
+      agentColors.brightGold,             // #F8D469 — sun
     ],
   },
   metal: {
@@ -680,7 +680,7 @@ const avatarColorPalettes: Record<ThemeVariant, { light: string[]; dark: string[
       metalColors.gray,
     ],
     dark: [
-      metalColors.loopBrand,
+      metalColors.agentBrand,
       metalColors.brightPop,
       metalColors.brightBlaze,
       metalColors.brightSurge,

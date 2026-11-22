@@ -64,6 +64,28 @@ function normalizeVariants(variants?: VariantDefaults): VariantDefaults {
   return normalized;
 }
 
+/**
+ * A stored theme the registry no longer has (a renamed theme: 'loop' became
+ * 'agent' on 22 November 2026) is not drawn: it would leave the page without
+ * a theme. The stored choice is dropped and the store's own default stands.
+ */
+function isKnownTheme(theme: unknown): theme is ThemeVariant {
+  return typeof theme === 'string' && Object.prototype.hasOwnProperty.call(themeConfigs, theme);
+}
+
+/**
+ * Themes renamed here, read under their new id when a store hydrates (the
+ * user, 22 November 2026: the 'loop' theme is the 'agent' theme): a person's
+ * choice follows the theme it named rather than falling back to the default.
+ */
+export const RENAMED_THEMES: Readonly<Record<string, ThemeVariant>> = {
+  loop: 'agent' as ThemeVariant,
+};
+
+function renamedTheme(theme: unknown): unknown {
+  return typeof theme === 'string' && theme in RENAMED_THEMES ? RENAMED_THEMES[theme] : theme;
+}
+
 function hasMissingVariantVersion(variants?: VariantDefaults): boolean {
   if (!variants || Object.keys(variants).length === 0) {
     return false;
@@ -257,7 +279,7 @@ export function createThemeStore(
           // Legacy snapshots without per-variant versions are upgraded to v1.
           // Anonymous defaults are forced to matrix/dark during this upgrade.
           if (missingVariantVersion) {
-            variants['agent-anonymous'] = {
+            variants['site-anonymous'] = {
               theme: 'matrix',
               colorMode: 'dark',
               version: VARIANT_SCHEMA_VERSION,
@@ -269,8 +291,8 @@ export function createThemeStore(
             variants,
             ...(missingVariantVersion
               ? {
-                  theme: p.activeVariant === 'agent-anonymous' ? 'matrix' : p.theme,
-                  colorMode: p.activeVariant === 'agent-anonymous' ? 'dark' : p.colorMode,
+                  theme: p.activeVariant === 'site-anonymous' ? 'matrix' : p.theme,
+                  colorMode: p.activeVariant === 'site-anonymous' ? 'dark' : p.colorMode,
                 }
               : {}),
           };
@@ -289,14 +311,18 @@ export function createThemeStore(
           const mergedVariants = normalizeVariants(current.variants);
           if (p.variants) {
             for (const [key, val] of Object.entries(p.variants)) {
-              if (val && typeof val === 'object' && 'theme' in val) {
-                mergedVariants[key] = normalizeVariantPreference(val);
+              const theme = val && typeof val === 'object' ? renamedTheme(val.theme) : undefined;
+              if (val && typeof val === 'object' && isKnownTheme(theme)) {
+                mergedVariants[key] = normalizeVariantPreference({ ...val, theme });
               }
             }
           }
+          const { theme: stored, ...rest } = p;
+          const storedTheme = renamedTheme(stored);
           return {
             ...current,
-            ...p,
+            ...rest,
+            ...(isKnownTheme(storedTheme) ? { theme: storedTheme } : {}),
             variants: mergedVariants,
           };
         },

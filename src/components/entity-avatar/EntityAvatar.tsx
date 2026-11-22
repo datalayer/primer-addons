@@ -22,7 +22,7 @@
  * profile's cards give one, with `fg.onEmphasis`.
  *
  * Its shape is the theme's too: a `circle` for a person, `rounded` for
- * anything else — the theme's medium corner (rounder in `loop`), never more
+ * anything else — the theme's medium corner (rounder in `agent`), never more
  * than a little over a quarter of the avatar, so a small one stays a square
  * with soft corners rather than turning into a circle.
  *

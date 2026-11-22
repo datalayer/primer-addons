@@ -66,7 +66,7 @@ describe('the appearance controls without the theme chooser', () => {
           withStore={false}
           layout={layout}
           colorMode="dark"
-          themeVariant="loop"
+          themeVariant="agent"
           onColorModeChange={() => undefined}
           showThemeChooser={false}
           showThemePreviews
@@ -89,7 +89,7 @@ describe('the appearance controls without the theme chooser', () => {
       <AppearanceControls
         withStore={false}
         colorMode="dark"
-        themeVariant="loop"
+        themeVariant="agent"
         onColorModeChange={() => undefined}
         onThemeChange={() => undefined}
       />,
@@ -104,7 +104,7 @@ describe('the appearance controls without the theme chooser', () => {
         <AppearanceControls
           withStore={false}
           colorMode="dark"
-          themeVariant="loop"
+          themeVariant="agent"
           onColorModeChange={() => undefined}
         />,
       ),

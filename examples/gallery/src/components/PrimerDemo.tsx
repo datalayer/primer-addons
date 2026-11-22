@@ -7,7 +7,7 @@
  * Primer's own components, drawn by the selected theme. A theme's shape says
  * how a control's corners and a data table's corners, header and hairline
  * look (`primerComponentsCss`); its colours do the rest. Switch the theme
- * (try `loop`: pills and a rounder table) and every one of them follows.
+ * (try `agent`: pills and a rounder table) and every one of them follows.
  */
 
 import { useState, type ReactNode } from 'react';

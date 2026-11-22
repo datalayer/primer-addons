@@ -14,7 +14,7 @@
  * the variable alone, with no fallback (see `components/box/Box.tsx`), so
  * the theme provider sets every variable `Box` can emit: these, under the
  * theme's own (`themeStyles`), which win where a theme says otherwise — the
- * `loop` theme's radii and shadows.
+ * `agent` theme's radii and shadows.
  */
 
 const radii: Record<string, string> = {

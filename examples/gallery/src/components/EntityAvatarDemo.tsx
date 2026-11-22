@@ -6,7 +6,7 @@
 /**
  * EntityAvatar in each flavour, under the selected theme: an image, an emoji,
  * an icon, initials; its sizes; a circle for a person and the theme's corner
- * for the rest (rounder in `loop`); its grounds and an entity's own colour.
+ * for the rest (rounder in `agent`); its grounds and an entity's own colour.
  */
 
 import type { ReactNode } from 'react';

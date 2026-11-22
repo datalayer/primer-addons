@@ -127,7 +127,7 @@ export const Colours: Story = {
   ),
 };
 
-/** Corners by name: Primer's four, then the theme's shapes (rounder in `loop`). */
+/** Corners by name: Primer's four, then the theme's shapes (rounder in `agent`). */
 export const Corners: Story = {
   render: () => (
     <Box p={3} bg="canvas.default" display="flex" flexWrap="wrap" gap={3}>

@@ -121,11 +121,11 @@ export const CircleWithoutPreviews: Story = {
 
 /**
  * The colour mode alone: light, dark and auto, no theme swatches — the menu
- * of a site that wears one theme (the Datalayer landing, on loop).
+ * of a site that wears one theme (the Datalayer landing, on agent).
  */
 export const ColorModeOnly: Story = {
   args: {
-    themeVariant: "loop",
+    themeVariant: "agent",
     colorMode: "dark",
     showThemeChooser: false,
   },

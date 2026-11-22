@@ -4,7 +4,7 @@
  */
 
 /**
- * The `loop` theme's type (LOOP T-04): one face, served from the page's own
+ * The `agent` theme's type: one face, served from the page's own
  * build with a metric-matched fallback; two weights; five sizes, one
  * line-height per size.
  */
@@ -13,10 +13,10 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { describe, expect, it } from 'vitest';
 import { themeConfigs } from '../themeRegistry';
-import { loopFontFamily } from '../themes/loopTheme';
+import { agentFontFamily } from '../themes/agentTheme';
 
-const styles = themeConfigs.loop.themeStyles;
-const face = readFileSync(join(__dirname, '..', '..', '..', 'style', 'loop-face.css'), 'utf8');
+const styles = themeConfigs.agent.themeStyles;
+const face = readFileSync(join(__dirname, '..', '..', '..', 'style', 'agent-face.css'), 'utf8');
 
 /** Every `--text-*-shorthand` of a mode, as weight, size and line-height. */
 const shorthands = (mode: Record<string, unknown>) =>
@@ -28,11 +28,11 @@ const shorthands = (mode: Record<string, unknown>) =>
       return { name, weight: match[1], size: match[2], lineHeight: match[3], family: match[4] };
     });
 
-describe('the loop theme type', () => {
+describe('the agent theme type', () => {
   it('names Inter, then its fallback, then the system face', () => {
-    expect(loopFontFamily.startsWith('"Inter Variable", "Inter Fallback", ')).toBe(true);
-    expect(loopFontFamily).toMatch(/system-ui/);
-    expect(loopFontFamily.trim().endsWith('sans-serif')).toBe(true);
+    expect(agentFontFamily.startsWith('"Inter Variable", "Inter Fallback", ')).toBe(true);
+    expect(agentFontFamily).toMatch(/system-ui/);
+    expect(agentFontFamily.trim().endsWith('sans-serif')).toBe(true);
   });
 
   for (const mode of ['light', 'dark'] as const) {
@@ -40,7 +40,7 @@ describe('the loop theme type', () => {
       const mine = styles[mode] as Record<string, unknown>;
       const all = shorthands(mine);
       expect(all.length).toBeGreaterThanOrEqual(9);
-      for (const one of all) expect(one.family).toBe(loopFontFamily);
+      for (const one of all) expect(one.family).toBe(agentFontFamily);
       expect(new Set(all.map(one => one.size)).size).toBe(5);
       const lineOf = new Map<string, string>();
       for (const one of all) {

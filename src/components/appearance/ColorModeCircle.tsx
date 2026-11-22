@@ -175,7 +175,7 @@ export function ColorModeCircle({
         minWidth: size,
         width: size,
         height: size,
-        // A control like the theme's others: round on Loop, square on VS Code.
+        // A control like the theme's others: round on Agent, square on VS Code.
         borderRadius: shape === 'circle' ? '50%' : 'var(--theme-radius-control, 6px)',
         display: 'inline-flex',
         alignItems: 'center',

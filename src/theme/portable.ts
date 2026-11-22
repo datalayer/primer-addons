@@ -16,7 +16,7 @@
 export * from './colors';
 export * from './indicators';
 export * from './fontStacks';
-export * from './loopEyes';
+export * from './agentEyes';
 export * from './portableTheme';
 export * from './themeTokens';
 export {

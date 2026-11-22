@@ -6,22 +6,22 @@
 /**
  * Metal Color System – cool neutrals, one steel blue, four brushed surfaces.
  *
- * The Loop theme's system with the warmth taken out: a white canvas under a
+ * The Agent theme's system with the warmth taken out: a white canvas under a
  * blue-grey wash, hairlines with a little steel in them, and a slate-blue
- * accent. Where Loop has no gradient, Metal has four, for a surface that
+ * accent. Where Agent has no gradient, Metal has four, for a surface that
  * carries white text and glass on top: sage, steel, mauve and clay.
- * The verdict colours are Loop's.
+ * The verdict colours are Agent's.
  */
 
-import { loopColors } from './loopColors';
+import { agentColors } from './agentColors';
 
 export const metalColors = {
-  ...loopColors,
+  ...agentColors,
 
   // Core neutrals
   black: '#1C2A33',      // The deep base under the dark mesh
   gray: '#6B7280',       // Secondary text on light: 4.8 to 1 on white
-  ink: '#2A2F37',        // Text on light: softer than Loop's, 13.5 to 1 on white
+  ink: '#2A2F37',        // Text on light: softer than Agent's, 13.5 to 1 on white
   inkDark: '#EEF2F7',    // Text on dark
   subtle: '#F6F8FC',     // Subtle surface on light
   subtleDark: '#25343F', // Subtle surface on dark, and the menus

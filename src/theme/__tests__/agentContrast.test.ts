@@ -4,16 +4,16 @@
  */
 
 /**
- * Contrast, tested (LOOP T-15): every accent of the theme system, in both
+ * Contrast, tested: every accent of the theme system, in both
  * modes, for text on a bubble, on a pill and on the stage — 4.5 to 1, WCAG
  * AA for body text. A failure fails the build.
  */
 
 import { describe, expect, it } from 'vitest';
-import { loopColors } from '../colors/loopColors';
+import { agentColors } from '../colors/agentColors';
 import { themeAccentNames, themeAccentVars, themeAccents } from '../colors/themeAccents';
 import { themeConfigs } from '../themeRegistry';
-import { loopDark, loopFocusRing, loopLight, loopMotionVars } from '../themes/loopTheme';
+import { agentDark, agentFocusRing, agentLight, agentMotionVars } from '../themes/agentTheme';
 
 /** The relative luminance of an sRGB colour, as WCAG 2.x defines it. */
 export function luminance(hex: string): number {
@@ -31,7 +31,7 @@ export function contrast(a: string, b: string): number {
 
 const AA = 4.5;
 
-describe('the loop theme’s contrast', () => {
+describe('the agent theme’s contrast', () => {
   it('measures as WCAG does', () => {
     expect(contrast('#000000', '#FFFFFF')).toBeCloseTo(21, 5);
     expect(contrast('#777777', '#FFFFFF')).toBeCloseTo(4.48, 2);
@@ -44,60 +44,60 @@ describe('the loop theme’s contrast', () => {
       expect(contrast(accent.on, accent.accent)).toBeGreaterThanOrEqual(AA);
     });
     it(`${name}: the text on the stage, light and dark`, () => {
-      expect(contrast(loopColors.ink, accent.stage.light)).toBeGreaterThanOrEqual(AA);
-      expect(contrast(loopColors.inkDark, accent.stage.dark)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(agentColors.ink, accent.stage.light)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(agentColors.inkDark, accent.stage.dark)).toBeGreaterThanOrEqual(AA);
       // And on the quiet tint, where a reply sits.
-      expect(contrast(loopColors.ink, accent.quiet.light)).toBeGreaterThanOrEqual(AA);
-      expect(contrast(loopColors.inkDark, accent.quiet.dark)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(agentColors.ink, accent.quiet.light)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(agentColors.inkDark, accent.quiet.dark)).toBeGreaterThanOrEqual(AA);
     });
   }
 
   it('shows its focus ring on the surface and around every pill (3 to 1)', () => {
-    expect(contrast(loopFocusRing.light, loopColors.white)).toBeGreaterThanOrEqual(3);
-    expect(contrast(loopFocusRing.dark, loopColors.black)).toBeGreaterThanOrEqual(3);
+    expect(contrast(agentFocusRing.light, agentColors.white)).toBeGreaterThanOrEqual(3);
+    expect(contrast(agentFocusRing.dark, agentColors.black)).toBeGreaterThanOrEqual(3);
     for (const name of themeAccentNames) {
-      expect(contrast(loopFocusRing.light, themeAccents[name].accent)).toBeGreaterThanOrEqual(3);
-      expect(contrast(loopFocusRing.dark, themeAccents[name].accent)).toBeGreaterThanOrEqual(3);
+      expect(contrast(agentFocusRing.light, themeAccents[name].accent)).toBeGreaterThanOrEqual(3);
+      expect(contrast(agentFocusRing.dark, themeAccents[name].accent)).toBeGreaterThanOrEqual(3);
     }
     // The subtle dark surface is the one place the dark ring falls short.
-    expect(contrast(loopFocusRing.dark, loopColors.subtleDark)).toBeGreaterThanOrEqual(2.7);
+    expect(contrast(agentFocusRing.dark, agentColors.subtleDark)).toBeGreaterThanOrEqual(2.7);
   });
 
-  it('moves at three durations and one easing (T-10)', () => {
-    const durations = Object.entries(loopMotionVars).filter(([, value]) => value.endsWith('ms'));
+  it('moves at three durations and one easing', () => {
+    const durations = Object.entries(agentMotionVars).filter(([, value]) => value.endsWith('ms'));
     expect(durations.map(([key]) => key).sort()).toEqual([
-      '--loop-motion-message',
-      '--loop-motion-pane',
-      '--loop-motion-status',
+      '--agent-motion-message',
+      '--agent-motion-pane',
+      '--agent-motion-status',
     ]);
-    expect(Object.keys(loopMotionVars)).toContain('--loop-motion-easing');
+    expect(Object.keys(agentMotionVars)).toContain('--agent-motion-easing');
   });
 
   it('fills the one button of a screen in the accent, readable in both modes', () => {
     // Both modes: the mint pastel, with its dark text — rest, hovered, pressed.
-    expect(loopColors.loopBrand).toBe(themeAccents.green.accent);
-    expect(contrast(loopColors.loopOn, loopColors.loopBrand)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.loopOn, loopColors.loopBrandHover)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.loopOn, loopColors.loopAccent)).toBeGreaterThanOrEqual(AA);
+    expect(agentColors.agentBrand).toBe(themeAccents.green.accent);
+    expect(contrast(agentColors.agentOn, agentColors.agentBrand)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.agentOn, agentColors.agentBrandHover)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.agentOn, agentColors.agentAccent)).toBeGreaterThanOrEqual(AA);
     // The accent's fill is the button's, in both modes, and the button's text
     // reads on it: the chat draws the person's bubble from that pair.
-    for (const mode of [loopLight, loopDark]) {
+    for (const mode of [agentLight, agentDark]) {
       expect(mode.accent.emphasis).toBe(mode.btn.primary.bg);
       expect(contrast(mode.btn.primary.text, mode.accent.emphasis)).toBeGreaterThanOrEqual(AA);
     }
     // The accent's text on white.
-    expect(contrast(loopColors.loopText, loopColors.white)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.loopHover, loopColors.white)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.loopOn, loopColors.loopBright)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.agentText, agentColors.white)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.agentHover, agentColors.white)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.agentOn, agentColors.agentBright)).toBeGreaterThanOrEqual(AA);
   });
 
   it('keeps the secondary text readable on the surfaces', () => {
-    expect(contrast(loopColors.gray, loopColors.white)).toBeGreaterThanOrEqual(AA);
-    expect(contrast(loopColors.grayDark, loopColors.black)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.gray, agentColors.white)).toBeGreaterThanOrEqual(AA);
+    expect(contrast(agentColors.grayDark, agentColors.black)).toBeGreaterThanOrEqual(AA);
   });
 });
 
-describe("an application's accent, everything it colours (T-05)", () => {
+describe("an application's accent, everything it colours", () => {
   it('fills the bubble and the button with the accent, its own text on it', () => {
     for (const name of themeAccentNames) {
       for (const mode of ['light', 'dark'] as const) {
@@ -109,13 +109,13 @@ describe("an application's accent, everything it colours (T-05)", () => {
           contrast(styles['--button-primary-fgColor-rest'], styles['--button-primary-bgColor-rest']),
         ).toBeGreaterThanOrEqual(AA);
         expect(styles['--theme-stage']).toBe(themeAccents[name].stage[mode]);
-        // The selected tab, underlined in the accent rather than Primer's coral (T-14).
+        // The selected tab, underlined in the accent rather than Primer's coral.
         expect(styles['--underlineNav-borderColor-active']).toBe(themeAccents[name].accent);
       }
     }
   });
 
-  it('writes its text in its own hue, readable in both modes (T-18)', () => {
+  it('writes its text in its own hue, readable in both modes', () => {
     for (const name of themeAccentNames) {
       const light = themeAccentVars(name, 'light');
       const dark = themeAccentVars(name, 'dark');
@@ -123,8 +123,8 @@ describe("an application's accent, everything it colours (T-05)", () => {
       expect(light['--fgColor-accent']).toBe(themeAccents[name].text.light);
       expect(light['--fgColor-link']).toBe(themeAccents[name].text.light);
       expect(dark['--fgColor-accent']).toBe(themeAccents[name].text.dark);
-      expect(contrast(light['--fgColor-accent'], loopColors.white)).toBeGreaterThanOrEqual(AA);
-      expect(contrast(dark['--fgColor-accent'], loopColors.black)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(light['--fgColor-accent'], agentColors.white)).toBeGreaterThanOrEqual(AA);
+      expect(contrast(dark['--fgColor-accent'], agentColors.black)).toBeGreaterThanOrEqual(AA);
       expect(contrast(dark['--fgColor-accent'], themeAccents[name].quiet.dark)).toBeGreaterThanOrEqual(AA);
       if (name !== 'green') {
         expect(contrast(light['--fgColor-accent'], themeAccents[name].quiet.light)).toBeGreaterThanOrEqual(AA);
@@ -135,13 +135,13 @@ describe("an application's accent, everything it colours (T-05)", () => {
   });
 
   it('leaves mint, the default, as the theme has it', () => {
-    expect(themeAccents.green.text).toEqual({ light: loopColors.loopText, dark: loopColors.loopBright });
-    expect(themeAccents.green.quiet).toEqual({ light: loopColors.loopTint, dark: loopColors.loopTintDark });
-    expect(loopLight.accent.fg).toBe(themeAccents.green.text.light);
-    expect(loopDark.accent.fg).toBe(themeAccents.green.text.dark);
+    expect(themeAccents.green.text).toEqual({ light: agentColors.agentText, dark: agentColors.agentBright });
+    expect(themeAccents.green.quiet).toEqual({ light: agentColors.agentTint, dark: agentColors.agentTintDark });
+    expect(agentLight.accent.fg).toBe(themeAccents.green.text.light);
+    expect(agentDark.accent.fg).toBe(themeAccents.green.text.dark);
   });
 
-  it('colours every theme, not loop alone (decided 2026-10-07)', () => {
+  it('colours every theme, not agent alone (decided 2026-10-07)', () => {
     for (const [variant, config] of Object.entries(themeConfigs)) {
       for (const mode of ['light', 'dark'] as const) {
         const worn = { ...(config.themeStyles[mode] as Record<string, string>), ...themeAccentVars('rose', mode) };
@@ -162,11 +162,11 @@ describe("an application's accent, everything it colours (T-05)", () => {
         }
       }
     }
-    // Loop's own is mint, its stage and quiet tint included.
-    const loop = themeConfigs.loop.themeStyles.light as Record<string, string>;
-    expect(loop['--theme-accent']).toBe(themeAccents.green.accent);
-    expect(loop['--theme-stage']).toBe(themeAccents.green.stage.light);
-    expect(loop['--theme-quiet']).toBe(themeAccents.green.quiet.light);
+    // Agent's own is mint, its stage and quiet tint included.
+    const agent = themeConfigs.agent.themeStyles.light as Record<string, string>;
+    expect(agent['--theme-accent']).toBe(themeAccents.green.accent);
+    expect(agent['--theme-stage']).toBe(themeAccents.green.stage.light);
+    expect(agent['--theme-quiet']).toBe(themeAccents.green.quiet.light);
   });
 
   it('refuses an accent that is not one of the six', () => {

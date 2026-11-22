@@ -22,7 +22,7 @@
  * along as a dependency. `PageLayoutPlugin` arranges a host's slots as a
  * page: the work on a centred sheet, a band above it, a side panel opened
  * from the header — and the layout, its toggle and its signals are exported
- * on their own for a host that wires the parts itself, as the Loop does.
+ * on their own for a host that wires the parts itself, as the Agent workspace does.
  *
  * @module reactor
  */

@@ -13,7 +13,7 @@
  * a dark background. A spec names its colour by hue (an agent's `color:
  * indigo`), and the drawing follows the theme and its mode.
  *
- * Every theme takes the base values; a theme with hues of its own (`loop`'s
+ * Every theme takes the base values; a theme with hues of its own (`agent`'s
  * pastels, `vscode`'s terminal colours) gives them for the hues it has.
  */
 
@@ -80,8 +80,8 @@ export const baseHueColors: Record<HueName, HueColor> = {
 
 /** The hues a theme gives of its own. */
 const themeHueColors: Partial<Record<ThemeVariant, Partial<Record<HueName, HueColor>>>> = {
-  // Loop's soft accents, deep on light, the pastels on dark (`themeAccents`).
-  loop: {
+  // Agent's soft accents, deep on light, the pastels on dark (`themeAccents`).
+  agent: {
     green: { light: '#248462', dark: '#8FE5C6' },
     rose: { light: '#B83A6B', dark: '#F6A5C1' },
     sky: { light: '#1F6FB0', dark: '#8CCBF9' },

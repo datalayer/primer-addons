@@ -4,7 +4,7 @@
  */
 
 /**
- * The page layout's panel opening at the theme's pace (LOOP T-10): from its
+ * The page layout's panel opening at the theme's pace: from its
  * side, by `--theme-motion-pane` and `--theme-motion-easing` — no motion in
  * a theme that sets none, none when motion is reduced.
  */
@@ -38,7 +38,7 @@ describe('a panel opening', () => {
   it('moves only in a theme that sets a pane duration', () => {
     const pane = (name: keyof typeof themeConfigs) =>
       (themeConfigs[name].themeStyles.light as Record<string, string>)['--theme-motion-pane'];
-    expect(pane('loop')).toBe('320ms');
+    expect(pane('agent')).toBe('320ms');
     expect(pane('datalayer')).toBe('0ms');
   });
 });

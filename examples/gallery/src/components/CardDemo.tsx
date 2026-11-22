@@ -6,7 +6,7 @@
 /**
  * The gallery's Card: one example per prop and flavour, each with a line
  * saying what it shows and the code that draws it. Every colour, shadow and
- * corner is the theme's, so switching the theme (try `loop`) or the colour
+ * corner is the theme's, so switching the theme (try `agent`) or the colour
  * mode redraws them all.
  */
 
@@ -347,7 +347,7 @@ const EXAMPLES: Example[] = [
   {
     title: 'An attached panel',
     caption:
-      "rounded=\"overlay\" is the theme's corner for a panel floating over the page — a menu, a header's mega-menu (Primer's overlay corner unless the theme sets --theme-radius-overlay; loop's is its card corner). With the top corners squared it reads as hanging from what opened it.",
+      "rounded=\"overlay\" is the theme's corner for a panel floating over the page — a menu, a header's mega-menu (Primer's overlay corner unless the theme sets --theme-radius-overlay; agent's is its card corner). With the top corners squared it reads as hanging from what opened it.",
     code: `<Card border shadow="extraLarge" rounded="overlay"
   borderTopLeftRadius={0} borderTopRightRadius={0} p={4}>…</Card>`,
     render: () => (

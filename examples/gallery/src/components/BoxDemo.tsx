@@ -7,7 +7,7 @@
  * The gallery's Box: one example per family of props, each with a line
  * saying what it shows and the code that draws it. No `sx` anywhere: every
  * value is a prop, on the theme's tokens, so switching the theme (try
- * `loop`) redraws them all — its hairline, its corners, its weights.
+ * `agent`) redraws them all — its hairline, its corners, its weights.
  */
 
 import type { ReactNode } from 'react';
@@ -106,7 +106,7 @@ const EXAMPLES: Example[] = [
   {
     title: 'A card',
     caption:
-      "The Studio Home's card: the theme's hairline, its large corner (20px in loop), padded so the corner does not crowd the words.",
+      "The Studio Home's card: the theme's hairline, its large corner (20px in agent), padded so the corner does not crowd the words.",
     code: `<Box as="section" display="flex" flexDirection="column" gap={2} p={3}
   bg="canvas.default" border="1px solid" borderColor="border.default" borderRadius="large">
   <Box as="h3" m={0} fontSize={3}>Build</Box>
@@ -202,7 +202,7 @@ const EXAMPLES: Example[] = [
   {
     title: 'Type',
     caption:
-      "Sizes on Primer's scale (0 is 12px, 1 is 14px, 3 is 20px), weights by name (the theme's: loop has two), alignment, and text that does not wrap.",
+      "Sizes on Primer's scale (0 is 12px, 1 is 14px, 3 is 20px), weights by name (the theme's: agent has two), alignment, and text that does not wrap.",
     code: `<Box fontSize={3} fontWeight="semibold">fontSize={3} semibold</Box>
 <Box fontSize={1} color="fg.muted" textAlign="center">centred, muted</Box>
 <Box fontSize={0} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" maxWidth={200}>…</Box>`,

@@ -4,7 +4,7 @@
  */
 
 /**
- * Loop Theme for Primer React.
+ * Agent Theme for Primer React.
  *
  * Soft and clear, for somebody who is not here for the software: one accent,
  * neutral everything else. A white (or near-black) canvas, a deep-grey ink
@@ -15,66 +15,66 @@
  * Theming is applied via **CSS custom-property overrides**.
  *
  * Unlike the other themes it also sets **shape**: rounder corners, and
- * its own `--loop-*` properties for what an application is drawn with —
+ * its own `--agent-*` properties for what an application is drawn with —
  * a bubble, a frame, a face. Its accent and stage are the theme system's
  * (`--theme-accent`, `--theme-stage` and the rest, `themeAccents`): mint.
  */
 
-import { loopColors } from '../colors/loopColors';
+import { agentColors } from '../colors/agentColors';
 import { themeAccentTints, themeAccents } from '../colors/themeAccents';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 import { roundedRadiusVars, roundedShape } from './roundedShape';
 
 /* ── Light-mode colour definitions ───────────────────────────────────── */
 
-export const loopLight: ThemeColorDefs = {
+export const agentLight: ThemeColorDefs = {
   canvas: {
-    default: loopColors.white,
-    subtle: loopColors.subtle,
+    default: agentColors.white,
+    subtle: agentColors.subtle,
   },
   fg: {
-    default: loopColors.ink,
-    muted: loopColors.gray,
+    default: agentColors.ink,
+    muted: agentColors.gray,
     onEmphasis: '#FFFFFF',
   },
   accent: {
-    fg: loopColors.loopText,
+    fg: agentColors.agentText,
     // The accent itself, as on dark: the soft mint that dark text sits on —
     // the filled button, the person's bubble, the assistant's avatar. The
     // chat pairs it with the button's text, so the two stay one colour.
-    emphasis: loopColors.loopBrand,
-    muted: loopColors.loopBrand,
-    subtle: loopColors.loopTint,
+    emphasis: agentColors.agentBrand,
+    muted: agentColors.agentBrand,
+    subtle: agentColors.agentTint,
   },
   success: {
-    fg: loopColors.successBrand,
-    emphasis: loopColors.successBrand,
-    muted: loopColors.successAccent,
-    subtle: loopColors.successTint,
+    fg: agentColors.successBrand,
+    emphasis: agentColors.successBrand,
+    muted: agentColors.successAccent,
+    subtle: agentColors.successTint,
   },
   attention: {
-    fg: loopColors.attentionBrand,
-    emphasis: loopColors.attentionBrand,
-    muted: loopColors.attentionAccent,
-    subtle: loopColors.attentionTint,
+    fg: agentColors.attentionBrand,
+    emphasis: agentColors.attentionBrand,
+    muted: agentColors.attentionAccent,
+    subtle: agentColors.attentionTint,
   },
   danger: {
-    fg: loopColors.dangerBrand,
-    emphasis: loopColors.dangerBrand,
-    muted: loopColors.dangerAccent,
-    subtle: loopColors.dangerTint,
+    fg: agentColors.dangerBrand,
+    emphasis: agentColors.dangerBrand,
+    muted: agentColors.dangerAccent,
+    subtle: agentColors.dangerTint,
   },
   severe: {
-    fg: loopColors.severeBrand,
-    emphasis: loopColors.severeBrand,
-    muted: loopColors.severeAccent,
-    subtle: loopColors.severeTint,
+    fg: agentColors.severeBrand,
+    emphasis: agentColors.severeBrand,
+    muted: agentColors.severeAccent,
+    subtle: agentColors.severeTint,
   },
   done: {
-    fg: loopColors.doneBrand,
-    emphasis: loopColors.doneBrand,
-    muted: loopColors.doneAccent,
-    subtle: loopColors.doneTint,
+    fg: agentColors.doneBrand,
+    emphasis: agentColors.doneBrand,
+    muted: agentColors.doneAccent,
+    subtle: agentColors.doneTint,
   },
   border: {
     // Hairlines: 7% of the ink, as solid colours on white — a surface is
@@ -83,8 +83,8 @@ export const loopLight: ThemeColorDefs = {
     muted: '#F2F2F4',
   },
   btn: {
-    text: loopColors.ink,
-    bg: loopColors.subtle,
+    text: agentColors.ink,
+    bg: agentColors.subtle,
     border: 'transparent',
     hoverBg: '#ECECEF',
     hoverBorder: 'transparent',
@@ -95,103 +95,103 @@ export const loopLight: ThemeColorDefs = {
     // The one filled button of a screen, in the accent: the soft mint, with
     // its dark text — the same pastel as on dark, never the platform's deep green.
     primary: {
-      text: loopColors.loopOn,
-      bg: loopColors.loopBrand,
-      border: loopColors.loopBrand,
-      hoverBg: loopColors.loopBrandHover,
-      hoverBorder: loopColors.loopBrandHover,
-      selectedBg: loopColors.loopAccent,
+      text: agentColors.agentOn,
+      bg: agentColors.agentBrand,
+      border: agentColors.agentBrand,
+      hoverBg: agentColors.agentBrandHover,
+      hoverBorder: agentColors.agentBrandHover,
+      selectedBg: agentColors.agentAccent,
       disabledText: 'rgba(6, 40, 30, 0.5)',
       disabledBg: '#CDEFE2',
       disabledBorder: '#CDEFE2',
-      icon: loopColors.loopOn,
+      icon: agentColors.agentOn,
       counterBg: 'rgba(6, 40, 30, 0.12)',
     },
     outline: {
-      text: loopColors.loopText,
-      hoverText: loopColors.loopOn,
-      hoverBg: loopColors.loopBrand,
-      hoverBorder: loopColors.loopBrand,
+      text: agentColors.agentText,
+      hoverText: agentColors.agentOn,
+      hoverBg: agentColors.agentBrand,
+      hoverBorder: agentColors.agentBrand,
       hoverCounterBg: 'rgba(6, 40, 30, 0.12)',
-      selectedText: loopColors.loopOn,
-      selectedBg: loopColors.loopAccent,
-      selectedBorder: loopColors.loopAccent,
-      disabledText: loopColors.gray,
-      disabledBg: loopColors.subtle,
+      selectedText: agentColors.agentOn,
+      selectedBg: agentColors.agentAccent,
+      selectedBorder: agentColors.agentAccent,
+      disabledText: agentColors.gray,
+      disabledBg: agentColors.subtle,
       disabledCounterBg: 'rgba(0, 0, 0, 0.05)',
       counterBg: 'rgba(0, 0, 0, 0.05)',
-      counterFg: loopColors.loopText,
-      hoverCounterFg: loopColors.loopOn,
-      disabledCounterFg: loopColors.gray,
+      counterFg: agentColors.agentText,
+      hoverCounterFg: agentColors.agentOn,
+      disabledCounterFg: agentColors.gray,
     },
     danger: {
-      text: loopColors.dangerBrand,
+      text: agentColors.dangerBrand,
       hoverText: '#FFFFFF',
-      hoverBg: loopColors.dangerBrand,
-      hoverBorder: loopColors.dangerBrand,
+      hoverBg: agentColors.dangerBrand,
+      hoverBorder: agentColors.dangerBrand,
       hoverCounterBg: 'rgba(255, 255, 255, 0.2)',
       selectedText: '#FFFFFF',
       selectedBg: '#9C302A',
       selectedBorder: '#9C302A',
       disabledText: 'rgba(191, 63, 56, 0.5)',
-      disabledBg: loopColors.subtle,
+      disabledBg: agentColors.subtle,
       disabledCounterBg: 'rgba(191, 63, 56, 0.05)',
       counterBg: 'rgba(191, 63, 56, 0.1)',
-      counterFg: loopColors.dangerBrand,
+      counterFg: agentColors.dangerBrand,
       hoverCounterFg: '#FFFFFF',
       disabledCounterFg: 'rgba(191, 63, 56, 0.5)',
-      icon: loopColors.dangerBrand,
+      icon: agentColors.dangerBrand,
     },
   },
 };
 
 /* ── Dark-mode colour definitions ────────────────────────────────────── */
 
-export const loopDark: ThemeColorDefs = {
+export const agentDark: ThemeColorDefs = {
   canvas: {
-    default: loopColors.black,
-    subtle: loopColors.subtleDark,
+    default: agentColors.black,
+    subtle: agentColors.subtleDark,
   },
   fg: {
-    default: loopColors.inkDark,
-    muted: loopColors.grayDark,
+    default: agentColors.inkDark,
+    muted: agentColors.grayDark,
     onEmphasis: '#FFFFFF',
   },
   accent: {
-    fg: loopColors.loopBright,
+    fg: agentColors.agentBright,
     // The accent itself, on dark: a pastel that dark text sits on.
-    emphasis: loopColors.loopBrand,
-    muted: loopColors.loopBrand,
-    subtle: loopColors.loopTintDark,
+    emphasis: agentColors.agentBrand,
+    muted: agentColors.agentBrand,
+    subtle: agentColors.agentTintDark,
   },
   success: {
-    fg: loopColors.successAccent,
-    emphasis: loopColors.successBrand,
-    muted: loopColors.successAccent,
+    fg: agentColors.successAccent,
+    emphasis: agentColors.successBrand,
+    muted: agentColors.successAccent,
     subtle: '#12241B',
   },
   attention: {
-    fg: loopColors.attentionAccent,
+    fg: agentColors.attentionAccent,
     emphasis: '#8A5710',
-    muted: loopColors.attentionAccent,
+    muted: agentColors.attentionAccent,
     subtle: '#2A2010',
   },
   danger: {
-    fg: loopColors.dangerAccent,
-    emphasis: loopColors.dangerBrand,
-    muted: loopColors.dangerAccent,
+    fg: agentColors.dangerAccent,
+    emphasis: agentColors.dangerBrand,
+    muted: agentColors.dangerAccent,
     subtle: '#2C1615',
   },
   severe: {
-    fg: loopColors.severeAccent,
-    emphasis: loopColors.severeBrand,
-    muted: loopColors.severeAccent,
+    fg: agentColors.severeAccent,
+    emphasis: agentColors.severeBrand,
+    muted: agentColors.severeAccent,
     subtle: '#2B1B10',
   },
   done: {
-    fg: loopColors.doneAccent,
-    emphasis: loopColors.doneBrand,
-    muted: loopColors.doneAccent,
+    fg: agentColors.doneAccent,
+    emphasis: agentColors.doneBrand,
+    muted: agentColors.doneAccent,
     subtle: '#1C1A27',
   },
   border: {
@@ -200,8 +200,8 @@ export const loopDark: ThemeColorDefs = {
     muted: '#222224',
   },
   btn: {
-    text: loopColors.inkDark,
-    bg: loopColors.subtleDark,
+    text: agentColors.inkDark,
+    bg: agentColors.subtleDark,
     border: 'transparent',
     hoverBg: '#28282B',
     hoverBorder: 'transparent',
@@ -212,52 +212,52 @@ export const loopDark: ThemeColorDefs = {
     // The one filled button of a screen, in the accent: the pastel, with
     // its dark text, the brightest thing on a dark page.
     primary: {
-      text: loopColors.loopOn,
-      bg: loopColors.loopBrand,
-      border: loopColors.loopBrand,
-      hoverBg: loopColors.loopBright,
-      hoverBorder: loopColors.loopBright,
+      text: agentColors.agentOn,
+      bg: agentColors.agentBrand,
+      border: agentColors.agentBrand,
+      hoverBg: agentColors.agentBright,
+      hoverBorder: agentColors.agentBright,
       selectedBg: '#6CCFAA',
       disabledText: 'rgba(6, 40, 30, 0.6)',
       disabledBg: 'rgba(122, 219, 184, 0.35)',
       disabledBorder: 'transparent',
-      icon: loopColors.loopOn,
+      icon: agentColors.agentOn,
       counterBg: 'rgba(6, 40, 30, 0.15)',
     },
     outline: {
-      text: loopColors.loopBright,
-      hoverText: loopColors.loopOn,
-      hoverBg: loopColors.loopBright,
-      hoverBorder: loopColors.loopBright,
+      text: agentColors.agentBright,
+      hoverText: agentColors.agentOn,
+      hoverBg: agentColors.agentBright,
+      hoverBorder: agentColors.agentBright,
       hoverCounterBg: 'rgba(0, 0, 0, 0.2)',
-      selectedText: loopColors.loopOn,
-      selectedBg: loopColors.loopBrand,
-      selectedBorder: loopColors.loopBrand,
+      selectedText: agentColors.agentOn,
+      selectedBg: agentColors.agentBrand,
+      selectedBorder: agentColors.agentBrand,
       disabledText: 'rgba(143, 229, 198, 0.5)',
       disabledBg: 'rgba(143, 229, 198, 0.1)',
       disabledCounterBg: 'rgba(143, 229, 198, 0.05)',
       counterBg: 'rgba(143, 229, 198, 0.1)',
-      counterFg: loopColors.loopBright,
-      hoverCounterFg: loopColors.loopOn,
+      counterFg: agentColors.agentBright,
+      hoverCounterFg: agentColors.agentOn,
       disabledCounterFg: 'rgba(143, 229, 198, 0.5)',
     },
     danger: {
-      text: loopColors.dangerAccent,
+      text: agentColors.dangerAccent,
       hoverText: '#FFFFFF',
-      hoverBg: loopColors.dangerBrand,
-      hoverBorder: loopColors.dangerAccent,
+      hoverBg: agentColors.dangerBrand,
+      hoverBorder: agentColors.dangerAccent,
       hoverCounterBg: 'rgba(255, 255, 255, 0.2)',
       selectedText: '#FFFFFF',
       selectedBg: '#9C302A',
-      selectedBorder: loopColors.dangerAccent,
+      selectedBorder: agentColors.dangerAccent,
       disabledText: 'rgba(240, 138, 131, 0.5)',
       disabledBg: 'rgba(240, 138, 131, 0.1)',
       disabledCounterBg: 'rgba(240, 138, 131, 0.05)',
       counterBg: 'rgba(240, 138, 131, 0.1)',
-      counterFg: loopColors.dangerAccent,
+      counterFg: agentColors.dangerAccent,
       hoverCounterFg: '#FFFFFF',
       disabledCounterFg: 'rgba(240, 138, 131, 0.5)',
-      icon: loopColors.dangerAccent,
+      icon: agentColors.dangerAccent,
     },
   },
 };
@@ -265,28 +265,28 @@ export const loopDark: ThemeColorDefs = {
 /* ── Shape, type and motion ──────────────────────────────────────────── */
 
 /**
- * What the Loop theme sets beside colour, the same in both modes.
+ * What the Agent theme sets beside colour, the same in both modes.
  *
- * Primer's own radii are made rounder; the `--loop-*` properties are what
+ * Primer's own radii are made rounder; the `--agent-*` properties are what
  * an application is drawn with. A face is an emoji at one of three sizes;
  * motion has three durations and one easing.
  */
-export const loopShapeVars: Record<string, string> = {
+export const agentShapeVars: Record<string, string> = {
   // The rounded shape's radii, shared with Metal, Sand, Ivory and Sun.
   ...roundedRadiusVars,
-  // Light mode's; `loopShadows` says dark mode's.
-  '--loop-shadow-frame': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
-  '--loop-face-large': '72px',
-  '--loop-face-medium': '40px',
-  '--loop-face-small': '20px',
-  '--loop-motion-fast': '120ms',
-  '--loop-motion-medium': '200ms',
-  '--loop-motion-slow': '320ms',
-  '--loop-motion-easing': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+  // Light mode's; `agentShadows` says dark mode's.
+  '--agent-shadow-frame': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
+  '--agent-face-large': '72px',
+  '--agent-face-medium': '40px',
+  '--agent-face-small': '20px',
+  '--agent-motion-fast': '120ms',
+  '--agent-motion-medium': '200ms',
+  '--agent-motion-slow': '320ms',
+  '--agent-motion-easing': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
 };
 
 /** The hairline between two surfaces, per mode. */
-const loopHairline = {
+const agentHairline = {
   light: 'rgba(29, 29, 31, 0.07)',
   dark: 'rgba(255, 255, 255, 0.10)',
 };
@@ -298,9 +298,9 @@ const loopHairline = {
  * deeper shadow. Primer's own shadow tokens take the same hand, so a menu
  * or a dialog floats the way a frame does.
  */
-export const loopShadows: Record<'light' | 'dark', Record<string, string>> = {
+export const agentShadows: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    '--loop-shadow-frame': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
+    '--agent-shadow-frame': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
     '--theme-shadow': '0 1px 2px rgba(0, 0, 0, 0.03), 0 10px 30px rgba(0, 0, 0, 0.06)',
     '--shadow-resting-xsmall': '0 1px 1px rgba(0, 0, 0, 0.03)',
     '--shadow-resting-small': '0 1px 2px rgba(0, 0, 0, 0.04)',
@@ -311,7 +311,7 @@ export const loopShadows: Record<'light' | 'dark', Record<string, string>> = {
     '--shadow-floating-xlarge': '0 0 0 1px rgba(29, 29, 31, 0.04), 0 24px 64px rgba(0, 0, 0, 0.18)',
   },
   dark: {
-    '--loop-shadow-frame': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 12px 36px rgba(0, 0, 0, 0.45)',
+    '--agent-shadow-frame': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 12px 36px rgba(0, 0, 0, 0.45)',
     '--theme-shadow': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 12px 36px rgba(0, 0, 0, 0.45)',
     '--shadow-resting-xsmall': '0 0 0 1px rgba(255, 255, 255, 0.05)',
     '--shadow-resting-small': '0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.3)',
@@ -324,7 +324,7 @@ export const loopShadows: Record<'light' | 'dark', Record<string, string>> = {
 };
 
 /**
- * Type (LOOP T-04): one face, two weights, five sizes, one line-height per
+ * Type: one face, two weights, five sizes, one line-height per
  * size — each line a multiple of 4px.
  *
  * | Size            | Line          | Tokens                               |
@@ -341,7 +341,7 @@ export const loopShadows: Record<'light' | 'dark', Record<string, string>> = {
  * is; the body left alone. The tracking is a token for a component to apply,
  * since a CSS font shorthand carries none.
  */
-export const loopTypeScale = {
+export const agentTypeScale = {
   display: { size: '2rem', lineHeight: '1.25' },
   title: { size: '1.25rem', lineHeight: '1.4' },
   heading: { size: '1rem', lineHeight: '1.5' },
@@ -349,12 +349,12 @@ export const loopTypeScale = {
   small: { size: '0.75rem', lineHeight: '1.3333' },
 } as const;
 
-/** The two weights of the `loop` theme. */
-export const loopFontWeights = { regular: 400, semibold: 600 } as const;
+/** The two weights of the `agent` theme. */
+export const agentFontWeights = { regular: 400, semibold: 600 } as const;
 
-export const loopTypeVars = (font: string): Record<string, string> => {
-  const { display, title, heading, body, small } = loopTypeScale;
-  const { regular, semibold } = loopFontWeights;
+export const agentTypeVars = (font: string): Record<string, string> => {
+  const { display, title, heading, body, small } = agentTypeScale;
+  const { regular, semibold } = agentFontWeights;
   const shorthand = (weight: number, step: { size: string; lineHeight: string }) =>
     `${weight} ${step.size}/${step.lineHeight} ${font}`;
   return {
@@ -391,9 +391,9 @@ export const loopTypeVars = (font: string): Record<string, string> => {
     '--text-body-shorthand-medium': shorthand(regular, body),
     '--text-body-shorthand-small': shorthand(regular, small),
     '--text-caption-shorthand': shorthand(regular, small),
-    '--loop-tracking-display': '-0.02em',
-    '--loop-tracking-title': '-0.012em',
-    '--loop-tracking-body': '0',
+    '--agent-tracking-display': '-0.02em',
+    '--agent-tracking-title': '-0.012em',
+    '--agent-tracking-body': '0',
   };
 };
 
@@ -401,7 +401,7 @@ export const loopTypeVars = (font: string): Record<string, string> => {
  * The accent's properties in a mode, mint's (`themeAccents.green`): the
  * stage and the quiet tint are mint's own, not derived from the colours.
  */
-const loopTints = (mode: 'light' | 'dark') =>
+const agentTints = (mode: 'light' | 'dark') =>
   themeAccentTints({
     accent: themeAccents.green.accent,
     on: themeAccents.green.on,
@@ -413,30 +413,30 @@ const loopTints = (mode: 'light' | 'dark') =>
 
 /**
  * Inter, then its metric-matched fallback, then the system's own sans-serif
- * (LOOP T-04). One face, two weights (400 and 600). The face is served by the
+ *. One face, two weights (400 and 600). The face is served by the
  * page's own build: a page wearing the theme imports
- * `@datalayer/primer-addons/style/loop-face.css`, which declares
+ * `@datalayer/primer-addons/style/agent-face.css`, which declares
  * `Inter Variable` from `@fontsource-variable/inter` and `Inter Fallback`, a
  * local Arial drawn to Inter's measure. The text paints in the fallback first
  * and does not move when Inter arrives; a page that has not imported the
  * stylesheet shows the system face.
  */
-export const loopFontFamily =
+export const agentFontFamily =
   '"Inter Variable", "Inter Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
 /**
- * Motion (LOOP T-10): three durations and one easing, for three things — a
+ * Motion: three durations and one easing, for three things — a
  * status changing, a message arriving, a pane opening. Nothing else moves.
  */
-export const loopMotionVars: Record<string, string> = {
-  '--loop-motion-status': '120ms',
-  '--loop-motion-message': '200ms',
-  '--loop-motion-pane': '320ms',
-  '--loop-motion-easing': 'cubic-bezier(0.2, 0, 0, 1)',
+export const agentMotionVars: Record<string, string> = {
+  '--agent-motion-status': '120ms',
+  '--agent-motion-message': '200ms',
+  '--agent-motion-pane': '320ms',
+  '--agent-motion-easing': 'cubic-bezier(0.2, 0, 0, 1)',
 };
 
 /**
- * The focus ring (LOOP T-15): 3 to 1 against the page and around a pill of
+ * The focus ring: 3 to 1 against the page and around a pill of
  * any accent, in both modes. In light mode the deep mint does it — darker than the text, the one place it is —
  * a halo in the theme's colour, as a system's own focus ring is — 6.5 to 1
  * on white and 3.28 or more around every pastel. In dark mode no
@@ -445,10 +445,10 @@ export const loopMotionVars: Record<string, string> = {
  * mid grey does, at 3.04 to 1 — and 2.77 to 1 on the subtle dark surface,
  * the one place it falls short.
  */
-export const loopFocusRing = { light: loopColors.loopRing, dark: '#636363' } as const;
+export const agentFocusRing = { light: agentColors.agentRing, dark: '#636363' } as const;
 
 /**
- * The loop theme's own stylesheet, beside what its shape draws: bold is the
+ * The agent theme's own stylesheet, beside what its shape draws: bold is the
  * theme's semibold, its second and last weight.
  *
  * Its controls are pills and its tables rounder by its shape
@@ -456,7 +456,7 @@ export const loopFocusRing = { light: loopColors.loopRing, dark: '#636363' } as 
  * any theme that sets them: menus and overlays keep the card's radius,
  * `--borderRadius-large`, which the theme already sets.
  */
-const loopOwnCss = `
+const agentOwnCss = `
 :scope b,
 :scope strong {
   font-weight: var(--base-text-weight-semibold);
@@ -464,55 +464,55 @@ const loopOwnCss = `
 `;
 
 /** Comprehensive Primer CSS-variable overrides for light & dark mode. */
-export const loopThemeStyles = buildThemeStyles(loopLight, loopDark, {
-  fontFamily: loopFontFamily,
-  css: loopOwnCss,
-  // Rounder than the others: a pill for a control (LOOP T-09), soft cards,
+export const agentThemeStyles = buildThemeStyles(agentLight, agentDark, {
+  fontFamily: agentFontFamily,
+  css: agentOwnCss,
+  // Rounder than the others: a pill for a control, soft cards,
   // round bubbles, a table with the corners of a list item.
   shape: {
     ...roundedShape,
-    shadow: loopShapeVars['--loop-shadow-frame'],
-    motionStatus: loopMotionVars['--loop-motion-status'],
-    motionMessage: loopMotionVars['--loop-motion-message'],
-    motionPane: loopMotionVars['--loop-motion-pane'],
-    motionEasing: loopMotionVars['--loop-motion-easing'],
-    // Links plain in a message: the words' own colour, underlined (T-06).
+    shadow: agentShapeVars['--agent-shadow-frame'],
+    motionStatus: agentMotionVars['--agent-motion-status'],
+    motionMessage: agentMotionVars['--agent-motion-message'],
+    motionPane: agentMotionVars['--agent-motion-pane'],
+    motionEasing: agentMotionVars['--agent-motion-easing'],
+    // Links plain in a message: the words' own colour, underlined.
     messageLink: 'currentColor',
   },
   variables: {
     light: {
-      ...loopShapeVars,
-      ...loopTints('light'),
-      ...loopMotionVars,
-      ...loopShadows.light,
-      ...loopTypeVars(loopFontFamily),
-      '--loop-hairline': loopHairline.light,
+      ...agentShapeVars,
+      ...agentTints('light'),
+      ...agentMotionVars,
+      ...agentShadows.light,
+      ...agentTypeVars(agentFontFamily),
+      '--agent-hairline': agentHairline.light,
       // The hairline is Primer's default border: a card drawn with
       // `borderColor="border.default"` gets it, no fallback chain at the call site.
-      '--borderColor-default': loopHairline.light,
-      '--focus-outlineColor': loopFocusRing.light,
-      // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
+      '--borderColor-default': agentHairline.light,
+      '--focus-outlineColor': agentFocusRing.light,
+      // The selected tab underlined in the accent, not Primer's coral.
       '--underlineNav-borderColor-active': themeAccents.green.accent,
     },
     dark: {
-      ...loopShapeVars,
-      ...loopTints('dark'),
-      ...loopMotionVars,
-      ...loopShadows.dark,
-      ...loopTypeVars(loopFontFamily),
-      '--loop-hairline': loopHairline.dark,
+      ...agentShapeVars,
+      ...agentTints('dark'),
+      ...agentMotionVars,
+      ...agentShadows.dark,
+      ...agentTypeVars(agentFontFamily),
+      '--agent-hairline': agentHairline.dark,
       // The hairline is Primer's default border: a card drawn with
       // `borderColor="border.default"` gets it, no fallback chain at the call site.
-      '--borderColor-default': loopHairline.dark,
-      '--focus-outlineColor': loopFocusRing.dark,
-      // The selected tab underlined in the accent, not Primer's coral (LOOP T-14).
+      '--borderColor-default': agentHairline.dark,
+      '--focus-outlineColor': agentFocusRing.dark,
+      // The selected tab underlined in the accent, not Primer's coral.
       '--underlineNav-borderColor-active': themeAccents.green.accent,
     },
   },
 });
 
 /**
- * The loop theme's whole stylesheet (`ThemeStyles.css`): its controls as
+ * The agent theme's whole stylesheet (`ThemeStyles.css`): its controls as
  * pills and its tables rounder, drawn from its shape, then its own rules.
  */
-export const loopControlsCss: string = loopThemeStyles.css ?? '';
+export const agentControlsCss: string = agentThemeStyles.css ?? '';

@@ -445,7 +445,7 @@ export interface ThemeStyles {
   dark: CSSProperties;
   /**
    * A stylesheet of the theme's own, for what a custom property cannot say
-   * (LOOP T-09): every Primer control takes its corners from one token,
+   *: every Primer control takes its corners from one token,
    * `--borderRadius-medium`, which cards and list items take too, so a theme
    * that wants its controls alone in another shape has to say so with
    * selectors.
@@ -472,16 +472,16 @@ export interface ThemeStyles {
  *   hard-coded system-font fallback.
  */
 /**
- * The shape of a theme (LOOP T-03): the radii of a control, a card, a bubble
+ * The shape of a theme: the radii of a control, a card, a bubble
  * and a frame; the hairline; at most one level of shadow. As custom
  * properties every theme sets — `--theme-radius-control` and the rest — so
  * that a component reads its shape the way it reads its colour.
  *
- * And its motion (LOOP T-10): three durations — a status changing, a message
+ * And its motion: three durations — a status changing, a message
  * arriving, a pane opening — and one easing. Today's is no motion at all, so
  * a component that moves by them moves only in a theme that says so.
  *
- * And how a link reads in a message (LOOP T-06): in the accent, as today, or
+ * And how a link reads in a message: in the accent, as today, or
  * — `currentColor` — plain, the colour of the words around it, underlined in
  * every theme.
  *
@@ -563,7 +563,7 @@ export function buildThemeStyles(
   dark: ThemeColorDefs,
   options?: {
     fontFamily?: string;
-    /** Its shape (T-03); today's, for what it does not say. */
+    /** Its shape; today's, for what it does not say. */
     shape?: Partial<ThemeShape>;
     /**
      * More custom properties, per mode, set after everything else: what a

@@ -9,7 +9,7 @@
  * Six soft accents, each with the dark text that sits on it (the lowest
  * contrast of the six is 8.8 to 1), the tint of the stage behind an
  * application, a quiet tint, and the accent as text. They were drawn for
- * the `loop` theme — green, mint, is `loop`'s own — and, since 2026-10-07
+ * the `agent` theme — green, mint, is `agent`'s own — and, since 2026-10-07
  * (decided by the user), they colour every theme: `themeAccentVars` sets
  * Primer's own accent and primary properties, so the filled button, links,
  * the accent tokens and a selected tab take the accent whatever theme an
@@ -38,7 +38,7 @@ export interface ThemeAccent {
   text: { light: string; dark: string };
 }
 
-/** The six accents. One per application; everything else is the theme's. Green — mint — is `loop`'s own. */
+/** The six accents. One per application; everything else is the theme's. Green — mint — is `agent`'s own. */
 export const themeAccents: Record<ThemeAccentName, ThemeAccent> = {
   green: {
     accent: '#7ADBB8',
@@ -130,14 +130,13 @@ export function themeTintVars(defs: ThemeColorDefs): Record<string, string> {
 }
 
 /**
- * An application's accent as everything it colours, over any theme (LOOP
- * T-05, T-30): the accent's own properties (`--theme-accent`,
+ * An application's accent as everything it colours, over any theme: the accent's own properties (`--theme-accent`,
  * `--theme-accent-on`, `--theme-stage`, `--theme-quiet`,
  * `--theme-stage-gradient`), and Primer's — the accent fill, text, links,
  * muted border and tint, the filled button, a checked switch, a selected
  * tab — so that nothing on its page keeps the theme's default accent beside
- * its own (T-18). The theme's focus ring is kept: it is drawn to show around
- * every accent (T-15). Set on an application's root, it wears its own
+ * its own. The theme's focus ring is kept: it is drawn to show around
+ * every accent. Set on an application's root, it wears its own
  * colour; the page around keeps the theme's.
  *
  * An unknown name is refused.

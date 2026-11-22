@@ -18,7 +18,7 @@ import { earthTheme } from './themes/earthTheme';
 import { sandTheme } from './themes/sandTheme';
 import { ivoryTheme } from './themes/ivoryTheme';
 import { sunTheme } from './themes/sunTheme';
-import { loopTheme } from './themes/loopTheme';
+import { agentTheme } from './themes/agentTheme';
 import { metalTheme } from './themes/metalTheme';
 import { vscodeTheme, vscodeThemeStyles } from './themes/vscodeTheme';
 import {
@@ -61,7 +61,7 @@ const primerThemes: Record<ThemeVariant, Record<string, any>> = {
   sand: sandTheme,
   ivory: ivoryTheme,
   sun: sunTheme,
-  loop: loopTheme,
+  agent: agentTheme,
   metal: metalTheme,
   vscode: vscodeTheme,
 };

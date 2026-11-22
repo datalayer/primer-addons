@@ -88,7 +88,7 @@ export const Default: Story = {
 /** Cycling through a chosen few. */
 export const AFewThemes: Story = {
   args: {
-    themes: ["datalayer", "loop", "earth", "matrix"],
+    themes: ["datalayer", "agent", "earth", "matrix"],
     size: 36,
   },
   render: (args) => <ThemedThemeCircle {...args} />,

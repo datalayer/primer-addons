@@ -4,16 +4,16 @@
  */
 
 /**
- * The eyes of L👀P, as geometry (`plans/STUDIO.md`, N-02).
+ * The eyes of the Agent wordmark, as geometry.
  *
- * The name is displayed with two eyes where its two O's are. They are drawn,
+ * The wordmark is displayed with two eyes beside its letters. They are drawn,
  * not typed: the emoji is a different picture on every platform, is missing
  * on some, and is read aloud as "eyes". Two ovals and two pupils, in the
  * colour of the text around them, look the same everywhere — the web's SVG
  * and the mobile app's native views draw this same geometry.
  *
  * An eye is about as wide and as tall as a capital O of the face beside it,
- * so that the two of them read as the O's they stand for.
+ * so that the two of them read at the size of the letters beside them.
  *
  * Pure: nothing here renders.
  */

@@ -56,7 +56,7 @@ export const Logo: Story = {
 export const Gradient: Story = {
   args: {
     gradient: true,
-    variant: "loop",
+    variant: "agent",
   },
   render: (args) => (
     <Box p={3} bg="canvas.default">

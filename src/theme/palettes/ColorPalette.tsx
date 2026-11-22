@@ -17,7 +17,7 @@ import {
   sandColors,
   ivoryColors,
   sunColors,
-  loopColors,
+  agentColors,
   metalColors,
   vscodeColors,
   hueColorsOf,
@@ -112,8 +112,8 @@ const ivBrightDark = getBrightPalette('ivory');
 const ivBrightLight = getBrightPalette('ivory', 'light');
 const suBrightDark = getBrightPalette('sun');
 const suBrightLight = getBrightPalette('sun', 'light');
-const loBrightDark = getBrightPalette('loop');
-const loBrightLight = getBrightPalette('loop', 'light');
+const loBrightDark = getBrightPalette('agent');
+const loBrightLight = getBrightPalette('agent', 'light');
 const meBrightDark = getBrightPalette('metal');
 const meBrightLight = getBrightPalette('metal', 'light');
 const vsBrightDark = getBrightPalette('vscode');
@@ -424,14 +424,14 @@ const rolePalettes: Record<ThemeVariant, { light: PaletteRoles; dark: PaletteRol
       isLight: false,
     },
   },
-  loop: {
+  agent: {
     light: {
-      bg: loopColors.white,
+      bg: agentColors.white,
       bgPanel: '#ffffff',
-      bgAlt: loopColors.subtle,
-      primary: loopColors.loopBrand,
-      secondary: loopColors.loopText,
-      accent: loopColors.loopAccent,
+      bgAlt: agentColors.subtle,
+      primary: agentColors.agentBrand,
+      secondary: agentColors.agentText,
+      accent: agentColors.agentAccent,
       glow: loBrightLight.glow,
       pop: loBrightLight.pop,
       spark: loBrightLight.spark,
@@ -439,17 +439,17 @@ const rolePalettes: Record<ThemeVariant, { light: PaletteRoles; dark: PaletteRol
       surge: loBrightLight.surge,
       flame: loBrightLight.flame,
       gold: loBrightLight.gold,
-      textLight: loopColors.ink,
-      textMuted: loopColors.gray,
+      textLight: agentColors.ink,
+      textMuted: agentColors.gray,
       isLight: true,
     },
     dark: {
-      bg: loopColors.black,
+      bg: agentColors.black,
       bgPanel: '#19191B',
-      bgAlt: loopColors.subtleDark,
-      primary: loopColors.loopBrand,
-      secondary: loopColors.loopBright,
-      accent: loopColors.loopAccent,
+      bgAlt: agentColors.subtleDark,
+      primary: agentColors.agentBrand,
+      secondary: agentColors.agentBright,
+      accent: agentColors.agentAccent,
       glow: loBrightDark.glow,
       pop: loBrightDark.pop,
       spark: loBrightDark.spark,
@@ -457,8 +457,8 @@ const rolePalettes: Record<ThemeVariant, { light: PaletteRoles; dark: PaletteRol
       surge: loBrightDark.surge,
       flame: loBrightDark.flame,
       gold: loBrightDark.gold,
-      textLight: loopColors.inkDark,
-      textMuted: loopColors.grayDark,
+      textLight: agentColors.inkDark,
+      textMuted: agentColors.grayDark,
       isLight: false,
     },
   },

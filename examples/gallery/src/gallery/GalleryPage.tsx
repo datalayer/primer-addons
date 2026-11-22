@@ -82,7 +82,7 @@ export function GalleryPage() {
           {activeDemo.description}
         </Text>
       </Box>
-      {/* The theme's card: its hairline and its corner (20px in loop), padded to match. */}
+      {/* The theme's card: its hairline and its corner (20px in agent), padded to match. */}
       <Box p={3} border="1px solid" borderColor="border.default" borderRadius="card">
         {activeDemo.render()}
       </Box>

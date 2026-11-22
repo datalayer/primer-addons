@@ -92,7 +92,7 @@ export const BOX_FONT_SIZES = ['12px', '14px', '16px', '20px', '24px', '32px', '
 /** Primer's radii by index (`borderRadius={2}` is 6px). */
 export const BOX_RADII = ['0', '3px', '6px', '100px'] as const;
 
-/** Radii by name: Primer's, and the theme's shapes (LOOP T-03), an overlay's among them. */
+/** Radii by name: Primer's, and the theme's shapes, an overlay's among them. */
 export const BOX_RADIUS_VARS = {
   small: '--borderRadius-small',
   medium: '--borderRadius-medium',
@@ -118,7 +118,7 @@ export const BOX_SIZES = { small: '544px', medium: '768px', large: '1012px', xla
  * names its weights 300, 400, 500, 600 — `light`, `normal`, `semibold`,
  * `bold` — which are the primitives' `light`, `normal`, `medium` and
  * `semibold`: so `semibold` is `--base-text-weight-medium` (500, and 600 in
- * the `loop` theme, which has two weights), as it reads today.
+ * the `agent` theme, which has two weights), as it reads today.
  */
 export const BOX_FONT_WEIGHT_VARS = {
   light: '--base-text-weight-light',

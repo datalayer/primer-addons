@@ -253,7 +253,7 @@ export type CardActionsProps = {
 }
 
 /**
- * The corners, read from the theme: each theme sets Primer's radii (loop's
+ * The corners, read from the theme: each theme sets Primer's radii (agent's
  * are rounder), and a card left unsaid takes the theme's card corner.
  */
 const CARD_RADIUS = 'card';

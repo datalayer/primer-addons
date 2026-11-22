@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { metalColors } from '../colors/metalColors';
 import { themeConfigs, themeVariants } from '../themeRegistry';
-import { loopThemeStyles } from '../themes/loopThemeStyles';
+import { agentThemeStyles } from '../themes/agentThemeStyles';
 import { metalDark, metalLight, metalThemeStyles } from '../themes/metalThemeStyles';
 
 const channel = (value: number): number => {
@@ -23,18 +23,18 @@ const contrast = (a: string, b: string): number => {
 };
 
 describe('the metal theme', () => {
-  it('is in the list of themes, between Loop and VS Code', () => {
+  it('is in the list of themes, between Agent and VS Code', () => {
     const at = themeVariants.indexOf('metal');
-    expect(themeVariants[at - 1]).toBe('loop');
+    expect(themeVariants[at - 1]).toBe('agent');
     expect(themeVariants[at + 1]).toBe('vscode');
     expect(themeConfigs.metal.label).toBe('Metal');
   });
 
-  it('keeps every curve of Loop', () => {
-    const curves = (styles: typeof loopThemeStyles, mode: 'light' | 'dark') =>
+  it('keeps every curve of Agent', () => {
+    const curves = (styles: typeof agentThemeStyles, mode: 'light' | 'dark') =>
       Object.entries(styles[mode] as Record<string, string>).filter(([name]) => /radius/i.test(name));
     for (const mode of ['light', 'dark'] as const) {
-      expect(curves(metalThemeStyles, mode)).toEqual(curves(loopThemeStyles, mode));
+      expect(curves(metalThemeStyles, mode)).toEqual(curves(agentThemeStyles, mode));
     }
   });
 

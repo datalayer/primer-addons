@@ -153,10 +153,10 @@ describe('the variables Box emits', () => {
     }
   }
 
-  it('give the loop theme its hairline on Primer\'s default border', () => {
-    const light = themeConfigs.loop.themeStyles.light as Record<string, string>;
-    expect(light['--borderColor-default']).toBe(light['--loop-hairline']);
-    expect(light['--borderRadius-large']).toBe(light['--loop-radius-card']);
+  it('give the agent theme its hairline on Primer\'s default border', () => {
+    const light = themeConfigs.agent.themeStyles.light as Record<string, string>;
+    expect(light['--borderColor-default']).toBe(light['--agent-hairline']);
+    expect(light['--borderRadius-large']).toBe(light['--agent-radius-card']);
   });
 });
 

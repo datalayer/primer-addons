@@ -68,7 +68,7 @@ export function ThemePreviewCard({
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              // Clear of the card's corner, however round the theme draws it (Loop's).
+              // Clear of the card's corner, however round the theme draws it (Agent's).
               px: `calc(var(--theme-radius-card, 6px) / 2 + ${compact ? 6 : 8}px)`,
               py: compact ? '6px' : '8px',
               bg: 'canvas.default',

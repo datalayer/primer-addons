@@ -232,7 +232,7 @@ export function CalendarPicker({
                   : isToday
                     ? "var(--borderColor-default)"
                     : "transparent",
-                // The theme's control corner: a pill in loop, Primer's medium elsewhere.
+                // The theme's control corner: a pill in agent, Primer's medium elsewhere.
                 borderRadius: "var(--theme-radius-control)",
                 height: 30,
                 cursor: disabled ? "not-allowed" : "pointer",

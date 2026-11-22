@@ -6,7 +6,7 @@
 /**
  * Metal Theme for Primer React.
  *
- * Loop's curves and motion, with a look of its own. On light, a page that is
+ * Agent's curves and motion, with a look of its own. On light, a page that is
  * not white: a blue-grey wash and a dot grid, panels drawn by a pale steel
  * line rather than floated on a shadow, outlined controls, a brushed filled
  * button. On dark, the page is the surface: a deep mesh of sage, steel, mauve
@@ -19,19 +19,19 @@ import { metalColors } from '../colors/metalColors';
 import { themeAccentTints } from '../colors/themeAccents';
 import { type ThemeColorDefs, buildThemeStyles } from '../css/createThemeCSSVars';
 import {
-  loopDark,
-  loopLight,
-  loopMotionVars,
-  loopShapeVars,
-  loopTypeScale,
-  loopTypeVars,
-} from './loopThemeStyles';
+  agentDark,
+  agentLight,
+  agentMotionVars,
+  agentShapeVars,
+  agentTypeScale,
+  agentTypeVars,
+} from './agentThemeStyles';
 import { roundedShape } from './roundedShape';
 
 /* ── Colour definitions ────────────────────────────────────────── */
 
 export const metalLight: ThemeColorDefs = {
-  ...loopLight,
+  ...agentLight,
   canvas: {
     default: metalColors.white,
     subtle: metalColors.subtle,
@@ -52,7 +52,7 @@ export const metalLight: ThemeColorDefs = {
     muted: metalColors.lineMuted,
   },
   btn: {
-    ...loopLight.btn,
+    ...agentLight.btn,
     text: metalColors.ink,
     // Outlined, not filled: a control is drawn as a panel is.
     bg: '#FFFFFF',
@@ -63,7 +63,7 @@ export const metalLight: ThemeColorDefs = {
     selectedBg: '#E3E9F2',
     counterBg: 'rgba(34, 38, 43, 0.08)',
     primary: {
-      ...loopLight.btn.primary,
+      ...agentLight.btn.primary,
       text: metalColors.metalOn,
       bg: metalColors.metalBrand,
       border: metalColors.metalBrand,
@@ -77,7 +77,7 @@ export const metalLight: ThemeColorDefs = {
       counterBg: 'rgba(255, 255, 255, 0.2)',
     },
     outline: {
-      ...loopLight.btn.outline,
+      ...agentLight.btn.outline,
       text: metalColors.metalText,
       hoverText: metalColors.metalOn,
       hoverBg: metalColors.metalBrand,
@@ -96,7 +96,7 @@ export const metalLight: ThemeColorDefs = {
 };
 
 export const metalDark: ThemeColorDefs = {
-  ...loopDark,
+  ...agentDark,
   // Solid stand-ins for the page behind the glass, which the checks read;
   // what is painted is `metalVariables` and the mesh.
   canvas: {
@@ -120,7 +120,7 @@ export const metalDark: ThemeColorDefs = {
     muted: metalColors.lineMutedDark,
   },
   btn: {
-    ...loopDark.btn,
+    ...agentDark.btn,
     text: metalColors.inkDark,
     bg: 'rgba(255, 255, 255, 0.10)',
     border: 'rgba(255, 255, 255, 0.22)',
@@ -131,7 +131,7 @@ export const metalDark: ThemeColorDefs = {
     counterBg: 'rgba(238, 242, 247, 0.12)',
     // White on the mesh, the brightest thing on the page.
     primary: {
-      ...loopDark.btn.primary,
+      ...agentDark.btn.primary,
       text: metalColors.metalOnDark,
       bg: metalColors.white,
       border: metalColors.white,
@@ -145,7 +145,7 @@ export const metalDark: ThemeColorDefs = {
       counterBg: 'rgba(11, 26, 48, 0.12)',
     },
     outline: {
-      ...loopDark.btn.outline,
+      ...agentDark.btn.outline,
       text: metalColors.metalBright,
       hoverText: metalColors.metalOnDark,
       hoverBg: metalColors.metalBright,
@@ -175,12 +175,12 @@ export const metalMonoFamily =
 /** The two weights: titles stay regular, what must stand out is 500. */
 export const metalFontWeights = { regular: 400, medium: 500 } as const;
 
-/** Loop's sizes, in Metal's weights: a title is large and light, never bold. */
+/** Agent's sizes, in Metal's weights: a title is large and light, never bold. */
 const metalTypeVars = (): Record<string, string> => {
   const { regular, medium } = metalFontWeights;
-  const { display, title, heading } = loopTypeScale;
+  const { display, title, heading } = agentTypeScale;
   return {
-    ...loopTypeVars(metalFontFamily),
+    ...agentTypeVars(metalFontFamily),
     '--base-text-weight-medium': String(medium),
     '--base-text-weight-semibold': String(medium),
     '--text-display-weight': String(regular),
@@ -188,8 +188,8 @@ const metalTypeVars = (): Record<string, string> => {
     '--text-title-shorthand-large': `${regular} ${display.size}/${display.lineHeight} ${metalFontFamily}`,
     '--text-title-shorthand-medium': `${regular} ${title.size}/${title.lineHeight} ${metalFontFamily}`,
     '--text-title-shorthand-small': `${medium} ${heading.size}/${heading.lineHeight} ${metalFontFamily}`,
-    '--loop-tracking-display': '-0.03em',
-    '--loop-tracking-title': '-0.02em',
+    '--agent-tracking-display': '-0.03em',
+    '--agent-tracking-title': '-0.02em',
     '--fontStack-monospace': metalMonoFamily,
   };
 };
@@ -260,7 +260,7 @@ const metalPainted: Record<'light' | 'dark', Record<string, string>> = {
 /** A panel lies on the page: a line and nothing under it, a menu alone floats. */
 export const metalShadows: Record<'light' | 'dark', Record<string, string>> = {
   light: {
-    '--loop-shadow-frame': 'none',
+    '--agent-shadow-frame': 'none',
     '--theme-shadow': 'none',
     '--shadow-resting-xsmall': 'none',
     '--shadow-resting-small': 'none',
@@ -271,7 +271,7 @@ export const metalShadows: Record<'light' | 'dark', Record<string, string>> = {
     '--shadow-floating-xlarge': '0 0 0 1px rgba(76, 118, 186, 0.16), 0 24px 64px rgba(34, 52, 84, 0.14)',
   },
   dark: {
-    '--loop-shadow-frame': 'none',
+    '--agent-shadow-frame': 'none',
     '--theme-shadow': 'none',
     '--shadow-resting-xsmall': 'none',
     '--shadow-resting-small': 'none',
@@ -294,15 +294,15 @@ const metalTints = (mode: 'light' | 'dark') =>
   });
 
 const metalVariables = (mode: 'light' | 'dark'): Record<string, string> => ({
-  ...loopShapeVars,
+  ...agentShapeVars,
   ...metalTints(mode),
-  ...loopMotionVars,
+  ...agentMotionVars,
   ...metalShadows[mode],
   ...metalTypeVars(),
   ...metalSurfaceVars,
   ...metalPainted[mode],
   '--metal-page': metalPage[mode],
-  '--loop-hairline': metalHairline[mode],
+  '--agent-hairline': metalHairline[mode],
   '--borderColor-default': metalHairline[mode],
   '--borderColor-muted': metalHairline[mode],
   '--focus-outlineColor': metalFocusRing[mode],
@@ -351,17 +351,17 @@ const metalOwnCss = `
 
 /* ── Exports ───────────────────────────────────────────────────── */
 
-/** Comprehensive Primer CSS-variable overrides for light & dark mode: Loop's curves, Metal's look. */
+/** Comprehensive Primer CSS-variable overrides for light & dark mode: Agent's curves, Metal's look. */
 export const metalThemeStyles = buildThemeStyles(metalLight, metalDark, {
   fontFamily: metalFontFamily,
   css: metalOwnCss,
   shape: {
     ...roundedShape,
     shadow: 'none',
-    motionStatus: loopMotionVars['--loop-motion-status'],
-    motionMessage: loopMotionVars['--loop-motion-message'],
-    motionPane: loopMotionVars['--loop-motion-pane'],
-    motionEasing: loopMotionVars['--loop-motion-easing'],
+    motionStatus: agentMotionVars['--agent-motion-status'],
+    motionMessage: agentMotionVars['--agent-motion-message'],
+    motionPane: agentMotionVars['--agent-motion-pane'],
+    motionEasing: agentMotionVars['--agent-motion-easing'],
     messageLink: 'currentColor',
   },
   variables: {

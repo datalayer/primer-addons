@@ -61,9 +61,9 @@ export const ARoomOfFive: Story = {
 };
 
 /** One theme in one mode, whatever the page wears. */
-export const LoopDark: Story = {
+export const AgentDark: Story = {
   args: {
-    variant: "loop",
+    variant: "agent",
     colorMode: "dark",
     people: ROOM,
   },

@@ -31,7 +31,7 @@ const meta = {
     },
   },
   args: {
-    variant: "loop",
+    variant: "agent",
     colorMode: "light",
     selected: false,
     compact: false,

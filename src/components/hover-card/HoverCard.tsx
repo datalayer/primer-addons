@@ -17,7 +17,7 @@
  * - its **chevron** opens the large one, `HoverCardDetails`, over the page.
  *
  * Drawn by the theme: it is a `Card`, so its corner is the theme's card
- * corner (rounder in `loop`, with nothing said here), its ground the
+ * corner (rounder in `agent`, with nothing said here), its ground the
  * overlay's, its hairline and shadow the theme's.
  *
  * @module components/hover-card/HoverCard

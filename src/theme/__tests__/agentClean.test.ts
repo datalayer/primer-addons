@@ -4,21 +4,21 @@
  */
 
 /**
- * The rules of clean (LOOP T-17), where the theme itself can be held to
+ * The rules of clean, where the theme itself can be held to
  * them: no gradient but the stage's, the one shadow a component draws, two
- * weights, links plain in a message. The rest is for review (Q-09), and is
+ * weights, links plain in a message. The rest is for review, and is
  * written in the README's *The rules of clean*.
  */
 
 import { describe, expect, it } from 'vitest';
 import { themeConfigs } from '../themeRegistry';
-import { loopControlsCss, loopFontWeights, loopTheme } from '../themes/loopTheme';
+import { agentControlsCss, agentFontWeights, agentTheme } from '../themes/agentTheme';
 
 const modes = ['light', 'dark'] as const;
 const styles = (mode: (typeof modes)[number]) =>
-  themeConfigs.loop.themeStyles[mode] as Record<string, string>;
+  themeConfigs.agent.themeStyles[mode] as Record<string, string>;
 
-describe('the loop theme, by the rules of clean', () => {
+describe('the agent theme, by the rules of clean', () => {
   it('has no gradient but the stage', () => {
     for (const mode of modes) {
       const gradients = Object.entries(styles(mode))
@@ -26,18 +26,18 @@ describe('the loop theme, by the rules of clean', () => {
         .map(([key]) => key);
       expect(gradients, mode).toEqual(['--theme-stage-gradient']);
     }
-    expect(loopControlsCss).not.toMatch(/gradient\(/);
+    expect(agentControlsCss).not.toMatch(/gradient\(/);
   });
 
   it("draws one shadow, the frame's, wherever a component asks the theme for one", () => {
     for (const mode of modes) {
-      expect(styles(mode)['--theme-shadow'], mode).toBe(styles(mode)['--loop-shadow-frame']);
+      expect(styles(mode)['--theme-shadow'], mode).toBe(styles(mode)['--agent-shadow-frame']);
     }
-    expect(loopControlsCss).not.toMatch(/box-shadow/);
+    expect(agentControlsCss).not.toMatch(/box-shadow/);
   });
 
   it('has two weights', () => {
-    expect(Object.values(loopFontWeights)).toEqual([400, 600]);
+    expect(Object.values(agentFontWeights)).toEqual([400, 600]);
     const weights = new Set(
       Object.entries(styles('light'))
         .filter(([key]) => /^--text-.*-shorthand/.test(key))
@@ -45,8 +45,8 @@ describe('the loop theme, by the rules of clean', () => {
     );
     expect([...weights].sort()).toEqual([400, 600]);
     // And what `sx` reads by name: Primer's semibold is 500, its light 300.
-    expect(loopTheme.fontWeights).toEqual({ light: 400, normal: 400, semibold: 600, bold: 600 });
-    expect(themeConfigs.loop.primerTheme.fontWeights).toEqual(loopTheme.fontWeights);
+    expect(agentTheme.fontWeights).toEqual({ light: 400, normal: 400, semibold: 600, bold: 600 });
+    expect(themeConfigs.agent.primerTheme.fontWeights).toEqual(agentTheme.fontWeights);
   });
 
   it('writes a link in a message plain: the colour of its words', () => {

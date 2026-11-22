@@ -253,7 +253,7 @@ const sandFontFamily =
 
 /**
  * Comprehensive Primer CSS-variable overrides for light & dark mode, with
- * the rounded shape: Loop's and Metal's corners, pill controls (`roundedShape`).
+ * the rounded shape: Agent's and Metal's corners, pill controls (`roundedShape`).
  */
 export const sandThemeStyles = buildThemeStyles(sandLight, sandDark, {
   fontFamily: sandFontFamily,

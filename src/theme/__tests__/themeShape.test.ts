@@ -4,7 +4,7 @@
  */
 
 /**
- * Shape as theme tokens (LOOP T-03): what a theme may set besides colour and
+ * Shape as theme tokens: what a theme may set besides colour and
  * type — radii, the hairline, one shadow. The eight themes that existed
  * before keep every value they had: proven against a snapshot of each,
  * taken before the shape tokens existed.
@@ -15,7 +15,7 @@ import { themeConfigs } from '../themeRegistry';
 import { DEFAULT_THEME_SHAPE } from '../css/createThemeCSSVars';
 import { roundedRadiusVars } from '../themes/roundedShape';
 
-/** The themes, beside loop and metal, rounded since 21 November 2026. */
+/** The themes, beside agent and metal, rounded since 21 November 2026. */
 const ROUNDED = ['sand', 'ivory', 'sun'];
 
 /** A theme's styles, without the tokens added since the snapshot was taken. */
@@ -53,23 +53,23 @@ describe('the shape of a theme', () => {
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe(
       DEFAULT_THEME_SHAPE.radiusControl,
     );
-    // The loop theme's own: a pill.
-    expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe('999px');
-    // Nothing moves but in a theme that says so (T-10).
+    // The agent theme's own: a pill.
+    expect((themeConfigs.agent.themeStyles.light as Record<string, string>)['--theme-radius-control']).toBe('999px');
+    // Nothing moves but in a theme that says so.
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-motion-message']).toBe('0ms');
-    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-motion-message']).toBe('200ms');
-    // A link in a message: the accent, but plain in loop (T-06).
+    expect((themeConfigs.agent.themeStyles.dark as Record<string, string>)['--theme-motion-message']).toBe('200ms');
+    // A link in a message: the accent, but plain in agent.
     expect((themeConfigs.datalayer.themeStyles.light as Record<string, string>)['--theme-message-link']).toBe(
       DEFAULT_THEME_SHAPE.messageLink,
     );
-    expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-message-link']).toBe('currentColor');
-    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-message-link']).toBe('currentColor');
+    expect((themeConfigs.agent.themeStyles.light as Record<string, string>)['--theme-message-link']).toBe('currentColor');
+    expect((themeConfigs.agent.themeStyles.dark as Record<string, string>)['--theme-message-link']).toBe('currentColor');
   });
 });
 
 describe('the themes that existed before the shape tokens', () => {
   const names = Object.keys(themeConfigs)
-    .filter(name => !['loop', 'metal', 'vscode', ...ROUNDED].includes(name))
+    .filter(name => !['agent', 'metal', 'vscode', ...ROUNDED].includes(name))
     .sort();
 
   it('are five that keep their shape, and the three made rounded', () => {
@@ -105,9 +105,9 @@ describe('the themes that existed before the shape tokens', () => {
     expect(datalayer['--theme-table-header-bg']).toBe('var(--bgColor-muted)');
     expect(datalayer['--theme-table-border']).toBe('var(--borderColor-default)');
     expect(datalayer['--theme-radius-overlay']).toBe('var(--borderRadius-large, 12px)');
-    expect((themeConfigs.loop.themeStyles.light as Record<string, string>)['--theme-radius-overlay']).toBe('20px');
-    // The loop theme's tables have the corners of its list items.
-    expect((themeConfigs.loop.themeStyles.dark as Record<string, string>)['--theme-radius-table']).toBe('14px');
+    expect((themeConfigs.agent.themeStyles.light as Record<string, string>)['--theme-radius-overlay']).toBe('20px');
+    // The agent theme's tables have the corners of its list items.
+    expect((themeConfigs.agent.themeStyles.dark as Record<string, string>)['--theme-radius-table']).toBe('14px');
   });
 });
 
@@ -121,19 +121,19 @@ describe('the rounded shape', () => {
     '--theme-radius-overlay',
   ];
 
-  it('is the same in loop, metal, sand, ivory and sun, in both modes', () => {
-    const loop = themeConfigs.loop.themeStyles.light as Record<string, string>;
+  it('is the same in agent, metal, sand, ivory and sun, in both modes', () => {
+    const agent = themeConfigs.agent.themeStyles.light as Record<string, string>;
     for (const name of ['metal', ...ROUNDED] as (keyof typeof themeConfigs)[]) {
       for (const mode of ['light', 'dark'] as const) {
         const styles = themeConfigs[name].themeStyles[mode] as Record<string, string>;
         for (const key of [...RADII, ...Object.keys(roundedRadiusVars)]) {
-          expect(styles[key], `${name} ${mode} ${key}`).toBe(loop[key]);
+          expect(styles[key], `${name} ${mode} ${key}`).toBe(agent[key]);
         }
       }
       // Its pill controls drawn by the stylesheet.
       expect(themeConfigs[name].themeStyles.css, name).toContain('var(--theme-radius-control)');
     }
-    expect(loop['--theme-radius-control']).toBe('999px');
-    expect(loop['--borderRadius-medium']).toBe('14px');
+    expect(agent['--theme-radius-control']).toBe('999px');
+    expect(agent['--borderRadius-medium']).toBe('14px');
   });
 });

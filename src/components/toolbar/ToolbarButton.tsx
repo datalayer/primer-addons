@@ -110,7 +110,7 @@ export function ToolbarButton({
         padding: printLabel ? "0 8px" : 0,
         margin: 0,
         border: "none",
-        // Follow the active theme: Loop makes controls pills, while every
+        // Follow the active theme: Agent makes controls pills, while every
         // other theme supplies its own control radius through the same token.
         borderRadius: "var(--theme-radius-control)",
         cursor: disabled ? "not-allowed" : "pointer",

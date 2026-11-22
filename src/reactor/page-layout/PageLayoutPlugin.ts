@@ -14,9 +14,9 @@
  * and closes the panel goes in the header — only while something fills the
  * panel slot, so a host with no panel gets no dead button.
  *
- * This is the Loop's page layout with the Loop taken out: there the chat
+ * This is the Agent workspace's page layout with the workspace taken out: there the chat
  * view hands the layout its parts directly through a contribution point of
- * its own, and the Loop keeps that adapter. Here the parts are slots, which
+ * its own, and the workspace keeps that adapter. Here the parts are slots, which
  * is what a plain Reactor host has.
  *
  * @module reactor/page-layout/PageLayoutPlugin

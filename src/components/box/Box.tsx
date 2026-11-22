@@ -47,7 +47,7 @@
  * `boxShadow="shadow.medium"` is `var(--shadow-resting-medium)` — the table
  * is generated from Primer's color schemes (`boxTokens.ts`). A radius by
  * name is Primer's (`small`, `medium`, `large`, `full`) or the theme's shape
- * (`control`, `card`, `bubble`, `frame`, LOOP T-03); a font weight by name
+ * (`control`, `card`, `bubble`, `frame`); a font weight by name
  * is the theme's weight variable. Space, font sizes, radii by index and
  * sizes are Primer's theme scales, written as pixels: they are the same in
  * every theme and need no variable.
@@ -55,9 +55,9 @@
  * No fallback: a page is drawn by its theme, and the theme provider sets
  * every variable `Box` emits (`BOX_EMITTED_VARS`, proven by a test against
  * every theme). A theme that wants a different hairline or corner sets it
- * on Primer's variable — the `loop` theme's hairline *is* its
+ * on Primer's variable — the `agent` theme's hairline *is* its
  * `--borderColor-default` — never a call site with a
- * `var(--loop-…, var(--…))` chain.
+ * `var(--agent-…, var(--…))` chain.
  *
  * ## The implementation: one class per style, no styled-components
  *

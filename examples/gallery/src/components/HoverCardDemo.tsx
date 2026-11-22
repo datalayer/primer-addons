@@ -6,7 +6,7 @@
 /**
  * The hover card in its three sizes: a shelf of small cards that grow on
  * hover, the grown card on its own, and the large card its chevron opens.
- * All of it is drawn by the theme — switch to `loop` for its rounder corner.
+ * All of it is drawn by the theme — switch to `agent` for its rounder corner.
  */
 
 import { useState } from 'react';

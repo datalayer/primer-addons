@@ -35,8 +35,8 @@ describe('the portable theme entry', () => {
 
   it('carries each theme\'s own tokens', async () => {
     const { themeTokens } = await import('../themeTokens');
-    expect(themeTokens.loop.themeStyles.light).toHaveProperty('--loop-radius-control');
+    expect(themeTokens.agent.themeStyles.light).toHaveProperty('--agent-radius-control');
     expect(themeTokens.datalayer.defaultColorMode).toBe('auto');
-    expect(Object.keys(themeTokens.loop)).not.toContain('primerTheme');
+    expect(Object.keys(themeTokens.agent)).not.toContain('primerTheme');
   });
 });

@@ -13,7 +13,7 @@ import {
   sandColors,
   ivoryColors,
   sunColors,
-  loopColors,
+  agentColors,
   metalColors,
   vscodeColors,
   type ThemeVariant,
@@ -169,21 +169,21 @@ export const THEME_LOGO_COLORS: Record<
       secondaryGradient: [sunColors.sunHover, sunColors.sunAccent],
     },
   },
-  loop: {
+  agent: {
     // Flat: the theme has no gradient on a surface.
     light: {
-      primary: loopColors.loopAccent,
-      secondary: loopColors.ink,
-      textColor: loopColors.gray,
-      primaryGradient: [loopColors.loopAccent, loopColors.loopAccent],
-      secondaryGradient: [loopColors.ink, loopColors.ink],
+      primary: agentColors.agentAccent,
+      secondary: agentColors.ink,
+      textColor: agentColors.gray,
+      primaryGradient: [agentColors.agentAccent, agentColors.agentAccent],
+      secondaryGradient: [agentColors.ink, agentColors.ink],
     },
     dark: {
-      primary: loopColors.loopBrand,
-      secondary: loopColors.inkDark,
-      textColor: loopColors.grayDark,
-      primaryGradient: [loopColors.loopBrand, loopColors.loopBrand],
-      secondaryGradient: [loopColors.inkDark, loopColors.inkDark],
+      primary: agentColors.agentBrand,
+      secondary: agentColors.inkDark,
+      textColor: agentColors.grayDark,
+      primaryGradient: [agentColors.agentBrand, agentColors.agentBrand],
+      secondaryGradient: [agentColors.inkDark, agentColors.inkDark],
     },
   },
   metal: {

@@ -6,9 +6,9 @@
 // @vitest-environment jsdom
 
 /**
- * A theme's own stylesheet (LOOP T-09): injected by the theme provider for
+ * A theme's own stylesheet: injected by the theme provider for
  * its element and for the portal root, removed when the theme changes; none
- * for a theme that has none. And the `loop` theme's: its controls as pills,
+ * for a theme that has none. And the `agent` theme's: its controls as pills,
  * through selectors that still match the installed Primer.
  */
 
@@ -20,7 +20,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { DatalayerThemeProvider } from '../DatalayerThemeProvider';
 import { themeConfigs, type ThemeVariant } from '../themeRegistry';
-import { loopControlsCss } from '../themes/loopTheme';
+import { agentControlsCss } from '../themes/agentTheme';
 import { primerComponentSelectors, primerComponentsCss } from '../css/primerComponentsCss';
 import {
   PRIMER_PORTAL_ROOT_ID,
@@ -83,10 +83,10 @@ const themed = (variant: ThemeVariant, children?: React.ReactNode) => (
 );
 
 // Sand, ivory and sun draw their pill controls from the rounded shape.
-const WITH_STYLESHEET = ['loop', 'metal', 'vscode', 'sand', 'ivory', 'sun'];
+const WITH_STYLESHEET = ['agent', 'metal', 'vscode', 'sand', 'ivory', 'sun'];
 
 describe('a theme without a stylesheet', () => {
-  it('is every theme but loop, metal, vscode, sand, ivory and sun', () => {
+  it('is every theme but agent, metal, vscode, sand, ivory and sun', () => {
     for (const [name, config] of Object.entries(themeConfigs)) {
       expect(config.themeStyles.css !== undefined, name).toBe(WITH_STYLESHEET.includes(name));
     }
@@ -102,7 +102,7 @@ describe('a theme without a stylesheet', () => {
 
 describe('a theme with a stylesheet', () => {
   it('is injected once, for its element and for the portal root', () => {
-    render(themed('loop'));
+    render(themed('agent'));
     const sheets = stylesheets();
     expect(sheets).toHaveLength(1);
     const scope = sheets[0].getAttribute(THEME_STYLESHEET_ATTRIBUTE)!;
@@ -112,15 +112,15 @@ describe('a theme with a stylesheet', () => {
     expect(text).toContain(`@scope (#${PRIMER_PORTAL_ROOT_ID})`);
     // Stopping at any provider nested inside.
     expect(text).toContain(`to ([${THEME_SCOPE_ATTRIBUTE}]:not(`);
-    expect(text).toContain(loopControlsCss);
+    expect(text).toContain(agentControlsCss);
   });
 
   it('is removed when the theme changes, and when the provider goes', () => {
-    render(themed('loop'));
+    render(themed('agent'));
     expect(stylesheets()).toHaveLength(1);
     render(themed('datalayer'));
     expect(stylesheets()).toHaveLength(0);
-    render(themed('loop'));
+    render(themed('agent'));
     expect(stylesheets()).toHaveLength(1);
     act(() => root?.unmount());
     root = null;
@@ -128,12 +128,12 @@ describe('a theme with a stylesheet', () => {
   });
 
   it('is not written on the page by a provider inside a themed element, not even once', () => {
-    // An application embedded in another product's page (LOOP T-13): the
+    // An application embedded in another product's page: the
     // page's <body> and its portal root are the page's.
     document.body.removeAttribute('style');
     document.body.removeAttribute('data-color-mode');
     document.getElementById(PRIMER_PORTAL_ROOT_ID)?.remove();
-    render(<div data-color-mode="light">{themed('loop')}</div>);
+    render(<div data-color-mode="light">{themed('agent')}</div>);
     expect(document.body.getAttribute('style') ?? '').toBe('');
     expect(document.body.getAttribute('data-color-mode')).toBeNull();
     expect(document.getElementById(PRIMER_PORTAL_ROOT_ID)).toBeNull();
@@ -147,7 +147,7 @@ describe('a theme with a stylesheet', () => {
     document.getElementById(PRIMER_PORTAL_ROOT_ID)?.remove();
     render(
       <div data-color-mode="light" data-datalayer-app-root="">
-        {themed('loop')}
+        {themed('agent')}
       </div>,
     );
     expect(document.getElementById(PRIMER_PORTAL_ROOT_ID)).not.toBeNull();
@@ -157,14 +157,14 @@ describe('a theme with a stylesheet', () => {
   });
 
   it('is not injected for the portal root by a nested provider', () => {
-    render(themed('datalayer', themed('loop')));
+    render(themed('datalayer', themed('agent')));
     const sheets = stylesheets();
     expect(sheets).toHaveLength(1);
     expect(sheets[0].textContent).not.toContain(PRIMER_PORTAL_ROOT_ID);
   });
 });
 
-/* ─── The loop theme's selectors, against the installed Primer ─────── */
+/* ─── The agent theme's selectors, against the installed Primer ─────── */
 
 const primerLib = dirname(createRequire(import.meta.url).resolve('@primer/react'));
 
@@ -229,10 +229,10 @@ describe("the theme's drawing of Primer's components", () => {
     expect(header).toContain(`:scope ${s.tableHeader},\n:scope ${s.tableCell} {\n  border-color: var(--theme-table-border);\n}`);
   });
 
-  it("is the loop theme's, from its shape: pills and rounder tables, then its own rules", () => {
-    expect(loopControlsCss).toContain('border-radius: var(--theme-radius-control);');
-    expect(loopControlsCss).toContain('--table-border-radius: var(--theme-radius-table);');
-    expect(loopControlsCss).toContain(':scope strong');
-    expect(loopControlsCss).not.toMatch(/--loop-radius-control/);
+  it("is the agent theme's, from its shape: pills and rounder tables, then its own rules", () => {
+    expect(agentControlsCss).toContain('border-radius: var(--theme-radius-control);');
+    expect(agentControlsCss).toContain('--table-border-radius: var(--theme-radius-table);');
+    expect(agentControlsCss).toContain(':scope strong');
+    expect(agentControlsCss).not.toMatch(/--agent-radius-control/);
   });
 });

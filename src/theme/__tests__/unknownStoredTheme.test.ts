@@ -26,14 +26,14 @@ describe('a stored theme the registry no longer has', () => {
   beforeEach(() => localStorage.clear());
 
   it('is dropped: the default theme stands', async () => {
-    store('loop');
+    store('no-such-theme');
     const useStore = createThemeStore(KEY, { theme: 'datalayer', colorMode: 'light' });
     await useStore.persist.rehydrate();
     expect(useStore.getState().theme).toBe('datalayer');
   });
 
   it('is dropped from a variant too, the code default kept', async () => {
-    store('agent', { signedIn: { theme: 'loop', colorMode: 'dark', version: 1 } });
+    store('agent', { signedIn: { theme: 'no-such-theme', colorMode: 'dark', version: 1 } });
     const useStore = createThemeStore(KEY, {
       theme: 'datalayer',
       variants: { signedIn: { theme: 'metal', colorMode: 'auto' } },
@@ -47,5 +47,20 @@ describe('a stored theme the registry no longer has', () => {
     const useStore = createThemeStore(KEY, { theme: 'datalayer' });
     await useStore.persist.rehydrate();
     expect(useStore.getState().theme).toBe('agent');
+  });
+});
+
+describe('a stored theme renamed here', () => {
+  beforeEach(() => localStorage.clear());
+
+  it("'loop' is read as 'agent', as the current theme and in a variant, each mode kept", async () => {
+    store('loop', { signedIn: { theme: 'loop', colorMode: 'light', version: 1 } });
+    const useStore = createThemeStore(KEY, {
+      theme: 'datalayer',
+      variants: { signedIn: { theme: 'metal', colorMode: 'auto' } },
+    });
+    await useStore.persist.rehydrate();
+    expect(useStore.getState().theme).toBe('agent');
+    expect(useStore.getState().variants.signedIn).toMatchObject({ theme: 'agent', colorMode: 'light' });
   });
 });

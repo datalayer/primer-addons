@@ -64,6 +64,15 @@ function normalizeVariants(variants?: VariantDefaults): VariantDefaults {
   return normalized;
 }
 
+/**
+ * A stored theme the registry no longer has (a renamed theme: 'loop' became
+ * 'agent' on 22 November 2026) is not drawn: it would leave the page without
+ * a theme. The stored choice is dropped and the store's own default stands.
+ */
+function isKnownTheme(theme: unknown): theme is ThemeVariant {
+  return typeof theme === 'string' && Object.prototype.hasOwnProperty.call(themeConfigs, theme);
+}
+
 function hasMissingVariantVersion(variants?: VariantDefaults): boolean {
   if (!variants || Object.keys(variants).length === 0) {
     return false;
@@ -289,14 +298,16 @@ export function createThemeStore(
           const mergedVariants = normalizeVariants(current.variants);
           if (p.variants) {
             for (const [key, val] of Object.entries(p.variants)) {
-              if (val && typeof val === 'object' && 'theme' in val) {
+              if (val && typeof val === 'object' && 'theme' in val && isKnownTheme(val.theme)) {
                 mergedVariants[key] = normalizeVariantPreference(val);
               }
             }
           }
+          const { theme: storedTheme, ...rest } = p;
           return {
             ...current,
-            ...p,
+            ...rest,
+            ...(isKnownTheme(storedTheme) ? { theme: storedTheme } : {}),
             variants: mergedVariants,
           };
         },

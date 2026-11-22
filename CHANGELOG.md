@@ -8,8 +8,9 @@
 
 Each version links the section of the README that documents it. The `agent` theme is documented in [The `agent` theme](https://github.com/datalayer/primer-addons/blob/main/README.md#the-agent-theme), and shown, with the accents, in the gallery's *Theme Accents* page when the gallery wears it.
 
-## Unreleased
+## 1.0.54
 
+- A stored theme the registry no longer has is dropped when a theme store hydrates, the store's default standing, and a stored `loop` is read as `agent` (`RENAMED_THEMES`), so a person's choice follows the renamed theme; the legacy upgrade's anonymous variant is `site-anonymous`.
 - **Breaking.** The `loop` theme is the `agent` theme, with no alias: the theme id `'loop'` is `'agent'` (`ThemeVariant`, `themeConfigs.agent`, `themeTokens.agent`, the hue and palette tables, the logo's variant), and every name follows. `loopTheme` is `agentTheme`, `loopThemeStyles` is `agentThemeStyles`, `loopColors` is `agentColors` (its `loopBrand`, `loopAccent`, `loopOn`… are `agentBrand`, `agentAccent`, `agentOn`…), `loopEyes` is `agentEyes`, and the other `loop*` exports (`loopShapeVars`, `loopShadows`, `loopMotionVars`, `loopTypeVars`, `loopFontFamily`, `loopFontWeights`, `loopControlsCss`, `loopFocusRing`…) are `agent*`. The theme's custom properties are `--agent-*` (`--agent-radius-card`, `--agent-shadow-frame`, `--agent-hairline`, `--agent-motion-*`, `--agent-face-*`…). `style/loop-face.css` is `style/agent-face.css`. The tests, the stories, the gallery and the README follow; the comments no longer carry planning ids.
 
 ## 1.0.53

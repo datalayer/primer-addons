@@ -23,4 +23,11 @@ describe('the appearance panel scrolls inside the window', () => {
     expect(source).toContain('window.innerHeight - top - OVERLAY_MARGIN');
     expect(source).toContain("window.addEventListener('resize', measure)");
   });
+
+  it('takes its corner shape from the active theme', () => {
+    expect(source).toContain(
+      "borderRadius: 'var(--theme-radius-overlay, 12px)'",
+    );
+    expect(source).not.toContain('borderRadius: 2,');
+  });
 });

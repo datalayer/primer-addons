@@ -238,7 +238,9 @@ export function ColorModeCircle({
           bg: 'canvas.overlay',
           border: '1px solid',
           borderColor: 'border.default',
-          borderRadius: 2,
+          // The panel is an overlay, so its shape belongs to the active
+          // theme (Metal and Agent are deliberately rounder than VS Code).
+          borderRadius: 'var(--theme-radius-overlay, 12px)',
           boxShadow: 'shadow.large',
           opacity: isHoverOpen ? 1 : 0,
           transform: isHoverOpen ? 'none' : isRight ? 'translateX(-6px)' : 'translateY(-6px)',

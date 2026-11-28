@@ -104,13 +104,25 @@ export function overflowKeys(
   available: number,
   gap: number = ITEM_GAP,
   triggerWidth: number = OVERFLOW_TRIGGER_WIDTH,
+  /**
+   * Whether an item is laid out on the line: one that draws nothing yet
+   * (a chip waiting for its data) is 0px wide and still takes its gap.
+   * Unsaid, an item 0px wide takes none.
+   */
+  laidOut?: (key: string) => boolean,
 ): Set<string> {
   const hidden = new Set<string>();
   const widthOfItem = (item: ToolbarItem) =>
     item.type === "spacer" ? 0 : widthOf(item.key);
   const used = () => {
+    // What the line holds, as the browser lays it out: a 0px item that is
+    // on the line takes its gap like any other (the Accountant's two empty
+    // chips pushed its last button 2px past the edge, 28 November 2026).
     const shown = ordered.filter(
-      (item) => !hidden.has(item.key) && widthOfItem(item) > 0,
+      (item) =>
+        !hidden.has(item.key) &&
+        (widthOfItem(item) > 0 ||
+          (item.type !== "spacer" && laidOut?.(item.key) === true)),
     );
     const total = shown.reduce((sum, item) => sum + widthOfItem(item), 0);
     return (
@@ -224,12 +236,16 @@ export function Toolbar({
      */
     // Read off the wrappers' attribute rather than built into a selector: a
     // key is the host's text, and `CSS.escape` is not everywhere (jsdom).
+    const onTheLine = new Set<string>();
     row
       .querySelectorAll<HTMLElement>("[data-toolbar-key]")
       .forEach((node) => {
         const key = node.getAttribute("data-toolbar-key");
         if (key !== null) {
           widths.current.set(key, node.getBoundingClientRect().width);
+          if (getComputedStyle(node).display !== "none") {
+            onTheLine.add(key);
+          }
         }
       });
     const style = getComputedStyle(container);
@@ -260,6 +276,8 @@ export function Toolbar({
       (key) => widths.current.get(key) ?? 0,
       available,
       gap,
+      undefined,
+      (key) => onTheLine.has(key),
     );
     setHiddenKeys((previous) =>
       previous.size === next.size && [...next].every((key) => previous.has(key))

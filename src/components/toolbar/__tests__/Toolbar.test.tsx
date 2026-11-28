@@ -246,3 +246,24 @@ describe("Toolbar overflow", () => {
     ).toBe("inline");
   });
 });
+
+describe("overflowKeys with empty items on the line (28 November 2026)", () => {
+  it("counts the gap a 0px item on the line takes, and folds what no longer fits", () => {
+    const items = [
+      { key: "lead", type: "custom" as const },
+      { key: "chip-a", type: "custom" as const },
+      { key: "chip-b", type: "custom" as const },
+      { key: "toggle", type: "custom" as const },
+      { key: "full", type: "custom" as const },
+      { key: "chooser", type: "custom" as const, pinned: true },
+    ];
+    const widths: Record<string, number> = { lead: 8, "chip-a": 0, "chip-b": 0, toggle: 28, full: 28, chooser: 94 };
+    const width = (key: string) => widths[key] ?? 0;
+    // Without the empty chips' gaps it seems to fit 176px: 158 + 3 gaps of 4.
+    expect(overflowKeys(items as never, width, 176, 4, 32).size).toBe(0);
+    // With them, as the browser lays it out (178px), something is folded.
+    expect(overflowKeys(items as never, width, 176, 4, 32, () => true).size).toBeGreaterThan(0);
+    // A hidden 0px item takes no gap.
+    expect(overflowKeys(items as never, width, 176, 4, 32, key => !key.startsWith("chip")).size).toBe(0);
+  });
+});

@@ -267,3 +267,36 @@ describe("overflowKeys with empty items on the line (28 November 2026)", () => {
     expect(overflowKeys(items as never, width, 176, 4, 32, key => !key.startsWith("chip")).size).toBe(0);
   });
 });
+
+describe("Toolbar overflow the browser sees (28 November 2026)", () => {
+  it("folds an item when the line runs past the edge the sum says it fits, and keeps it folded", () => {
+    // Three 40px items and two 2px gaps: 124px, in 130px — yet the browser
+    // lays the line out 10px wider than the room until something leaves it.
+    room = 130;
+    const descriptor = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "scrollWidth",
+    );
+    Object.defineProperty(HTMLElement.prototype, "scrollWidth", {
+      configurable: true,
+      get(this: HTMLElement) {
+        if (this.getAttribute("role") !== "toolbar") return 0;
+        return this.querySelector("[data-toolbar-overflow]") ? room : room + 10;
+      },
+    });
+    restore.push(() => {
+      if (descriptor) {
+        Object.defineProperty(HTMLElement.prototype, "scrollWidth", descriptor);
+      } else {
+        delete (HTMLElement.prototype as { scrollWidth?: number }).scrollWidth;
+      }
+    });
+    const items = [button("one"), button("two"), button("three")];
+    act(() => root.render(<Toolbar items={items} />));
+    expect(onLine()).not.toContain("three");
+    expect(host.querySelector("[data-toolbar-overflow]")).not.toBeNull();
+    // Re-rendered, it stays folded rather than flip back.
+    act(() => root.render(<Toolbar items={items} />));
+    expect(onLine()).not.toContain("three");
+  });
+});

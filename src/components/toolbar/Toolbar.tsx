@@ -201,6 +201,8 @@ export function Toolbar({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
+  /** Room the line takes that the sum of its items does not account for. */
+  const unseen = useRef(0);
   /*
    * The width of every item, by key, measured while it was on the line.
    *
@@ -271,14 +273,35 @@ export function Toolbar({
     }
     // An item never measured is assumed to fit; the next pass, once it has
     // been on the line, knows better.
-    const next = overflowKeys(
+    const widthOf = (key: string) => widths.current.get(key) ?? 0;
+    const laidOut = (key: string) => onTheLine.has(key);
+    /*
+     * The browser has the last word. Where the sum says the line fits and
+     * the line runs past the edge anyway (a gap or a margin the sum does
+     * not know of), the excess is remembered and taken off the room — kept
+     * until the items change, so that moving one into the menu, which ends
+     * the excess, does not bring it straight back.
+     */
+    let next = overflowKeys(
       ordered,
-      (key) => widths.current.get(key) ?? 0,
-      available,
+      widthOf,
+      available - unseen.current,
       gap,
       undefined,
-      (key) => onTheLine.has(key),
+      laidOut,
     );
+    const excess = container.scrollWidth - container.clientWidth;
+    if (next.size === 0 && excess > 0.5) {
+      unseen.current += excess;
+      next = overflowKeys(
+        ordered,
+        widthOf,
+        available - unseen.current,
+        gap,
+        undefined,
+        laidOut,
+      );
+    }
     setHiddenKeys((previous) =>
       previous.size === next.size && [...next].every((key) => previous.has(key))
         ? previous
@@ -290,6 +313,7 @@ export function Toolbar({
     // A new set of items is shown whole first, so each one is measured on
     // the line before anything is taken off it.
     setHiddenKeys(new Set());
+    unseen.current = 0;
   }, [keys, overflow]);
 
   useLayoutEffect(() => {
@@ -315,7 +339,37 @@ export function Toolbar({
     row
       .querySelectorAll<HTMLElement>("[data-toolbar-key]")
       .forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+    /*
+     * And what changes without changing size: a chip that waits for its data
+     * is put on the line still 0px wide, which takes a gap and resizes
+     * nothing — the Accountant's two empty chips pushed the agent chooser
+     * past the edge on first load, unheard (28 November 2026).
+     */
+    let frame = 0;
+    const mutations =
+      typeof MutationObserver === "undefined"
+        ? null
+        : new MutationObserver(() => {
+            if (frame === 0) {
+              frame = requestAnimationFrame(() => {
+                frame = 0;
+                measure();
+              });
+            }
+          });
+    mutations?.observe(row, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["style", "class", "hidden"],
+    });
+    return () => {
+      observer.disconnect();
+      mutations?.disconnect();
+      if (frame !== 0) {
+        cancelAnimationFrame(frame);
+      }
+    };
   }, [measure, overflow, hiddenKeys]);
 
   const onKeyDown = useCallback(
